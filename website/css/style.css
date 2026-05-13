@@ -398,7 +398,6 @@ section { width: 100%; }
 /* ── Post Navigation ───────────────────────────────────────── */
 .post-nav {
   background: var(--white);
-  border-top: 1px solid var(--border);
   padding: 0 var(--pad-x);
 }
 
@@ -420,7 +419,6 @@ section { width: 100%; }
 
 .post-nav-item:first-child {
   padding-right: clamp(20px, 4vw, 48px);
-  border-right: 1px solid var(--border);
 }
 
 .post-nav-item:last-child {
