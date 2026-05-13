@@ -50,56 +50,60 @@
     </div>
   </section>
 
-  <!-- Blog posts preview -->
-  <section class="blog-list">
-    <div class="blog-list-inner">
+  <!-- Topics / Accordion -->
+  <section class="topics-header" style="padding-top: clamp(48px,6vw,80px);">
+    <div class="topics-header-inner">
+      <h2 class="topics-headline reveal">Technology moves fast. Do we have to, too?</h2>
+      <p class="topics-intro reveal reveal-delay-1">
+        Every other Sunday, I share my reflections and insights how technology changes
+        the way I think, learn and feel, in my Sunday Morning blog series, working through
+        the questions that matter to me most.
+      </p>
+    </div>
+  </section>
 
-      <article class="blog-post-item reveal">
-        <div class="blog-post-image">
-          <img
-            src="assets/images/history-repeating.jpg"
-            alt="Bavaria statue at night in Munich"
-            loading="lazy"
-            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1509515837298-2c67a3933321?w=800&q=80'">
-        </div>
-        <div class="blog-post-body">
-          <p class="blog-post-date">12/1/25</p>
-          <h2 class="blog-post-title">History repeating?</h2>
-          <p class="blog-post-excerpt">Are we chasing the same dream for 200 years, transcending time, space, and mortality? What if the real question isn't how to overcome our limits, but what we create within them?</p>
-          <a href="blog/history-repeating.html" class="read-more">Read More</a>
-        </div>
-      </article>
+  <section class="accordion">
+    <div class="accordion-inner">
 
-      <article class="blog-post-item reveal reveal-delay-1">
-        <div class="blog-post-image">
-          <img
-            src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80"
-            alt="Brain inside a lightbulb connected to a network"
-            loading="lazy">
+      <div class="accordion-item open reveal">
+        <button class="accordion-trigger" aria-expanded="true">
+          <span class="accordion-title">AI &amp; Technology</span>
+          <span class="accordion-icon" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="accordion-text">
+            How is AI actually reshaping work and learning? What does it mean for how
+            we show up, and do we even get to choose?
+          </p>
         </div>
-        <div class="blog-post-body">
-          <p class="blog-post-date">11/16/25</p>
-          <h2 class="blog-post-title">The effortless illusion</h2>
-          <p class="blog-post-excerpt">We reach for AI because it eliminates struggle. But struggle isn't just effort. It's the process through which we build competence. How do we consciously decide which struggles we can afford to skip, and which one we can't afford to lose?</p>
-          <a href="blog/the-effortless-illusion.html" class="read-more">Read More</a>
-        </div>
-      </article>
+      </div>
 
-      <article class="blog-post-item reveal reveal-delay-2">
-        <div class="blog-post-image">
-          <img
-            src="assets/images/beyond-the-ai-prophecy.jpg"
-            alt="Doctor Strange figure gesturing dramatically"
-            loading="lazy"
-            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80'">
+      <div class="accordion-item open reveal reveal-delay-1">
+        <button class="accordion-trigger" aria-expanded="true">
+          <span class="accordion-title">Learning in Tech</span>
+          <span class="accordion-icon" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="accordion-text">
+            How do we grow without burning out in an industry that never stops? What
+            does meaningful learning look like when 'keeping up' feels impossible?
+          </p>
         </div>
-        <div class="blog-post-body">
-          <p class="blog-post-date">11/9/25</p>
-          <h2 class="blog-post-title">Beyond the AI prophecy</h2>
-          <p class="blog-post-excerpt">While billions of dollars follow the AGI prophecy, recent studies show humans outperform AI at problem-solving. A case for curious questioning instead of believing grand narratives?</p>
-          <a href="blog/beyond-the-ai-prophecy.html" class="read-more">Read More</a>
+      </div>
+
+      <div class="accordion-item open reveal reveal-delay-2">
+        <button class="accordion-trigger" aria-expanded="true">
+          <span class="accordion-title">Thoughtful Living</span>
+          <span class="accordion-icon" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="accordion-text">
+            What does it mean to live intentionally when technology offers infinite
+            possibilities, and infinite distractions? How do we make conscious choices
+            instead of just reacting?
+          </p>
         </div>
-      </article>
+      </div>
 
     </div>
   </section>
