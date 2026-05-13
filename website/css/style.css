@@ -93,7 +93,7 @@ img { display: block; max-width: 100%; height: auto; }
   color: var(--white);
   background: var(--navy);
   padding: 10px 22px;
-  border-radius: 80px;
+  border-radius: 5px;
   transition: opacity 0.2s;
   white-space: nowrap;
 }
@@ -394,7 +394,7 @@ section { width: 100%; }
   color: var(--black);
   padding: 16px 36px;
   border: 2px solid var(--white);
-  border-radius: 80px;
+  border-radius: 5px;
   transition: background 0.2s, color 0.2s;
 }
 
@@ -800,7 +800,7 @@ section { width: 100%; }
   padding: 15px 36px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
-  border-radius: 80px;
+  border-radius: 5px;
   align-self: flex-start;
 }
 
@@ -957,7 +957,7 @@ section { width: 100%; }
   background: var(--magenta);
   color: var(--black);
   border: none;
-  border-radius: 80px;
+  border-radius: 5px;
   padding: 8px 18px;
   font-size: 0.8rem;
   font-weight: 700;
