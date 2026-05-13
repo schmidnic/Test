@@ -55,51 +55,47 @@
           <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
             <defs>
               <filter id="fh" x="-5%" y="-5%" width="110%" height="110%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="3" result="n"/>
-                <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+                <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="3" result="n"/>
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
               </filter>
             </defs>
-            <g filter="url(#fh)">
+            <g filter="url(#fh)" stroke-linecap="round" stroke-linejoin="round">
               <!-- History cycle -->
-              <circle cx="155" cy="150" r="105" stroke="#160B52" stroke-width="3" stroke-dasharray="10 7"/>
-              <!-- Era nodes filled -->
-              <circle cx="155" cy="45"  r="14" fill="#FFD700" stroke="#160B52" stroke-width="3"/>
-              <circle cx="260" cy="150" r="12" fill="#160B52" stroke="#160B52" stroke-width="3"/>
-              <circle cx="155" cy="255" r="12" fill="#160B52" stroke="#160B52" stroke-width="3"/>
-              <circle cx="50"  cy="150" r="12" fill="#160B52" stroke="#160B52" stroke-width="3"/>
-              <!-- Direction arrow filled magenta -->
-              <path d="M 234 102 L 254 88 L 248 112 Z" fill="#FF00FF"/>
+              <circle cx="178" cy="150" r="102" stroke="rgba(22,11,82,0.45)" stroke-width="2" stroke-dasharray="9 6"/>
+              <!-- Era nodes -->
+              <circle cx="178" cy="48"  r="9"  stroke="#FF00FF" stroke-width="2.5"/>
+              <circle cx="178" cy="48"  r="3.5" fill="#FF00FF"/>
+              <circle cx="280" cy="150" r="8"  stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
+              <circle cx="178" cy="252" r="8"  stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
+              <circle cx="76"  cy="150" r="8"  stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
+              <!-- Direction arrow -->
+              <path d="M 256 103 L 270 93 L 265 110" fill="rgba(22,11,82,0.5)"/>
               <!-- Divider -->
-              <line x1="322" y1="25" x2="322" y2="275" stroke="#160B52" stroke-width="1.5" stroke-dasharray="6 7" opacity="0.2"/>
-              <!-- Railroad rails filled -->
-              <rect x="348" y="200" width="228" height="10" fill="#160B52"/>
-              <rect x="348" y="218" width="228" height="10" fill="#160B52"/>
-              <!-- Sleepers gold -->
-              <rect x="358" y="200" width="8" height="28" fill="#FFD700" stroke="#160B52" stroke-width="1"/>
-              <rect x="380" y="200" width="8" height="28" fill="#FFD700" stroke="#160B52" stroke-width="1"/>
-              <rect x="402" y="200" width="8" height="28" fill="#FFD700" stroke="#160B52" stroke-width="1"/>
-              <rect x="424" y="200" width="8" height="28" fill="#FFD700" stroke="#160B52" stroke-width="1"/>
-              <rect x="446" y="200" width="8" height="28" fill="#FFD700" stroke="#160B52" stroke-width="1"/>
-              <rect x="468" y="200" width="8" height="28" fill="#FFD700" stroke="#160B52" stroke-width="1"/>
-              <rect x="490" y="200" width="8" height="28" fill="#FFD700" stroke="#160B52" stroke-width="1"/>
-              <rect x="512" y="200" width="8" height="28" fill="#FFD700" stroke="#160B52" stroke-width="1"/>
-              <rect x="534" y="200" width="8" height="28" fill="#FFD700" stroke="#160B52" stroke-width="1"/>
-              <rect x="556" y="200" width="8" height="28" fill="#FFD700" stroke="#160B52" stroke-width="1"/>
-              <!-- Chip body magenta filled -->
-              <rect x="376" y="55" width="108" height="88" fill="#FF00FF" stroke="#160B52" stroke-width="4"/>
-              <rect x="390" y="69" width="80" height="60" fill="none" stroke="#160B52" stroke-width="2"/>
-              <!-- Leads left gold -->
-              <rect x="354" y="70"  width="22" height="8" fill="#FFD700" stroke="#160B52" stroke-width="1.5"/>
-              <rect x="354" y="88"  width="22" height="8" fill="#FFD700" stroke="#160B52" stroke-width="1.5"/>
-              <rect x="354" y="106" width="22" height="8" fill="#FFD700" stroke="#160B52" stroke-width="1.5"/>
-              <rect x="354" y="124" width="22" height="8" fill="#FFD700" stroke="#160B52" stroke-width="1.5"/>
-              <!-- Leads right gold -->
-              <rect x="484" y="70"  width="22" height="8" fill="#FFD700" stroke="#160B52" stroke-width="1.5"/>
-              <rect x="484" y="88"  width="22" height="8" fill="#FFD700" stroke="#160B52" stroke-width="1.5"/>
-              <rect x="484" y="106" width="22" height="8" fill="#FFD700" stroke="#160B52" stroke-width="1.5"/>
-              <rect x="484" y="124" width="22" height="8" fill="#FFD700" stroke="#160B52" stroke-width="1.5"/>
-              <!-- Connector chip to tracks magenta dashed -->
-              <path d="M 430 143 Q 430 172 430 200" stroke="#FF00FF" stroke-width="4" stroke-dasharray="8 5" fill="none"/>
+              <line x1="358" y1="38" x2="358" y2="262" stroke="rgba(22,11,82,0.2)" stroke-width="1.5" stroke-dasharray="6 7"/>
+              <!-- Railroad tracks -->
+              <line x1="388" y1="210" x2="578" y2="210" stroke="rgba(22,11,82,0.55)" stroke-width="2.5"/>
+              <line x1="388" y1="226" x2="578" y2="226" stroke="rgba(22,11,82,0.55)" stroke-width="2.5"/>
+              <line x1="404" y1="210" x2="404" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
+              <line x1="426" y1="210" x2="426" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
+              <line x1="448" y1="210" x2="448" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
+              <line x1="470" y1="210" x2="470" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
+              <line x1="492" y1="210" x2="492" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
+              <line x1="514" y1="210" x2="514" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
+              <line x1="536" y1="210" x2="536" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
+              <line x1="558" y1="210" x2="558" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
+              <!-- Chip -->
+              <rect x="428" y="68" width="94" height="74" stroke="#FF00FF" stroke-width="2.5"/>
+              <rect x="440" y="80" width="70" height="50" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
+              <line x1="428" y1="83"  x2="410" y2="83"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+              <line x1="428" y1="98"  x2="410" y2="98"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+              <line x1="428" y1="113" x2="410" y2="113" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+              <line x1="428" y1="128" x2="410" y2="128" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+              <line x1="522" y1="83"  x2="540" y2="83"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+              <line x1="522" y1="98"  x2="540" y2="98"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+              <line x1="522" y1="113" x2="540" y2="113" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+              <line x1="522" y1="128" x2="540" y2="128" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+              <!-- Dashed connector -->
+              <path d="M 475 142 Q 476 178 487 210" stroke="#FF00FF" stroke-width="2" stroke-dasharray="6 5"/>
             </g>
           </svg>
         </div>
@@ -131,31 +127,27 @@
             <svg viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
               <defs>
                 <filter id="f1" x="-5%" y="-5%" width="110%" height="110%">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7" result="n"/>
-                  <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+                  <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="7" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
                 </filter>
               </defs>
-              <g filter="url(#f1)">
-                <!-- All network connections navy -->
-                <line x1="88" y1="65"  x2="208" y2="90"  stroke="#160B52" stroke-width="2.5"/>
-                <line x1="88" y1="65"  x2="208" y2="145" stroke="#160B52" stroke-width="2.5"/>
-                <line x1="88" y1="112" x2="208" y2="90"  stroke="#160B52" stroke-width="2.5"/>
-                <line x1="88" y1="112" x2="208" y2="145" stroke="#160B52" stroke-width="2.5"/>
-                <line x1="88" y1="160" x2="208" y2="90"  stroke="#160B52" stroke-width="2.5"/>
-                <line x1="88" y1="160" x2="208" y2="145" stroke="#160B52" stroke-width="2.5"/>
-                <line x1="208" y1="90"  x2="322" y2="112" stroke="#160B52" stroke-width="2.5"/>
-                <line x1="208" y1="145" x2="322" y2="112" stroke="#160B52" stroke-width="2.5"/>
-                <!-- Effortless bypass - magenta bold -->
-                <line x1="88" y1="112" x2="322" y2="112" stroke="#FF00FF" stroke-width="4"/>
-                <!-- Input nodes gold -->
-                <circle cx="88"  cy="65"  r="13" fill="#FFD700" stroke="#160B52" stroke-width="3"/>
-                <circle cx="88"  cy="112" r="13" fill="#FFD700" stroke="#FF00FF" stroke-width="4"/>
-                <circle cx="88"  cy="160" r="13" fill="#FFD700" stroke="#160B52" stroke-width="3"/>
-                <!-- Hidden nodes navy -->
-                <circle cx="208" cy="90"  r="12" fill="#160B52" stroke="#160B52" stroke-width="3"/>
-                <circle cx="208" cy="145" r="12" fill="#160B52" stroke="#160B52" stroke-width="3"/>
-                <!-- Output node magenta -->
-                <circle cx="322" cy="112" r="20" fill="#FF00FF" stroke="#160B52" stroke-width="4"/>
+              <g filter="url(#f1)" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="80" y1="112" x2="200" y2="60"  stroke="rgba(22,11,82,0.35)" stroke-width="1.8"/>
+                <line x1="80" y1="112" x2="200" y2="112" stroke="rgba(22,11,82,0.35)" stroke-width="1.8"/>
+                <line x1="80" y1="112" x2="200" y2="165" stroke="rgba(22,11,82,0.35)" stroke-width="1.8"/>
+                <line x1="200" y1="60"  x2="320" y2="112" stroke="rgba(22,11,82,0.35)" stroke-width="1.8"/>
+                <line x1="200" y1="112" x2="320" y2="112" stroke="#FF00FF"             stroke-width="2.5"/>
+                <line x1="200" y1="165" x2="320" y2="112" stroke="rgba(22,11,82,0.35)" stroke-width="1.8"/>
+                <circle cx="80"  cy="112" r="13" stroke="rgba(22,11,82,0.6)" stroke-width="2.5"/>
+                <circle cx="80"  cy="112" r="4"  fill="rgba(22,11,82,0.5)"/>
+                <circle cx="200" cy="60"  r="10" stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
+                <circle cx="200" cy="60"  r="3.5" fill="rgba(22,11,82,0.45)"/>
+                <circle cx="200" cy="112" r="16" stroke="#FF00FF" stroke-width="3"/>
+                <circle cx="200" cy="112" r="6"  fill="#FF00FF"/>
+                <circle cx="200" cy="165" r="10" stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
+                <circle cx="200" cy="165" r="3.5" fill="rgba(22,11,82,0.45)"/>
+                <circle cx="320" cy="112" r="13" stroke="rgba(22,11,82,0.6)" stroke-width="2.5"/>
+                <circle cx="320" cy="112" r="4"  fill="rgba(22,11,82,0.5)"/>
               </g>
             </svg>
           </div>
@@ -176,22 +168,20 @@
             <svg viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
               <defs>
                 <filter id="f2" x="-5%" y="-5%" width="110%" height="110%">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="11" result="n"/>
-                  <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+                  <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="11" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
                 </filter>
               </defs>
-              <g filter="url(#f2)">
-                <!-- Crystal ball gold filled -->
-                <circle cx="200" cy="100" r="82" fill="#FFD700" stroke="#160B52" stroke-width="4"/>
-                <!-- Inner rings magenta -->
-                <circle cx="200" cy="100" r="58" fill="none" stroke="#FF00FF" stroke-width="3.5"/>
-                <circle cx="200" cy="100" r="32" fill="none" stroke="#FF00FF" stroke-width="3.5"/>
-                <!-- Bold question mark navy -->
-                <text x="200" y="123" text-anchor="middle" fill="#160B52" font-size="76" font-family="Georgia,serif" font-weight="700">?</text>
-                <!-- Base -->
-                <line x1="200" y1="182" x2="200" y2="192" stroke="#160B52" stroke-width="8"/>
-                <rect x="153" y="192" width="94" height="14" fill="#160B52" rx="3"/>
+              <g filter="url(#f2)" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="200" y1="186" x2="200" y2="200" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+                <ellipse cx="200" cy="202" rx="38" ry="9" stroke="rgba(22,11,82,0.45)" stroke-width="2"/>
+                <circle cx="200" cy="106" r="74" stroke="rgba(22,11,82,0.55)" stroke-width="2.5"/>
+                <circle cx="200" cy="106" r="54" stroke="rgba(22,11,82,0.25)" stroke-width="1.5"/>
+                <circle cx="200" cy="106" r="34" stroke="#FF00FF" stroke-width="2" stroke-dasharray="6 5"/>
+                <path d="M 150 98 Q 164 84 178 98 Q 192 112 206 98 Q 220 84 234 98 Q 248 112 252 106" stroke="rgba(22,11,82,0.45)" stroke-width="2"/>
+                <path d="M 156 114 Q 170 100 184 114 Q 198 128 212 114 Q 226 100 244 114" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
               </g>
+              <text x="200" y="126" text-anchor="middle" fill="#FF00FF" font-size="46" font-family="Georgia,serif" font-weight="400">?</text>
             </svg>
           </div>
           <span class="course-tag course-card-tag">AI &amp; Technology</span>
@@ -211,30 +201,26 @@
             <svg viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
               <defs>
                 <filter id="f3" x="-5%" y="-5%" width="110%" height="110%">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="17" result="n"/>
-                  <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+                  <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="17" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
                 </filter>
               </defs>
-              <g filter="url(#f3)">
-                <!-- Y axis -->
-                <rect x="50" y="28" width="10" height="162" fill="#160B52"/>
-                <!-- X axis -->
-                <rect x="50" y="184" width="310" height="10" fill="#160B52"/>
-                <!-- Grid lines -->
-                <line x1="60" y1="148" x2="358" y2="148" stroke="#160B52" stroke-width="1.5" stroke-dasharray="6 5" opacity="0.25"/>
-                <line x1="60" y1="108" x2="358" y2="108" stroke="#160B52" stroke-width="1.5" stroke-dasharray="6 5" opacity="0.25"/>
-                <line x1="60" y1="68"  x2="358" y2="68"  stroke="#160B52" stroke-width="1.5" stroke-dasharray="6 5" opacity="0.25"/>
-                <!-- Rising line magenta bold -->
-                <path d="M 70 178 C 130 173 174 150 222 124 C 268 98 298 72 342 42" stroke="#FF00FF" stroke-width="5" fill="none" stroke-linecap="round"/>
-                <!-- Data points gold -->
-                <circle cx="70"  cy="178" r="7"  fill="#FFD700" stroke="#160B52" stroke-width="2.5"/>
-                <circle cx="148" cy="160" r="7"  fill="#FFD700" stroke="#160B52" stroke-width="2.5"/>
-                <circle cx="222" cy="124" r="7"  fill="#FFD700" stroke="#160B52" stroke-width="2.5"/>
-                <circle cx="295" cy="82"  r="7"  fill="#FFD700" stroke="#160B52" stroke-width="2.5"/>
-                <circle cx="342" cy="42"  r="10" fill="#FF00FF" stroke="#160B52" stroke-width="3"/>
-                <!-- Flag at peak -->
-                <line x1="342" y1="42" x2="342" y2="18" stroke="#FF00FF" stroke-width="4"/>
-                <polygon points="342,18 364,26 342,35" fill="#FF00FF" stroke="#160B52" stroke-width="1.5"/>
+              <g filter="url(#f3)" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="55" y1="40" x2="55" y2="190" stroke="rgba(22,11,82,0.5)" stroke-width="2.5"/>
+                <line x1="55" y1="190" x2="360" y2="190" stroke="rgba(22,11,82,0.5)" stroke-width="2.5"/>
+                <line x1="55" y1="150" x2="355" y2="150" stroke="rgba(22,11,82,0.2)" stroke-width="1.5" stroke-dasharray="6 5"/>
+                <line x1="55" y1="110" x2="355" y2="110" stroke="rgba(22,11,82,0.2)" stroke-width="1.5" stroke-dasharray="6 5"/>
+                <line x1="55" y1="70"  x2="355" y2="70"  stroke="rgba(22,11,82,0.2)" stroke-width="1.5" stroke-dasharray="6 5"/>
+                <path d="M 75 175 C 120 172 162 155 202 135 C 242 115 282 88 330 60" stroke="rgba(22,11,82,0.65)" stroke-width="3"/>
+                <circle cx="75"  cy="175" r="5" fill="rgba(22,11,82,0.55)"/>
+                <circle cx="148" cy="158" r="5" fill="rgba(22,11,82,0.55)"/>
+                <circle cx="215" cy="133" r="5" fill="rgba(22,11,82,0.55)"/>
+                <circle cx="275" cy="96"  r="5" fill="rgba(22,11,82,0.55)"/>
+                <circle cx="330" cy="60"  r="7" fill="#FF00FF"/>
+                <line x1="330" y1="60" x2="330" y2="40" stroke="#FF00FF" stroke-width="3"/>
+                <path d="M 330 52 Q 316 44 313 33 Q 323 36 330 52" fill="#FF00FF"/>
+                <path d="M 330 52 Q 344 44 347 33 Q 337 36 330 52" fill="#FF00FF"/>
+                <path d="M 330 40 Q 324 28 330 20 Q 336 28 330 40" fill="#FF00FF"/>
               </g>
             </svg>
           </div>
@@ -255,26 +241,18 @@
             <svg viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
               <defs>
                 <filter id="f4" x="-5%" y="-5%" width="110%" height="110%">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="23" result="n"/>
-                  <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+                  <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="23" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
                 </filter>
               </defs>
-              <g filter="url(#f4)">
-                <!-- Y axis -->
-                <rect x="46" y="28" width="10" height="166" fill="#160B52"/>
-                <!-- Baseline -->
-                <rect x="46" y="188" width="316" height="8" fill="#160B52"/>
-                <!-- Bar 1 navy -->
-                <rect x="68"  y="152" width="54" height="44" fill="#160B52" stroke="#160B52" stroke-width="2"/>
-                <!-- Bar 2 magenta -->
-                <rect x="140" y="116" width="54" height="80" fill="#FF00FF" stroke="#160B52" stroke-width="2"/>
-                <!-- Bar 3 gold -->
-                <rect x="212" y="80"  width="54" height="116" fill="#FFD700" stroke="#160B52" stroke-width="2"/>
-                <!-- Bar 4 magenta tallest -->
-                <rect x="284" y="46"  width="54" height="150" fill="#FF00FF" stroke="#160B52" stroke-width="3"/>
-                <!-- Arrow up -->
-                <line x1="311" y1="46" x2="311" y2="22" stroke="#FF00FF" stroke-width="4"/>
-                <polygon points="303,38 311,18 319,38" fill="#FF00FF" stroke="#160B52" stroke-width="1.5"/>
+              <g filter="url(#f4)" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="50" y1="194" x2="360" y2="194" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
+                <rect x="58"  y="164" width="68" height="30"  stroke="rgba(22,11,82,0.55)" stroke-width="2.5"/>
+                <rect x="126" y="134" width="68" height="60"  stroke="rgba(22,11,82,0.55)" stroke-width="2.5"/>
+                <rect x="194" y="104" width="68" height="90"  stroke="rgba(22,11,82,0.55)" stroke-width="2.5"/>
+                <rect x="262" y="74"  width="68" height="120" stroke="#FF00FF"             stroke-width="3"/>
+                <line x1="296" y1="74"  x2="296" y2="54" stroke="#FF00FF" stroke-width="3"/>
+                <path d="M 286 65 L 296 50 L 306 65" stroke="#FF00FF" stroke-width="3" fill="none"/>
               </g>
             </svg>
           </div>
@@ -295,19 +273,26 @@
             <svg viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
               <defs>
                 <filter id="f5" x="-5%" y="-5%" width="110%" height="110%">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="31" result="n"/>
-                  <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+                  <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="31" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
                 </filter>
               </defs>
-              <g filter="url(#f5)">
-                <!-- Target rings alternating gold/navy -->
-                <circle cx="200" cy="112" r="95"  fill="#FFD700" stroke="#160B52" stroke-width="4"/>
-                <circle cx="200" cy="112" r="68"  fill="#160B52" stroke="#160B52" stroke-width="2"/>
-                <circle cx="200" cy="112" r="44"  fill="#FFD700" stroke="#160B52" stroke-width="2"/>
-                <circle cx="200" cy="112" r="22"  fill="#FF00FF" stroke="#160B52" stroke-width="3"/>
-                <!-- Arrow pointer navy bold -->
-                <line x1="336" y1="32" x2="218" y2="106" stroke="#160B52" stroke-width="5" stroke-linecap="round"/>
-                <polygon points="218,106 232,92 226,116" fill="#160B52"/>
+              <g filter="url(#f5)" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="55"  cy="45"  r="5"   fill="rgba(22,11,82,0.3)"/>
+                <circle cx="342" cy="55"  r="5"   fill="rgba(22,11,82,0.3)"/>
+                <circle cx="48"  cy="174" r="5"   fill="rgba(22,11,82,0.3)"/>
+                <circle cx="356" cy="180" r="5"   fill="rgba(22,11,82,0.3)"/>
+                <circle cx="90"  cy="28"  r="4"   fill="rgba(22,11,82,0.22)"/>
+                <circle cx="314" cy="198" r="4"   fill="rgba(22,11,82,0.22)"/>
+                <circle cx="358" cy="120" r="4"   fill="rgba(22,11,82,0.22)"/>
+                <circle cx="42"  cy="110" r="4"   fill="rgba(22,11,82,0.22)"/>
+                <circle cx="200" cy="112" r="84"  stroke="rgba(22,11,82,0.3)"  stroke-width="2"/>
+                <circle cx="200" cy="112" r="58"  stroke="rgba(22,11,82,0.45)" stroke-width="2.5"/>
+                <circle cx="200" cy="112" r="34"  stroke="rgba(22,11,82,0.6)"  stroke-width="2.5"/>
+                <circle cx="200" cy="112" r="14"  stroke="#FF00FF" stroke-width="3"/>
+                <circle cx="200" cy="112" r="5.5" fill="#FF00FF"/>
+                <line x1="328" y1="36" x2="214" y2="107" stroke="rgba(22,11,82,0.6)" stroke-width="2.5"/>
+                <path d="M 214 107 L 224 98 M 214 107 L 206 100" stroke="rgba(22,11,82,0.6)" stroke-width="2.5"/>
               </g>
             </svg>
           </div>
@@ -328,24 +313,24 @@
             <svg viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
               <defs>
                 <filter id="f6" x="-5%" y="-5%" width="110%" height="110%">
-                  <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="41" result="n"/>
-                  <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+                  <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="41" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
                 </filter>
               </defs>
-              <g filter="url(#f6)">
-                <!-- Hourglass top bar -->
-                <rect x="98" y="24" width="204" height="12" fill="#160B52"/>
-                <!-- Hourglass bottom bar -->
-                <rect x="98" y="190" width="204" height="12" fill="#160B52"/>
-                <!-- Top triangle gold -->
-                <polygon points="100,28 300,28 200,112" fill="#FFD700" stroke="#160B52" stroke-width="4"/>
-                <!-- Bottom triangle magenta -->
-                <polygon points="100,198 300,198 200,112" fill="#FF00FF" stroke="#160B52" stroke-width="4"/>
-                <!-- Sand drops navy -->
-                <circle cx="200" cy="122" r="5"   fill="#160B52"/>
-                <circle cx="198" cy="138" r="4"   fill="#160B52"/>
-                <circle cx="202" cy="153" r="3.5" fill="#160B52"/>
-                <circle cx="199" cy="167" r="3"   fill="#160B52"/>
+              <g filter="url(#f6)" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="136" y1="30"  x2="264" y2="30"  stroke="rgba(22,11,82,0.7)" stroke-width="3.5"/>
+                <line x1="136" y1="196" x2="264" y2="196" stroke="rgba(22,11,82,0.7)" stroke-width="3.5"/>
+                <path d="M 138 30 L 262 30 L 200 112 L 262 196 L 138 196 L 200 112 Z" stroke="rgba(22,11,82,0.55)" stroke-width="2.5"/>
+                <path d="M 166 180 L 234 180 L 200 112 Z" fill="rgba(22,11,82,0.12)"/>
+                <path d="M 152 196 L 248 196 L 234 180 L 166 180 Z" fill="rgba(22,11,82,0.1)"/>
+                <circle cx="180" cy="58" r="4" fill="rgba(22,11,82,0.35)"/>
+                <circle cx="200" cy="50" r="4" fill="rgba(22,11,82,0.35)"/>
+                <circle cx="222" cy="60" r="4" fill="rgba(22,11,82,0.35)"/>
+                <circle cx="190" cy="76" r="3" fill="rgba(22,11,82,0.25)"/>
+                <circle cx="214" cy="74" r="3" fill="rgba(22,11,82,0.25)"/>
+                <circle cx="200" cy="112" r="6" fill="#FF00FF"/>
+                <circle cx="200" cy="122" r="4" fill="#FF00FF" opacity="0.65"/>
+                <circle cx="200" cy="131" r="3" fill="#FF00FF" opacity="0.35"/>
               </g>
             </svg>
           </div>
