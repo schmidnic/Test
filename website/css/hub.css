@@ -322,8 +322,8 @@
 
 /* CTA strip */
 .hub-cta {
-  background: var(--navy);
-  border-top: none;
+  background: #F8F7FF;
+  border-top: 1px solid rgba(22,11,82,0.08);
   padding: clamp(56px, 8vw, 96px) var(--pad-x);
   text-align: center;
 }
@@ -340,7 +340,7 @@
 .hub-cta-title {
   font-size: clamp(1.6rem, 3.5vw, 3rem);
   font-weight: 700;
-  color: var(--white);
+  color: var(--navy);
   letter-spacing: -0.03em;
   line-height: 1.1;
 }
@@ -353,7 +353,7 @@
 .hub-cta-desc {
   font-size: 1rem;
   line-height: 1.7;
-  color: rgba(255,255,255,0.5);
+  color: rgba(22,11,82,0.5);
 }
 
 .btn-hub {
