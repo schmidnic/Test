@@ -159,7 +159,7 @@ img { display: block; max-width: 100%; height: auto; }
   overflow: hidden;
   background: #06001E;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
 }
 
 .hero-gradient {
@@ -185,7 +185,7 @@ img { display: block; max-width: 100%; height: auto; }
 .hero-content {
   position: relative;
   z-index: 2;
-  padding: calc(var(--nav-h) + 32px) var(--pad-x) 40px;
+  padding: var(--nav-h) var(--pad-x) clamp(32px, 5vw, 64px);
   width: 100%;
 }
 
