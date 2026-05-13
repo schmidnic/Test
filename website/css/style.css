@@ -395,6 +395,63 @@ section { width: 100%; }
   color: var(--white);
 }
 
+/* ── Post Navigation ───────────────────────────────────────── */
+.post-nav {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 0 var(--pad-x);
+}
+
+.post-nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.post-nav-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: clamp(28px, 4vw, 48px) 0;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+
+.post-nav-item:first-child {
+  padding-right: clamp(20px, 4vw, 48px);
+  border-right: 1px solid var(--border);
+}
+
+.post-nav-item:last-child {
+  padding-left: clamp(20px, 4vw, 48px);
+  text-align: right;
+}
+
+.post-nav-item:only-child {
+  border-right: none;
+  grid-column: 2;
+}
+
+.post-nav-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.post-nav-title {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  transition: color 0.2s;
+}
+
+.post-nav-item:hover .post-nav-title { color: var(--magenta); }
+
 /* ── Footer ────────────────────────────────────────────────── */
 .footer {
   background: var(--black);
