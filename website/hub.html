@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Hub – prohelias.com</title>
+  <meta name="description" content="Free resources on AI, technology, learning and thoughtful living. Curated by Nicole Schmidbauer.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hub.css">
+</head>
+<body class="hub-page">
+
+  <nav class="nav" id="nav">
+    <a href="index.html" class="nav-logo">prohelias.com</a>
+    <div class="nav-right">
+      <a href="themen.html" class="nav-link">Sunday Morning Café</a>
+      <a href="https://substack.com" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="themen.html" onclick="closeMobileMenu()">Sunday Morning Café</a>
+    <a href="blog.html" onclick="closeMobileMenu()">Blog</a>
+    <a href="hub.html" onclick="closeMobileMenu()">Learning Hub</a>
+    <a href="ueber-mich.html" onclick="closeMobileMenu()">About</a>
+    <a href="https://substack.com" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+  </div>
+
+  <!-- Hero -->
+  <div class="hub-hero">
+    <span class="hub-label reveal">Learning Hub</span>
+    <h1 class="hub-headline reveal">Start learning.<br>Think better.</h1>
+    <p class="hub-intro reveal reveal-delay-1">
+      Curated resources on AI, technology, and intentional living.
+      Self-paced, free, and built for curious minds.
+    </p>
+  </div>
+
+  <!-- Track filter -->
+  <div class="hub-tracks reveal">
+    <button class="track-btn active" onclick="filterTrack(this, 'all')">All topics</button>
+    <button class="track-btn" onclick="filterTrack(this, 'ai')">AI &amp; Technology</button>
+    <button class="track-btn" onclick="filterTrack(this, 'learning')">Learning in Tech</button>
+    <button class="track-btn" onclick="filterTrack(this, 'living')">Thoughtful Living</button>
+  </div>
+
+  <!-- Featured -->
+  <section class="hub-featured">
+    <div class="hub-featured-inner">
+      <p class="hub-section-label">Featured</p>
+      <a href="blog/history-repeating.html" class="featured-card" data-track="ai">
+        <div class="featured-card-image">
+          <img
+            src="assets/images/history-repeating.jpg"
+            alt="Bavaria statue at night"
+            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1509515837298-2c67a3933321?w=1000&q=80'">
+        </div>
+        <div class="featured-card-body">
+          <span class="course-tag">AI &amp; Technology</span>
+          <h2 class="featured-card-title">History repeating?</h2>
+          <p class="featured-card-desc">
+            Are we chasing the same dream for 200 years? What the railroad, longevity startups,
+            and Nvidia have in common — and what it means for how we live now.
+          </p>
+          <div class="featured-card-meta">
+            <span>10 min read</span>
+            <span>Dec 1, 2025</span>
+          </div>
+          <span class="course-link">Read essay →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Course grid -->
+  <section class="hub-grid-section">
+    <div class="hub-grid-inner">
+      <p class="hub-section-label">All resources</p>
+      <div class="hub-grid" id="hubGrid">
+
+        <a href="blog/the-effortless-illusion.html" class="course-card" data-track="ai">
+          <div class="course-card-thumb">
+            <img
+              src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&q=80"
+              alt="Brain in a lightbulb"
+              loading="lazy">
+          </div>
+          <span class="course-tag course-card-tag">AI &amp; Technology</span>
+          <h3 class="course-card-title">The effortless illusion</h3>
+          <p class="course-card-desc">
+            We reach for AI because it eliminates struggle. But struggle is how we build competence.
+            Which ones can we afford to skip?
+          </p>
+          <div class="course-card-footer">
+            <span>8 min read</span>
+            <span class="course-card-arrow">→</span>
+          </div>
+        </a>
+
+        <a href="blog/beyond-the-ai-prophecy.html" class="course-card" data-track="ai">
+          <div class="course-card-thumb">
+            <img
+              src="assets/images/beyond-the-ai-prophecy.jpg"
+              alt="Doctor Strange figure"
+              loading="lazy"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&q=80'">
+          </div>
+          <span class="course-tag course-card-tag">AI &amp; Technology</span>
+          <h3 class="course-card-title">Beyond the AI prophecy</h3>
+          <p class="course-card-desc">
+            While billions follow the AGI prophecy, recent studies show humans outperform AI
+            at problem-solving. A case for curious questioning.
+          </p>
+          <div class="course-card-footer">
+            <span>7 min read</span>
+            <span class="course-card-arrow">→</span>
+          </div>
+        </a>
+
+        <a href="themen.html" class="course-card" data-track="learning">
+          <div class="course-card-thumb">
+            <img
+              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80"
+              alt="Person learning on laptop"
+              loading="lazy">
+          </div>
+          <span class="course-tag course-card-tag">Learning in Tech</span>
+          <h3 class="course-card-title">How to grow without burning out</h3>
+          <p class="course-card-desc">
+            The tech industry never stops. What does meaningful learning look like
+            when 'keeping up' feels impossible?
+          </p>
+          <div class="course-card-footer">
+            <span>5 min read</span>
+            <span class="course-card-arrow">→</span>
+          </div>
+        </a>
+
+        <a href="themen.html" class="course-card" data-track="learning">
+          <div class="course-card-thumb">
+            <img
+              src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80"
+              alt="Student reading"
+              loading="lazy">
+          </div>
+          <span class="course-tag course-card-tag">Learning in Tech</span>
+          <h3 class="course-card-title">Building skills intentionally</h3>
+          <p class="course-card-desc">
+            In a world of infinite tutorials and courses, how do we choose what
+            to actually learn — and make it stick?
+          </p>
+          <div class="course-card-footer">
+            <span>6 min read</span>
+            <span class="course-card-arrow">→</span>
+          </div>
+        </a>
+
+        <a href="themen.html" class="course-card" data-track="living">
+          <div class="course-card-thumb">
+            <img
+              src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=600&q=80"
+              alt="Nature and calm"
+              loading="lazy">
+          </div>
+          <span class="course-tag course-card-tag">Thoughtful Living</span>
+          <h3 class="course-card-title">Living with infinite distractions</h3>
+          <p class="course-card-desc">
+            Technology offers infinite possibilities — and infinite distractions.
+            How do we make conscious choices instead of just reacting?
+          </p>
+          <div class="course-card-footer">
+            <span>6 min read</span>
+            <span class="course-card-arrow">→</span>
+          </div>
+        </a>
+
+        <a href="themen.html" class="course-card" data-track="living">
+          <div class="course-card-thumb">
+            <img
+              src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80"
+              alt="Mountain perspective"
+              loading="lazy">
+          </div>
+          <span class="course-tag course-card-tag">Thoughtful Living</span>
+          <h3 class="course-card-title">The value of slow thinking</h3>
+          <p class="course-card-desc">
+            Every algorithm rewards the quick take. But the most valuable thinking
+            is often the kind that takes time — and can't be rushed.
+          </p>
+          <div class="course-card-footer">
+            <span>5 min read</span>
+            <span class="course-card-arrow">→</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="hub-cta">
+    <div class="hub-cta-inner">
+      <h2 class="hub-cta-title">Every other Sunday,<br><em>a new perspective.</em></h2>
+      <p class="hub-cta-desc">
+        Join the Sunday Morning Café on Substack and get fresh reflections on
+        technology, learning, and what it means to live well in a fast-moving world.
+      </p>
+      <a href="https://substack.com" target="_blank" rel="noopener" class="btn-hub">
+        Join on Substack →
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-copy">2025 © Nicole Schmidbauer</p>
+      <nav class="footer-links">
+        <a href="impressum.html">Legal Notice</a>
+        <a href="datenschutz.html">Privacy Policy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner">
+    <p>This site uses cookies. <a href="datenschutz.html">Learn more</a></p>
+    <button class="cookie-btn" onclick="acceptCookies()">Accept</button>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    function filterTrack(btn, track) {
+      document.querySelectorAll('.track-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.course-card, .featured-card').forEach(card => {
+        const match = track === 'all' || card.dataset.track === track;
+        card.style.display = match ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
