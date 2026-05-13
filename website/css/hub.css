@@ -160,10 +160,6 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--magenta);
-  background: rgba(255,0,255,0.07);
-  border: 1px solid rgba(255,0,255,0.2);
-  border-radius: 5px;
-  padding: 4px 12px;
 }
 
 .course-tag::before {
