@@ -274,11 +274,15 @@ section { width: 100%; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
   display: block;
+  filter: grayscale(100%);
+  transition: transform 0.5s ease, filter 0.5s ease;
 }
 
-.blog-post-item:hover .blog-post-image img { transform: scale(1.04); }
+.blog-post-item:hover .blog-post-image img {
+  transform: scale(1.04);
+  filter: grayscale(0%);
+}
 
 .blog-post-body {
   display: flex;
