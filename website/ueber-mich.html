@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About – Nicole Schmidbauer</title>
+  <meta name="description" content="About Nicole Schmidbauer – writer, thinker, and host of the Sunday Morning Café.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <a href="index.html" class="nav-logo">prohelias.com</a>
+    <div class="nav-right">
+      <a href="themen.html" class="nav-link">Sunday Morning Café</a>
+      <a href="https://substack.com" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="themen.html" onclick="closeMobileMenu()">Sunday Morning Café</a>
+    <a href="blog.html" onclick="closeMobileMenu()">Blog</a>
+    <a href="ueber-mich.html" onclick="closeMobileMenu()">About</a>
+    <a href="https://substack.com" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+  </div>
+
+  <section class="about-section">
+    <div class="about-inner">
+
+      <div class="about-img-wrap reveal">
+        <div class="about-img-placeholder">☕</div>
+      </div>
+
+      <div class="about-content">
+        <h1 class="about-title reveal">Hi, I'm<br>Nicole.</h1>
+        <div class="about-body">
+          <p class="reveal reveal-delay-1">
+            I'm a writer and thinker based in Europe, exploring the space where
+            <strong>technology meets human experience.</strong> Every other Sunday,
+            I sit down with a coffee and write about the questions that won't leave me alone.
+          </p>
+          <p class="reveal reveal-delay-1">
+            I've spent years working in the tech industry — close enough to see its promise,
+            and close enough to notice what it quietly costs us. That tension is what drives
+            the Sunday Morning Café: not a verdict on technology, but an honest conversation about it.
+          </p>
+          <p class="reveal reveal-delay-2">
+            My writing explores <strong>AI & Technology</strong>, how we learn without burning out
+            in <strong>Learning in Tech</strong>, and what it means to live with intention in
+            <strong>Thoughtful Living</strong>. I don't have all the answers — but I believe the
+            questions are worth sitting with.
+          </p>
+          <p class="reveal reveal-delay-2">
+            If any of this resonates, I'd love to have you at the Café. Pull up a chair.
+          </p>
+        </div>
+        <div class="about-cta reveal reveal-delay-3">
+          <a href="https://substack.com" target="_blank" rel="noopener" class="nav-btn" style="display: inline-flex;">
+            Join me on Substack
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-copy">2025 © Nicole Schmidbauer</p>
+      <nav class="footer-links">
+        <a href="impressum.html">Legal Notice</a>
+        <a href="datenschutz.html">Privacy Policy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner">
+    <p>This site uses cookies. <a href="datenschutz.html">Learn more</a></p>
+    <button class="cookie-btn" onclick="acceptCookies()">Accept</button>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

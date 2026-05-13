@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunday Morning Café – Topics</title>
+  <meta name="description" content="The topics I explore at the Sunday Morning Café: AI & Technology, Learning in Tech, and Thoughtful Living.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <a href="index.html" class="nav-logo">prohelias.com</a>
+    <div class="nav-right">
+      <a href="themen.html" class="nav-link active">Sunday Morning Café</a>
+      <a href="https://substack.com" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="themen.html" onclick="closeMobileMenu()">Sunday Morning Café</a>
+    <a href="blog.html" onclick="closeMobileMenu()">Blog</a>
+    <a href="ueber-mich.html" onclick="closeMobileMenu()">About</a>
+    <a href="https://substack.com" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+  </div>
+
+  <!-- Header -->
+  <section class="topics-header">
+    <div class="topics-header-inner">
+      <h1 class="topics-headline reveal">Technology moves fast. Do we have to, too?</h1>
+      <p class="topics-intro reveal reveal-delay-1">
+        Every other Sunday, I share my reflections and insights how technology changes
+        the way I think, learn and feel, in my Sunday Morning blog series, working through
+        the questions that matter to me most.
+      </p>
+    </div>
+  </section>
+
+  <!-- Accordion -->
+  <section class="accordion">
+    <div class="accordion-inner">
+
+      <div class="accordion-item open reveal">
+        <button class="accordion-trigger" aria-expanded="true">
+          <span class="accordion-title">AI &amp; Technology</span>
+          <span class="accordion-icon" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="accordion-text">
+            How is AI actually reshaping work and learning? What does it mean for how
+            we show up, and do we even get to choose?
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion-item open reveal reveal-delay-1">
+        <button class="accordion-trigger" aria-expanded="true">
+          <span class="accordion-title">Learning in Tech</span>
+          <span class="accordion-icon" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="accordion-text">
+            How do we grow without burning out in an industry that never stops? What
+            does meaningful learning look like when 'keeping up' feels impossible?
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion-item open reveal reveal-delay-2">
+        <button class="accordion-trigger" aria-expanded="true">
+          <span class="accordion-title">Thoughtful Living</span>
+          <span class="accordion-icon" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="accordion-text">
+            What does it mean to live intentionally when technology offers infinite
+            possibilities, and infinite distractions? How do we make conscious choices
+            instead of just reacting?
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="cta-banner-inner">
+      <p class="cta-kicker">Want to read more?</p>
+      <h2 class="cta-title">
+        Grab a coffee and join me at the
+        <span class="highlight">Sunday Morning Café.</span>
+      </h2>
+      <a href="blog.html" class="btn-cta">Read my blog</a>
+    </div>
+    <div class="cta-image">
+      <img
+        src="https://images.unsplash.com/photo-1509785307050-d4066910ec1e?w=900&q=80"
+        alt="Steaming cup of coffee"
+        loading="lazy">
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-copy">2025 © Nicole Schmidbauer</p>
+      <nav class="footer-links">
+        <a href="impressum.html">Legal Notice</a>
+        <a href="datenschutz.html">Privacy Policy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner">
+    <p>This site uses cookies. <a href="datenschutz.html">Learn more</a></p>
+    <button class="cookie-btn" onclick="acceptCookies()">Accept</button>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

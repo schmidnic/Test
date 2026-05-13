@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog – Sunday Morning Café</title>
+  <meta name="description" content="All essays and reflections from the Sunday Morning Café blog by Nicole Schmidbauer.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <a href="index.html" class="nav-logo">prohelias.com</a>
+    <div class="nav-right">
+      <a href="themen.html" class="nav-link active">Sunday Morning Café</a>
+      <a href="https://substack.com" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="themen.html" onclick="closeMobileMenu()">Sunday Morning Café</a>
+    <a href="blog.html" onclick="closeMobileMenu()">Blog</a>
+    <a href="ueber-mich.html" onclick="closeMobileMenu()">About</a>
+    <a href="https://substack.com" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+  </div>
+
+  <section class="blog-list" style="padding-top: calc(var(--nav-h) + 48px);">
+    <div class="blog-list-inner">
+
+      <article class="blog-post-item reveal">
+        <div class="blog-post-image">
+          <img
+            src="https://images.unsplash.com/photo-1509515837298-2c67a3933321?w=800&q=80"
+            alt="Statue reaching skyward"
+            loading="lazy">
+        </div>
+        <div class="blog-post-body">
+          <p class="blog-post-date">12/1/25</p>
+          <h2 class="blog-post-title">History repeating?</h2>
+          <p class="blog-post-excerpt">Are we chasing the same dream for 200 years, transcending time, space, and mortality? What if the real question isn't how to overcome our limits, but what we create within them?</p>
+          <a href="blog/history-repeating.html" class="read-more">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-post-item reveal reveal-delay-1">
+        <div class="blog-post-image">
+          <img
+            src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80"
+            alt="Brain inside a lightbulb"
+            loading="lazy">
+        </div>
+        <div class="blog-post-body">
+          <p class="blog-post-date">11/16/25</p>
+          <h2 class="blog-post-title">The effortless illusion</h2>
+          <p class="blog-post-excerpt">We reach for AI because it eliminates struggle. But struggle isn't just effort. It's the process through which we build competence. How do we consciously decide which struggles we can afford to skip, and which one we can't afford to lose?</p>
+          <a href="blog/the-effortless-illusion.html" class="read-more">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-post-item reveal reveal-delay-2">
+        <div class="blog-post-image">
+          <img
+            src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80"
+            alt="Dramatic gesture in the dark"
+            loading="lazy">
+        </div>
+        <div class="blog-post-body">
+          <p class="blog-post-date">11/9/25</p>
+          <h2 class="blog-post-title">Beyond the AI prophecy</h2>
+          <p class="blog-post-excerpt">While billions of dollars follow the AGI prophecy, recent studies show humans outperform AI at problem-solving. A case for curious questioning instead of believing grand narratives?</p>
+          <a href="blog/beyond-the-ai-prophecy.html" class="read-more">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-post-item reveal">
+        <div class="blog-post-image">
+          <img
+            src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80"
+            alt="Person using laptop in morning light"
+            loading="lazy">
+        </div>
+        <div class="blog-post-body">
+          <p class="blog-post-date">10/27/25</p>
+          <h2 class="blog-post-title">Slow thinking in a fast world</h2>
+          <p class="blog-post-excerpt">Every notification demands an immediate response. Every algorithm rewards the quick take. But what if the most valuable thinking is the kind that takes time — the kind no machine can rush?</p>
+          <a href="blog/slow-thinking.html" class="read-more">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-post-item reveal reveal-delay-1">
+        <div class="blog-post-image">
+          <img
+            src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80"
+            alt="Student reading a book"
+            loading="lazy">
+        </div>
+        <div class="blog-post-body">
+          <p class="blog-post-date">10/13/25</p>
+          <h2 class="blog-post-title">The learning paradox</h2>
+          <p class="blog-post-excerpt">We live in the most information-rich era in history, yet many people report feeling less capable, not more. Why does having access to everything make it harder to truly know something?</p>
+          <a href="blog/learning-paradox.html" class="read-more">Read More</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-copy">2025 © Nicole Schmidbauer</p>
+      <nav class="footer-links">
+        <a href="impressum.html">Legal Notice</a>
+        <a href="datenschutz.html">Privacy Policy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner">
+    <p>This site uses cookies. <a href="datenschutz.html">Learn more</a></p>
+    <button class="cookie-btn" onclick="acceptCookies()">Accept</button>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
