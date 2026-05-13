@@ -58,23 +58,6 @@ img { display: block; max-width: 100%; height: auto; }
   letter-spacing: -0.01em;
 }
 
-/* Nav light variants (for dark pages) */
-.nav-logo--light { color: var(--white); }
-
-.nav-link--light { color: rgba(255,255,255,0.75); }
-.nav-link--light::after { background: var(--white); }
-.nav-link--light:hover,
-.nav-link--light.active { color: var(--white); }
-
-.nav-toggle--light span { background: var(--white); }
-
-.nav.scrolled .nav-logo--light { color: var(--navy); }
-.nav.scrolled .nav-link--light { color: rgba(22,11,82,0.75); }
-.nav.scrolled .nav-link--light::after { background: var(--navy); }
-.nav.scrolled .nav-link--light:hover,
-.nav.scrolled .nav-link--light.active { color: var(--navy); }
-.nav.scrolled .nav-toggle--light span { background: var(--navy); }
-
 /* Blog page: dark gradient background */
 .blog-page {
   background: radial-gradient(
@@ -86,8 +69,31 @@ img { display: block; max-width: 100%; height: auto; }
     #04001C 80%,
     #010008 100%
   );
-  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
+/* Nav transparent on dark blog page */
+.blog-page .nav {
+  background: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+}
+
+.blog-page .nav.scrolled {
+  background: rgba(6, 0, 26, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: rgba(255,255,255,0.1);
+  box-shadow: none;
+}
+
+.blog-page .nav-logo,
+.blog-page .nav-link { color: rgba(255,255,255,0.85); }
+.blog-page .nav-link::after { background: var(--white); }
+.blog-page .nav-link:hover,
+.blog-page .nav-link.active { color: var(--white); }
+.blog-page .nav-toggle span { background: var(--white); }
 
 /* Quote dark variant */
 .quote-section--dark {
