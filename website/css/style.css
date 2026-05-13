@@ -60,7 +60,8 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* Blog page: dark gradient background */
 .blog-page {
-  background: radial-gradient(
+  background-color: #04001C;
+  background-image: radial-gradient(
     ellipse 75% 85% at 32% 48%,
     #6060CC 0%,
     #3030A0 20%,
@@ -70,7 +71,7 @@ img { display: block; max-width: 100%; height: auto; }
     #010008 100%
   );
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 /* Nav transparent on dark blog page */
