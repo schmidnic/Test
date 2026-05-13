@@ -374,11 +374,13 @@ section { width: 100%; }
   overflow: hidden;
 }
 
-.cta-image img {
+.cta-image img,
+.cta-image svg {
   width: 100%;
   height: 100%;
   object-fit: cover;
   opacity: 0.8;
+  display: block;
 }
 
 .btn-cta {
