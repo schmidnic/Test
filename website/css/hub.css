@@ -36,7 +36,7 @@
 }
 
 .hub-headline {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(2.5rem, 6vw, 5.5rem);
   font-weight: 300;
   line-height: 0.95;
@@ -64,7 +64,7 @@
 }
 
 .track-btn {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.05em;
@@ -360,7 +360,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.12em;
