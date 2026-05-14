@@ -50,65 +50,63 @@
   <section class="hub-featured">
     <div class="hub-featured-inner">
       <p class="hub-section-label">Featured</p>
-      <a href="blog/history-repeating.html" class="featured-card" data-track="ai">
+      <a href="blog/built-with-claude-code.html" class="featured-card" data-track="ai">
         <div class="featured-card-image">
           <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
             <defs>
-              <filter id="fh" x="-5%" y="-5%" width="110%" height="110%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="3" result="n"/>
+              <filter id="fcc" x="-5%" y="-5%" width="110%" height="110%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="13" result="n"/>
                 <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
               </filter>
             </defs>
-            <g filter="url(#fh)" stroke-linecap="round" stroke-linejoin="round">
-              <!-- History cycle -->
-              <circle cx="178" cy="150" r="102" stroke="rgba(22,11,82,0.45)" stroke-width="2" stroke-dasharray="9 6"/>
-              <!-- Era nodes -->
-              <circle cx="178" cy="48"  r="9"  stroke="#FF00FF" stroke-width="2.5"/>
-              <circle cx="178" cy="48"  r="3.5" fill="#FF00FF"/>
-              <circle cx="280" cy="150" r="8"  stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
-              <circle cx="178" cy="252" r="8"  stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
-              <circle cx="76"  cy="150" r="8"  stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
-              <!-- Direction arrow -->
-              <path d="M 256 103 L 270 93 L 265 110" fill="rgba(22,11,82,0.5)"/>
-              <!-- Divider -->
-              <line x1="358" y1="38" x2="358" y2="262" stroke="rgba(22,11,82,0.2)" stroke-width="1.5" stroke-dasharray="6 7"/>
-              <!-- Railroad tracks -->
-              <line x1="388" y1="210" x2="578" y2="210" stroke="rgba(22,11,82,0.55)" stroke-width="2.5"/>
-              <line x1="388" y1="226" x2="578" y2="226" stroke="rgba(22,11,82,0.55)" stroke-width="2.5"/>
-              <line x1="404" y1="210" x2="404" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
-              <line x1="426" y1="210" x2="426" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
-              <line x1="448" y1="210" x2="448" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
-              <line x1="470" y1="210" x2="470" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
-              <line x1="492" y1="210" x2="492" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
-              <line x1="514" y1="210" x2="514" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
-              <line x1="536" y1="210" x2="536" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
-              <line x1="558" y1="210" x2="558" y2="226" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
-              <!-- Chip -->
-              <rect x="428" y="68" width="94" height="74" stroke="#FF00FF" stroke-width="2.5"/>
-              <rect x="440" y="80" width="70" height="50" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
-              <line x1="428" y1="83"  x2="410" y2="83"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
-              <line x1="428" y1="98"  x2="410" y2="98"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
-              <line x1="428" y1="113" x2="410" y2="113" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
-              <line x1="428" y1="128" x2="410" y2="128" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
-              <line x1="522" y1="83"  x2="540" y2="83"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
-              <line x1="522" y1="98"  x2="540" y2="98"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
-              <line x1="522" y1="113" x2="540" y2="113" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
-              <line x1="522" y1="128" x2="540" y2="128" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
-              <!-- Dashed connector -->
-              <path d="M 475 142 Q 476 178 487 210" stroke="#FF00FF" stroke-width="2" stroke-dasharray="6 5"/>
+            <g filter="url(#fcc)" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Terminal window -->
+              <rect x="38" y="58" width="242" height="184" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+              <circle cx="58"  cy="76" r="5" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
+              <circle cx="74"  cy="76" r="5" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
+              <circle cx="90"  cy="76" r="5" stroke="#FF00FF"              stroke-width="1.5"/>
+              <line x1="38" y1="88" x2="280" y2="88" stroke="rgba(22,11,82,0.15)" stroke-width="1"/>
+              <!-- Code lines -->
+              <line x1="54" y1="108" x2="178" y2="108" stroke="rgba(22,11,82,0.5)"  stroke-width="2"/>
+              <line x1="54" y1="122" x2="138" y2="122" stroke="rgba(22,11,82,0.32)" stroke-width="1.5"/>
+              <line x1="54" y1="136" x2="198" y2="136" stroke="rgba(22,11,82,0.32)" stroke-width="1.5"/>
+              <line x1="54" y1="150" x2="118" y2="150" stroke="rgba(22,11,82,0.22)" stroke-width="1.5"/>
+              <!-- Prompt -->
+              <line x1="54"  y1="175" x2="66"  y2="165" stroke="#FF00FF" stroke-width="2.5"/>
+              <line x1="54"  y1="185" x2="66"  y2="175" stroke="#FF00FF" stroke-width="2.5"/>
+              <line x1="72"  y1="168" x2="162" y2="168" stroke="#FF00FF" stroke-width="2"/>
+              <rect x="164" y="160" width="8"   height="13" fill="#FF00FF" opacity="0.75"/>
+              <!-- Network emerging right -->
+              <line x1="280" y1="118" x2="362" y2="88"  stroke="rgba(22,11,82,0.3)"  stroke-width="1.5"/>
+              <line x1="280" y1="150" x2="362" y2="150" stroke="#FF00FF"              stroke-width="2.5"/>
+              <line x1="280" y1="182" x2="362" y2="212" stroke="rgba(22,11,82,0.3)"  stroke-width="1.5"/>
+              <line x1="362" y1="88"  x2="462" y2="120" stroke="rgba(22,11,82,0.3)"  stroke-width="1.5"/>
+              <line x1="362" y1="150" x2="462" y2="120" stroke="#FF00FF"              stroke-width="2.5"/>
+              <line x1="362" y1="212" x2="462" y2="120" stroke="rgba(22,11,82,0.25)" stroke-width="1.5"/>
+              <line x1="462" y1="120" x2="542" y2="98"  stroke="rgba(22,11,82,0.25)" stroke-width="1.5"/>
+              <line x1="462" y1="120" x2="542" y2="142" stroke="rgba(22,11,82,0.25)" stroke-width="1.5"/>
+              <!-- Nodes -->
+              <circle cx="362" cy="88"  r="6"   stroke="rgba(22,11,82,0.5)"  stroke-width="2"/>
+              <circle cx="362" cy="150" r="10"  stroke="#FF00FF"              stroke-width="2.5"/>
+              <circle cx="362" cy="150" r="4"   fill="#FF00FF"/>
+              <circle cx="362" cy="212" r="6"   stroke="rgba(22,11,82,0.5)"  stroke-width="2"/>
+              <circle cx="462" cy="120" r="8"   stroke="rgba(22,11,82,0.6)"  stroke-width="2"/>
+              <circle cx="462" cy="120" r="3"   fill="rgba(22,11,82,0.5)"/>
+              <circle cx="542" cy="98"  r="5"   stroke="rgba(22,11,82,0.38)" stroke-width="1.5"/>
+              <circle cx="542" cy="142" r="5"   stroke="rgba(22,11,82,0.38)" stroke-width="1.5"/>
             </g>
           </svg>
         </div>
         <div class="featured-card-body">
           <span class="course-tag">AI &amp; Technology</span>
-          <h2 class="featured-card-title">History repeating?</h2>
+          <h2 class="featured-card-title">I used AI to build the website I couldn't build myself</h2>
           <p class="featured-card-desc">
-            Are we chasing the same dream for 200 years? What the railroad, longevity startups,
-            and Nvidia have in common, and what it means for how we live now.
+            Three years of knowing exactly what I wanted. One weekend with Claude Code.
+            What that means for skill, agency, and what counts as building something yourself.
           </p>
           <div class="featured-card-meta">
             <span>10 min read</span>
-            <span>December 1, 2025</span>
+            <span>May 10, 2026</span>
           </div>
           <span class="course-link">Read essay →</span>
         </div>
@@ -122,7 +120,52 @@
       <p class="hub-section-label">All resources</p>
       <div class="hub-grid" id="hubGrid">
 
-        <a href="blog/the-effortless-illusion.html" class="course-card" data-track="ai">
+        <a href="blog/history-repeating.html" class="course-card" data-track="ai">
+          <div class="course-card-thumb">
+            <svg viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+              <defs>
+                <filter id="fhr" x="-5%" y="-5%" width="110%" height="110%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="3" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+              </defs>
+              <g filter="url(#fhr)" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="118" cy="112" r="68" stroke="rgba(22,11,82,0.45)" stroke-width="2" stroke-dasharray="8 5"/>
+                <circle cx="118" cy="44"  r="7"  stroke="#FF00FF" stroke-width="2.5"/>
+                <circle cx="118" cy="44"  r="2.5" fill="#FF00FF"/>
+                <circle cx="186" cy="112" r="6"  stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
+                <circle cx="118" cy="180" r="6"  stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
+                <circle cx="50"  cy="112" r="6"  stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
+                <path d="M 168 76 L 179 68 L 175 84" fill="rgba(22,11,82,0.5)"/>
+                <line x1="238" y1="30"  x2="238" y2="195" stroke="rgba(22,11,82,0.18)" stroke-width="1.5" stroke-dasharray="5 6"/>
+                <rect x="258" y="62"  width="62" height="50" stroke="#FF00FF"             stroke-width="2.5"/>
+                <rect x="266" y="70"  width="46" height="34" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
+                <line x1="258" y1="72"  x2="246" y2="72"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+                <line x1="258" y1="82"  x2="246" y2="82"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+                <line x1="258" y1="92"  x2="246" y2="92"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+                <line x1="320" y1="72"  x2="332" y2="72"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+                <line x1="320" y1="82"  x2="332" y2="82"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+                <line x1="320" y1="92"  x2="332" y2="92"  stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+                <path d="M 289 112 Q 290 136 296 157" stroke="#FF00FF" stroke-width="2" stroke-dasharray="5 4"/>
+                <line x1="258" y1="157" x2="348" y2="157" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+                <line x1="258" y1="168" x2="348" y2="168" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+              </g>
+            </svg>
+          </div>
+          <span class="course-tag course-card-tag">AI &amp; Technology</span>
+          <h3 class="course-card-title">History repeating?</h3>
+          <p class="course-card-desc">
+            Are we chasing the same dream for 200 years? What the railroad, longevity startups,
+            and Nvidia have in common.
+          </p>
+          <div class="course-card-footer">
+            <span>10 min read</span>
+            <span>December 1, 2025</span>
+            <span class="course-card-arrow">→</span>
+          </div>
+        </a>
+
+                <a href="blog/the-effortless-illusion.html" class="course-card" data-track="ai">
           <div class="course-card-thumb">
             <svg viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
               <defs>

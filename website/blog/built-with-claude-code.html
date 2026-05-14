@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I used AI to build the website I couldn't build myself – Sunday Morning Café</title>
+  <meta name="description" content="Three years of knowing exactly what I wanted. One weekend with Claude Code. What that means for skill, agency, and what counts as building something yourself.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="blog-post">
+
+  <nav class="nav scrolled" id="nav">
+    <a href="../index.html" class="nav-logo">prohelias</a>
+    <div class="nav-right">
+      <a href="../hub.html" class="nav-link">Blog Hub</a>
+      <a href="https://substack.com" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile">
+    <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="../hub.html" onclick="closeMobileMenu()">Blog Hub</a>
+    <a href="../ueber-mich.html" onclick="closeMobileMenu()">About</a>
+    <a href="https://substack.com" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+  </div>
+
+  <header class="article-header">
+    <div class="article-header-bg-word" data-word="Agency" aria-hidden="true">Agency</div>
+    <div class="article-header-inner">
+      <p class="article-meta">May 10, 2026 <span>·</span> Written By Nicole Schmidbauer</p>
+      <h1 class="article-title">I used AI to build the website I couldn't build myself</h1>
+    </div>
+  </header>
+
+  <article class="article-body">
+    <div class="article-content">
+      <p>I have known what I wanted this website to look like for about three years. The ghost word behind the headline. The typography that felt like a Sunday morning, not a productivity app. The way the hero section should breathe without shouting. I had all of it in my head, clearly.</p>
+
+      <p>What I didn't have was the technical ability to build it. I tried. Page builders, templates, "no-code" tools that turned out to have quite a lot of code hiding behind them. Every time I got close to the vision, something blocked me: a CSS property I didn't understand, a layout that refused to behave, a font that looked right in theory and wrong in practice. I ended up with compromises. Not bad, but not it.</p>
+
+      <p>Then I tried Claude Code. In one weekend session, I had the website I had been describing in my head for three years. Now I have to be honest about what that means.</p>
+
+      <h2>How the setup works</h2>
+
+      <p>Before the reflection, the practical part, because you'll want to know. The setup I use is deliberately simple and almost free. Three components.</p>
+
+      <p>A GitHub repository holds all the website files. This is just a folder of HTML, CSS, and JavaScript files — no framework, no build step, no complexity. Claude Code works directly with these files in your local terminal.</p>
+
+      <p>Claude Code is Anthropic's command-line tool that connects to their AI. You run it in your project folder, describe what you want in plain language, and it reads, writes, and edits your files directly. It can make a targeted change ("make this font slightly smaller") or a comprehensive one ("redesign this section to feel lighter and more editorial"). It explains what it's doing and asks before anything irreversible.</p>
+
+      <p>Netlify connects to your GitHub repository and deploys your site automatically every time you push a change. Free tier, custom domain, HTTPS: done in about ten minutes.</p>
+
+      <p>The cost: Claude Code charges per API use, roughly a few euros for a full design session. Netlify and GitHub are free at this scale. For a personal site, the total is negligible. What you need is a GitHub account, a terminal you're not afraid of, and a clear idea of what you want. That last requirement turns out to be the hard part.</p>
+
+      <h2>What the process actually looked like</h2>
+
+      <p>Here is what I didn't expect: the hardest part was not technical. It was articulation.</p>
+
+      <p>Claude Code can do a great deal, but it can only do what you can describe. My first prompts were vague: "make it feel more editorial," "I want it to look like a real publication." These produced results, but not quite the right results. Iterating felt like the design conversations I imagine happen in real agencies, except I was simultaneously the client and the person trying to translate client wishes into something buildable.</p>
+
+      <p>At some point I realised: I was learning to have taste in language. To say "the ghost word should overflow the right edge, with the heading aligned to the bottom-left, and the overall height reduced so the overflow appears at the top as well." That sentence took me twenty minutes to formulate. Before this project, I would not have known what I was looking at, let alone how to ask for it.</p>
+
+      <blockquote>The technical decisions were made by Claude Code. The aesthetic decisions were made by me. The translation between them was the actual work.</blockquote>
+
+      <p>This surprised me. I had expected the process to feel like dictating to a very fast assistant. It felt more like learning a new language for describing visual ideas, with a patient conversation partner who could immediately show me what my words produced.</p>
+
+      <h2>Back to the question I keep asking</h2>
+
+      <p>In "The effortless illusion" I wrote about desirable difficulty: the friction that builds competence, the struggle you can't afford to skip. I asked which struggles are worth preserving.</p>
+
+      <p>I skipped learning CSS deeply. I don't feel conflicted about that. CSS is a means to an end, and for what I needed — a personal blog with a specific aesthetic — the end was the point, not the means. There is no version of this story where spending six months learning front-end development before launching a blog about AI and consciousness was the right choice.</p>
+
+      <p>What I didn't skip was the work of knowing what I wanted. That is harder than it sounds. Most people, given a blank canvas and infinite tools, produce something mediocre: not because they lack taste, but because translating internal vision into external decisions is a skill that develops slowly, through years of looking at things and noticing what works and why. I have been working on that skill for a long time. Claude Code gave me a tool to exercise it at a resolution that was previously unavailable to me.</p>
+
+      <p>I also want to be honest about what I still don't understand. I can navigate the code now and make small changes. But I couldn't have written it from scratch, and I don't understand every decision embedded in the structure. That gap is real. I have chosen to accept it in the same way I accept not understanding the combustion engine that moves my car. At some point you decide what depth serves your actual purposes.</p>
+
+      <h2>What this means for skill development in the AI age</h2>
+
+      <p>I think the more interesting question is not "did you build this" but "what did building this require?" The answer is: clarity of vision, the ability to describe aesthetic choices precisely, the patience to iterate, and enough taste to know when something is right versus almost right. Those are not trivial skills. They are also not the skills that show up in job descriptions for front-end developers.</p>
+
+      <p>We are in a period where many technical capabilities are becoming accessible through language. What is becoming more valuable, not less, is the ability to know what you want and say it well. To have developed enough judgment, in whatever domain, that you can direct a powerful tool toward a specific and meaningful outcome rather than just generating output.</p>
+
+      <p>The question "what skills should I develop" just got more complex, not simpler. But at least it got more honest. The answer is no longer "whatever the tutorial teaches next." It's something closer to: develop deep taste, learn to articulate it, and stay curious about which tools can extend your reach.</p>
+
+      <p>I'm writing this on the website I imagined three years ago. The ghost word sits behind the headline. The typography feels like a Sunday morning. The hero breathes.</p>
+
+      <p>I built this — with help I couldn't have built it without. And I think asking honestly what that means is exactly the right question to sit with as AI becomes the context in which we all figure out what we are actually capable of.</p>
+    </div>
+  </article>
+
+  <nav class="post-nav" aria-label="Post navigation">
+    <div class="post-nav-inner">
+      <a href="history-repeating.html" class="post-nav-item" style="grid-column:2; text-align:right; padding-left:clamp(20px,4vw,48px);">
+        <span class="post-nav-label">Next post →</span>
+        <span class="post-nav-title">History repeating?</span>
+      </a>
+    </div>
+  </nav>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-copy">2026 © Nicole Schmidbauer</p>
+      <nav class="footer-links">
+        <a href="../impressum.html">Legal Notice</a>
+        <a href="../datenschutz.html">Privacy Policy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner">
+    <p>This site uses cookies. <a href="../datenschutz.html">Learn more</a></p>
+    <button class="cookie-btn" onclick="acceptCookies()">Accept</button>
+  </div>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
