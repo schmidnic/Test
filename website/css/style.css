@@ -66,7 +66,7 @@ img { display: block; max-width: 100%; height: auto; }
 .nav-logo {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--navy);
+  color: #0B0358;
   letter-spacing: -0.01em;
 }
 
@@ -80,7 +80,7 @@ img { display: block; max-width: 100%; height: auto; }
 .nav-link {
   font-size: 0.95rem;
   font-weight: 500;
-  color: var(--navy);
+  color: #0B0358;
   position: relative;
   transition: opacity 0.2s;
 }
@@ -152,7 +152,7 @@ img { display: block; max-width: 100%; height: auto; }
 .nav-mobile a {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--navy);
+  color: #0B0358;
   transition: color 0.2s;
 }
 
