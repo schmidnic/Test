@@ -872,13 +872,17 @@ section { width: 100%; }
   position: relative;
   overflow: hidden;
   background: #F8F7FF;
-  padding: calc(var(--nav-h) + 48px) var(--pad-x) 40px;
+  padding: 0 var(--pad-x) clamp(36px, 5vw, 52px);
+  min-height: calc(var(--nav-h) + clamp(200px, 24vw, 340px));
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .article-header-bg-word {
   position: absolute;
   right: -0.04em;
-  bottom: -0.18em;
+  top: -0.18em;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   letter-spacing: -0.05em;
@@ -894,8 +898,11 @@ section { width: 100%; }
 .article-header-bg-word[data-word="Prophecy"] { font-size: clamp(8rem, 18vw, 29rem); }
 
 .article-header-inner {
+  position: relative;
+  z-index: 1;
   max-width: 840px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .article-meta {
