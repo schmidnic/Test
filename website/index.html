@@ -111,43 +111,50 @@
     </div>
     <div class="cta-image">
       <svg viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
-        <!-- Saucer -->
-        <ellipse cx="200" cy="430" rx="110" ry="18" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-        <!-- Cup body -->
-        <path d="M 115 310 L 130 420 Q 200 440 270 420 L 285 310 Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linejoin="round"/>
-        <!-- Cup rim -->
-        <ellipse cx="200" cy="310" rx="85" ry="16" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
-        <!-- Handle -->
-        <path d="M 285 340 Q 330 340 330 375 Q 330 408 285 408" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-        <!-- Coffee surface -->
-        <ellipse cx="200" cy="312" rx="78" ry="12" fill="rgba(255,255,255,0.06)"/>
-        <!-- Steam -->
-        <path d="M 168 295 Q 162 270 170 248 Q 178 226 170 205" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        <path d="M 200 288 Q 194 260 202 235 Q 210 210 200 182" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        <path d="M 232 295 Q 238 268 230 246 Q 222 224 232 200" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        <!-- Steam transitions into neural network -->
-        <line x1="170" y1="205" x2="200" y2="182" stroke="rgba(255,0,255,0.2)" stroke-width="1"/>
-        <line x1="200" y1="182" x2="232" y2="200" stroke="rgba(255,0,255,0.2)" stroke-width="1"/>
-        <line x1="170" y1="205" x2="145" y2="175" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        <line x1="232" y1="200" x2="258" y2="172" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        <line x1="200" y1="182" x2="200" y2="148" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        <line x1="145" y1="175" x2="200" y2="148" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-        <line x1="258" y1="172" x2="200" y2="148" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-        <line x1="145" y1="175" x2="115" y2="148" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <line x1="258" y1="172" x2="288" y2="148" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <!-- Neural nodes -->
-        <circle cx="170" cy="205" r="5"   fill="#000" stroke="rgba(255,255,255,0.3)"  stroke-width="1.5"/>
-        <circle cx="200" cy="182" r="7"   fill="#000" stroke="#FF00FF"                stroke-width="2"/>
-        <circle cx="200" cy="182" r="2.5" fill="#FF00FF" opacity="0.7"/>
-        <circle cx="232" cy="200" r="5"   fill="#000" stroke="rgba(255,255,255,0.3)"  stroke-width="1.5"/>
-        <circle cx="145" cy="175" r="4.5" fill="#000" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
-        <circle cx="258" cy="172" r="4.5" fill="#000" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
-        <circle cx="200" cy="148" r="6"   fill="#000" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
-        <circle cx="115" cy="148" r="3.5" fill="#000" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-        <circle cx="288" cy="148" r="3.5" fill="#000" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-        <line x1="200" y1="148" x2="200" y2="118" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <circle cx="200" cy="118" r="4"   fill="#000" stroke="rgba(255,255,255,0.1)"  stroke-width="1"/>
-        <circle cx="200" cy="118" r="1.5" fill="rgba(255,255,255,0.2)"/>
+        <defs>
+          <filter id="fc" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="5" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+        <g filter="url(#fc)" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Saucer -->
+          <ellipse cx="200" cy="430" rx="110" ry="18" stroke="rgba(22,11,82,0.45)" stroke-width="2"/>
+          <!-- Cup body -->
+          <path d="M 115 310 L 130 420 Q 200 440 270 420 L 285 310 Z" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+          <!-- Cup rim -->
+          <ellipse cx="200" cy="310" rx="85" ry="16" stroke="rgba(22,11,82,0.45)" stroke-width="2"/>
+          <!-- Handle -->
+          <path d="M 285 340 Q 330 340 330 375 Q 330 408 285 408" fill="none" stroke="rgba(22,11,82,0.45)" stroke-width="2"/>
+          <!-- Coffee surface -->
+          <ellipse cx="200" cy="312" rx="78" ry="12" stroke="rgba(22,11,82,0.3)" stroke-width="1.5" stroke-dasharray="6 5"/>
+          <!-- Steam -->
+          <path d="M 168 295 Q 162 270 170 248 Q 178 226 170 205" stroke="rgba(22,11,82,0.35)" stroke-width="1.8" fill="none"/>
+          <path d="M 200 288 Q 194 260 202 235 Q 210 210 200 182" stroke="rgba(22,11,82,0.4)"  stroke-width="2"   fill="none"/>
+          <path d="M 232 295 Q 238 268 230 246 Q 222 224 232 200" stroke="rgba(22,11,82,0.35)" stroke-width="1.8" fill="none"/>
+          <!-- Neural network edges -->
+          <line x1="170" y1="205" x2="200" y2="182" stroke="#FF00FF"             stroke-width="1.8"/>
+          <line x1="200" y1="182" x2="232" y2="200" stroke="#FF00FF"             stroke-width="1.8"/>
+          <line x1="170" y1="205" x2="145" y2="175" stroke="rgba(22,11,82,0.3)"  stroke-width="1.5"/>
+          <line x1="232" y1="200" x2="258" y2="172" stroke="rgba(22,11,82,0.3)"  stroke-width="1.5"/>
+          <line x1="200" y1="182" x2="200" y2="148" stroke="rgba(22,11,82,0.3)"  stroke-width="1.5"/>
+          <line x1="145" y1="175" x2="200" y2="148" stroke="rgba(22,11,82,0.22)" stroke-width="1.5"/>
+          <line x1="258" y1="172" x2="200" y2="148" stroke="rgba(22,11,82,0.22)" stroke-width="1.5"/>
+          <line x1="145" y1="175" x2="115" y2="148" stroke="rgba(22,11,82,0.18)" stroke-width="1.5"/>
+          <line x1="258" y1="172" x2="288" y2="148" stroke="rgba(22,11,82,0.18)" stroke-width="1.5"/>
+          <line x1="200" y1="148" x2="200" y2="118" stroke="rgba(22,11,82,0.18)" stroke-width="1.5"/>
+          <!-- Neural nodes -->
+          <circle cx="170" cy="205" r="5"   stroke="rgba(22,11,82,0.5)"  stroke-width="2"/>
+          <circle cx="200" cy="182" r="8"   stroke="#FF00FF"              stroke-width="2.5"/>
+          <circle cx="200" cy="182" r="3"   fill="#FF00FF"/>
+          <circle cx="232" cy="200" r="5"   stroke="rgba(22,11,82,0.5)"  stroke-width="2"/>
+          <circle cx="145" cy="175" r="4.5" stroke="rgba(22,11,82,0.4)"  stroke-width="2"/>
+          <circle cx="258" cy="172" r="4.5" stroke="rgba(22,11,82,0.4)"  stroke-width="2"/>
+          <circle cx="200" cy="148" r="6"   stroke="rgba(22,11,82,0.45)" stroke-width="2"/>
+          <circle cx="115" cy="148" r="3.5" stroke="rgba(22,11,82,0.28)" stroke-width="1.5"/>
+          <circle cx="288" cy="148" r="3.5" stroke="rgba(22,11,82,0.28)" stroke-width="1.5"/>
+          <circle cx="200" cy="118" r="4"   stroke="rgba(22,11,82,0.22)" stroke-width="1.5"/>
+        </g>
       </svg>
     </div>
   </section>
