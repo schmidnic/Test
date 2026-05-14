@@ -129,13 +129,16 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 .nav-link:hover::after,
-.nav-link.active::after { width: 100%; }
+.nav-link.active::after { width: calc(100% + 0.04em); }
 
 .nav-btn {
   display: inline-flex;
   align-items: center;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--white);
   background: var(--navy);
   padding: 10px 22px;
@@ -474,9 +477,10 @@ section { width: 100%; }
 .btn-cta {
   display: inline-flex;
   align-items: center;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   background: var(--navy);
   color: var(--white);
@@ -911,7 +915,7 @@ section { width: 100%; }
 
 .article-header-bg-word {
   position: absolute;
-  left: var(--pad-x);
+  left: calc(var(--pad-x) + 15vw);
   top: -0.18em;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
@@ -1071,11 +1075,13 @@ section { width: 100%; }
   border: none;
   border-radius: 5px;
   padding: 8px 18px;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
   white-space: nowrap;
-  font-family: 'Space Grotesk', sans-serif;
 }
 
 /* ── Reveal-Animationen ────────────────────────────────────── */
