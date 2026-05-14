@@ -193,7 +193,7 @@ img { display: block; max-width: 100%; height: auto; }
   right: -0.04em;
   bottom: -0.18em;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(14rem, 33vw, 52rem);
+  font-size: clamp(14rem, 42vw, 68rem);
   font-weight: 700;
   letter-spacing: -0.05em;
   line-height: 1;
