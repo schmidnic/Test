@@ -10,7 +10,6 @@
 
 .hub-page .nav-logo,
 .hub-page .nav-link { color: #0B0358; }
-.hub-page .nav-link::after { background: var(--magenta); }
 .hub-page .nav-link:hover,
 .hub-page .nav-link.active { color: var(--navy); }
 .hub-page .nav-toggle span { background: var(--navy); }
