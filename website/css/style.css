@@ -889,9 +889,9 @@ section { width: 100%; }
   pointer-events: none;
 }
 
-.article-header-bg-word[data-word="History"]  { font-size: clamp(8rem, 26vw, 42rem); }
-.article-header-bg-word[data-word="Illusion"] { font-size: clamp(8rem, 23vw, 37rem); }
-.article-header-bg-word[data-word="Prophecy"] { font-size: clamp(8rem, 20vw, 32rem); }
+.article-header-bg-word[data-word="History"]  { font-size: clamp(8rem, 23vw, 37rem); }
+.article-header-bg-word[data-word="Illusion"] { font-size: clamp(8rem, 20vw, 32rem); }
+.article-header-bg-word[data-word="Prophecy"] { font-size: clamp(8rem, 18vw, 29rem); }
 
 .article-header-inner {
   max-width: 840px;
