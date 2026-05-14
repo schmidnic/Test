@@ -63,6 +63,10 @@ img { display: block; max-width: 100%; height: auto; }
   box-shadow: 0 1px 8px rgba(0,0,0,0.06);
 }
 
+.blog-post .nav.scrolled {
+  border-bottom-color: transparent;
+}
+
 .nav-logo {
   font-size: 1rem;
   font-weight: 700;
@@ -821,7 +825,6 @@ section { width: 100%; }
 .article-header {
   background: var(--white);
   padding: calc(var(--nav-h) + 48px) var(--pad-x) 40px;
-  border-bottom: 1px solid var(--border);
 }
 
 .article-header-inner {
@@ -884,8 +887,6 @@ section { width: 100%; }
   text-transform: uppercase;
   line-height: 1.4;
   margin: 56px 0 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
   opacity: 0.75;
 }
 
