@@ -881,7 +881,7 @@ section { width: 100%; }
 
 .article-header-bg-word {
   position: absolute;
-  right: -0.04em;
+  left: var(--pad-x);
   top: -0.18em;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
