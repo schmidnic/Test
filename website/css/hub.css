@@ -336,7 +336,7 @@
 .hub-cta-title {
   font-size: clamp(1.6rem, 3.5vw, 3rem);
   font-weight: 500;
-  color: var(--white);
+  color: #0B0358;
   letter-spacing: -0.05em;
   line-height: 1.2;
 }
@@ -349,7 +349,7 @@
 .hub-cta-desc {
   font-size: 1rem;
   line-height: 1.7;
-  color: rgba(255,255,255,0.5);
+  color: rgba(11,3,88,0.55);
 }
 
 .btn-hub {

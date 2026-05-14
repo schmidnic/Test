@@ -203,7 +203,7 @@ img { display: block; max-width: 100%; height: auto; }
   font-weight: 700;
   line-height: 0.87;
   letter-spacing: -0.025em;
-  color: var(--magenta);
+  color: #0B0358;
   user-select: none;
 }
 
@@ -573,6 +573,7 @@ section { width: 100%; }
 }
 
 .accordion-title {
+  font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(1.2rem, 2.5vw, 1.6rem);
   font-weight: 300;
   color: var(--navy);
