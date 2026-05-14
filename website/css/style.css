@@ -72,7 +72,8 @@ img { display: block; max-width: 100%; height: auto; }
   font-size: 1rem;
   font-weight: 500;
   color: #0B0358;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   perspective: 600px;
   display: inline-flex;
 }
@@ -108,9 +109,12 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 .nav-link {
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.95rem;
   font-weight: 500;
   color: #0B0358;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   position: relative;
   transition: opacity 0.2s;
 }
