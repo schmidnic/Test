@@ -930,6 +930,10 @@ section { width: 100%; }
 .article-header-bg-word[data-word="History"]  { font-size: clamp(10rem, 34vw, 54rem); }
 .article-header-bg-word[data-word="Illusion"] { font-size: clamp(10rem, 30vw, 48rem); }
 .article-header-bg-word[data-word="Prophecy"] { font-size: clamp(10rem, 25vw, 40rem); }
+.article-header-bg-word[data-word="Burnout"]   { font-size: clamp(10rem, 32vw, 52rem); }
+.article-header-bg-word[data-word="Skills"]    { font-size: clamp(10rem, 36vw, 56rem); }
+.article-header-bg-word[data-word="Attention"] { font-size: clamp(10rem, 22vw, 36rem); }
+.article-header-bg-word[data-word="Thinking"]  { font-size: clamp(10rem, 28vw, 44rem); }
 
 .article-header-inner {
   position: relative;
