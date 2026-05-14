@@ -463,7 +463,7 @@ section { width: 100%; }
 
 /* ── Post Navigation ───────────────────────────────────────── */
 .post-nav {
-  background: var(--white);
+  background: #F8F7FF;
   padding: 0 var(--pad-x);
 }
 
@@ -871,7 +871,7 @@ section { width: 100%; }
 .article-header {
   position: relative;
   overflow: hidden;
-  background: var(--white);
+  background: #F8F7FF;
   padding: calc(var(--nav-h) + 48px) var(--pad-x) 40px;
 }
 
@@ -880,7 +880,6 @@ section { width: 100%; }
   right: -0.04em;
   bottom: -0.18em;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(14rem, 41.5vw, 67rem);
   font-weight: 700;
   letter-spacing: -0.05em;
   line-height: 1;
@@ -889,6 +888,10 @@ section { width: 100%; }
   user-select: none;
   pointer-events: none;
 }
+
+.article-header-bg-word[data-word="History"]  { font-size: clamp(8rem, 26vw, 42rem); }
+.article-header-bg-word[data-word="Illusion"] { font-size: clamp(8rem, 23vw, 37rem); }
+.article-header-bg-word[data-word="Prophecy"] { font-size: clamp(8rem, 20vw, 32rem); }
 
 .article-header-inner {
   max-width: 840px;
@@ -930,7 +933,7 @@ section { width: 100%; }
 }
 
 .article-body {
-  background: var(--white);
+  background: #F8F7FF;
   padding: clamp(40px, 6vw, 64px) var(--pad-x) clamp(64px, 10vw, 120px);
 }
 
