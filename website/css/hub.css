@@ -38,9 +38,9 @@
 .hub-headline {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(2.5rem, 6vw, 5.5rem);
-  font-weight: 300;
+  font-weight: 500;
   line-height: 0.95;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em;
   color: var(--navy);
   max-width: 820px;
   margin-bottom: 24px;
@@ -172,10 +172,10 @@
 
 .featured-card-title {
   font-size: clamp(1.4rem, 2.5vw, 2.2rem);
-  font-weight: 300;
+  font-weight: 500;
   color: var(--navy);
-  letter-spacing: -0.025em;
-  line-height: 1.15;
+  letter-spacing: -0.05em;
+  line-height: 1.2;
 }
 
 .featured-card-desc {
@@ -285,7 +285,7 @@
   font-size: clamp(0.95rem, 1.5vw, 1.15rem);
   font-weight: 700;
   color: var(--navy);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.05em;
   line-height: 1.2;
 }
 
@@ -339,10 +339,10 @@
 
 .hub-cta-title {
   font-size: clamp(1.6rem, 3.5vw, 3rem);
-  font-weight: 300;
+  font-weight: 500;
   color: var(--navy);
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  letter-spacing: -0.05em;
+  line-height: 1.2;
 }
 
 .hub-cta-title em {

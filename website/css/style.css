@@ -30,7 +30,15 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.05em;
 }
+
+h1 { font-size: 4.6rem; }
+h2 { font-size: 3.1rem; }
+h3 { font-size: 2.6rem; }
+h4 { font-size: 2rem; }
 
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; height: auto; }
@@ -233,10 +241,10 @@ section { width: 100%; }
 
 .quote-text {
   font-size: clamp(1.5rem, 3.5vw, 3rem);
-  font-weight: 300;
+  font-weight: 500;
   color: var(--navy);
-  line-height: 1.25;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
+  letter-spacing: -0.05em;
   margin-bottom: 20px;
 }
 
@@ -303,10 +311,10 @@ section { width: 100%; }
 
 .blog-post-title {
   font-size: clamp(1.6rem, 3.5vw, 3rem);
-  font-weight: 300;
+  font-weight: 500;
   color: var(--navy);
-  line-height: 1.15;
-  letter-spacing: -0.025em;
+  line-height: 1.2;
+  letter-spacing: -0.05em;
   margin-bottom: 20px;
   transition: color 0.2s;
 }
@@ -357,10 +365,10 @@ section { width: 100%; }
 
 .cta-title {
   font-size: clamp(1.8rem, 4vw, 3.2rem);
-  font-weight: 300;
+  font-weight: 500;
   color: var(--navy);
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.05em;
   margin-bottom: 40px;
 }
 
@@ -524,10 +532,10 @@ section { width: 100%; }
 
 .topics-headline {
   font-size: clamp(1.8rem, 4.5vw, 3.5rem);
-  font-weight: 300;
+  font-weight: 500;
   color: var(--navy);
-  line-height: 1.15;
-  letter-spacing: -0.025em;
+  line-height: 1.2;
+  letter-spacing: -0.05em;
   max-width: 800px;
   margin-bottom: 28px;
 }
@@ -670,10 +678,10 @@ section { width: 100%; }
 
 .about-title {
   font-size: clamp(2rem, 4.5vw, 4rem);
-  font-weight: 300;
+  font-weight: 500;
   color: var(--navy);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  line-height: 1.2;
+  letter-spacing: -0.05em;
   margin-bottom: 32px;
 }
 
@@ -712,10 +720,10 @@ section { width: 100%; }
 
 .contact-title {
   font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 300;
+  font-weight: 500;
   color: var(--navy);
-  letter-spacing: -0.025em;
-  line-height: 1.1;
+  letter-spacing: -0.05em;
+  line-height: 1.2;
   margin-bottom: 24px;
 }
 
@@ -835,10 +843,10 @@ section { width: 100%; }
 
 .article-title {
   font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 300;
+  font-weight: 500;
   color: var(--navy);
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  letter-spacing: -0.05em;
+  line-height: 1.2;
   margin-bottom: 24px;
 }
 
@@ -908,9 +916,9 @@ section { width: 100%; }
 
 .legal-title {
   font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 300;
+  font-weight: 500;
   color: var(--navy);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.05em;
   margin-bottom: 40px;
 }
 
