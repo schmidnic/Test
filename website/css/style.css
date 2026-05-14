@@ -388,9 +388,8 @@ section { width: 100%; }
   position: relative;
   background: #F8F7FF;
   overflow: hidden;
-  min-height: 60vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .cta-banner-inner {
@@ -594,7 +593,7 @@ section { width: 100%; }
 /* Accordion */
 .accordion {
   background: #F8F7FF;
-  padding: 0 var(--pad-x) clamp(60px, 10vw, 120px);
+  padding: 0 var(--pad-x) clamp(40px, 6vw, 72px);
 }
 
 .accordion-inner {
