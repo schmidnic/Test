@@ -182,12 +182,10 @@ img { display: block; max-width: 100%; height: auto; }
 .hero-gradient {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse 70% 60% at 28% 80%,
-    rgba(140,100,255,0.10) 0%,
-    rgba(22,11,82,0.04) 50%,
-    transparent 100%
-  );
+  background:
+    radial-gradient(ellipse 52% 48% at 88% 10%, rgba(255,0,255,0.15) 0%, transparent 62%),
+    radial-gradient(ellipse 58% 52% at 6%  92%, rgba(30,14,180,0.14) 0%, transparent 62%),
+    radial-gradient(ellipse 32% 36% at 52% 52%, rgba(110,50,255,0.07) 0%, transparent 60%);
 }
 
 @keyframes heroPulse {
@@ -217,6 +215,10 @@ img { display: block; max-width: 100%; height: auto; }
   text-align: right;
   padding-right: clamp(8px, 2vw, 40px);
   margin-top: 0.1em;
+  background: linear-gradient(125deg, #1A0880 0%, #7733EE 52%, #FF00FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* ── Shared layout ─────────────────────────────────────────── */
