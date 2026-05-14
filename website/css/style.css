@@ -342,7 +342,7 @@ section { width: 100%; }
 /* ── CTA Banner ────────────────────────────────────────────── */
 .cta-banner {
   position: relative;
-  background: #F8F7FF;
+  background: linear-gradient(160deg, #1E0D72 0%, var(--navy) 100%);
   overflow: hidden;
   min-height: 60vh;
   display: flex;
@@ -359,14 +359,14 @@ section { width: 100%; }
 .cta-kicker {
   font-size: clamp(1.2rem, 2.5vw, 1.8rem);
   font-weight: 400;
-  color: rgba(22,11,82,0.55);
+  color: rgba(255,255,255,0.6);
   margin-bottom: 12px;
 }
 
 .cta-title {
   font-size: clamp(1.8rem, 4vw, 3.2rem);
   font-weight: 500;
-  color: var(--navy);
+  color: var(--white);
   line-height: 1.2;
   letter-spacing: -0.05em;
   margin-bottom: 40px;
@@ -402,17 +402,17 @@ section { width: 100%; }
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  background: var(--navy);
-  color: var(--white);
+  background: var(--white);
+  color: var(--navy);
   padding: 16px 36px;
-  border: 2px solid var(--navy);
+  border: 2px solid var(--white);
   border-radius: 5px;
   transition: background 0.2s, color 0.2s;
 }
 
 .btn-cta:hover {
   background: transparent;
-  color: var(--navy);
+  color: var(--white);
 }
 
 /* ── Post Navigation ───────────────────────────────────────── */
@@ -521,7 +521,7 @@ section { width: 100%; }
 
 /* ── Themen-Seite ──────────────────────────────────────────── */
 .topics-header {
-  background: var(--white);
+  background: #F8F7FF;
   padding: calc(var(--nav-h) + 60px) var(--pad-x) clamp(48px, 6vw, 80px);
 }
 
@@ -550,7 +550,7 @@ section { width: 100%; }
 
 /* Accordion */
 .accordion {
-  background: var(--white);
+  background: #F8F7FF;
   padding: 0 var(--pad-x) clamp(60px, 10vw, 120px);
 }
 
