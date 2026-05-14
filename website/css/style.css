@@ -221,8 +221,8 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 .hero-title {
-  font-size: clamp(2.8rem, 9vw, 9.5rem);
-  font-weight: 500;
+  font-size: clamp(3.5rem, 11vw, 12rem);
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.04em;
   color: #0B0358;
@@ -575,7 +575,7 @@ section { width: 100%; }
 
 .topics-headline {
   font-size: clamp(1.8rem, 4.5vw, 3.5rem);
-  font-weight: 500;
+  font-weight: 300;
   color: var(--navy);
   line-height: 1.2;
   letter-spacing: -0.05em;
