@@ -222,7 +222,7 @@ img { display: block; max-width: 100%; height: auto; }
 
 .hero-title {
   font-size: clamp(3.5rem, 11vw, 12rem);
-  font-weight: 700;
+  font-weight: 300;
   line-height: 1;
   letter-spacing: -0.04em;
   color: #0B0358;
