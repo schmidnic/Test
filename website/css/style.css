@@ -873,7 +873,7 @@ section { width: 100%; }
   overflow: hidden;
   background: #F8F7FF;
   padding: 0 var(--pad-x) clamp(36px, 5vw, 52px);
-  min-height: calc(var(--nav-h) + clamp(200px, 24vw, 340px));
+  min-height: calc(var(--nav-h) + clamp(100px, 15vw, 200px));
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
