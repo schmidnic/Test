@@ -171,8 +171,8 @@ img { display: block; max-width: 100%; height: auto; }
 .hero {
   position: relative;
   width: 100%;
-  height: 82vh;
-  min-height: 480px;
+  height: 62vh;
+  min-height: 380px;
   overflow: hidden;
   background: #F8F7FF;
   display: flex;
@@ -183,9 +183,9 @@ img { display: block; max-width: 100%; height: auto; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 52% 48% at 88% 10%, rgba(255,0,255,0.15) 0%, transparent 62%),
-    radial-gradient(ellipse 58% 52% at 6%  8%,  rgba(233,9,246,0.13) 0%, transparent 62%),
-    radial-gradient(ellipse 32% 36% at 52% 52%, rgba(110,50,255,0.07) 0%, transparent 60%);
+    radial-gradient(ellipse 52% 48% at 88% 10%, rgba(11,3,88,0.10) 0%, transparent 62%),
+    radial-gradient(ellipse 58% 52% at 6%  8%,  rgba(11,3,88,0.08) 0%, transparent 62%),
+    radial-gradient(ellipse 32% 36% at 52% 52%, rgba(11,3,88,0.05) 0%, transparent 60%);
 }
 
 .hero-bg-word {
@@ -206,8 +206,8 @@ img { display: block; max-width: 100%; height: auto; }
 .hero-content {
   position: relative;
   z-index: 2;
-  padding: calc(var(--nav-h) + 32px) var(--pad-x) 56px;
-  max-width: 720px;
+  padding: 0 var(--pad-x);
+  width: 100%;
 }
 
 .hero-label {
@@ -221,12 +221,12 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 .hero-title {
-  font-size: clamp(3.2rem, 7vw, 7rem);
+  font-size: clamp(2.8rem, 9vw, 9.5rem);
   font-weight: 500;
-  line-height: 1.05;
+  line-height: 1;
   letter-spacing: -0.04em;
   color: #0B0358;
-  margin-bottom: 28px;
+  white-space: nowrap;
 }
 
 .hero-rule {
