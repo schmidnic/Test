@@ -1,3 +1,14 @@
+/* ── Nav logo fold animation ───────────────────────────────── */
+const navLogo = document.querySelector('.nav-logo');
+if (navLogo) {
+  const text = navLogo.textContent.trim();
+  navLogo.innerHTML = [...text].map((char, i) =>
+    `<span class="nlc" style="--i:${i}">${char === ' ' ? '&nbsp;' : char}</span>`
+  ).join('');
+  const readyDelay = text.length * 40 + 200 + 500;
+  setTimeout(() => navLogo.classList.add('nlc-ready'), readyDelay);
+}
+
 /* ── Navigation: scroll-shadow ─────────────────────────────── */
 const nav = document.getElementById('nav');
 
