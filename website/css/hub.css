@@ -5,10 +5,7 @@
 }
 
 .hub-page .nav {
-  background: rgba(248,247,255,0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(22,11,82,0.08);
+  background: #ffffff;
 }
 
 .hub-page .nav-logo,
@@ -322,8 +319,7 @@
 
 /* CTA strip */
 .hub-cta {
-  background: linear-gradient(160deg, #1E0D72 0%, var(--navy) 100%);
-  border-top: none;
+  background: #F8F7FF;
   padding: clamp(56px, 8vw, 96px) var(--pad-x);
   text-align: center;
 }

@@ -470,7 +470,6 @@ section { width: 100%; }
 .footer {
   background: #F8F7FF;
   padding: 24px var(--pad-x);
-  border-top: 1px solid rgba(22,11,82,0.08);
 }
 
 .footer-inner {
