@@ -873,7 +873,7 @@ section { width: 100%; }
   overflow: hidden;
   background: #F8F7FF;
   padding: 0 var(--pad-x) clamp(36px, 5vw, 52px);
-  min-height: calc(var(--nav-h) + clamp(100px, 15vw, 200px));
+  min-height: calc(var(--nav-h) + clamp(200px, 24vw, 340px));
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -893,9 +893,9 @@ section { width: 100%; }
   pointer-events: none;
 }
 
-.article-header-bg-word[data-word="History"]  { font-size: clamp(8rem, 23vw, 37rem); }
-.article-header-bg-word[data-word="Illusion"] { font-size: clamp(8rem, 20vw, 32rem); }
-.article-header-bg-word[data-word="Prophecy"] { font-size: clamp(8rem, 18vw, 29rem); }
+.article-header-bg-word[data-word="History"]  { font-size: clamp(10rem, 34vw, 54rem); }
+.article-header-bg-word[data-word="Illusion"] { font-size: clamp(10rem, 30vw, 48rem); }
+.article-header-bg-word[data-word="Prophecy"] { font-size: clamp(10rem, 25vw, 40rem); }
 
 .article-header-inner {
   position: relative;
