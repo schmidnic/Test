@@ -400,10 +400,13 @@ section { width: 100%; }
 }
 
 .cta-kicker {
-  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-  font-weight: 400;
-  color: rgba(22,11,82,0.55);
-  margin-bottom: 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #e909f6;
+  margin-bottom: 20px;
 }
 
 .cta-title {
