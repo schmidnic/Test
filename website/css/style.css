@@ -221,7 +221,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 .hero-title {
-  font-size: clamp(3.5rem, 11vw, 12rem);
+  font-size: clamp(2.5rem, 12.4vw, 18rem);
   font-weight: 300;
   line-height: 1;
   letter-spacing: -0.04em;
@@ -396,7 +396,7 @@ section { width: 100%; }
 .cta-banner-inner {
   position: relative;
   z-index: 2;
-  padding: clamp(60px, 10vw, 100px) var(--pad-x);
+  padding: clamp(32px, 5vw, 56px) var(--pad-x);
   max-width: 55%;
 }
 
