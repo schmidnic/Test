@@ -191,7 +191,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 .hero-title {
-  font-size: clamp(5rem, 20vw, 26rem);
+  font-size: clamp(4.5rem, min(20vw, 26vh), 20rem);
   font-weight: 800;
   line-height: 0.87;
   letter-spacing: -0.025em;
@@ -201,7 +201,7 @@ img { display: block; max-width: 100%; height: auto; }
 
 .hero-cafe {
   display: block;
-  font-size: clamp(3rem, 11vw, 14rem);
+  font-size: clamp(2.5rem, min(11vw, 14.5vh), 11rem);
   text-align: right;
   padding-right: clamp(8px, 2vw, 40px);
   margin-top: 0.1em;
@@ -229,7 +229,7 @@ section { width: 100%; }
 
 .quote-text {
   font-size: clamp(1.5rem, 3.5vw, 3rem);
-  font-weight: 700;
+  font-weight: 300;
   color: var(--navy);
   line-height: 1.25;
   letter-spacing: -0.02em;
@@ -299,7 +299,7 @@ section { width: 100%; }
 
 .blog-post-title {
   font-size: clamp(1.6rem, 3.5vw, 3rem);
-  font-weight: 700;
+  font-weight: 300;
   color: var(--navy);
   line-height: 1.15;
   letter-spacing: -0.025em;
@@ -353,7 +353,7 @@ section { width: 100%; }
 
 .cta-title {
   font-size: clamp(1.8rem, 4vw, 3.2rem);
-  font-weight: 700;
+  font-weight: 300;
   color: var(--navy);
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -520,7 +520,7 @@ section { width: 100%; }
 
 .topics-headline {
   font-size: clamp(1.8rem, 4.5vw, 3.5rem);
-  font-weight: 700;
+  font-weight: 300;
   color: var(--navy);
   line-height: 1.15;
   letter-spacing: -0.025em;
@@ -666,7 +666,7 @@ section { width: 100%; }
 
 .about-title {
   font-size: clamp(2rem, 4.5vw, 4rem);
-  font-weight: 700;
+  font-weight: 300;
   color: var(--navy);
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -708,7 +708,7 @@ section { width: 100%; }
 
 .contact-title {
   font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 700;
+  font-weight: 300;
   color: var(--navy);
   letter-spacing: -0.025em;
   line-height: 1.1;
@@ -831,7 +831,7 @@ section { width: 100%; }
 
 .article-title {
   font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 700;
+  font-weight: 300;
   color: var(--navy);
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -904,7 +904,7 @@ section { width: 100%; }
 
 .legal-title {
   font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 700;
+  font-weight: 300;
   color: var(--navy);
   letter-spacing: -0.025em;
   margin-bottom: 40px;

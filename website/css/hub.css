@@ -38,7 +38,7 @@
 .hub-headline {
   font-family: 'DM Sans', sans-serif;
   font-size: clamp(2.5rem, 6vw, 5.5rem);
-  font-weight: 800;
+  font-weight: 300;
   line-height: 0.95;
   letter-spacing: -0.04em;
   color: var(--navy);
@@ -172,7 +172,7 @@
 
 .featured-card-title {
   font-size: clamp(1.4rem, 2.5vw, 2.2rem);
-  font-weight: 700;
+  font-weight: 300;
   color: var(--navy);
   letter-spacing: -0.025em;
   line-height: 1.15;
@@ -339,7 +339,7 @@
 
 .hub-cta-title {
   font-size: clamp(1.6rem, 3.5vw, 3rem);
-  font-weight: 700;
+  font-weight: 300;
   color: var(--navy);
   letter-spacing: -0.03em;
   line-height: 1.1;
