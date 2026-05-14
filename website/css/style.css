@@ -176,7 +176,7 @@ img { display: block; max-width: 100%; height: auto; }
   overflow: hidden;
   background: #F8F7FF;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .hero-gradient {
@@ -193,7 +193,7 @@ img { display: block; max-width: 100%; height: auto; }
   right: -0.04em;
   bottom: -0.18em;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(14rem, 41vw, 66rem);
+  font-size: clamp(14rem, 41.5vw, 67rem);
   font-weight: 700;
   letter-spacing: -0.05em;
   line-height: 1;
@@ -206,7 +206,7 @@ img { display: block; max-width: 100%; height: auto; }
 .hero-content {
   position: relative;
   z-index: 2;
-  padding: 0 var(--pad-x);
+  padding: 0 var(--pad-x) clamp(28px, 4vw, 48px);
   width: 100%;
 }
 
