@@ -191,6 +191,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 .nav-mobile a:hover { color: var(--magenta); }
+.nav-mobile .nav-btn:hover { color: var(--white); }
 
 .nav-mobile .nav-btn {
   font-size: 1rem;
