@@ -51,56 +51,48 @@
   <section class="hub-featured">
     <div class="hub-featured-inner">
       <p class="hub-section-label">Featured</p>
-      <a href="blog/my-first-ai-relationship.html" class="featured-card" data-track="ai">
+      <a href="blog/once-upon-a-time.html" class="featured-card" data-track="ai">
         <div class="featured-card-image">
           <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
             <defs>
-              <filter id="fmir2" x="-5%" y="-5%" width="110%" height="110%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="7" result="n"/>
+              <filter id="fnr" x="-5%" y="-5%" width="110%" height="110%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="29" result="n"/>
                 <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
               </filter>
             </defs>
-            <g filter="url(#fmir2)" stroke-linecap="round" stroke-linejoin="round">
-              <!-- Phone -->
-              <rect x="90" y="25" width="120" height="250" rx="14" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
-              <rect x="102" y="44" width="96" height="195" rx="5" stroke="rgba(22,11,82,0.18)" stroke-width="1"/>
-              <!-- Chat bubbles -->
-              <rect x="111" y="58" width="66" height="24" rx="10" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
-              <rect x="123" y="92" width="66" height="24" rx="10" stroke="#FF00FF" stroke-width="1.5" fill="rgba(255,0,255,0.05)"/>
-              <rect x="111" y="126" width="66" height="24" rx="10" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
-              <line x1="123" y1="70" x2="165" y2="70" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
-              <line x1="135" y1="104" x2="177" y2="104" stroke="#FF00FF" stroke-width="1.5"/>
-              <line x1="123" y1="138" x2="165" y2="138" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
-              <!-- Traffic light: green -->
-              <circle cx="126" cy="198" r="7" stroke="rgba(34,197,94,0.85)" stroke-width="1.5" fill="rgba(34,197,94,0.2)"/>
-              <circle cx="150" cy="198" r="7" stroke="rgba(22,11,82,0.2)" stroke-width="1.5"/>
-              <circle cx="174" cy="198" r="7" stroke="rgba(22,11,82,0.2)" stroke-width="1.5"/>
-              <!-- Bridge arcs -->
-              <path d="M 222 150 C 295 100 345 100 400 150" stroke="rgba(22,11,82,0.25)" stroke-width="1.5"/>
-              <path d="M 222 150 C 295 200 345 200 400 150" stroke="#FF00FF" stroke-width="2.5"/>
-              <!-- Presence node -->
-              <circle cx="432" cy="150" r="32" stroke="rgba(22,11,82,0.35)" stroke-width="1.5" stroke-dasharray="6 5"/>
-              <circle cx="432" cy="150" r="10" stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
-              <circle cx="432" cy="150" r="3.5" fill="rgba(22,11,82,0.5)"/>
-              <!-- Radiating lines -->
-              <line x1="466" y1="128" x2="516" y2="104" stroke="rgba(22,11,82,0.22)" stroke-width="1.5"/>
-              <line x1="468" y1="152" x2="530" y2="152" stroke="rgba(22,11,82,0.18)" stroke-width="1.5"/>
-              <line x1="466" y1="174" x2="516" y2="198" stroke="rgba(22,11,82,0.22)" stroke-width="1.5"/>
-              <circle cx="522" cy="102" r="6" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
-              <circle cx="536" cy="152" r="6" stroke="rgba(22,11,82,0.28)" stroke-width="1.5"/>
-              <circle cx="522" cy="200" r="6" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
+            <g filter="url(#fnr)" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Timeline base -->
+              <line x1="40" y1="210" x2="560" y2="210" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
+              <!-- Arc 1 -->
+              <path d="M 70 210 Q 95 172 120 210" stroke="rgba(22,11,82,0.22)" stroke-width="1.5"/>
+              <circle cx="95" cy="170" r="3" fill="rgba(22,11,82,0.22)"/>
+              <!-- Arc 2 -->
+              <path d="M 142 210 Q 174 152 206 210" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
+              <circle cx="174" cy="150" r="3.5" fill="rgba(22,11,82,0.3)"/>
+              <!-- Arc 3 -->
+              <path d="M 228 210 Q 268 128 308 210" stroke="rgba(22,11,82,0.38)" stroke-width="2"/>
+              <circle cx="268" cy="126" r="4.5" fill="rgba(22,11,82,0.38)"/>
+              <!-- Arc 4 -->
+              <path d="M 330 210 Q 378 104 426 210" stroke="rgba(22,11,82,0.46)" stroke-width="2"/>
+              <circle cx="378" cy="102" r="5.5" fill="rgba(22,11,82,0.46)"/>
+              <!-- Arc 5 (AI) magenta -->
+              <path d="M 448 210 Q 504 72 560 210" stroke="#FF00FF" stroke-width="2.5"/>
+              <circle cx="504" cy="70" r="9" stroke="#FF00FF" stroke-width="2" fill="rgba(255,0,255,0.08)"/>
+              <circle cx="504" cy="70" r="3.5" fill="#FF00FF"/>
+              <!-- Dotted vertical from peak to timeline -->
+              <line x1="504" y1="82" x2="504" y2="210" stroke="rgba(255,0,255,0.2)" stroke-width="1" stroke-dasharray="4 5"/>
             </g>
           </svg>
         </div>
         <div class="featured-card-body">
           <span class="course-tag">AI &amp; Technology</span>
-          <h2 class="featured-card-title">My first AI relationship</h2>
+          <h2 class="featured-card-title">Once upon a time, they lived happily ever after</h2>
           <p class="featured-card-desc">
-            In 2019 I spent three months with PEACH, a digital personality coach. What I learned about structure, presence, and the question I couldn't ask out loud.
+            The same narrative has followed every new technology. What does that repetition reveal — and what does it hide when we reach for AI?
           </p>
           <div class="featured-card-meta">
-            <span>8 min read</span>
-            <span>May 17, 2026</span>
+            <span>9 min read</span>
+            <span>May 23, 2026</span>
           </div>
           <span class="course-link">Read essay →</span>
         </div>
@@ -113,6 +105,51 @@
     <div class="hub-grid-inner">
       <p class="hub-section-label">All resources</p>
       <div class="hub-grid" id="hubGrid">
+
+        <a href="blog/my-first-ai-relationship.html" class="course-card" data-track="ai">
+          <div class="course-card-thumb">
+            <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+              <defs>
+                <filter id="fmir2" x="-5%" y="-5%" width="110%" height="110%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="7" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+              </defs>
+              <g filter="url(#fmir2)" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="90" y="25" width="120" height="250" rx="14" stroke="rgba(22,11,82,0.5)" stroke-width="2"/>
+                <rect x="102" y="44" width="96" height="195" rx="5" stroke="rgba(22,11,82,0.18)" stroke-width="1"/>
+                <rect x="111" y="58" width="66" height="24" rx="10" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
+                <rect x="123" y="92" width="66" height="24" rx="10" stroke="#FF00FF" stroke-width="1.5" fill="rgba(255,0,255,0.05)"/>
+                <rect x="111" y="126" width="66" height="24" rx="10" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
+                <line x1="123" y1="70" x2="165" y2="70" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
+                <line x1="135" y1="104" x2="177" y2="104" stroke="#FF00FF" stroke-width="1.5"/>
+                <line x1="123" y1="138" x2="165" y2="138" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
+                <circle cx="126" cy="198" r="7" stroke="rgba(34,197,94,0.85)" stroke-width="1.5" fill="rgba(34,197,94,0.2)"/>
+                <circle cx="150" cy="198" r="7" stroke="rgba(22,11,82,0.2)" stroke-width="1.5"/>
+                <circle cx="174" cy="198" r="7" stroke="rgba(22,11,82,0.2)" stroke-width="1.5"/>
+                <path d="M 222 150 C 295 100 345 100 400 150" stroke="rgba(22,11,82,0.25)" stroke-width="1.5"/>
+                <path d="M 222 150 C 295 200 345 200 400 150" stroke="#FF00FF" stroke-width="2.5"/>
+                <circle cx="432" cy="150" r="32" stroke="rgba(22,11,82,0.35)" stroke-width="1.5" stroke-dasharray="6 5"/>
+                <circle cx="432" cy="150" r="10" stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
+                <circle cx="432" cy="150" r="3.5" fill="rgba(22,11,82,0.5)"/>
+                <line x1="466" y1="128" x2="516" y2="104" stroke="rgba(22,11,82,0.22)" stroke-width="1.5"/>
+                <line x1="468" y1="152" x2="530" y2="152" stroke="rgba(22,11,82,0.18)" stroke-width="1.5"/>
+                <line x1="466" y1="174" x2="516" y2="198" stroke="rgba(22,11,82,0.22)" stroke-width="1.5"/>
+                <circle cx="522" cy="102" r="6" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
+                <circle cx="536" cy="152" r="6" stroke="rgba(22,11,82,0.28)" stroke-width="1.5"/>
+                <circle cx="522" cy="200" r="6" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
+              </g>
+            </svg>
+          </div>
+          <span class="course-tag course-card-tag">AI &amp; Technology</span>
+          <h3 class="course-card-title">My first AI relationship</h3>
+          <p class="course-card-desc">In 2019 I spent three months with PEACH, a digital personality coach. What I learned about structure, presence, and the question I couldn't ask out loud.</p>
+          <div class="course-card-footer">
+            <span>8 min read</span>
+            <span>May 17, 2026</span>
+            <span class="course-card-arrow">→</span>
+          </div>
+        </a>
 
         <a href="blog/The-skills-of-Captain-Future.html" class="course-card" data-track="ai">
           <div class="course-card-thumb">
@@ -447,7 +484,7 @@
   <!-- CTA -->
   <section class="hub-cta">
     <div class="hub-cta-inner">
-      <h2 class="hub-cta-title">Every other Sunday,<br><em>a new perspective.</em></h2>
+      <h2 class="hub-cta-title">Every Sunday,<br><em>a new perspective.</em></h2>
       <p class="hub-cta-desc">
         Join the Sunday Morning Café on Substack and get fresh reflections on
         technology, learning, and what it means to live well in a fast-moving world.

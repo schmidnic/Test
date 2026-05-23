@@ -933,6 +933,8 @@ section { width: 100%; }
 .article-header-bg-word[data-word="Thinking"]  { font-size: clamp(10rem, 28vw, 44rem); }
 .article-header-bg-word[data-word="Agency"]    { font-size: clamp(10rem, 34vw, 54rem); }
 .article-header-bg-word[data-word="Bridge"]    { font-size: clamp(10rem, 36vw, 56rem); }
+.article-header-bg-word[data-word="Memory"]    { font-size: clamp(10rem, 36vw, 56rem); }
+.article-header-bg-word[data-word="Story"]     { font-size: clamp(10rem, 34vw, 54rem); }
 
 .article-header-inner {
   position: relative;
