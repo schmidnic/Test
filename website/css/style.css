@@ -195,6 +195,7 @@ img { display: block; max-width: 100%; height: auto; }
 .nav-mobile .nav-btn {
   font-size: 1rem;
   padding: 14px 32px;
+  color: var(--white);
 }
 
 /* ── Hero ──────────────────────────────────────────────────── */
