@@ -1126,7 +1126,7 @@ section { width: 100%; }
   .form-row { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
   .hero { display: none; }
-  .topics-header { padding-top: calc(var(--nav-h) + 32px) !important; }
+  .topics-header { padding-top: calc(var(--nav-h) + 64px) !important; }
   .nav-logo { font-size: 0; }
-  .nav-logo::after { content: "Sunday Morning Café"; font-size: 1rem; font-family: 'Space Grotesk', sans-serif; font-weight: 500; letter-spacing: 0.04em; color: #0B0358; text-transform: none; }
+  .nav-logo::after { content: "Sunday Morning Café"; font-size: 0.95rem; font-family: 'Space Grotesk', sans-serif; font-weight: 400; letter-spacing: 0.01em; color: #0B0358; text-transform: none; }
 }
