@@ -1128,5 +1128,5 @@ section { width: 100%; }
   .hero { display: none; }
   .topics-header { padding-top: calc(var(--nav-h) + 32px) !important; }
   .nav-logo { font-size: 0; }
-  .nav-logo::after { content: "Sunday Morning Café"; font-size: 1.1rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.02em; color: var(--navy); }
+  .nav-logo::after { content: "Sunday Morning Café"; font-size: 1rem; font-family: 'Space Grotesk', sans-serif; font-weight: 500; letter-spacing: 0.04em; color: #0B0358; text-transform: none; }
 }
