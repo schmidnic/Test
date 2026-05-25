@@ -65,6 +65,32 @@
     .about-sidebar-word:nth-child(3) { color: rgba(11,3,88,0.22); }
     .about-sidebar-word:nth-child(4) { color: rgba(11,3,88,0.40); }
     .about-sidebar-word--accent      { color: rgba(233,9,246,0.55) !important; }
+    .about-photo-filter {
+      position: absolute; width: 0; height: 0; pointer-events: none;
+    }
+    .about-photo-wrap {
+      position: relative;
+    }
+    .about-photo-figure {
+      margin: 0;
+      border-radius: 2px;
+      overflow: hidden;
+      line-height: 0;
+    }
+    .about-photo {
+      width: 100%;
+      display: block;
+      filter: url(#fp) saturate(0.85) contrast(1.05);
+      mix-blend-mode: normal;
+    }
+    .about-photo-figure::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1.5px solid rgba(233,9,246,0.25);
+      border-radius: 2px;
+      pointer-events: none;
+    }
     @media (max-width: 760px) {
       .about-grid { grid-template-columns: 1fr; }
       .about-sidebar { display: none; }
@@ -171,7 +197,20 @@
         </div>
 
         <aside class="about-sidebar">
-          <p class="about-sidebar-kicker">What I explore</p>
+          <div class="about-photo-wrap">
+            <svg class="about-photo-filter" aria-hidden="true">
+              <defs>
+                <filter id="fp" x="-4%" y="-4%" width="108%" height="108%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.032" numOctaves="4" seed="12" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+              </defs>
+            </svg>
+            <figure class="about-photo-figure">
+              <img src="images/nicole.jpg" alt="Nicole Schmidbauer" class="about-photo">
+            </figure>
+          </div>
+          <p class="about-sidebar-kicker" style="margin-top: 24px;">What I explore</p>
           <span class="about-sidebar-word">Language</span>
           <span class="about-sidebar-word">Learning</span>
           <span class="about-sidebar-word about-sidebar-word--accent">AI</span>
