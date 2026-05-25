@@ -441,8 +441,8 @@ section { width: 100%; }
   margin-bottom: 20px;
 }
 
-.cta-title {
-  font-family: 'Raleway', sans-serif;
+h2.cta-title {
+  font-family: 'Raleway', sans-serif !important;
   font-size: clamp(1.8rem, 4vw, 3.2rem);
   font-weight: 300;
   color: var(--navy);
