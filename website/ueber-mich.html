@@ -6,6 +6,70 @@
   <title>About – prohelias.com</title>
   <meta name="description" content="Nicole Schmidbauer, linguist, psychologist, and writer on language, AI, and what machines are learning to do with thought.">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: clamp(48px, 6vw, 96px);
+      align-items: start;
+    }
+    .about-lead {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--navy);
+      margin-bottom: clamp(24px, 3vw, 32px);
+    }
+    .about-main p {
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      line-height: 1.8;
+      color: #222;
+      margin-bottom: 24px;
+    }
+    .about-pullquote {
+      border-left: 2px solid #e909f6;
+      padding-left: clamp(20px, 3vw, 28px);
+      margin: clamp(32px, 5vw, 48px) 0;
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(1.15rem, 2vw, 1.6rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.5;
+      letter-spacing: -0.02em;
+      color: var(--navy);
+    }
+    .about-sidebar {
+      position: sticky;
+      top: calc(var(--nav-h) + 40px);
+      padding-top: 4px;
+    }
+    .about-sidebar-kicker {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #e909f6;
+      margin-bottom: 20px;
+    }
+    .about-sidebar-word {
+      display: block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      line-height: 1.05;
+    }
+    .about-sidebar-word:nth-child(2) { color: rgba(11,3,88,0.10); }
+    .about-sidebar-word:nth-child(3) { color: rgba(11,3,88,0.22); }
+    .about-sidebar-word:nth-child(4) { color: rgba(11,3,88,0.40); }
+    .about-sidebar-word--accent      { color: rgba(233,9,246,0.55) !important; }
+    @media (max-width: 760px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-sidebar { display: none; }
+    }
+  </style>
 </head>
 <body class="blog-post">
 
@@ -87,18 +151,33 @@
   </section>
 
   <article class="article-body" style="padding-left: 0; padding-right: 0;">
-    <div class="article-content" style="max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad-x);">
-      <p>I have a background in linguistics and psychology. In my professional life, that translates into a question I keep returning to: how do people actually learn, and what does AI change about that?</p>
+    <div style="max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad-x);">
+      <div class="about-grid">
 
-      <p>In my work, I follow the same thread: motivation to learn, emotion in the process, and the question of what makes learning self-directed rather than just reactive. What does that look like when AI can produce any piece of content in seconds?</p>
+        <div class="about-main">
+          <p class="about-lead">I have a background in linguistics and psychology. In my professional life, that translates into a question I keep returning to: how do people actually learn, and what does AI change about that?</p>
 
-      <p>If the content is always available, the process of making sense of it becomes the real competency. That requires knowing how the brain works, how humans think, and what emotions actually do in learning, not as background knowledge, but as the starting point.</p>
+          <p>In my work, I follow the same thread: motivation to learn, emotion in the process, and the question of what makes learning self-directed rather than just reactive. What does that look like when AI can produce any piece of content in seconds?</p>
 
-      <p>My first question about language was visual. My thesis was on how text and image work together in Scandinavian silent film, two systems that don't simply repeat each other, but produce meaning in the space between them. What fascinated me was how the brain handles this: image and language are processed differently, and meaning emerges from how they meet.</p>
+          <blockquote class="about-pullquote">If AI handles the content, the process of making sense of it becomes the real competency.</blockquote>
 
-      <p>Now I watch AI do something similar. Not neurologically, but functionally. Multimodal models are trained on billions of image-text pairs. They don't see or read the way we do, but they've learned what goes together, and they produce something that looks a lot like meaning.</p>
+          <p>That requires knowing how the brain works, how humans think, and what emotions actually do in learning, not as background knowledge, but as the starting point.</p>
 
-      <p>Most people asking questions about AI are asking about capability. I'm more interested in what it reveals about how we learn, and what that means for the competencies worth building.</p>
+          <p>My first question about language was visual. My thesis was on how text and image work together in Scandinavian silent film, two systems that don't simply repeat each other, but produce meaning in the space between them. What fascinated me was how the brain handles this: image and language are processed differently, and meaning emerges from how they meet.</p>
+
+          <p>Now I watch AI do something similar. Not neurologically, but functionally. Multimodal models are trained on billions of image-text pairs. They don't see or read the way we do, but they've learned what goes together, and they produce something that looks a lot like meaning.</p>
+
+          <p>Most people asking questions about AI are asking about capability. I'm more interested in what it reveals about how we learn, and what that means for the competencies worth building.</p>
+        </div>
+
+        <aside class="about-sidebar">
+          <p class="about-sidebar-kicker">What I explore</p>
+          <span class="about-sidebar-word">Language</span>
+          <span class="about-sidebar-word">Learning</span>
+          <span class="about-sidebar-word about-sidebar-word--accent">AI</span>
+        </aside>
+
+      </div>
     </div>
   </article>
 
