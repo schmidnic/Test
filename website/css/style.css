@@ -1147,4 +1147,6 @@ h2.cta-title {
   .nav-logo::after { content: "Sunday Morning Café"; font-size: 0.95rem; font-family: 'Space Grotesk', sans-serif; font-weight: 400; letter-spacing: 0.01em; color: #0B0358; text-transform: none; }
   .article-meta-avatar { display: none; }
   .article-meta { padding-top: clamp(32px, 8vw, 56px); }
+  .hub-page .nav-logo { font-size: inherit; }
+  .hub-page .nav-logo::after { display: none; }
 }
