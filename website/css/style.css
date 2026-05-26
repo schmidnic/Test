@@ -954,6 +954,19 @@ h2.cta-title {
   font-size: 0.9rem;
   color: var(--muted);
   margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.article-meta-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(1) contrast(1.05);
+  flex-shrink: 0;
 }
 
 .article-meta span { margin: 0 6px; }
