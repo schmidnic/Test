@@ -918,6 +918,7 @@ h2.cta-title {
   left: calc(var(--pad-x) + 15vw);
   top: -0.18em;
   font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(10rem, 34vw, 54rem);
   font-weight: 700;
   letter-spacing: -0.05em;
   line-height: 1;
