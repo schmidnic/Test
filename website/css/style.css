@@ -954,6 +954,7 @@ h2.cta-title {
   font-size: 0.9rem;
   color: var(--muted);
   margin-bottom: 24px;
+  padding-top: clamp(16px, 3vw, 32px);
   display: flex;
   align-items: center;
   gap: 12px;
