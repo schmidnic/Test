@@ -48,48 +48,53 @@
   <section class="hub-featured">
     <div class="hub-featured-inner">
       <p class="hub-section-label">Featured</p>
-      <a href="blog/once-upon-a-time.html" class="featured-card" data-track="ai">
+      <a href="blog/the-shovel-sellers.html" class="featured-card" data-track="ai">
         <div class="featured-card-image">
           <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
             <defs>
-              <filter id="fnr" x="-5%" y="-5%" width="110%" height="110%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="29" result="n"/>
+              <filter id="fss" x="-5%" y="-5%" width="110%" height="110%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="37" result="n"/>
                 <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
               </filter>
             </defs>
-            <g filter="url(#fnr)" stroke-linecap="round" stroke-linejoin="round">
-              <!-- Timeline base -->
-              <line x1="40" y1="210" x2="560" y2="210" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
-              <!-- Arc 1 -->
-              <path d="M 70 210 Q 95 172 120 210" stroke="rgba(22,11,82,0.22)" stroke-width="1.5"/>
-              <circle cx="95" cy="170" r="3" fill="rgba(22,11,82,0.22)"/>
-              <!-- Arc 2 -->
-              <path d="M 142 210 Q 174 152 206 210" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
-              <circle cx="174" cy="150" r="3.5" fill="rgba(22,11,82,0.3)"/>
-              <!-- Arc 3 -->
-              <path d="M 228 210 Q 268 128 308 210" stroke="rgba(22,11,82,0.38)" stroke-width="2"/>
-              <circle cx="268" cy="126" r="4.5" fill="rgba(22,11,82,0.38)"/>
-              <!-- Arc 4 -->
-              <path d="M 330 210 Q 378 104 426 210" stroke="rgba(22,11,82,0.46)" stroke-width="2"/>
-              <circle cx="378" cy="102" r="5.5" fill="rgba(22,11,82,0.46)"/>
-              <!-- Arc 5 (AI) magenta -->
-              <path d="M 448 210 Q 504 72 560 210" stroke="#FF00FF" stroke-width="2.5"/>
-              <circle cx="504" cy="70" r="9" stroke="#FF00FF" stroke-width="2" fill="rgba(255,0,255,0.08)"/>
-              <circle cx="504" cy="70" r="3.5" fill="#FF00FF"/>
-              <!-- Dotted vertical from peak to timeline -->
-              <line x1="504" y1="82" x2="504" y2="210" stroke="rgba(255,0,255,0.2)" stroke-width="1" stroke-dasharray="4 5"/>
+            <g filter="url(#fss)" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Grid infrastructure -->
+              <line x1="60"  y1="80"  x2="60"  y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+              <line x1="160" y1="80"  x2="160" y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+              <line x1="260" y1="80"  x2="260" y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+              <line x1="360" y1="80"  x2="360" y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+              <line x1="460" y1="80"  x2="460" y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+              <line x1="560" y1="80"  x2="560" y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+              <line x1="40"  y1="105" x2="580" y2="105" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+              <line x1="40"  y1="155" x2="580" y2="155" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+              <line x1="40"  y1="205" x2="580" y2="205" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+              <!-- Highlighted path through grid -->
+              <line x1="60"  y1="205" x2="160" y2="155" stroke="rgba(22,11,82,0.35)" stroke-width="2"/>
+              <line x1="160" y1="155" x2="260" y2="155" stroke="rgba(22,11,82,0.35)" stroke-width="2"/>
+              <line x1="260" y1="155" x2="360" y2="105" stroke="rgba(22,11,82,0.35)" stroke-width="2"/>
+              <line x1="360" y1="105" x2="460" y2="105" stroke="#FF00FF"             stroke-width="2.5"/>
+              <line x1="460" y1="105" x2="560" y2="55"  stroke="#FF00FF"             stroke-width="2.5"/>
+              <!-- Grid nodes -->
+              <circle cx="60"  cy="205" r="4.5" stroke="rgba(22,11,82,0.4)"  stroke-width="1.5"/>
+              <circle cx="160" cy="155" r="4.5" stroke="rgba(22,11,82,0.4)"  stroke-width="1.5"/>
+              <circle cx="260" cy="155" r="4.5" stroke="rgba(22,11,82,0.4)"  stroke-width="1.5"/>
+              <circle cx="360" cy="105" r="6"   stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
+              <circle cx="460" cy="105" r="9"   stroke="#FF00FF"              stroke-width="2.5"/>
+              <circle cx="460" cy="105" r="3.5" fill="#FF00FF"/>
+              <circle cx="560" cy="55"  r="6"   stroke="#FF00FF"              stroke-width="2"/>
+              <circle cx="560" cy="55"  r="2.5" fill="#FF00FF" opacity="0.6"/>
             </g>
           </svg>
         </div>
         <div class="featured-card-body">
           <span class="course-tag">AI &amp; Technology</span>
-          <h2 class="featured-card-title">Once upon a time, they lived happily ever after</h2>
+          <h2 class="featured-card-title">The shovel sellers</h2>
           <p class="featured-card-desc">
-            The same narrative has followed every new technology. What does that repetition reveal — and what does it hide when we reach for AI?
+            In a gold rush, the shovel sellers win. What does that mean when the gold rush is AI, and the shovels are competencies?
           </p>
           <div class="featured-card-meta">
-            <span>9 min read</span>
-            <span>May 23, 2026</span>
+            <span>7 min read</span>
+            <span>May 26, 2026</span>
           </div>
           <span class="course-link">Read essay →</span>
         </div>
@@ -102,6 +107,42 @@
     <div class="hub-grid-inner">
       <p class="hub-section-label">All resources</p>
       <div class="hub-grid" id="hubGrid">
+
+        <a href="blog/once-upon-a-time.html" class="course-card" data-track="ai">
+          <div class="course-card-thumb">
+            <svg viewBox="0 0 600 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+              <defs>
+                <filter id="fnr" x="-5%" y="-5%" width="110%" height="110%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="29" result="n"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+              </defs>
+              <g filter="url(#fnr)" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="40" y1="210" x2="560" y2="210" stroke="rgba(22,11,82,0.4)" stroke-width="2"/>
+                <path d="M 70 210 Q 95 172 120 210" stroke="rgba(22,11,82,0.22)" stroke-width="1.5"/>
+                <circle cx="95" cy="170" r="3" fill="rgba(22,11,82,0.22)"/>
+                <path d="M 142 210 Q 174 152 206 210" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
+                <circle cx="174" cy="150" r="3.5" fill="rgba(22,11,82,0.3)"/>
+                <path d="M 228 210 Q 268 128 308 210" stroke="rgba(22,11,82,0.38)" stroke-width="2"/>
+                <circle cx="268" cy="126" r="4.5" fill="rgba(22,11,82,0.38)"/>
+                <path d="M 330 210 Q 378 104 426 210" stroke="rgba(22,11,82,0.46)" stroke-width="2"/>
+                <circle cx="378" cy="102" r="5.5" fill="rgba(22,11,82,0.46)"/>
+                <path d="M 448 210 Q 504 72 560 210" stroke="#FF00FF" stroke-width="2.5"/>
+                <circle cx="504" cy="70" r="9" stroke="#FF00FF" stroke-width="2" fill="rgba(255,0,255,0.08)"/>
+                <circle cx="504" cy="70" r="3.5" fill="#FF00FF"/>
+                <line x1="504" y1="82" x2="504" y2="210" stroke="rgba(255,0,255,0.2)" stroke-width="1" stroke-dasharray="4 5"/>
+              </g>
+            </svg>
+          </div>
+          <span class="course-tag course-card-tag">AI &amp; Technology</span>
+          <h3 class="course-card-title">Once upon a time, they lived happily ever after</h3>
+          <p class="course-card-desc">The same narrative has followed every new technology. What does that repetition reveal, and what does it hide when we reach for AI?</p>
+          <div class="course-card-footer">
+            <span>9 min read</span>
+            <span>May 23, 2026</span>
+            <span class="course-card-arrow">→</span>
+          </div>
+        </a>
 
         <a href="blog/my-first-ai-relationship.html" class="course-card" data-track="ai">
           <div class="course-card-thumb">
