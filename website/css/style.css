@@ -500,6 +500,7 @@ h2.cta-title {
 .post-nav {
   background: #F8F7FF;
   padding: 0 var(--pad-x);
+  box-shadow: 0 -10px 32px rgba(22, 11, 82, 0.06);
 }
 
 .post-nav-inner {

@@ -6,7 +6,7 @@
   <title>How transformers think – prohelias</title>
   <meta name="description" content="From 'Attention Is All You Need' to Subquadratic Sparse Attention: the constraint that shaped AI for nine years, and what just changed.">
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/course.css?v=17">
+  <link rel="stylesheet" href="../css/course.css?v=18">
 </head>
 <body class="course-page">
 
@@ -563,6 +563,18 @@
 
     </main>
 
+    <div class="quicknotes-panel" id="quicknotesPanel">
+      <div class="quicknotes-header">
+        <p class="quicknotes-title">Notes</p>
+        <button class="quicknotes-close" id="quicknotesClose">&#x2715;</button>
+      </div>
+      <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Jot down your thoughts..."></textarea>
+      <div class="quicknotes-footer">
+        <span class="quicknotes-saved" id="quicknotesSaved"></span>
+        <button class="quicknotes-clear" id="quicknotesClear">Clear</button>
+      </div>
+    </div>
+
   </div>
 
   <button class="quicknotes-fab" id="quicknotesToggle" aria-label="Open notes">
@@ -571,18 +583,6 @@
       <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
-
-  <div class="quicknotes-panel" id="quicknotesPanel">
-    <div class="quicknotes-header">
-      <p class="quicknotes-title">Notes</p>
-      <button class="quicknotes-close" id="quicknotesClose">&#x2715;</button>
-    </div>
-    <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Jot down your thoughts..."></textarea>
-    <div class="quicknotes-footer">
-      <span class="quicknotes-saved" id="quicknotesSaved"></span>
-      <button class="quicknotes-clear" id="quicknotesClear">Clear</button>
-    </div>
-  </div>
 
   <nav class="post-nav" aria-label="More content">
     <div class="post-nav-inner">
@@ -862,9 +862,11 @@
       var fab    = document.getElementById('quicknotesToggle');
       var panel  = document.getElementById('quicknotesPanel');
       var closeBtn = document.getElementById('quicknotesClose');
+      var layout = document.querySelector('.course-layout');
       function toggleNotes() {
         var isOpen = panel.classList.toggle('open');
         fab.classList.toggle('active', isOpen);
+        layout.classList.toggle('notes-open', isOpen);
       }
       fab.addEventListener('click', toggleNotes);
       closeBtn.addEventListener('click', toggleNotes);
