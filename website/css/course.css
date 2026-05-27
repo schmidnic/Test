@@ -41,7 +41,13 @@ body.course-page {
   background: #f0effe;
 }
 
-.course-meta { flex: 1; min-width: 0; }
+.course-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
 .course-label {
   font-family: 'Space Grotesk', sans-serif;
@@ -66,6 +72,8 @@ body.course-page {
   text-overflow: ellipsis;
   line-height: 1.2;
   margin: 0;
+  flex: 1;
+  min-width: 0;
 }
 
 .course-progress {
@@ -101,7 +109,7 @@ body.course-page {
   max-width: var(--max-w);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 196px 1fr;
   gap: 0;
   min-height: calc(100vh - var(--nav-h) - 56px);
   padding: 0 var(--pad-x);
@@ -118,22 +126,20 @@ body.course-page {
 }
 
 .reset-btn {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   border: 1.5px solid currentColor;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
-  margin-left: 12px;
+  flex-shrink: 0;
   background: none;
   padding: 0;
   color: var(--muted);
   cursor: pointer;
   transition: color 0.2s, transform 0.3s;
   line-height: 0;
-  flex-shrink: 0;
 }
 .reset-btn:hover { color: var(--navy); transform: rotate(-180deg); }
 
@@ -148,7 +154,7 @@ body.course-page {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 12px;
+  padding: 8px 12px 8px 0;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s;
