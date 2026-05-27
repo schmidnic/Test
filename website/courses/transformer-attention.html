@@ -93,9 +93,9 @@
           </div>
 
           <div class="slide-controls">
-            <button class="slide-btn" onclick="prevSlide('slide-deck-1')">← Back</button>
+            <button class="slide-btn" id="prev-slide-deck-1" onclick="prevSlide('slide-deck-1')" aria-label="Previous slide">&#8249;</button>
             <div class="slide-dots" id="dots-slide-deck-1"></div>
-            <button class="slide-btn" onclick="nextSlide('slide-deck-1')">Next →</button>
+            <button class="slide-btn" id="next-slide-deck-1" onclick="nextSlide('slide-deck-1')" aria-label="Next slide">&#8250;</button>
           </div>
         </div>
       </div>
@@ -568,9 +568,14 @@
 
     function goToSlide(deckId, idx) {
       const deck = document.getElementById(deckId);
-      deck.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === idx));
+      const slides = deck.querySelectorAll('.slide');
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
       document.getElementById('dots-' + deckId)
         .querySelectorAll('.slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+      const prevBtn = document.getElementById('prev-' + deckId);
+      const nextBtn = document.getElementById('next-' + deckId);
+      if (prevBtn) prevBtn.disabled = idx === 0;
+      if (nextBtn) nextBtn.disabled = idx === slides.length - 1;
     }
 
     function currentSlideIdx(deckId) {
