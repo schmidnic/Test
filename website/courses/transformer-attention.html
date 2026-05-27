@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How Transformers Think – prohelias</title>
+  <title>How transformers think – prohelias</title>
   <meta name="description" content="From 'Attention Is All You Need' to Subquadratic Sparse Attention: the constraint that shaped AI for nine years, and what just changed.">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/course.css">
@@ -32,7 +32,7 @@
     <div class="course-header-inner">
       <a href="../hub.html" class="course-back-link">← Coffee Hours</a>
       <div class="course-meta">
-        <h1 class="course-title">How Transformers Think, and What Just Changed</h1>
+        <h1 class="course-title">How transformers think, and what just changed</h1>
       </div>
       <div class="course-progress">
         <span class="progress-text" id="progressText">1 / 6</span>
@@ -88,7 +88,7 @@
             <div class="slide-content">
               <p class="slide-label">Slide 4 of 4</p>
               <h3>May 5, 2026</h3>
-              <p>A startup called Subquadratic emerged from stealth. Their model, SubQ, uses an attention mechanism called SSA — Subquadratic Sparse Attention. The claim: content-dependent, exact, capable of a 12-million-token context, and genuinely subquadratic end to end. If the claim holds, it is the most important architectural advance since the 2017 paper itself.</p>
+              <p>A startup called Subquadratic emerged from stealth. Their model, SubQ, uses an attention mechanism called SSA, Subquadratic Sparse Attention. The claim: content-dependent, exact, capable of a 12-million-token context, and genuinely subquadratic end to end. If the claim holds, it is the most important architectural advance since the 2017 paper itself.</p>
             </div>
           </div>
 
@@ -119,7 +119,7 @@
           <div class="accordion-item">
             <button class="accordion-trigger">What does O(n²) mean in practice?</button>
             <div class="accordion-panel">
-              <p>O(n²) is a description of how compute grows with input size. If processing 1,000 tokens costs one unit of compute, then 2,000 tokens costs four units — not two. At 128,000 tokens (a common current limit), the attention computation alone requires roughly 16 billion pairwise comparisons. That is why longer contexts are expensive, slow, and until recently, rare.</p>
+              <p>O(n²) is a description of how compute grows with input size. If processing 1,000 tokens costs one unit of compute, then 2,000 tokens costs four units, not two. At 128,000 tokens (a common current limit), the attention computation alone requires roughly 16 billion pairwise comparisons. That is why longer contexts are expensive, slow, and until recently, rare.</p>
             </div>
           </div>
 
@@ -133,7 +133,7 @@
           <div class="accordion-item">
             <button class="accordion-trigger">What does "subquadratic" mean, and what is SSA?</button>
             <div class="accordion-panel">
-              <p>Subquadratic means growing slower than n². If a method is O(n log n) or O(n · √n), it is subquadratic: doubling context length much less than quadruples compute. SSA — Subquadratic Sparse Attention — is Subquadratic's claimed mechanism. It selects which token pairs actually need to attend to each other based on content (not a fixed pattern), computes those interactions exactly rather than approximately, and achieves this selection in subquadratic time. If all three properties hold simultaneously, that has not been demonstrated before at scale.</p>
+              <p>Subquadratic means growing slower than n². If a method is O(n log n) or O(n · √n), it is subquadratic: doubling context length much less than quadruples compute. SSA, Subquadratic Sparse Attention, is Subquadratic's claimed mechanism. It selects which token pairs actually need to attend to each other based on content (not a fixed pattern), computes those interactions exactly rather than approximately, and achieves this selection in subquadratic time. If all three properties hold simultaneously, that has not been demonstrated before at scale.</p>
             </div>
           </div>
 
