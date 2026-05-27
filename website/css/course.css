@@ -113,6 +113,11 @@ body.course-page {
   gap: 0;
   min-height: calc(100vh - var(--nav-h) - 56px);
   padding: 0 var(--pad-x);
+  transition: grid-template-columns 0.3s ease;
+}
+
+.course-layout.sidebar-collapsed {
+  grid-template-columns: 32px 1fr;
 }
 
 /* ── Sidebar ───────────────────────────────────────────────── */
@@ -123,8 +128,37 @@ body.course-page {
   align-self: start;
   max-height: calc(100vh - var(--nav-h) - 56px);
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
+}
+
+/* ── Sidebar toggle ─────────────────────────────────────────── */
+.sidebar-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  padding: 16px 0 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  transition: color 0.2s;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.sidebar-toggle:hover { color: var(--navy); }
+
+.sidebar-toggle span {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
 }
 
 .course-sidebar::-webkit-scrollbar { width: 4px; }
@@ -155,6 +189,12 @@ body.course-page {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  transition: opacity 0.15s ease;
+}
+
+.course-layout.sidebar-collapsed .lesson-list {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .lesson-item {

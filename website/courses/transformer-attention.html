@@ -49,6 +49,9 @@
   <div class="course-layout">
 
     <aside class="course-sidebar">
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Inhaltsverzeichnis ein-/ausblenden">
+        <span></span><span></span><span></span>
+      </button>
       <nav aria-label="Lessons">
         <ul class="lesson-list" id="lessonList"></ul>
       </nav>
@@ -806,6 +809,10 @@
       fb.textContent = ok ? (okMsg || 'Correct!') : (wrongMsg || 'Not quite.');
       fb.className = 'quiz-feedback show ' + (ok ? 'correct' : 'wrong');
     }
+
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+      document.querySelector('.course-layout').classList.toggle('sidebar-collapsed');
+    });
   </script>
 
 </body>
