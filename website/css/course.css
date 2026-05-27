@@ -138,7 +138,7 @@ body.course-page {
   flex-shrink: 0;
   appearance: none;
   background: none;
-  border: 1px solid transparent;
+  border: 0px;
   outline: none;
   padding: 0;
   color: var(--muted);
