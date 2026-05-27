@@ -597,20 +597,18 @@
       document.getElementById('lessonCounter').textContent = current + ' / ' + TOTAL;
       document.getElementById('prevBtn').disabled = current === 1;
       const nextBtn = document.getElementById('nextBtn');
+      const footer  = document.getElementById('lessonFooter');
       if (current === TOTAL) {
-        nextBtn.style.visibility = 'hidden';
-      } else if (current === TOTAL - 1) {
-        nextBtn.style.visibility = 'visible';
-        nextBtn.textContent = 'Finish';
-        nextBtn.classList.add('finish-btn');
-        nextBtn.disabled = false;
-        nextBtn.onclick = () => navigate(1);
+        footer.style.display = 'none';
       } else {
-        nextBtn.style.visibility = 'visible';
-        nextBtn.textContent = 'Next →';
-        nextBtn.classList.remove('finish-btn');
+        footer.style.display = '';
         nextBtn.disabled = false;
         nextBtn.onclick = () => navigate(1);
+        if (current === TOTAL - 1) {
+          nextBtn.textContent = 'Finish';
+        } else {
+          nextBtn.textContent = 'Next →';
+        }
       }
     }
 
