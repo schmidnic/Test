@@ -229,9 +229,6 @@ body.course-page {
   animation: tooltipIn 0.18s ease both;
 }
 
-.course-layout.sidebar-collapsed ~ .quicknotes-panel {
-  width: 530px;
-}
 
 .quicknotes-header {
   display: flex;
