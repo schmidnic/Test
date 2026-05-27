@@ -269,24 +269,24 @@
             <div class="hotspot" style="left: 73%; top: 38%;" data-tooltip="tooltip-sparse">
               <div class="hotspot-marker">+</div>
             </div>
-          </div>
 
-          <div class="hotspot-tooltip" id="tooltip-tokens">
-            <button class="tooltip-close" aria-label="Close">×</button>
-            <strong>Input tokens</strong>
-            <p>Each word (or sub-word) in a sentence becomes a token. The attention mechanism must consider every possible pair. With n tokens, that is n × n pairs, giving O(n²) complexity.</p>
-          </div>
+            <div class="hotspot-tooltip" id="tooltip-tokens">
+              <button class="tooltip-close" aria-label="Close">×</button>
+              <strong>Input tokens</strong>
+              <p>Each word (or sub-word) in a sentence becomes a token. The attention mechanism must consider every possible pair. With n tokens, that is n × n pairs, giving O(n²) complexity.</p>
+            </div>
 
-          <div class="hotspot-tooltip" id="tooltip-full">
-            <button class="tooltip-close" aria-label="Close">×</button>
-            <strong>Full attention: O(n²)</strong>
-            <p>The darker a cell, the stronger the attention score between that pair of tokens. Standard transformers compute all n² cells. At 128k tokens, that is over 16 billion values, just for attention.</p>
-          </div>
+            <div class="hotspot-tooltip" id="tooltip-full">
+              <button class="tooltip-close" aria-label="Close">×</button>
+              <strong>Full attention: O(n²)</strong>
+              <p>The darker a cell, the stronger the attention score between that pair of tokens. Standard transformers compute all n² cells. At 128k tokens, that is over 16 billion values, just for attention.</p>
+            </div>
 
-          <div class="hotspot-tooltip" id="tooltip-sparse">
-            <button class="tooltip-close" aria-label="Close">×</button>
-            <strong>SSA: content-selected pairs</strong>
-            <p>SSA computes only the pairs the content demands, shown in magenta. The grey cells are skipped entirely. The key claim: the selection itself also runs in subquadratic time, and the computed values are exact, not approximate.</p>
+            <div class="hotspot-tooltip" id="tooltip-sparse">
+              <button class="tooltip-close" aria-label="Close">×</button>
+              <strong>SSA: content-selected pairs</strong>
+              <p>SSA computes only the pairs the content demands, shown in magenta. The grey cells are skipped entirely. The key claim: the selection itself also runs in subquadratic time, and the computed values are exact, not approximate.</p>
+            </div>
           </div>
         </div>
       </div>
