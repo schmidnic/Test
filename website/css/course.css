@@ -189,8 +189,8 @@ body.course-page {
 /* ── Quicknotes FAB ────────────────────────────────────────── */
 .quicknotes-fab {
   position: fixed;
-  top: calc(var(--nav-h) + 70px + 139px);
-  right: 5px;
+  top: calc(var(--nav-h) + 70px + 31px);
+  right: 15px;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -211,8 +211,8 @@ body.course-page {
 /* ── Quicknotes floating panel ─────────────────────────────── */
 .quicknotes-panel {
   position: fixed;
-  top: calc(var(--nav-h) + 70px + 156px);
-  right: 22px;
+  top: calc(var(--nav-h) + 70px + 48px);
+  right: 32px;
   width: 280px;
   height: 340px;
   background: #fff;
