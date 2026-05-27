@@ -214,7 +214,7 @@ body.course-page {
   top: calc(var(--nav-h) + 70px + 48px);
   right: 32px;
   width: 280px;
-  height: 340px;
+  height: 220px;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 12px;
