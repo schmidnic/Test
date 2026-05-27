@@ -456,7 +456,12 @@
         <h2 class="lesson-title">What to take with you</h2>
         <div class="completion-block" style="text-align:left; padding: 0;">
           <div style="display:flex; align-items:center; gap:16px; margin-bottom:28px;">
-            <div class="completion-icon" style="margin:0; flex-shrink:0;">✓</div>
+            <div class="completion-icon" style="margin:0; flex-shrink:0;">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/>
+                <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+              </svg>
+            </div>
             <p style="margin:0; font-family:'Space Grotesk',sans-serif; font-size:1.1rem; color:var(--navy); font-weight:500;">Course complete.</p>
           </div>
 
@@ -577,17 +582,6 @@
     }
 
     document.querySelectorAll('.slide-deck').forEach(deck => initDots(deck.id));
-
-    // Accordion
-    document.querySelectorAll('.accordion-trigger').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.closest('.accordion-item');
-        const isOpen = item.classList.contains('open');
-        btn.closest('.accordion').querySelectorAll('.accordion-item')
-          .forEach(i => i.classList.remove('open'));
-        if (!isOpen) item.classList.add('open');
-      });
-    });
 
     // Hotspots
     document.querySelectorAll('.hotspot').forEach(hs => {
