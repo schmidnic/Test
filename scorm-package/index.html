@@ -10,7 +10,7 @@
   <style>
     .course-header { top: 0; margin-top: 0; }
     .course-layout { padding-top: 0; }
-    .sidebar-outer { top: 56px; height: calc(100vh - 56px); }
+    .sidebar-outer, .tools-outer { top: 56px; height: calc(100vh - 56px); }
   </style>
 </head>
 <body class="course-page">
@@ -549,6 +549,26 @@
       </div>
 
     </main>
+
+    <div class="tools-outer">
+      <button class="tools-toggle" id="toolsToggle" aria-label="Quicknotes öffnen">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="tools-panel">
+        <div class="quicknotes">
+          <p class="quicknotes-title">Notizen</p>
+          <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Gedanken hier festhalten..."></textarea>
+          <div class="quicknotes-footer">
+            <span class="quicknotes-saved" id="quicknotesSaved"></span>
+            <button class="quicknotes-clear" id="quicknotesClear">Löschen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script src="js/main.js"></script>
@@ -794,6 +814,34 @@
     document.getElementById('sidebarToggle').addEventListener('click', function() {
       document.querySelector('.course-layout').classList.toggle('sidebar-collapsed');
     });
+
+    (function() {
+      var NOTES_KEY = 'ta-quicknotes';
+      var area = document.getElementById('quicknotesArea');
+      var savedEl = document.getElementById('quicknotesSaved');
+      var clearBtn = document.getElementById('quicknotesClear');
+      area.value = localStorage.getItem(NOTES_KEY) || '';
+      var saveTimer;
+      area.addEventListener('input', function() {
+        clearTimeout(saveTimer);
+        savedEl.textContent = '';
+        saveTimer = setTimeout(function() {
+          localStorage.setItem(NOTES_KEY, area.value);
+          savedEl.textContent = 'Gespeichert';
+          setTimeout(function() { savedEl.textContent = ''; }, 2000);
+        }, 600);
+      });
+      clearBtn.addEventListener('click', function() {
+        if (!area.value) return;
+        if (confirm('Notizen wirklich löschen?')) {
+          area.value = '';
+          localStorage.removeItem(NOTES_KEY);
+        }
+      });
+      document.getElementById('toolsToggle').addEventListener('click', function() {
+        document.querySelector('.course-layout').classList.toggle('tools-open');
+      });
+    })();
   </script>
 
 </body>
