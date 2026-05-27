@@ -552,7 +552,7 @@
 
   </div>
 
-  <button class="quicknotes-fab" id="quicknotesToggle" aria-label="Notizen öffnen">
+  <button class="quicknotes-fab" id="quicknotesToggle" aria-label="Open notes">
     <svg viewBox="0 0 24 24" width="15" height="15" fill="none">
       <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -561,13 +561,13 @@
 
   <div class="quicknotes-panel" id="quicknotesPanel">
     <div class="quicknotes-header">
-      <p class="quicknotes-title">Notizen</p>
+      <p class="quicknotes-title">Notes</p>
       <button class="quicknotes-close" id="quicknotesClose">&#x2715;</button>
     </div>
-    <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Gedanken hier festhalten..."></textarea>
+    <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Jot down your thoughts..."></textarea>
     <div class="quicknotes-footer">
       <span class="quicknotes-saved" id="quicknotesSaved"></span>
-      <button class="quicknotes-clear" id="quicknotesClear">Löschen</button>
+      <button class="quicknotes-clear" id="quicknotesClear">Clear</button>
     </div>
   </div>
 
@@ -827,13 +827,13 @@
         savedEl.textContent = '';
         saveTimer = setTimeout(function() {
           localStorage.setItem(NOTES_KEY, area.value);
-          savedEl.textContent = 'Gespeichert';
+          savedEl.textContent = 'Saved';
           setTimeout(function() { savedEl.textContent = ''; }, 2000);
         }, 600);
       });
       clearBtn.addEventListener('click', function() {
         if (!area.value) return;
-        if (confirm('Notizen wirklich löschen?')) {
+        if (confirm('Clear all notes?')) {
           area.value = '';
           localStorage.removeItem(NOTES_KEY);
         }

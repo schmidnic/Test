@@ -151,9 +151,8 @@ body.course-page {
   cursor: pointer;
   color: var(--muted);
   transition: color 0.2s, background 0.15s, border-color 0.15s;
-  margin-bottom: 12px;
   position: sticky;
-  top: 8px;
+  top: calc(50% - 14px);
   z-index: 2;
 }
 .sidebar-toggle:hover { color: var(--navy); background: #f0effe; border-color: var(--border); }
