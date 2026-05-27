@@ -2,6 +2,7 @@
 .course-page body,
 body.course-page {
   background: #F8F7FF;
+  padding-top: var(--nav-h);
 }
 
 .course-header {
