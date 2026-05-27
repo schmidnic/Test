@@ -66,7 +66,6 @@ body.course-page {
   text-overflow: ellipsis;
   line-height: 1.2;
   margin: 0;
-  padding-left: 12px;
 }
 
 .course-progress {
@@ -119,20 +118,22 @@ body.course-page {
 }
 
 .reset-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 8px;
+  margin-top: 10px;
   margin-left: 12px;
-  width: 24px;
-  height: 24px;
   background: none;
-  border: none;
   padding: 0;
   color: var(--muted);
   cursor: pointer;
   transition: color 0.2s, transform 0.3s;
   line-height: 0;
+  flex-shrink: 0;
 }
 .reset-btn:hover { color: var(--navy); transform: rotate(-180deg); }
 
