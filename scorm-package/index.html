@@ -3,30 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How transformers think – prohelias</title>
+  <title>How transformers think, and what just changed</title>
   <meta name="description" content="From 'Attention Is All You Need' to Subquadratic Sparse Attention: the constraint that shaped AI for nine years, and what just changed.">
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/course.css?v=3">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/course.css">
+  <style>
+    .course-header { top: 0; margin-top: 0; }
+    .course-layout { padding-top: 0; }
+  </style>
 </head>
 <body class="course-page">
-
-  <nav class="nav scrolled" id="nav">
-    <a href="../index.html" class="nav-logo">prohelias</a>
-    <div class="nav-right">
-      <a href="../hub.html" class="nav-link">Coffee Hours</a>
-      <a href="../ueber-mich.html" class="nav-link">About</a>
-      <a href="https://substack.com/prohelias" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
-    </div>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <div class="nav-mobile" id="navMobile">
-    <a href="../index.html" onclick="closeMobileMenu()">Home</a>
-    <a href="../hub.html" onclick="closeMobileMenu()">Coffee Hours</a>
-    <a href="../ueber-mich.html" onclick="closeMobileMenu()">About</a>
-  </div>
 
   <header class="course-header">
     <div class="course-header-inner">
@@ -516,7 +502,7 @@
           <p class="celebration-msg">You now understand why the O(n²) constraint shaped AI for nine years, and what SSA claims to change. That context is rare. Most people miss it entirely.</p>
 
           <div class="feedback-section" style="border-top:none; padding-top:0; margin-top:36px;">
-            <p class="feedback-prompt">How was this Micro Learning?</p>
+            <p class="feedback-prompt">How was this Microlearning?</p>
             <div class="feedback-emojis">
               <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great">
                 <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -546,7 +532,6 @@
             <p class="feedback-thanks" id="feedbackThanks"></p>
           </div>
 
-          <a href="../hub.html" class="btn-course" style="display:inline-block; margin-top:36px;">Back to Coffee Hours →</a>
         </div>
       </div>
 
@@ -560,20 +545,8 @@
     </main>
   </div>
 
-  <nav class="post-nav" aria-label="More content">
-    <div class="post-nav-inner">
-      <a href="../blog/the-shovel-sellers.html" class="post-nav-item" style="grid-column:1; text-align:left; padding-right:clamp(20px,4vw,48px);">
-        <span class="post-nav-label">← Related essay</span>
-        <span class="post-nav-title">The shovel sellers' fortune</span>
-      </a>
-      <a href="../hub.html" class="post-nav-item" style="grid-column:2; text-align:right; padding-left:clamp(20px,4vw,48px);">
-        <span class="post-nav-label">Back to</span>
-        <span class="post-nav-title">Coffee Hours →</span>
-      </a>
-    </div>
-  </nav>
-
-  <script src="../js/main.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/scorm_api.js"></script>
   <script>
     const LESSON_TITLES = [
       "The constraint",
@@ -639,6 +612,7 @@
       item7.classList.add('done');
       item7.classList.remove('active');
       localStorage.setItem('ta-feedback', '1');
+      ScormAPI.complete();
       const thumb = document.querySelector('.thumb-icon');
       if (thumb) {
         thumb.classList.remove('bounce');
@@ -667,6 +641,7 @@
       }
       if (n === TOTAL && !silent) launchConfetti();
       localStorage.setItem('ta-lesson', n);
+      ScormAPI.saveLocation(n);
     }
 
     function navigate(dir) {
@@ -696,9 +671,11 @@
       }
     }
 
-    const savedLesson = parseInt(localStorage.getItem('ta-lesson')) || 1;
+    ScormAPI.init();
+    const savedLesson = ScormAPI.getLocation() || parseInt(localStorage.getItem('ta-lesson')) || 1;
     goTo(savedLesson, true);
-    if (localStorage.getItem('ta-feedback')) {
+    const isCompleted = ScormAPI.getValue('cmi.core.lesson_status') === 'completed' || localStorage.getItem('ta-feedback');
+    if (isCompleted) {
       const item7 = document.querySelector('.lesson-item[data-lesson="7"]');
       if (item7) { item7.classList.add('done'); item7.classList.remove('active'); }
       const thanks = document.getElementById('feedbackThanks');

@@ -849,6 +849,7 @@ body.course-page {
 
 .feedback-emojis {
   display: flex;
+  justify-content: center;
   gap: 12px;
   margin-bottom: 14px;
 }
@@ -989,12 +990,4 @@ body.course-page {
   color: rgba(255,255,255,0.88);
   line-height: 1.55;
   margin: 0;
-}
-
-/* ── Feedback emojis centered ───────────────────────────────── */
-.feedback-emojis {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin: 12px 0;
 }
