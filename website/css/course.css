@@ -21,7 +21,7 @@ body.course-page {
   display: flex;
   align-items: center;
   gap: 24px;
-  height: var(--nav-h);
+  height: 70px;
 }
 
 .course-back-link {
@@ -112,7 +112,7 @@ body.course-page {
   display: grid;
   grid-template-columns: 250px 1fr;
   gap: 0;
-  min-height: calc(100vh - var(--nav-h) - var(--nav-h));
+  min-height: calc(100vh - var(--nav-h) - 70px);
   padding: 0 var(--pad-x);
   transition: grid-template-columns 0.3s ease;
 }
@@ -122,9 +122,9 @@ body.course-page {
 /* ── Sidebar wrapper (sticky, holds aside + toggle tab) ─────── */
 .sidebar-wrap {
   position: sticky;
-  top: calc(var(--nav-h) + var(--nav-h));
+  top: calc(var(--nav-h) + 70px);
   align-self: start;
-  height: calc(100vh - var(--nav-h) - var(--nav-h));
+  height: calc(100vh - var(--nav-h) - 70px);
   overflow: visible;
 }
 
@@ -135,7 +135,7 @@ body.course-page {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px 16px 32px 0;
-  border-right: 1px solid rgba(22, 11, 82, 0.06);
+  border-right: 1px solid rgba(22, 11, 82, 0.06) !important;
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;

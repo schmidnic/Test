@@ -11,7 +11,7 @@
   --text:     #1A1A1A;
   --muted:    #555555;
   --border:   #DDDDDD;
-  --nav-h:    70px;
+  --nav-h:    56px;
   --max-w:    1180px;
   --pad-x:    clamp(20px, 5vw, 80px);
 }
@@ -65,8 +65,8 @@ img { display: block; max-width: 100%; height: auto; }
 
 .blog-post .nav.scrolled,
 .course-page .nav.scrolled {
-  border-bottom-color: transparent;
-  box-shadow: none;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
 }
 
 .nav-logo {
