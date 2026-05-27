@@ -117,7 +117,7 @@ body.course-page {
 }
 
 .course-layout.sidebar-collapsed {
-  grid-template-columns: 24px 1fr;
+  grid-template-columns: 0px 1fr;
 }
 
 /* ── Sidebar outer wrapper ─────────────────────────────────── */
@@ -126,8 +126,9 @@ body.course-page {
   top: calc(var(--nav-h) + 56px);
   align-self: start;
   display: flex;
-  align-items: flex-start;
-  max-height: calc(100vh - var(--nav-h) - 56px);
+  align-items: center;
+  height: calc(100vh - var(--nav-h) - 56px);
+  overflow: visible;
 }
 
 /* ── Sidebar ───────────────────────────────────────────────── */
@@ -136,7 +137,7 @@ body.course-page {
   padding: 32px 16px 32px 0;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: inherit;
+  height: 100%;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
   transition: width 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
@@ -152,9 +153,9 @@ body.course-page {
 /* ── Sidebar toggle tab ─────────────────────────────────────── */
 .sidebar-toggle {
   flex-shrink: 0;
+  align-self: center;
   width: 24px;
   padding: 14px 0;
-  margin-top: 24px;
   background: #fff;
   border: 1px solid var(--border);
   border-right: none;
@@ -166,8 +167,6 @@ body.course-page {
   gap: 5px;
   color: var(--muted);
   transition: color 0.15s, background 0.15s;
-  position: sticky;
-  top: 20px;
 }
 .sidebar-toggle:hover { color: var(--navy); background: #f0effe; }
 
