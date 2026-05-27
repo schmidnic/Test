@@ -10,7 +10,9 @@
   <style>
     .course-header { top: 0; margin-top: 0; }
     .course-layout { padding-top: 0; }
-    .sidebar-outer, .tools-outer { top: 56px; height: calc(100vh - 56px); }
+    .course-sidebar { top: 56px; height: calc(100vh - 56px); }
+    .quicknotes-fab { top: 14px; }
+    .quicknotes-panel { top: 58px; }
   </style>
 </head>
 <body class="course-page">
@@ -35,16 +37,14 @@
 
   <div class="course-layout">
 
-    <div class="sidebar-outer">
-      <aside class="course-sidebar">
-        <nav aria-label="Lessons">
-          <ul class="lesson-list" id="lessonList"></ul>
-        </nav>
-      </aside>
+    <aside class="course-sidebar">
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Inhaltsverzeichnis ein-/ausblenden">
         <span></span><span></span><span></span>
       </button>
-    </div>
+      <nav aria-label="Lessons">
+        <ul class="lesson-list" id="lessonList"></ul>
+      </nav>
+    </aside>
 
     <main class="course-main" id="courseMain">
 
@@ -550,25 +550,25 @@
 
     </main>
 
-    <div class="tools-outer">
-      <button class="tools-toggle" id="toolsToggle" aria-label="Quicknotes öffnen">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
-          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <div class="tools-panel">
-        <div class="quicknotes">
-          <p class="quicknotes-title">Notizen</p>
-          <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Gedanken hier festhalten..."></textarea>
-          <div class="quicknotes-footer">
-            <span class="quicknotes-saved" id="quicknotesSaved"></span>
-            <button class="quicknotes-clear" id="quicknotesClear">Löschen</button>
-          </div>
-        </div>
-      </div>
-    </div>
+  </div>
 
+  <button class="quicknotes-fab" id="quicknotesToggle" aria-label="Notizen öffnen">
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <div class="quicknotes-panel" id="quicknotesPanel">
+    <div class="quicknotes-header">
+      <p class="quicknotes-title">Notizen</p>
+      <button class="quicknotes-close" id="quicknotesClose">&#x2715;</button>
+    </div>
+    <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Gedanken hier festhalten..."></textarea>
+    <div class="quicknotes-footer">
+      <span class="quicknotes-saved" id="quicknotesSaved"></span>
+      <button class="quicknotes-clear" id="quicknotesClear">Löschen</button>
+    </div>
   </div>
 
   <script src="js/main.js"></script>
@@ -838,9 +838,15 @@
           localStorage.removeItem(NOTES_KEY);
         }
       });
-      document.getElementById('toolsToggle').addEventListener('click', function() {
-        document.querySelector('.course-layout').classList.toggle('tools-open');
-      });
+      var fab    = document.getElementById('quicknotesToggle');
+      var panel  = document.getElementById('quicknotesPanel');
+      var closeBtn = document.getElementById('quicknotesClose');
+      function toggleNotes() {
+        var isOpen = panel.classList.toggle('open');
+        fab.classList.toggle('active', isOpen);
+      }
+      fab.addEventListener('click', toggleNotes);
+      closeBtn.addEventListener('click', toggleNotes);
     })();
   </script>
 
