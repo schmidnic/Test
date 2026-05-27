@@ -978,10 +978,11 @@ body.course-page {
   color: var(--magenta);
   margin: 0;
   line-height: 0;
-  transition: transform 0.2s;
+  opacity: 0.75;
+  transition: opacity 0.2s;
 }
-.flip-card:not(.flipped) .flip-card-hint:hover {
-  transform: rotate(45deg);
+.flip-card:not(.flipped):hover .flip-card-hint {
+  opacity: 1;
 }
 
 .flip-card-back p {
