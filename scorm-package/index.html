@@ -10,6 +10,7 @@
   <style>
     .course-header { top: 0; margin-top: 0; }
     .course-layout { padding-top: 0; }
+    .sidebar-outer { top: 56px; }
   </style>
 </head>
 <body class="course-page">
@@ -34,14 +35,16 @@
 
   <div class="course-layout">
 
-    <aside class="course-sidebar">
+    <div class="sidebar-outer">
+      <aside class="course-sidebar">
+        <nav aria-label="Lessons">
+          <ul class="lesson-list" id="lessonList"></ul>
+        </nav>
+      </aside>
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Inhaltsverzeichnis ein-/ausblenden">
         <span></span><span></span><span></span>
       </button>
-      <nav aria-label="Lessons">
-        <ul class="lesson-list" id="lessonList"></ul>
-      </nav>
-    </aside>
+    </div>
 
     <main class="course-main" id="courseMain">
 
