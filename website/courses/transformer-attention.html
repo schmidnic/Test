@@ -552,11 +552,9 @@
         const left   = Math.random() * 100;
         const delay  = Math.random() * 2;
         const dur    = 2.5 + Math.random() * 2.5;
-        const w      = 5 + Math.random() * 10;
-        const h      = w * (0.35 + Math.random() * 0.5);
-        const rot    = Math.random() * 360;
+        const w      = 6 + Math.random() * 10;
         const drift  = (Math.random() - 0.5) * 140;
-        el.style.cssText = `position:absolute;top:-16px;left:${left}%;width:${w}px;height:${h}px;background:${color};border-radius:2px;opacity:0.92;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;transform:rotate(${rot}deg);`;
+        el.style.cssText = `position:absolute;top:-16px;left:${left}%;width:${w}px;height:${w}px;background:${color};border-radius:50%;opacity:0.92;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;`;
         wrap.appendChild(el);
       }
       setTimeout(() => wrap.remove(), 7000);
@@ -568,7 +566,9 @@
       const thanks = document.getElementById('feedbackThanks');
       thanks.textContent = 'Thanks for your feedback!';
       thanks.classList.add('visible');
-      document.querySelector('.lesson-item[data-lesson="7"]').classList.add('feedback-given');
+      const item7 = document.querySelector('.lesson-item[data-lesson="7"]');
+      item7.classList.add('done');
+      item7.classList.remove('active');
     }
 
     function goTo(n) {

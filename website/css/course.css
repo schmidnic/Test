@@ -143,8 +143,7 @@ body.course-page {
   font-weight: 600;
 }
 
-.lesson-item.done .lesson-num,
-.lesson-item.feedback-given .lesson-num {
+.lesson-item.done .lesson-num {
   background: var(--magenta);
   color: #fff;
   border-color: var(--magenta);
