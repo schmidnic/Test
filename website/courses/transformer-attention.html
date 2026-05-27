@@ -627,7 +627,12 @@
       document.getElementById('lesson-' + current).classList.add('active');
       document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
       updateUI();
-      if (!silent) window.scrollTo({ top: document.getElementById('courseMain').offsetTop - 130, behavior: 'smooth' });
+      if (!silent) {
+        const courseTop = document.getElementById('courseMain').offsetTop - 130;
+        if (window.scrollY > courseTop) {
+          window.scrollTo({ top: courseTop, behavior: 'smooth' });
+        }
+      }
       if (n === TOTAL && !silent) launchConfetti();
       localStorage.setItem('ta-lesson', n);
     }
