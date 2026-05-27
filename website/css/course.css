@@ -25,12 +25,21 @@ body.course-page {
 
 .course-back-link {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.8rem;
-  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--navy);
   white-space: nowrap;
-  transition: color 0.2s;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 14px;
+  background: #fff;
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
 }
-.course-back-link:hover { color: var(--navy); }
+.course-back-link:hover {
+  border-color: var(--navy);
+  background: #f0effe;
+}
 
 .course-meta { flex: 1; min-width: 0; }
 
@@ -323,21 +332,23 @@ body.course-page {
 .accordion-item.open .accordion-trigger::after { transform: rotate(45deg); }
 
 .accordion-panel {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.35s ease, padding 0.35s ease;
-  padding: 0 20px;
+  display: none;
+  padding: 4px 20px 20px;
 }
 
 .accordion-panel p {
   color: var(--muted);
   line-height: 1.75;
-  padding-bottom: 20px;
 }
 
 .accordion-item.open .accordion-panel {
-  max-height: 400px;
-  padding: 0 20px;
+  display: block;
+  animation: accordionOpen 0.22s ease both;
+}
+
+@keyframes accordionOpen {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Hotspot Image ─────────────────────────────────────────── */
@@ -487,6 +498,17 @@ body.course-page {
   border-radius: 12px;
   padding: 28px;
   max-width: 640px;
+}
+
+.quiz-hint {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--magenta);
+  margin-bottom: 16px !important;
+  margin-top: -4px !important;
 }
 
 .quiz-question {
