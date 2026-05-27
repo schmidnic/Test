@@ -211,7 +211,7 @@ body.course-page {
 /* ── Quicknotes floating panel ─────────────────────────────── */
 .quicknotes-panel {
   position: fixed;
-  top: calc(var(--nav-h) + 70px + 48px);
+  top: calc(var(--nav-h) + 70px + 48px + 17px);
   right: 32px;
   width: 280px;
   height: 220px;
