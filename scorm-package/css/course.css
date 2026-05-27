@@ -109,16 +109,14 @@ body.course-page {
   max-width: var(--max-w);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 250px 1fr 0px;
+  grid-template-columns: 250px 1fr;
   gap: 0;
   min-height: calc(100vh - var(--nav-h) - 56px);
   padding: 0 var(--pad-x);
   transition: grid-template-columns 0.3s ease;
 }
 
-.course-layout.sidebar-collapsed                  { grid-template-columns: 0px 1fr 0px; }
-.course-layout.notes-open                         { grid-template-columns: 250px 1fr 280px; }
-.course-layout.sidebar-collapsed.notes-open       { grid-template-columns: 0px 1fr 530px; }
+.course-layout.sidebar-collapsed { grid-template-columns: 0px 1fr; }
 
 /* ── Sidebar wrapper ───────────────────────────────────────── */
 .sidebar-wrap {
@@ -136,7 +134,7 @@ body.course-page {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px 16px 32px 0;
-  border-right: 1px solid rgba(22, 11, 82, 0.07);
+  border-right: 1px solid var(--border);
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
@@ -211,10 +209,10 @@ body.course-page {
 
 /* ── Quicknotes floating panel ─────────────────────────────── */
 .quicknotes-panel {
-  position: sticky;
-  top: calc(var(--nav-h) + 14px);
-  align-self: start;
-  width: 100%;
+  position: fixed;
+  top: calc(var(--nav-h) + 58px);
+  right: 24px;
+  width: 280px;
   height: 340px;
   background: #fff;
   border: 1px solid var(--border);
@@ -222,12 +220,17 @@ body.course-page {
   box-shadow: 0 8px 32px rgba(22,11,82,0.12);
   display: none;
   flex-direction: column;
-  z-index: 200;
+  z-index: 1099;
   overflow: hidden;
+  transition: width 0.3s ease;
 }
 .quicknotes-panel.open {
   display: flex;
   animation: tooltipIn 0.18s ease both;
+}
+
+.course-layout.sidebar-collapsed ~ .quicknotes-panel {
+  width: 530px;
 }
 
 .quicknotes-header {
