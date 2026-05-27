@@ -2,7 +2,6 @@
 .course-page body,
 body.course-page {
   background: #F8F7FF;
-  padding-top: var(--nav-h);
 }
 
 .course-header {
@@ -12,6 +11,7 @@ body.course-page {
   background: #fff;
   border-bottom: 1px solid var(--border);
   padding: 0 var(--pad-x);
+  margin-top: var(--nav-h);
 }
 
 .course-header-inner {
