@@ -794,9 +794,13 @@ body.course-page {
 }
 
 .flip-card-hint {
-  font-size: 0.75rem;
-  color: var(--muted);
+  color: var(--magenta);
   margin: 0;
+  line-height: 0;
+  transition: transform 0.2s;
+}
+.flip-card:not(.flipped) .flip-card-hint:hover {
+  transform: rotate(45deg);
 }
 
 .flip-card-back p {
