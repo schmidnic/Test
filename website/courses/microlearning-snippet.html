@@ -1,0 +1,228 @@
+<!--
+  ══════════════════════════════════════════════════════════════
+  MICROLEARNING-SNIPPETS FÜR BLOGBEITRÄGE
+  ══════════════════════════════════════════════════════════════
+  Kopiere einen oder mehrere Blöcke in deinen Blogbeitrag.
+
+  Voraussetzung im <head> des Blogbeitrags:
+    <link rel="stylesheet" href="../css/course.css">
+
+  Voraussetzung am Ende des <body>:
+    <script> ... (Quiz-Funktionen, Accordion-Funktionen) </script>
+  → Fertige Kopiervorlage am Ende dieser Datei.
+  ══════════════════════════════════════════════════════════════
+-->
+
+
+<!-- ── SNIPPET 1: ACCORDION ──────────────────────────────────
+     Tipp: Maximal 3 Items pro Block in Blogbeiträgen.
+──────────────────────────────────────────────────────────── -->
+<div class="microlearning">
+  <span class="microlearning-label">Zum Vertiefen</span>
+  <div class="accordion">
+
+    <div class="accordion-item">
+      <button class="accordion-trigger">Was bedeutet das konkret?</button>
+      <div class="accordion-panel">
+        <p>Hier kommt die Erklärung. Kurz und auf den Punkt, passend zum Blogbeitrag.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button class="accordion-trigger">Und wenn ich das schon kenne?</button>
+      <div class="accordion-panel">
+        <p>Dann ist das hier der weiterführende Gedanke. Was setzt dieses Wissen voraus?</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── SNIPPET 2: QUIZ (Einzelwahl) ─────────────────────────
+     Name-Attribut muss eindeutig sein: q-blogpost-1, q-blogpost-2 etc.
+──────────────────────────────────────────────────────────── -->
+<div class="microlearning">
+  <span class="microlearning-label">Selbsttest</span>
+  <div class="quiz" id="micro-quiz-1">
+    <p class="quiz-question">Eine kurze Frage, die den Kern des Artikels aufgreift?</p>
+    <div class="quiz-options">
+      <label class="quiz-option">
+        <input type="radio" name="micro-q1" value="a">
+        <span>Antwort A</span>
+      </label>
+      <label class="quiz-option">
+        <input type="radio" name="micro-q1" value="b">
+        <span>Antwort B (richtig)</span>
+      </label>
+      <label class="quiz-option">
+        <input type="radio" name="micro-q1" value="c">
+        <span>Antwort C</span>
+      </label>
+    </div>
+    <button class="quiz-submit"
+      onclick="checkQuiz('micro-quiz-1', 'b', 'Genau.', 'Nicht ganz – lies noch einmal den zweiten Abschnitt.')">
+      Antwort prüfen
+    </button>
+    <div class="quiz-feedback" id="feedback-micro-quiz-1"></div>
+  </div>
+</div>
+
+
+<!-- ── SNIPPET 3: QUIZ (Mehrfachwahl) ───────────────────────  -->
+<div class="microlearning">
+  <span class="microlearning-label">Selbsttest</span>
+  <div class="quiz" id="micro-quiz-2">
+    <p class="quiz-question">Welche davon treffen zu? (Mehrere Antworten möglich)</p>
+    <div class="quiz-options">
+      <label class="quiz-option">
+        <input type="checkbox" name="micro-q2" value="a">
+        <span>Option A (richtig)</span>
+      </label>
+      <label class="quiz-option">
+        <input type="checkbox" name="micro-q2" value="b">
+        <span>Option B (falsch)</span>
+      </label>
+      <label class="quiz-option">
+        <input type="checkbox" name="micro-q2" value="c">
+        <span>Option C (richtig)</span>
+      </label>
+    </div>
+    <button class="quiz-submit"
+      onclick="checkMulti('micro-quiz-2', ['a','c'], 'Richtig!', 'Nicht ganz.')">
+      Antwort prüfen
+    </button>
+    <div class="quiz-feedback" id="feedback-micro-quiz-2"></div>
+  </div>
+</div>
+
+
+<!-- ── SNIPPET 4: MINI-SLIDES ───────────────────────────────
+     Für 2–3 Kernaussagen am Ende eines Artikels.
+──────────────────────────────────────────────────────────── -->
+<div class="microlearning">
+  <span class="microlearning-label">Auf einen Blick</span>
+  <div class="slide-deck" id="micro-deck-1">
+
+    <div class="slide active">
+      <div class="slide-content">
+        <p class="slide-label">1 von 3</p>
+        <h3>Kernaussage 1</h3>
+        <p>Kurze Zusammenfassung. Ein Satz reicht.</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-content">
+        <p class="slide-label">2 von 3</p>
+        <h3>Kernaussage 2</h3>
+        <p>Zweite Kernaussage des Artikels.</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-content">
+        <p class="slide-label">3 von 3</p>
+        <h3>Kernaussage 3</h3>
+        <p>Die wichtigste Folgefrage oder Handlungsempfehlung.</p>
+      </div>
+    </div>
+
+    <div class="slide-controls">
+      <button class="slide-btn" onclick="prevSlide('micro-deck-1')">←</button>
+      <div class="slide-dots" id="dots-micro-deck-1"></div>
+      <button class="slide-btn" onclick="nextSlide('micro-deck-1')">→</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     JAVASCRIPT-KOPIERVORLAGE
+     Diesen Block vor </body> in den Blogbeitrag einfügen
+     (nach dem vorhandenen <script src="../js/main.js">).
+     Nur einmal nötig, auch wenn mehrere Snippets im Artikel.
+══════════════════════════════════════════════════════════════ -->
+<script>
+  // Accordion
+  document.querySelectorAll('.accordion-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.accordion-item');
+      const isOpen = item.classList.contains('open');
+      btn.closest('.accordion').querySelectorAll('.accordion-item')
+        .forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Slides
+  function initDots(deckId) {
+    const deck = document.getElementById(deckId);
+    if (!deck) return;
+    const slides = deck.querySelectorAll('.slide');
+    const dots = document.getElementById('dots-' + deckId);
+    if (!dots) return;
+    dots.innerHTML = '';
+    slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+      d.onclick = () => goToSlide(deckId, i);
+      dots.appendChild(d);
+    });
+  }
+
+  function goToSlide(deckId, idx) {
+    const deck = document.getElementById(deckId);
+    deck.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === idx));
+    document.getElementById('dots-' + deckId)
+      .querySelectorAll('.slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+
+  function currentSlideIdx(deckId) {
+    return [...document.getElementById(deckId).querySelectorAll('.slide')]
+      .findIndex(s => s.classList.contains('active'));
+  }
+
+  function nextSlide(deckId) {
+    const slides = document.getElementById(deckId).querySelectorAll('.slide');
+    goToSlide(deckId, Math.min(currentSlideIdx(deckId) + 1, slides.length - 1));
+  }
+
+  function prevSlide(deckId) {
+    goToSlide(deckId, Math.max(currentSlideIdx(deckId) - 1, 0));
+  }
+
+  document.querySelectorAll('.slide-deck').forEach(deck => initDots(deck.id));
+
+  // Quiz Einzelwahl
+  function checkQuiz(quizId, correct, okMsg, wrongMsg) {
+    const quiz = document.getElementById(quizId);
+    const selected = quiz.querySelector('input[type="radio"]:checked');
+    const fb = document.getElementById('feedback-' + quizId);
+    if (!selected) {
+      fb.textContent = 'Bitte wähle eine Antwort aus.';
+      fb.className = 'quiz-feedback show neutral';
+      return;
+    }
+    fb.textContent = selected.value === correct
+      ? (okMsg || 'Richtig!')
+      : (wrongMsg || 'Nicht ganz.');
+    fb.className = 'quiz-feedback show ' + (selected.value === correct ? 'correct' : 'wrong');
+  }
+
+  // Quiz Mehrfachwahl
+  function checkMulti(quizId, correct, okMsg, wrongMsg) {
+    const quiz = document.getElementById(quizId);
+    const selected = [...quiz.querySelectorAll('input[type="checkbox"]:checked')]
+      .map(i => i.value).sort();
+    const fb = document.getElementById('feedback-' + quizId);
+    if (selected.length === 0) {
+      fb.textContent = 'Bitte wähle mindestens eine Antwort aus.';
+      fb.className = 'quiz-feedback show neutral';
+      return;
+    }
+    const ok = JSON.stringify(selected) === JSON.stringify([...correct].sort());
+    fb.textContent = ok ? (okMsg || 'Richtig!') : (wrongMsg || 'Nicht ganz.');
+    fb.className = 'quiz-feedback show ' + (ok ? 'correct' : 'wrong');
+  }
+</script>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kursname – prohelias</title>
+  <meta name="description" content="Kurzbeschreibung des Kurses.">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/course.css">
+</head>
+<body class="course-page">
+
+  <nav class="nav scrolled" id="nav">
+    <a href="../index.html" class="nav-logo">prohelias</a>
+    <div class="nav-right">
+      <a href="../hub.html" class="nav-link">Coffee Hours</a>
+      <a href="../ueber-mich.html" class="nav-link">About</a>
+      <a href="https://substack.com/prohelias" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile">
+    <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="../hub.html" onclick="closeMobileMenu()">Coffee Hours</a>
+    <a href="../ueber-mich.html" onclick="closeMobileMenu()">About</a>
+  </div>
+
+  <!-- ── Course header with progress bar ───────────────────── -->
+  <header class="course-header">
+    <div class="course-header-inner">
+      <a href="../hub.html" class="course-back-link">← Coffee Hours</a>
+      <div class="course-meta">
+        <span class="course-label">Course</span>
+        <h1 class="course-title">Kursname hier eintragen</h1>
+      </div>
+      <div class="course-progress">
+        <span class="progress-text" id="progressText">1 / 6</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Two-column layout: sidebar + main ─────────────────── -->
+  <div class="course-layout">
+
+    <!-- Sidebar: lesson list -->
+    <aside class="course-sidebar">
+      <nav aria-label="Lektionen">
+        <ul class="lesson-list" id="lessonList"></ul>
+      </nav>
+    </aside>
+
+    <!-- Main content area -->
+    <main class="course-main" id="courseMain">
+
+      <!-- ════════════════════════════════════════════════════
+           LEKTION 1 · SLIDES
+           Einfach Inhalte in die .slide divs schreiben.
+           Weitere Slides kopieren und einfügen.
+      ════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-1">
+        <h2 class="lesson-title">Einführung</h2>
+        <p>Navigiere durch die Folien, um den Einstieg zu finden.</p>
+
+        <div class="slide-deck" id="slide-deck-1">
+
+          <div class="slide active">
+            <div class="slide-content">
+              <p class="slide-label">Folie 1 von 3</p>
+              <h3>Was du lernen wirst</h3>
+              <p>Hier kommt der Einstieg. Was erwartet die lernende Person in diesem Kurs?</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Folie 2 von 3</p>
+              <h3>Warum es wichtig ist</h3>
+              <p>Kontext und Relevanz des Themas. Was verändert sich, wenn man das verstanden hat?</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Folie 3 von 3</p>
+              <h3>Los geht's</h3>
+              <p>Nutze die Vor/Zurück-Buttons oder das Menü links, um durch die Lektionen zu navigieren.</p>
+            </div>
+          </div>
+
+          <div class="slide-controls">
+            <button class="slide-btn" onclick="prevSlide('slide-deck-1')">← Zurück</button>
+            <div class="slide-dots" id="dots-slide-deck-1"></div>
+            <button class="slide-btn" onclick="nextSlide('slide-deck-1')">Weiter →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════
+           LEKTION 2 · ACCORDION
+           Jedes .accordion-item ist eine aufklappbare Sektion.
+      ════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-2">
+        <h2 class="lesson-title">Schlüsselbegriffe</h2>
+        <p>Klicke auf einen Begriff, um ihn aufzuklappen.</p>
+
+        <div class="accordion">
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">Begriff oder Frage 1</button>
+            <div class="accordion-panel">
+              <p>Hier steht die Erklärung. Halte sie kompakt, einen Gedanken pro Abschnitt. Maximal 3–4 Sätze sind ideal für Microlearning.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">Begriff oder Frage 2</button>
+            <div class="accordion-panel">
+              <p>Eine weitere Erklärung. Du kannst auch ein kurzes Beispiel einbauen, das den Begriff greifbar macht.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">Begriff oder Frage 3</button>
+            <div class="accordion-panel">
+              <p>Dritter Begriff. Weitere Accordion-Items kannst du einfach per Copy-Paste hinzufügen.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════
+           LEKTION 3 · HOTSPOT-IMAGE
+           Ersetze das Platzhalter-SVG durch ein echtes <img>.
+           Passe left/top-Prozente der .hotspot-Divs an.
+      ════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-3">
+        <h2 class="lesson-title">Interaktives Bild</h2>
+        <p>Klicke auf die markierten Punkte, um mehr zu erfahren.</p>
+
+        <div class="hotspot-container">
+          <div class="hotspot-image-placeholder">
+
+            <!-- PLATZHALTER: Ersetzen durch:
+                 <img src="../images/dein-bild.jpg" alt="Bildbeschreibung"> -->
+            <svg viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+              <rect width="640" height="360" fill="#F0EFFE"/>
+              <text x="320" y="185" text-anchor="middle" fill="#160B52" opacity="0.25"
+                font-family="Space Grotesk, sans-serif" font-size="16">
+                Bild hier einsetzen – ersetze dieses SVG durch ein &lt;img&gt;-Tag
+              </text>
+              <rect x="80" y="80" width="180" height="120" rx="8"
+                stroke="rgba(22,11,82,0.15)" stroke-width="1.5" fill="rgba(22,11,82,0.03)"/>
+              <rect x="300" y="140" width="260" height="140" rx="8"
+                stroke="rgba(22,11,82,0.12)" stroke-width="1.5" fill="rgba(22,11,82,0.03)"/>
+              <circle cx="490" cy="90" r="50"
+                stroke="rgba(22,11,82,0.1)" stroke-width="1.5" fill="none"/>
+            </svg>
+
+            <!-- Hotspot-Punkte: left/top als Prozent der Bildbreite/-höhe -->
+            <div class="hotspot" style="left: 26%; top: 38%;" data-tooltip="tooltip-1">
+              <div class="hotspot-marker">+</div>
+            </div>
+            <div class="hotspot" style="left: 60%; top: 62%;" data-tooltip="tooltip-2">
+              <div class="hotspot-marker">+</div>
+            </div>
+            <div class="hotspot" style="left: 79%; top: 25%;" data-tooltip="tooltip-3">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+          </div>
+
+          <!-- Tooltips: ID muss mit data-tooltip übereinstimmen -->
+          <div class="hotspot-tooltip" id="tooltip-1">
+            <button class="tooltip-close" aria-label="Schließen">×</button>
+            <strong>Punkt A</strong>
+            <p>Beschreibung dieses Bildbereichs. Was soll die lernende Person hier sehen oder verstehen?</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tooltip-2">
+            <button class="tooltip-close" aria-label="Schließen">×</button>
+            <strong>Punkt B</strong>
+            <p>Ein zweiter Bereich. Kurz und präzise halten.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tooltip-3">
+            <button class="tooltip-close" aria-label="Schließen">×</button>
+            <strong>Punkt C</strong>
+            <p>Dritter Hotspot. Beliebig viele weitere hinzufügbar.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════
+           LEKTION 4 · MEDIEN
+           YouTube: nocookie-URL verwenden.
+           Audio: direkte Dateipfad oder Podcast-URL.
+      ════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-4">
+        <h2 class="lesson-title">Video und Audio</h2>
+
+        <!-- Video embed -->
+        <div class="media-block">
+          <p class="media-label">Video</p>
+          <div class="video-wrapper">
+            <!-- YouTube-URL: youtube.com/watch?v=ID → youtube-nocookie.com/embed/ID -->
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"
+              title="Videotitel"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <p class="media-caption">Beschriftung: Tausche die Embed-URL gegen dein Video aus.</p>
+        </div>
+
+        <!-- Audio embed -->
+        <div class="media-block">
+          <p class="media-label">Audio</p>
+          <audio controls class="audio-player">
+            <!-- Dateipfad oder Podcast-Direktlink -->
+            <source src="../audio/beispiel.mp3" type="audio/mpeg">
+            Dein Browser unterstützt kein eingebettetes Audio.
+          </audio>
+          <p class="media-caption">Beschriftung: Ersetze den src-Pfad durch deine Audiodatei oder Podcast-URL.</p>
+        </div>
+
+        <!-- Weitere Medientypen: PDF, Sketchnote, externe Website -->
+        <div class="media-block">
+          <p class="media-label">Externe Ressource</p>
+          <div class="video-wrapper" style="padding-bottom: 40%;">
+            <!-- Beliebige externe Seite oder interaktives Tool -->
+            <iframe
+              src="https://example.com"
+              title="Externe Ressource"
+              frameborder="0">
+            </iframe>
+          </div>
+          <p class="media-caption">Tausche src gegen deinen Link aus. Nicht alle Seiten erlauben Einbettung.</p>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════
+           LEKTION 5 · QUIZ
+           Einzelwahl (radio) und Mehrfachwahl (checkbox).
+           checkQuiz/checkMulti in den onclick-Attributen anpassen.
+      ════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-5">
+        <h2 class="lesson-title">Quiz: Wissen prüfen</h2>
+
+        <!-- Einzelwahl -->
+        <div class="quiz" id="quiz-1">
+          <p class="quiz-question">1. Eine Frage mit genau einer richtigen Antwort?</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="a">
+              <span>Antwort A (falsch)</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="b">
+              <span>Antwort B (richtig) – hier den Wert in checkQuiz anpassen</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="c">
+              <span>Antwort C (falsch)</span>
+            </label>
+          </div>
+          <!-- Zweites Argument = richtiger Wert -->
+          <button class="quiz-submit" onclick="checkQuiz('quiz-1', 'b', 'Richtiger Hinweis', 'Falscher Hinweis')">Antwort prüfen</button>
+          <div class="quiz-feedback" id="feedback-quiz-1"></div>
+        </div>
+
+        <!-- Mehrfachwahl -->
+        <div class="quiz" id="quiz-2" style="margin-top: 32px;">
+          <p class="quiz-question">2. Eine Frage mit mehreren richtigen Antworten. Wähle alle, die zutreffen.</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="checkbox" name="q2" value="a">
+              <span>Option A (richtig)</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q2" value="b">
+              <span>Option B (falsch)</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q2" value="c">
+              <span>Option C (richtig)</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q2" value="d">
+              <span>Option D (richtig)</span>
+            </label>
+          </div>
+          <!-- Zweites Argument = Array der richtigen Werte -->
+          <button class="quiz-submit" onclick="checkMulti('quiz-2', ['a','c','d'], 'Genau richtig!', 'Nicht ganz, überprüfe deine Auswahl.')">Antwort prüfen</button>
+          <div class="quiz-feedback" id="feedback-quiz-2"></div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════
+           LEKTION 6 · ABSCHLUSS
+      ════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-6">
+        <h2 class="lesson-title">Abgeschlossen</h2>
+        <div class="completion-block">
+          <div class="completion-icon">✓</div>
+          <p>Du hast den Kurs abgeschlossen. Was nimmst du mit? Notiere dir einen Gedanken, bevor du weitermachst.</p>
+          <a href="../hub.html" class="btn-course">Zurück zu Coffee Hours →</a>
+        </div>
+      </div>
+
+      <!-- ── Vor/Zurück-Navigation ─────────────────────────── -->
+      <div class="lesson-footer" id="lessonFooter">
+        <button class="lesson-nav-btn" id="prevBtn" onclick="navigate(-1)" disabled>← Zurück</button>
+        <span class="lesson-counter" id="lessonCounter">1 / 6</span>
+        <button class="lesson-nav-btn" id="nextBtn" onclick="navigate(1)">Weiter →</button>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script>
+    /* ── Konfiguration ─────────────────────────────────────────
+       HIER ANPASSEN: Lektionstitel und Gesamtzahl.
+    ─────────────────────────────────────────────────────────── */
+    const LESSON_TITLES = [
+      "Einführung",
+      "Schlüsselbegriffe",
+      "Interaktives Bild",
+      "Video und Audio",
+      "Quiz",
+      "Abgeschlossen"
+    ];
+    const TOTAL = LESSON_TITLES.length;
+
+    /* ── Kursnavigation ──────────────────────────────────────── */
+    let current = 1;
+
+    const list = document.getElementById('lessonList');
+    LESSON_TITLES.forEach((title, i) => {
+      const li = document.createElement('li');
+      li.className = 'lesson-item' + (i === 0 ? ' active' : '');
+      li.dataset.lesson = i + 1;
+      li.innerHTML = `<span class="lesson-num">${i + 1}</span><span class="lesson-name">${title}</span>`;
+      li.addEventListener('click', () => goTo(i + 1));
+      list.appendChild(li);
+    });
+
+    function goTo(n) {
+      document.getElementById('lesson-' + current).classList.remove('active');
+      document.querySelectorAll('.lesson-item').forEach(el => el.classList.remove('active'));
+      // Mark previous lessons as done
+      document.querySelectorAll('.lesson-item').forEach(el => {
+        if (parseInt(el.dataset.lesson) < n) el.classList.add('done');
+        else el.classList.remove('done');
+      });
+      current = n;
+      document.getElementById('lesson-' + current).classList.add('active');
+      document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
+      updateUI();
+      window.scrollTo({ top: document.getElementById('courseMain').offsetTop - 130, behavior: 'smooth' });
+    }
+
+    function navigate(dir) {
+      const next = current + dir;
+      if (next >= 1 && next <= TOTAL) goTo(next);
+    }
+
+    function updateUI() {
+      const pct = ((current - 1) / (TOTAL - 1) * 100).toFixed(0);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressText').textContent = current + ' / ' + TOTAL;
+      document.getElementById('lessonCounter').textContent = current + ' / ' + TOTAL;
+      document.getElementById('prevBtn').disabled = current === 1;
+      document.getElementById('nextBtn').disabled = current === TOTAL;
+    }
+
+    document.getElementById('lesson-1').classList.add('active');
+    updateUI();
+
+    /* ── Slides ──────────────────────────────────────────────── */
+    function initDots(deckId) {
+      const deck = document.getElementById(deckId);
+      const slides = deck.querySelectorAll('.slide');
+      const dots = document.getElementById('dots-' + deckId);
+      dots.innerHTML = '';
+      slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Folie ' + (i + 1));
+        d.onclick = () => goToSlide(deckId, i);
+        dots.appendChild(d);
+      });
+    }
+
+    function goToSlide(deckId, idx) {
+      const deck = document.getElementById(deckId);
+      deck.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === idx));
+      document.getElementById('dots-' + deckId)
+        .querySelectorAll('.slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+
+    function currentSlideIdx(deckId) {
+      return [...document.getElementById(deckId).querySelectorAll('.slide')]
+        .findIndex(s => s.classList.contains('active'));
+    }
+
+    function nextSlide(deckId) {
+      const slides = document.getElementById(deckId).querySelectorAll('.slide');
+      goToSlide(deckId, Math.min(currentSlideIdx(deckId) + 1, slides.length - 1));
+    }
+
+    function prevSlide(deckId) {
+      goToSlide(deckId, Math.max(currentSlideIdx(deckId) - 1, 0));
+    }
+
+    // Alle Slide-Decks initialisieren
+    document.querySelectorAll('.slide-deck').forEach(deck => initDots(deck.id));
+
+    /* ── Accordion ───────────────────────────────────────────── */
+    document.querySelectorAll('.accordion-trigger').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.accordion-item');
+        const isOpen = item.classList.contains('open');
+        // Schließe alle anderen im selben Accordion
+        btn.closest('.accordion').querySelectorAll('.accordion-item')
+          .forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+
+    /* ── Hotspots ────────────────────────────────────────────── */
+    document.querySelectorAll('.hotspot').forEach(hs => {
+      hs.addEventListener('click', e => {
+        e.stopPropagation();
+        const id = hs.dataset.tooltip;
+        const tooltip = document.getElementById(id);
+        const isOpen = tooltip.classList.contains('open');
+        document.querySelectorAll('.hotspot-tooltip').forEach(t => t.classList.remove('open'));
+        document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+        if (!isOpen) {
+          tooltip.classList.add('open');
+          hs.classList.add('active');
+        }
+      });
+    });
+
+    document.querySelectorAll('.tooltip-close').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        btn.closest('.hotspot-tooltip').classList.remove('open');
+        document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+      });
+    });
+
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.hotspot-tooltip').forEach(t => t.classList.remove('open'));
+      document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+    });
+
+    /* ── Quiz ────────────────────────────────────────────────── */
+    function checkQuiz(quizId, correct, okMsg, wrongMsg) {
+      const quiz = document.getElementById(quizId);
+      const selected = quiz.querySelector('input[type="radio"]:checked');
+      const fb = document.getElementById('feedback-' + quizId);
+      if (!selected) {
+        fb.textContent = 'Bitte wähle eine Antwort aus.';
+        fb.className = 'quiz-feedback show neutral';
+        return;
+      }
+      if (selected.value === correct) {
+        fb.textContent = okMsg || 'Richtig!';
+        fb.className = 'quiz-feedback show correct';
+      } else {
+        fb.textContent = wrongMsg || 'Nicht ganz. Schau noch einmal in den Text.';
+        fb.className = 'quiz-feedback show wrong';
+      }
+    }
+
+    function checkMulti(quizId, correct, okMsg, wrongMsg) {
+      const quiz = document.getElementById(quizId);
+      const selected = [...quiz.querySelectorAll('input[type="checkbox"]:checked')]
+        .map(i => i.value).sort();
+      const fb = document.getElementById('feedback-' + quizId);
+      if (selected.length === 0) {
+        fb.textContent = 'Bitte wähle mindestens eine Antwort aus.';
+        fb.className = 'quiz-feedback show neutral';
+        return;
+      }
+      const isCorrect = JSON.stringify(selected) === JSON.stringify([...correct].sort());
+      if (isCorrect) {
+        fb.textContent = okMsg || 'Perfekt, alle richtigen Antworten gewählt!';
+        fb.className = 'quiz-feedback show correct';
+      } else {
+        fb.textContent = wrongMsg || 'Nicht ganz. Überprüfe deine Auswahl.';
+        fb.className = 'quiz-feedback show wrong';
+      }
+    }
+  </script>
+
+</body>
+</html>
