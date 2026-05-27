@@ -230,6 +230,10 @@ body.course-page {
   animation: tooltipIn 0.18s ease both;
 }
 
+.course-layout.sidebar-collapsed ~ .quicknotes-panel {
+  width: 290px;
+}
+
 
 .quicknotes-header {
   display: flex;
@@ -508,6 +512,7 @@ body.course-page {
 /* ── Accordion ─────────────────────────────────────────────── */
 .accordion {
   max-width: 640px;
+  margin-left: -10px;
   display: flex;
   flex-direction: column;
   gap: 8px;
