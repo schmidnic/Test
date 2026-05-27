@@ -569,9 +569,10 @@
       const item7 = document.querySelector('.lesson-item[data-lesson="7"]');
       item7.classList.add('done');
       item7.classList.remove('active');
+      localStorage.setItem('ta-feedback', '1');
     }
 
-    function goTo(n) {
+    function goTo(n, silent) {
       document.getElementById('lesson-' + current).classList.remove('active');
       document.querySelectorAll('.lesson-item').forEach(el => {
         el.classList.remove('active');
@@ -582,8 +583,9 @@
       document.getElementById('lesson-' + current).classList.add('active');
       document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
       updateUI();
-      window.scrollTo({ top: document.getElementById('courseMain').offsetTop - 130, behavior: 'smooth' });
-      if (n === TOTAL) launchConfetti();
+      if (!silent) window.scrollTo({ top: document.getElementById('courseMain').offsetTop - 130, behavior: 'smooth' });
+      if (n === TOTAL && !silent) launchConfetti();
+      localStorage.setItem('ta-lesson', n);
     }
 
     function navigate(dir) {
@@ -613,8 +615,14 @@
       }
     }
 
-    document.getElementById('lesson-1').classList.add('active');
-    updateUI();
+    const savedLesson = parseInt(localStorage.getItem('ta-lesson')) || 1;
+    goTo(savedLesson, true);
+    if (localStorage.getItem('ta-feedback')) {
+      const item7 = document.querySelector('.lesson-item[data-lesson="7"]');
+      if (item7) { item7.classList.add('done'); item7.classList.remove('active'); }
+      const thanks = document.getElementById('feedbackThanks');
+      if (thanks) { thanks.textContent = 'Thanks for your feedback!'; thanks.classList.add('visible'); }
+    }
 
     // Slides
     function initDots(deckId) {
