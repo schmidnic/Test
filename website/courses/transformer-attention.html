@@ -6,7 +6,7 @@
   <title>How transformers think – prohelias</title>
   <meta name="description" content="From 'Attention Is All You Need' to Subquadratic Sparse Attention: the constraint that shaped AI for nine years, and what just changed.">
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/course.css?v=12">
+  <link rel="stylesheet" href="../css/course.css?v=13">
 </head>
 <body class="course-page">
 
@@ -48,14 +48,16 @@
 
   <div class="course-layout">
 
-    <aside class="course-sidebar">
-      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Inhaltsverzeichnis ein-/ausblenden">
+    <div class="sidebar-wrap">
+      <aside class="course-sidebar">
+        <nav aria-label="Lessons">
+          <ul class="lesson-list" id="lessonList"></ul>
+        </nav>
+      </aside>
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle table of contents">
         <span></span><span></span><span></span>
       </button>
-      <nav aria-label="Lessons">
-        <ul class="lesson-list" id="lessonList"></ul>
-      </nav>
-    </aside>
+    </div>
 
     <main class="course-main" id="courseMain">
 

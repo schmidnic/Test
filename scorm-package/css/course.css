@@ -116,28 +116,44 @@ body.course-page {
   transition: grid-template-columns 0.3s ease;
 }
 
-.course-layout.sidebar-collapsed { grid-template-columns: 48px 1fr; }
+.course-layout.sidebar-collapsed { grid-template-columns: 0px 1fr; }
 
-/* ── Sidebar ───────────────────────────────────────────────── */
-.course-sidebar {
+/* ── Sidebar wrapper ───────────────────────────────────────── */
+.sidebar-wrap {
   position: sticky;
   top: calc(var(--nav-h) + 56px);
   align-self: start;
   height: calc(100vh - var(--nav-h) - 56px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 20px 16px 32px;
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  overflow: visible;
 }
 
-/* ── Sidebar toggle (attached to drawer) ───────────────────── */
+/* ── Sidebar ───────────────────────────────────────────────── */
+.course-sidebar {
+  width: 250px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 16px 32px 0;
+  border-right: 1px solid var(--border);
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  transition: width 0.3s ease, opacity 0.15s ease, padding 0.3s ease;
+}
+
+.course-layout.sidebar-collapsed .course-sidebar {
+  width: 0;
+  opacity: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ── Sidebar toggle: absolutely centred on the drawer's right edge */
 .sidebar-toggle {
-  align-self: flex-end;
-  flex-shrink: 0;
+  position: absolute;
+  right: -28px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 28px;
   height: 28px;
   display: flex;
@@ -145,17 +161,16 @@ body.course-page {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  background: none;
-  border: 1px solid transparent;
-  border-radius: 6px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 6px 6px 0;
   cursor: pointer;
   color: var(--muted);
-  transition: color 0.2s, background 0.15s, border-color 0.15s;
-  position: sticky;
-  top: calc(50% - 14px);
-  z-index: 2;
+  transition: color 0.2s, background 0.15s;
+  z-index: 10;
 }
-.sidebar-toggle:hover { color: var(--navy); background: #f0effe; border-color: var(--border); }
+.sidebar-toggle:hover { color: var(--navy); background: #f0effe; }
 
 .sidebar-toggle span {
   display: block;
@@ -163,12 +178,6 @@ body.course-page {
   height: 4px;
   border-radius: 50%;
   background: currentColor;
-}
-
-.course-layout.sidebar-collapsed .lesson-list {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
 }
 
 .course-sidebar::-webkit-scrollbar { width: 4px; }

@@ -10,7 +10,7 @@
   <style>
     .course-header { top: 0; margin-top: 0; }
     .course-layout { padding-top: 0; }
-    .course-sidebar { top: 56px; height: calc(100vh - 56px); }
+    .sidebar-wrap { top: 56px; height: calc(100vh - 56px); }
     .quicknotes-fab { top: 14px; }
     .quicknotes-panel { top: 58px; }
   </style>
@@ -37,14 +37,16 @@
 
   <div class="course-layout">
 
-    <aside class="course-sidebar">
-      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Inhaltsverzeichnis ein-/ausblenden">
+    <div class="sidebar-wrap">
+      <aside class="course-sidebar">
+        <nav aria-label="Lessons">
+          <ul class="lesson-list" id="lessonList"></ul>
+        </nav>
+      </aside>
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle table of contents">
         <span></span><span></span><span></span>
       </button>
-      <nav aria-label="Lessons">
-        <ul class="lesson-list" id="lessonList"></ul>
-      </nav>
-    </aside>
+    </div>
 
     <main class="course-main" id="courseMain">
 
