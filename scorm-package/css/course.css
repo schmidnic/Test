@@ -134,7 +134,7 @@ body.course-page {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px 16px 32px 0;
-  border-right: 1px solid var(--border);
+  border-right: 1px solid rgba(22, 11, 82, 0.07);
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
