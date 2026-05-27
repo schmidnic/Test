@@ -1147,6 +1147,15 @@ body.course-page {
   opacity: 0.7;
 }
 
+.flip-card-back strong {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
 .flip-card-back p {
   font-size: 0.85rem;
   color: rgba(255,255,255,0.88);
