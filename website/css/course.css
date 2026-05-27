@@ -747,8 +747,11 @@ body.course-page {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: thumbEntrance 0.6s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both,
-             thumbBob 2.2s 0.8s ease-in-out infinite;
+  animation: thumbEntrance 0.6s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.thumb-icon.bobbing {
+  animation: thumbBob 2.2s ease-in-out infinite;
 }
 
 @keyframes thumbEntrance {
@@ -760,7 +763,7 @@ body.course-page {
 
 @keyframes thumbBob {
   0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%       { transform: translateY(-6px) rotate(5deg); }
+  50%       { transform: translateY(-7px) rotate(6deg); }
 }
 
 .celebration-title {
@@ -840,8 +843,11 @@ body.course-page {
 
 /* ── Confetti ──────────────────────────────────────────── */
 @keyframes confettiFall {
-  0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.9; }
-  100% { transform: translateY(105vh) translateX(var(--drift, 0px)) rotate(540deg); opacity: 0; }
+  0%   { transform: translateY(0)    translateX(0);                                  opacity: 0.95; }
+  20%  { transform: translateY(20vh) translateX(calc(var(--drift) * 0.2 + var(--wobble, 0px)));  opacity: 0.95; }
+  50%  { transform: translateY(55vh) translateX(calc(var(--drift) * 0.5 - var(--wobble, 0px)));  opacity: 0.9;  }
+  80%  { transform: translateY(85vh) translateX(calc(var(--drift) * 0.8 + var(--wobble, 0px)));  opacity: 0.5;  }
+  100% { transform: translateY(110vh) translateX(var(--drift, 0px));                 opacity: 0;    }
 }
 
 @media (max-width: 600px) {
