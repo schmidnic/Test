@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How transformers think, and what just changed</title>
+  <meta name="description" content="From 'Attention Is All You Need' to Subquadratic Sparse Attention: the constraint that shaped AI for nine years, and what just changed.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/course.css">
+</head>
+<body>
+
+  <header class="course-header">
+    <div class="course-header-inner">
+      <div class="course-meta">
+        <h1 class="course-title">How transformers think, and what just changed</h1>
+        <button class="reset-btn" onclick="resetProgress()" title="Start over">
+          <svg viewBox="0 0 16 16" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.5 8a5.5 5.5 0 1 1-1.1-3.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M13.5 3v2.5H11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="course-progress">
+        <span class="progress-text" id="progressText">1 / 6</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="course-layout">
+
+    <aside class="course-sidebar">
+      <nav aria-label="Lessons">
+        <ul class="lesson-list" id="lessonList"></ul>
+      </nav>
+    </aside>
+
+    <main class="course-main" id="courseMain">
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 1 · SLIDES: The Constraint That Shaped Everything
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-1">
+        <h2 class="lesson-title">The constraint that shaped everything</h2>
+        <p>Use the arrows to move through the four slides.</p>
+
+        <div class="slide-deck" id="slide-deck-1">
+
+          <div class="slide active">
+            <div class="slide-content">
+              <p class="slide-label">Slide 1 of 4</p>
+              <h3>"Attention Is All You Need"</h3>
+              <p>In 2017, a team at Google published a paper with that title. It introduced the transformer architecture. Almost every large language model built since then, including the ones behind ChatGPT, Claude, and Gemini, is built on that foundation.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 2 of 4</p>
+              <h3>One constraint, enormous consequences</h3>
+              <p>The transformer came with a built-in cost: attention scales as O(n²). Double the context length, quadruple the compute. Triple it, and compute grows ninefold. Every context window limit you have ever hit is a downstream consequence of this single fact.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 3 of 4</p>
+              <h3>Nine years of partial answers</h3>
+              <p>Researchers have tried sliding windows, global tokens, recurrent state spaces, sparse hybrids, and linear approximations. Each approach reduced the cost but traded something: exactness, or content-awareness, or true end-to-end subquadratic scaling. None solved it without giving something up.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 4 of 4</p>
+              <h3>May 5, 2026</h3>
+              <p>A startup called Subquadratic emerged from stealth. Their model, SubQ, uses an attention mechanism called SSA, Subquadratic Sparse Attention. The claim: content-dependent, exact, capable of a 12-million-token context, and genuinely subquadratic end to end. If the claim holds, it is the most important architectural advance since the 2017 paper itself.</p>
+            </div>
+          </div>
+
+          <div class="slide-controls">
+            <button class="slide-btn" id="prev-slide-deck-1" onclick="prevSlide('slide-deck-1')" aria-label="Previous slide">&#8249;</button>
+            <div class="slide-dots" id="dots-slide-deck-1"></div>
+            <button class="slide-btn" id="next-slide-deck-1" onclick="nextSlide('slide-deck-1')" aria-label="Next slide">&#8250;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 2 · ACCORDION: Key Concepts
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-2">
+        <h2 class="lesson-title">Key concepts unpacked</h2>
+        <p>Each term below appears repeatedly in discussions of transformer models. Click to expand.</p>
+
+        <div class="accordion">
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is attention, exactly?</button>
+            <div class="accordion-panel">
+              <p>In a transformer, "attention" is the mechanism by which each token in a sequence can look at every other token to decide what's relevant. For each token, the model computes a query (what am I looking for?), a key (what do I represent?), and a value (what should I contribute?). The attention score between two tokens is the dot product of query and key. Doing this for all pairs is where O(n²) comes from: n tokens × n tokens = n² comparisons.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What does O(n²) mean in practice?</button>
+            <div class="accordion-panel">
+              <p>O(n²) is a description of how compute grows with input size. If processing 1,000 tokens costs one unit of compute, then 2,000 tokens costs four units, not two. At 128,000 tokens (a common current limit), the attention computation alone requires roughly 16 billion pairwise comparisons. That is why longer contexts are expensive, slow, and until recently, rare.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is a context window, and why does the limit matter?</button>
+            <div class="accordion-panel">
+              <p>The context window is the maximum amount of text a model can "see" at once. Anything outside it is invisible. This is why models lose the thread of long documents, why RAG systems have to chunk codebases into fragments, and why a model cannot reason over an entire book in a single pass. The O(n²) constraint is the main reason context windows stayed small for so long.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What does "subquadratic" mean, and what is SSA?</button>
+            <div class="accordion-panel">
+              <p>Subquadratic means growing slower than n². If a method is O(n log n) or O(n · √n), it is subquadratic: doubling context length much less than quadruples compute. SSA, Subquadratic Sparse Attention, is Subquadratic's claimed mechanism. It selects which token pairs actually need to attend to each other based on content (not a fixed pattern), computes those interactions exactly rather than approximately, and achieves this selection in subquadratic time. If all three properties hold simultaneously, that has not been demonstrated before at scale.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What do previous approaches give up?</button>
+            <div class="accordion-panel">
+              <p>Sparse attention methods (like Longformer or BigBird) use fixed patterns: local windows, global tokens, random connections. They are fast but ignore content. Linear attention approximates the full attention matrix and loses exactness. Sliding window attention is local only. Recurrent models like Mamba are not transformers at all and require retraining from scratch. The common theme: every prior approach traded one desirable property to gain another. SSA claims to trade none of them.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 3 · HOTSPOT IMAGE: Inside the Attention Mechanism
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-3">
+        <h2 class="lesson-title">Inside the attention mechanism</h2>
+        <p>Click the <strong>+</strong> markers to explore each part of the diagram.</p>
+
+        <div class="hotspot-container">
+          <div class="hotspot-image-placeholder">
+
+            <svg viewBox="0 0 680 380" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+              <rect width="680" height="380" fill="#F0EFFE"/>
+              <g transform="translate(33, 0)">
+
+              <!-- ── Input tokens (left) ── -->
+              <rect x="28" y="60"  width="72" height="28" rx="5" fill="#fff" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
+              <rect x="28" y="98"  width="72" height="28" rx="5" fill="#fff" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
+              <rect x="28" y="136" width="72" height="28" rx="5" fill="#fff" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
+              <rect x="28" y="174" width="72" height="28" rx="5" fill="#fff" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
+              <rect x="28" y="212" width="72" height="28" rx="5" fill="#fff" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
+              <text x="64" y="79"  text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="500">Token 1</text>
+              <text x="64" y="117" text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="500">Token 2</text>
+              <text x="64" y="155" text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="500">Token 3</text>
+              <text x="64" y="193" text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="500">Token 4</text>
+              <text x="64" y="231" text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="500">Token 5</text>
+              <text x="64" y="270" text-anchor="middle" fill="rgba(22,11,82,0.45)" font-family="Space Grotesk,sans-serif" font-size="9">n tokens</text>
+
+              <!-- ── Connector lines to full attention grid ── -->
+              <line x1="100" y1="74"  x2="176" y2="74"  stroke="rgba(22,11,82,0.18)" stroke-width="1"/>
+              <line x1="100" y1="112" x2="176" y2="112" stroke="rgba(22,11,82,0.18)" stroke-width="1"/>
+              <line x1="100" y1="150" x2="176" y2="150" stroke="rgba(22,11,82,0.18)" stroke-width="1"/>
+              <line x1="100" y1="188" x2="176" y2="188" stroke="rgba(22,11,82,0.18)" stroke-width="1"/>
+              <line x1="100" y1="226" x2="176" y2="226" stroke="rgba(22,11,82,0.18)" stroke-width="1"/>
+
+              <!-- ── Full attention matrix (5×5 = 25 cells) ── -->
+              <!-- Row 1 -->
+              <rect x="176" y="58"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.55)" stroke="none"/>
+              <rect x="210" y="58"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.38)" stroke="none"/>
+              <rect x="244" y="58"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.25)" stroke="none"/>
+              <rect x="278" y="58"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.15)" stroke="none"/>
+              <rect x="312" y="58"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="none"/>
+              <!-- Row 2 -->
+              <rect x="176" y="92"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.25)" stroke="none"/>
+              <rect x="210" y="92"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.55)" stroke="none"/>
+              <rect x="244" y="92"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.45)" stroke="none"/>
+              <rect x="278" y="92"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.2)"  stroke="none"/>
+              <rect x="312" y="92"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.1)"  stroke="none"/>
+              <!-- Row 3 -->
+              <rect x="176" y="126" width="32" height="32" rx="2" fill="rgba(22,11,82,0.1)"  stroke="none"/>
+              <rect x="210" y="126" width="32" height="32" rx="2" fill="rgba(22,11,82,0.3)"  stroke="none"/>
+              <rect x="244" y="126" width="32" height="32" rx="2" fill="rgba(22,11,82,0.55)" stroke="none"/>
+              <rect x="278" y="126" width="32" height="32" rx="2" fill="rgba(22,11,82,0.4)"  stroke="none"/>
+              <rect x="312" y="126" width="32" height="32" rx="2" fill="rgba(22,11,82,0.18)" stroke="none"/>
+              <!-- Row 4 -->
+              <rect x="176" y="160" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="none"/>
+              <rect x="210" y="160" width="32" height="32" rx="2" fill="rgba(22,11,82,0.15)" stroke="none"/>
+              <rect x="244" y="160" width="32" height="32" rx="2" fill="rgba(22,11,82,0.35)" stroke="none"/>
+              <rect x="278" y="160" width="32" height="32" rx="2" fill="rgba(22,11,82,0.55)" stroke="none"/>
+              <rect x="312" y="160" width="32" height="32" rx="2" fill="rgba(22,11,82,0.3)"  stroke="none"/>
+              <!-- Row 5 -->
+              <rect x="176" y="194" width="32" height="32" rx="2" fill="rgba(22,11,82,0.05)" stroke="none"/>
+              <rect x="210" y="194" width="32" height="32" rx="2" fill="rgba(22,11,82,0.1)"  stroke="none"/>
+              <rect x="244" y="194" width="32" height="32" rx="2" fill="rgba(22,11,82,0.2)"  stroke="none"/>
+              <rect x="278" y="194" width="32" height="32" rx="2" fill="rgba(22,11,82,0.4)"  stroke="none"/>
+              <rect x="312" y="194" width="32" height="32" rx="2" fill="rgba(22,11,82,0.55)" stroke="none"/>
+              <!-- Full matrix label -->
+              <text x="246" y="248" text-anchor="middle" fill="rgba(22,11,82,0.6)" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">Full attention</text>
+              <text x="246" y="262" text-anchor="middle" fill="rgba(22,11,82,0.5)" font-family="Space Grotesk,sans-serif" font-size="10">n × n = O(n²)</text>
+
+              <!-- ── VS divider ── -->
+              <line x1="360" y1="50" x2="360" y2="300" stroke="rgba(22,11,82,0.12)" stroke-width="1.5" stroke-dasharray="5 4"/>
+              <text x="360" y="305" text-anchor="middle" fill="rgba(22,11,82,0.35)" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600">vs.</text>
+
+              <!-- ── SSA sparse matrix (5×5, only selected cells) ── -->
+              <!-- Row 1: diagonal + 1 selected -->
+              <rect x="376" y="58"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="410" y="58"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="444" y="58"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="478" y="58"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="512" y="58"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <!-- Filled cells (content-selected sparse pattern) -->
+              <rect x="376" y="58"  width="32" height="32" rx="2" fill="#FF00FF" opacity="0.7" stroke="none"/>
+              <rect x="444" y="92"  width="32" height="32" rx="2" fill="#FF00FF" opacity="0.5" stroke="none"/>
+              <rect x="444" y="126" width="32" height="32" rx="2" fill="#FF00FF" opacity="0.7" stroke="none"/>
+              <rect x="478" y="126" width="32" height="32" rx="2" fill="#FF00FF" opacity="0.4" stroke="none"/>
+              <rect x="478" y="160" width="32" height="32" rx="2" fill="#FF00FF" opacity="0.7" stroke="none"/>
+              <rect x="512" y="194" width="32" height="32" rx="2" fill="#FF00FF" opacity="0.7" stroke="none"/>
+              <rect x="410" y="58"  width="32" height="32" rx="2" fill="#FF00FF" opacity="0.3" stroke="none"/>
+              <!-- Row 2 cells (empty) -->
+              <rect x="376" y="92"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="410" y="92"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="478" y="92"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="512" y="92"  width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <!-- Row 3 cells (empty) -->
+              <rect x="376" y="126" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="410" y="126" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="512" y="126" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <!-- Row 4 cells (empty) -->
+              <rect x="376" y="160" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="410" y="160" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="444" y="160" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="512" y="160" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <!-- Row 5 cells (empty) -->
+              <rect x="376" y="194" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="410" y="194" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="444" y="194" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <rect x="478" y="194" width="32" height="32" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.12)" stroke-width="1"/>
+              <!-- Sparse matrix label -->
+              <text x="446" y="248" text-anchor="middle" fill="rgba(233,9,246,0.9)" font-family="Space Grotesk,sans-serif" font-size="10" font-weight="600">SSA: sparse attention</text>
+              <text x="446" y="262" text-anchor="middle" fill="rgba(22,11,82,0.5)" font-family="Space Grotesk,sans-serif" font-size="10">content-selected pairs only</text>
+
+              <!-- ── Bottom legend ── -->
+              <rect x="150" y="310" width="12" height="12" rx="2" fill="rgba(22,11,82,0.45)"/>
+              <text x="168" y="321" fill="rgba(22,11,82,0.6)" font-family="Space Grotesk,sans-serif" font-size="10">computed (full attention)</text>
+              <rect x="370" y="310" width="12" height="12" rx="2" fill="#FF00FF" opacity="0.65"/>
+              <text x="388" y="321" fill="rgba(22,11,82,0.6)" font-family="Space Grotesk,sans-serif" font-size="10">computed (SSA, content-selected)</text>
+              <rect x="370" y="330" width="12" height="12" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.2)" stroke-width="1"/>
+              <text x="388" y="341" fill="rgba(22,11,82,0.45)" font-family="Space Grotesk,sans-serif" font-size="10">skipped (subquadratic saving)</text>
+              </g>
+            </svg>
+
+            <!-- Hotspot markers -->
+            <div class="hotspot" style="left: 14%; top: 38%;" data-tooltip="tooltip-tokens">
+              <div class="hotspot-marker">+</div>
+            </div>
+            <div class="hotspot" style="left: 43%; top: 38%;" data-tooltip="tooltip-full">
+              <div class="hotspot-marker">+</div>
+            </div>
+            <div class="hotspot" style="left: 73%; top: 38%;" data-tooltip="tooltip-sparse">
+              <div class="hotspot-marker">+</div>
+            </div>
+          </div>
+
+          <div class="hotspot-tooltip" id="tooltip-tokens">
+            <button class="tooltip-close" aria-label="Close">×</button>
+            <strong>Input tokens</strong>
+            <p>Each word (or sub-word) in a sentence becomes a token. The attention mechanism must consider every possible pair. With n tokens, that is n × n pairs, giving O(n²) complexity.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tooltip-full">
+            <button class="tooltip-close" aria-label="Close">×</button>
+            <strong>Full attention: O(n²)</strong>
+            <p>The darker a cell, the stronger the attention score between that pair of tokens. Standard transformers compute all n² cells. At 128k tokens, that is over 16 billion values, just for attention.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tooltip-sparse">
+            <button class="tooltip-close" aria-label="Close">×</button>
+            <strong>SSA: content-selected pairs</strong>
+            <p>SSA computes only the pairs the content demands, shown in magenta. The grey cells are skipped entirely. The key claim: the selection itself also runs in subquadratic time, and the computed values are exact, not approximate.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 4 · MEDIA: The Claim in Detail
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-4">
+        <h2 class="lesson-title">The claim in detail</h2>
+
+        <div class="media-block">
+          <p class="media-label">Background: How attention works</p>
+          <div class="video-wrapper">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/wjZofJX0v4M"
+              title="How attention works"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+
+        <div class="media-block" style="margin-top: 40px;">
+          <p class="media-label">What SSA claims — four properties at once</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 640px;">
+
+            <div style="background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:20px;">
+              <p style="font-family:'Space Grotesk',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--magenta); margin-bottom:8px;">Content-dependent</p>
+              <p style="font-size:0.88rem; color:var(--muted); line-height:1.6;">Which pairs are computed depends on the actual tokens, not a fixed template. The model attends to what matters.</p>
+            </div>
+
+            <div style="background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:20px;">
+              <p style="font-family:'Space Grotesk',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--magenta); margin-bottom:8px;">Exact</p>
+              <p style="font-size:0.88rem; color:var(--muted); line-height:1.6;">The computed attention values are identical to full attention for the selected pairs. No approximation error.</p>
+            </div>
+
+            <div style="background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:20px;">
+              <p style="font-family:'Space Grotesk',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--magenta); margin-bottom:8px;">12M-token context</p>
+              <p style="font-size:0.88rem; color:var(--muted); line-height:1.6;">Demonstrated at 12 million tokens. For comparison, GPT-4 launched with 8,000 tokens. Current models reach 128k to 1M.</p>
+            </div>
+
+            <div style="background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:20px;">
+              <p style="font-family:'Space Grotesk',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--magenta); margin-bottom:8px;">End-to-end subquadratic</p>
+              <p style="font-size:0.88rem; color:var(--muted); line-height:1.6;">The selection mechanism itself is subquadratic. Previous sparse methods solved the compute problem but not the selection problem.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="media-block" style="margin-top: 40px;">
+          <p class="media-label">One open question</p>
+          <blockquote style="border-left: 3px solid var(--magenta); padding: 16px 20px; margin: 0; background:#fff; border-radius: 0 10px 10px 0; font-style:italic; color:var(--muted); font-size:0.95rem; line-height:1.7;">
+            "If the claim holds, it is the most important architectural advance since the 2017 paper itself."
+          </blockquote>
+          <p class="media-caption" style="margin-top:12px;">The key word is <em>if</em>. Independent benchmarks and peer review will determine whether all four properties hold simultaneously at scale. That work is ongoing.</p>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 5 · QUIZ
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-5">
+        <h2 class="lesson-title">Check your understanding</h2>
+
+        <div class="quiz" id="quiz-1">
+          <p class="quiz-question">1. If you double the context length in a standard transformer, the attention compute increases by a factor of…</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="a">
+              <span>2×, because you doubled the input</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="b">
+              <span>4×, because attention scales as O(n²)</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="c">
+              <span>8×, because the model also doubles its depth</span>
+            </label>
+          </div>
+          <button class="quiz-submit"
+            onclick="checkQuiz('quiz-1', 'b',
+              'Correct. O(n²) means doubling n multiplies compute by 2² = 4. That is the core of the scaling problem.',
+              'Not quite. The key is that attention is O(n²): compute grows with the square of context length, not linearly.')">
+            Check answer
+          </button>
+          <div class="quiz-feedback" id="feedback-quiz-1"></div>
+        </div>
+
+        <div class="quiz" id="quiz-2" style="margin-top: 32px;">
+          <p class="quiz-question">2. Which of the following are consequences of the O(n²) attention constraint?</p>
+          <p class="quiz-hint">Multiple answers correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="checkbox" name="q2" value="a">
+              <span>Models lose track of content outside the context window</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q2" value="b">
+              <span>Transformer models cannot be fine-tuned</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q2" value="c">
+              <span>RAG systems need to chunk documents into fragments</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q2" value="d">
+              <span>Longer contexts are significantly more expensive to process</span>
+            </label>
+          </div>
+          <button class="quiz-submit"
+            onclick="checkMulti('quiz-2', ['a','c','d'],
+              'Exactly right. These are the three main practical consequences described in the course.',
+              'Not quite. One of your selections is not a consequence of O(n²). Fine-tuning is a separate concept.')">
+            Check answer
+          </button>
+          <div class="quiz-feedback" id="feedback-quiz-2"></div>
+        </div>
+
+        <div class="quiz" id="quiz-3" style="margin-top: 32px;">
+          <p class="quiz-question">3. What makes SSA different from previous sparse attention approaches like Longformer or BigBird?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="a">
+              <span>It uses a fixed local window pattern to reduce compute</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="b">
+              <span>It selects which pairs to compute based on content, not a preset pattern, and claims to do so in subquadratic time</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="c">
+              <span>It replaces attention entirely with a recurrent mechanism</span>
+            </label>
+          </div>
+          <button class="quiz-submit"
+            onclick="checkQuiz('quiz-3', 'b',
+              'Correct. Content-dependent selection that is itself subquadratic is the claimed breakthrough. Prior sparse methods used fixed patterns (not content-driven) or were not subquadratic in the selection step.',
+              'Not quite. Fixed windows are what Longformer does. SSA claims to be different precisely because the selection is content-driven, not preset.')">
+            Check answer
+          </button>
+          <div class="quiz-feedback" id="feedback-quiz-3"></div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 6 · TAKEAWAYS
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-6">
+        <h2 class="lesson-title">What to take with you</h2>
+
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">The O(n²) constraint is not a detail. It is the reason AI systems still cannot read a full book, track a multi-day conversation, or reason over a large codebase in a single pass. If SSA holds up under scrutiny, these limits start to move.</p>
+
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">Three things to watch for in the coming months:</p>
+
+        <ul style="color:var(--muted); line-height:1.9; padding-left:20px; margin-bottom:16px; max-width:560px;">
+          <li>Independent benchmarks comparing SubQ to Llama, Gemini, and GPT on long-context tasks</li>
+          <li>Peer-reviewed analysis of the SSA selection algorithm's actual complexity</li>
+          <li>Whether existing models adopt the mechanism via fine-tuning, or require retraining from scratch</li>
+        </ul>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 7 · CELEBRATION
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-7">
+        <div class="completion-screen">
+          <div class="completion-screen-icon" aria-hidden="true">
+            <div class="thumb-icon">
+              <svg viewBox="0 0 24 24" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <h2 class="celebration-title">You made it.</h2>
+          <p class="celebration-subtitle">Micro Learning complete.</p>
+          <p class="celebration-msg">You now understand why the O(n²) constraint shaped AI for nine years, and what SSA claims to change. That context is rare. Most people miss it entirely.</p>
+
+          <div class="feedback-section" style="border-top:none; padding-top:0; margin-top:36px;">
+            <p class="feedback-prompt">How was this Micro Learning?</p>
+            <div class="feedback-emojis">
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
+                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <path d="M10 18.5 Q16 24.5 22 18.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                </svg>
+              </button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
+                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <line x1="10" y1="20.5" x2="22" y2="20.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
+                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <path d="M10 22.5 Q16 16.5 22 22.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                </svg>
+              </button>
+            </div>
+            <p class="feedback-thanks" id="feedbackThanks"></p>
+          </div>
+
+          <a href="../hub.html" class="btn-course" style="display:inline-block; margin-top:36px;">Back to Coffee Hours →</a>
+        </div>
+      </div>
+
+      <!-- Bottom navigation -->
+      <div class="lesson-footer" id="lessonFooter">
+        <button class="lesson-nav-btn" id="prevBtn" onclick="navigate(-1)" disabled>← Back</button>
+        <span class="lesson-counter" id="lessonCounter">1 / 6</span>
+        <button class="lesson-nav-btn" id="nextBtn" onclick="navigate(1)">Next →</button>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/scorm_api.js"></script>
+  <script>
+    const LESSON_TITLES = [
+      "The constraint",
+      "Key concepts",
+      "Attention diagram",
+      "SSA in detail",
+      "Test your knowledge",
+      "Key take aways",
+      "Complete"
+    ];
+    const TOTAL = LESSON_TITLES.length;
+    let current = 1;
+
+    const list = document.getElementById('lessonList');
+    LESSON_TITLES.forEach((title, i) => {
+      const li = document.createElement('li');
+      li.className = 'lesson-item' + (i === 0 ? ' active' : '');
+      li.dataset.lesson = i + 1;
+      li.innerHTML = `<span class="lesson-num">${i + 1}</span><span class="lesson-name">${title}</span>`;
+      li.addEventListener('click', () => goTo(i + 1));
+      list.appendChild(li);
+    });
+
+    function launchConfetti() {
+      const existing = document.getElementById('confetti-container');
+      if (existing) existing.remove();
+      const colors = ['#FF00FF','#e909f6','#160B52','#7C3AED','#a78bfa','#E9D5FF','#F0EFFE','#fff','#c4b5fd'];
+      const wrap = document.createElement('div');
+      wrap.id = 'confetti-container';
+      wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden;';
+      document.body.appendChild(wrap);
+      for (let i = 0; i < 140; i++) {
+        const el = document.createElement('div');
+        const color  = colors[Math.floor(Math.random() * colors.length)];
+        const left   = Math.random() * 100;
+        const delay  = Math.random() * 1.6;
+        const dur    = 2 + Math.random() * 2.5;
+        const w      = 5 + Math.random() * 13;
+        const drift  = (Math.random() - 0.5) * 200;
+        const wobble = (Math.random() - 0.5) * 80;
+        el.style.cssText = `position:absolute;top:-20px;left:${left}%;width:${w}px;height:${w}px;background:${color};border-radius:50%;opacity:0.95;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;--wobble:${wobble}px;`;
+        wrap.appendChild(el);
+      }
+      setTimeout(() => wrap.remove(), 7000);
+    }
+
+    function resetProgress() {
+      localStorage.removeItem('ta-lesson');
+      localStorage.removeItem('ta-feedback');
+      document.getElementById('feedbackThanks').textContent = '';
+      document.getElementById('feedbackThanks').classList.remove('visible');
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      goTo(1);
+    }
+
+    function submitFeedback(btn) {
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const thanks = document.getElementById('feedbackThanks');
+      thanks.textContent = 'Thanks for your feedback!';
+      thanks.classList.add('visible');
+      const item7 = document.querySelector('.lesson-item[data-lesson="7"]');
+      item7.classList.add('done');
+      item7.classList.remove('active');
+      localStorage.setItem('ta-feedback', '1');
+      ScormAPI.complete();
+      const thumb = document.querySelector('.thumb-icon');
+      if (thumb) {
+        thumb.classList.remove('bounce');
+        void thumb.offsetWidth;
+        thumb.classList.add('bounce');
+        thumb.addEventListener('animationend', () => thumb.classList.remove('bounce'), { once: true });
+      }
+    }
+
+    function goTo(n, silent) {
+      document.getElementById('lesson-' + current).classList.remove('active');
+      document.querySelectorAll('.lesson-item').forEach(el => {
+        el.classList.remove('active');
+        if (parseInt(el.dataset.lesson) < n) el.classList.add('done');
+        else el.classList.remove('done');
+      });
+      current = n;
+      document.getElementById('lesson-' + current).classList.add('active');
+      document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
+      updateUI();
+      if (!silent) {
+        const courseTop = document.getElementById('courseMain').offsetTop - 130;
+        if (window.scrollY > courseTop) {
+          window.scrollTo({ top: courseTop, behavior: 'smooth' });
+        }
+      }
+      if (n === TOTAL && !silent) launchConfetti();
+      localStorage.setItem('ta-lesson', n);
+      ScormAPI.saveLocation(n);
+    }
+
+    function navigate(dir) {
+      const next = current + dir;
+      if (next >= 1 && next <= TOTAL) goTo(next);
+    }
+
+    function updateUI() {
+      const pct = ((current - 1) / (TOTAL - 1) * 100).toFixed(0);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressText').textContent = current + ' / ' + TOTAL;
+      document.getElementById('lessonCounter').textContent = current + ' / ' + TOTAL;
+      document.getElementById('prevBtn').disabled = current === 1;
+      const nextBtn = document.getElementById('nextBtn');
+      const footer  = document.getElementById('lessonFooter');
+      if (current === TOTAL) {
+        footer.style.display = 'none';
+      } else {
+        footer.style.display = '';
+        nextBtn.disabled = false;
+        nextBtn.onclick = () => navigate(1);
+        if (current === TOTAL - 1) {
+          nextBtn.textContent = 'Finish';
+        } else {
+          nextBtn.textContent = 'Next →';
+        }
+      }
+    }
+
+    ScormAPI.init();
+    const savedLesson = ScormAPI.getLocation() || parseInt(localStorage.getItem('ta-lesson')) || 1;
+    goTo(savedLesson, true);
+    const isCompleted = ScormAPI.getValue('cmi.core.lesson_status') === 'completed' || localStorage.getItem('ta-feedback');
+    if (isCompleted) {
+      const item7 = document.querySelector('.lesson-item[data-lesson="7"]');
+      if (item7) { item7.classList.add('done'); item7.classList.remove('active'); }
+      const thanks = document.getElementById('feedbackThanks');
+      if (thanks) { thanks.textContent = 'Thanks for your feedback!'; thanks.classList.add('visible'); }
+    }
+
+    // Slides
+    function initDots(deckId) {
+      const deck = document.getElementById(deckId);
+      if (!deck) return;
+      const slides = deck.querySelectorAll('.slide');
+      const dots = document.getElementById('dots-' + deckId);
+      if (!dots) return;
+      dots.innerHTML = '';
+      slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Slide ' + (i + 1));
+        d.onclick = () => goToSlide(deckId, i);
+        dots.appendChild(d);
+      });
+    }
+
+    function goToSlide(deckId, idx) {
+      const deck = document.getElementById(deckId);
+      const slides = deck.querySelectorAll('.slide');
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      document.getElementById('dots-' + deckId)
+        .querySelectorAll('.slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+      const prevBtn = document.getElementById('prev-' + deckId);
+      const nextBtn = document.getElementById('next-' + deckId);
+      if (prevBtn) prevBtn.disabled = idx === 0;
+      if (nextBtn) nextBtn.disabled = idx === slides.length - 1;
+    }
+
+    function currentSlideIdx(deckId) {
+      return [...document.getElementById(deckId).querySelectorAll('.slide')]
+        .findIndex(s => s.classList.contains('active'));
+    }
+
+    function nextSlide(deckId) {
+      const slides = document.getElementById(deckId).querySelectorAll('.slide');
+      goToSlide(deckId, Math.min(currentSlideIdx(deckId) + 1, slides.length - 1));
+    }
+
+    function prevSlide(deckId) {
+      goToSlide(deckId, Math.max(currentSlideIdx(deckId) - 1, 0));
+    }
+
+    document.querySelectorAll('.slide-deck').forEach(deck => initDots(deck.id));
+
+    // Hotspots
+    document.querySelectorAll('.hotspot').forEach(hs => {
+      hs.addEventListener('click', e => {
+        e.stopPropagation();
+        const id = hs.dataset.tooltip;
+        const tooltip = document.getElementById(id);
+        const isOpen = tooltip.classList.contains('open');
+        document.querySelectorAll('.hotspot-tooltip').forEach(t => t.classList.remove('open'));
+        document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+        if (!isOpen) {
+          tooltip.classList.add('open');
+          hs.classList.add('active');
+        }
+      });
+    });
+
+    document.querySelectorAll('.tooltip-close').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        btn.closest('.hotspot-tooltip').classList.remove('open');
+        document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+      });
+    });
+
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.hotspot-tooltip').forEach(t => t.classList.remove('open'));
+      document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+    });
+
+    // Quiz
+    function checkQuiz(quizId, correct, okMsg, wrongMsg) {
+      const quiz = document.getElementById(quizId);
+      const selected = quiz.querySelector('input[type="radio"]:checked');
+      const fb = document.getElementById('feedback-' + quizId);
+      if (!selected) {
+        fb.textContent = 'Please select an answer.';
+        fb.className = 'quiz-feedback show neutral';
+        return;
+      }
+      fb.textContent = selected.value === correct ? (okMsg || 'Correct!') : (wrongMsg || 'Not quite.');
+      fb.className = 'quiz-feedback show ' + (selected.value === correct ? 'correct' : 'wrong');
+    }
+
+    function checkMulti(quizId, correct, okMsg, wrongMsg) {
+      const quiz = document.getElementById(quizId);
+      const selected = [...quiz.querySelectorAll('input[type="checkbox"]:checked')]
+        .map(i => i.value).sort();
+      const fb = document.getElementById('feedback-' + quizId);
+      if (selected.length === 0) {
+        fb.textContent = 'Please select at least one answer.';
+        fb.className = 'quiz-feedback show neutral';
+        return;
+      }
+      const ok = JSON.stringify(selected) === JSON.stringify([...correct].sort());
+      fb.textContent = ok ? (okMsg || 'Correct!') : (wrongMsg || 'Not quite.');
+      fb.className = 'quiz-feedback show ' + (ok ? 'correct' : 'wrong');
+    }
+  </script>
+
+</body>
+</html>
