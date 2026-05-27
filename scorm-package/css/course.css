@@ -134,7 +134,7 @@ body.course-page {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 20px 16px 32px 0;
+  padding: 48px 16px 32px 0;
   border-right: 1px solid rgba(22, 11, 82, 0.06) !important;
   box-sizing: border-box;
   scrollbar-width: thin;
@@ -211,8 +211,8 @@ body.course-page {
 /* ── Quicknotes floating panel ─────────────────────────────── */
 .quicknotes-panel {
   position: fixed;
-  top: calc(var(--nav-h) + 70px + 48px);
-  right: 24px;
+  top: calc(var(--nav-h) + 70px + 48px + 2px);
+  right: 22px;
   width: 280px;
   height: 340px;
   background: #fff;
@@ -239,7 +239,6 @@ body.course-page {
   display: flex;
   align-items: center;
   padding: 10px 48px 8px 14px;
-  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
 
@@ -272,7 +271,6 @@ body.course-page {
   align-items: center;
   justify-content: space-between;
   padding: 6px 14px;
-  border-top: 1px solid var(--border);
   flex-shrink: 0;
   min-height: 34px;
 }
