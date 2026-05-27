@@ -46,6 +46,7 @@
       <nav aria-label="Lessons">
         <ul class="lesson-list" id="lessonList"></ul>
       </nav>
+      <button class="reset-btn" onclick="resetProgress()" title="Reset progress">↺ Start over</button>
     </aside>
 
     <main class="course-main" id="courseMain">
@@ -578,6 +579,15 @@
         wrap.appendChild(el);
       }
       setTimeout(() => wrap.remove(), 7000);
+    }
+
+    function resetProgress() {
+      localStorage.removeItem('ta-lesson');
+      localStorage.removeItem('ta-feedback');
+      document.getElementById('feedbackThanks').textContent = '';
+      document.getElementById('feedbackThanks').classList.remove('visible');
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      goTo(1);
     }
 
     function submitFeedback(btn) {
