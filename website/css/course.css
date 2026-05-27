@@ -718,16 +718,6 @@ body.course-page {
   }
 }
 
-/* ── Finish button ─────────────────────────────────────── */
-.finish-btn {
-  background: var(--magenta) !important;
-  color: #fff !important;
-  border-color: var(--magenta) !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.03em;
-  padding: 0 24px !important;
-}
-.finish-btn:hover { opacity: 0.88; }
 
 /* ── Celebration screen (lesson 7) ─────────────────────── */
 .completion-screen {
