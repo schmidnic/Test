@@ -718,6 +718,61 @@ body.course-page {
   }
 }
 
+/* ── Feedback section ──────────────────────────────────── */
+.feedback-section {
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+  margin-bottom: 8px;
+}
+
+.feedback-prompt {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+.feedback-emojis {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.feedback-btn {
+  font-size: 1.8rem;
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+.feedback-btn:hover { transform: scale(1.15); }
+.feedback-btn.selected {
+  border-color: var(--magenta);
+  background: rgba(233,9,246,0.06);
+  transform: scale(1.1);
+}
+
+.feedback-thanks {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  color: var(--magenta);
+  font-weight: 600;
+  min-height: 1.2em;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.feedback-thanks.visible { opacity: 1; }
+
+/* ── Confetti ──────────────────────────────────────────── */
+@keyframes confettiFall {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.9; }
+  100% { transform: translateY(105vh) translateX(var(--drift, 0px)) rotate(540deg); opacity: 0; }
+}
+
 @media (max-width: 600px) {
   .course-header-inner {
     gap: 12px;

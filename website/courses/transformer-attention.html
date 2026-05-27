@@ -30,7 +30,6 @@
 
   <header class="course-header">
     <div class="course-header-inner">
-      <a href="../hub.html" class="course-back-link">← Coffee Hours</a>
       <div class="course-meta">
         <h1 class="course-title">How transformers think, and what just changed</h1>
       </div>
@@ -446,7 +445,7 @@
            LESSON 6 · COMPLETION
       ══════════════════════════════════════════════════════ -->
       <div class="lesson" id="lesson-6">
-        <h2 class="lesson-title">What to take with you</h2>
+        <h2 class="lesson-title">You made it.</h2>
         <div class="completion-block" style="text-align:left; padding: 0;">
           <div style="display:flex; align-items:center; gap:16px; margin-bottom:28px;">
             <div class="completion-icon" style="margin:0; flex-shrink:0;">
@@ -455,20 +454,30 @@
                 <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
               </svg>
             </div>
-            <p style="margin:0; font-family:'Space Grotesk',sans-serif; font-size:1.1rem; color:var(--navy); font-weight:500;">Course complete.</p>
+            <p style="margin:0; font-family:'Space Grotesk',sans-serif; font-size:1.1rem; color:var(--navy); font-weight:500;">Micro Learning complete.</p>
           </div>
 
           <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">The O(n²) constraint is not a detail. It is the reason AI systems still cannot read a full book, track a multi-day conversation, or reason over a large codebase in a single pass. If SSA holds up under scrutiny, these limits start to move.</p>
 
           <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">Three things to watch for in the coming months:</p>
 
-          <ul style="color:var(--muted); line-height:1.9; padding-left:20px; margin-bottom:36px; max-width:560px;">
+          <ul style="color:var(--muted); line-height:1.9; padding-left:20px; margin-bottom:40px; max-width:560px;">
             <li>Independent benchmarks comparing SubQ to Llama, Gemini, and GPT on long-context tasks</li>
             <li>Peer-reviewed analysis of the SSA selection algorithm's actual complexity</li>
             <li>Whether existing models adopt the mechanism via fine-tuning, or require retraining from scratch</li>
           </ul>
 
-          <a href="../hub.html" class="btn-course" style="display:inline-block;">Back to Coffee Hours →</a>
+          <div class="feedback-section">
+            <p class="feedback-prompt">How was this Micro Learning?</p>
+            <div class="feedback-emojis">
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great">😊</button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK">😐</button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great">😕</button>
+            </div>
+            <p class="feedback-thanks" id="feedbackThanks"></p>
+          </div>
+
+          <a href="../hub.html" class="btn-course" style="display:inline-block; margin-top:36px;">Back to Coffee Hours →</a>
         </div>
       </div>
 
@@ -518,6 +527,38 @@
       list.appendChild(li);
     });
 
+    function launchConfetti() {
+      const existing = document.getElementById('confetti-container');
+      if (existing) existing.remove();
+      const colors = ['#FF00FF','#160B52','#a78bfa','#fbbf24','#34d399','#f472b6','#60a5fa','#fff'];
+      const wrap = document.createElement('div');
+      wrap.id = 'confetti-container';
+      wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;';
+      document.body.appendChild(wrap);
+      for (let i = 0; i < 90; i++) {
+        const el = document.createElement('div');
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const left   = Math.random() * 100;
+        const delay  = Math.random() * 1.8;
+        const dur    = 2.2 + Math.random() * 2;
+        const w      = 5 + Math.random() * 9;
+        const h      = w * (0.4 + Math.random() * 0.5);
+        const rot    = Math.random() * 360;
+        const drift  = (Math.random() - 0.5) * 120;
+        el.style.cssText = `position:absolute;top:-16px;left:${left}%;width:${w}px;height:${h}px;background:${color};border-radius:2px;opacity:0.9;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;transform:rotate(${rot}deg);`;
+        wrap.appendChild(el);
+      }
+      setTimeout(() => wrap.remove(), 6500);
+    }
+
+    function submitFeedback(btn) {
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const thanks = document.getElementById('feedbackThanks');
+      thanks.textContent = 'Thanks for your feedback!';
+      thanks.classList.add('visible');
+    }
+
     function goTo(n) {
       document.getElementById('lesson-' + current).classList.remove('active');
       document.querySelectorAll('.lesson-item').forEach(el => {
@@ -530,6 +571,7 @@
       document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
       updateUI();
       window.scrollTo({ top: document.getElementById('courseMain').offsetTop - 130, behavior: 'smooth' });
+      if (n === TOTAL) launchConfetti();
     }
 
     function navigate(dir) {
