@@ -190,7 +190,7 @@ body.course-page {
 .quicknotes-fab {
   position: fixed;
   top: calc(var(--nav-h) + 70px + 48px);
-  right: 15px;
+  right: var(--pad-x);
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -212,7 +212,7 @@ body.course-page {
 .quicknotes-panel {
   position: fixed;
   top: calc(var(--nav-h) + 70px + 48px + 17px);
-  right: 32px;
+  right: var(--pad-x);
   width: 280px;
   height: 220px;
   background: #fff;
