@@ -478,9 +478,30 @@
           <div class="feedback-section" style="border-top:none; padding-top:0; margin-top:36px;">
             <p class="feedback-prompt">How was this Micro Learning?</p>
             <div class="feedback-emojis">
-              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great">😊</button>
-              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK">😐</button>
-              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great">😕</button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
+                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <path d="M10 18.5 Q16 24.5 22 18.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                </svg>
+              </button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
+                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <line x1="10" y1="20.5" x2="22" y2="20.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
+                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <path d="M10 22.5 Q16 16.5 22 22.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                </svg>
+              </button>
             </div>
             <p class="feedback-thanks" id="feedbackThanks"></p>
           </div>
@@ -569,6 +590,13 @@
       item7.classList.add('done');
       item7.classList.remove('active');
       localStorage.setItem('ta-feedback', '1');
+      const thumb = document.querySelector('.thumb-icon');
+      if (thumb) {
+        thumb.classList.remove('bounce');
+        void thumb.offsetWidth;
+        thumb.classList.add('bounce');
+        thumb.addEventListener('animationend', () => thumb.classList.remove('bounce'), { once: true });
+      }
     }
 
     function goTo(n, silent) {
@@ -583,11 +611,7 @@
       document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
       updateUI();
       if (!silent) window.scrollTo({ top: document.getElementById('courseMain').offsetTop - 130, behavior: 'smooth' });
-      if (n === TOTAL && !silent) {
-        launchConfetti();
-        const thumb = document.querySelector('.thumb-icon');
-        if (thumb) thumb.addEventListener('animationend', () => thumb.classList.add('bobbing'), { once: true });
-      }
+      if (n === TOTAL && !silent) launchConfetti();
       localStorage.setItem('ta-lesson', n);
     }
 
