@@ -11,7 +11,7 @@
     .course-header { top: 0; margin-top: 0; }
     .course-layout { padding-top: 0; }
     .sidebar-wrap { top: 70px; height: calc(100vh - 70px); }
-    .quicknotes-fab { top: 14px; }
+    .quicknotes-fab { top: 118px; }
     .quicknotes-panel { top: 118px; }
   </style>
 </head>
@@ -564,7 +564,6 @@
   <div class="quicknotes-panel" id="quicknotesPanel">
     <div class="quicknotes-header">
       <p class="quicknotes-title">Notes</p>
-      <button class="quicknotes-close" id="quicknotesClose">&#x2715;</button>
     </div>
     <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Jot down your thoughts..."></textarea>
     <div class="quicknotes-footer">
@@ -840,15 +839,13 @@
           localStorage.removeItem(NOTES_KEY);
         }
       });
-      var fab    = document.getElementById('quicknotesToggle');
-      var panel  = document.getElementById('quicknotesPanel');
-      var closeBtn = document.getElementById('quicknotesClose');
+      var fab   = document.getElementById('quicknotesToggle');
+      var panel = document.getElementById('quicknotesPanel');
       function toggleNotes() {
         var isOpen = panel.classList.toggle('open');
         fab.classList.toggle('active', isOpen);
       }
       fab.addEventListener('click', toggleNotes);
-      closeBtn.addEventListener('click', toggleNotes);
     })();
   </script>
 

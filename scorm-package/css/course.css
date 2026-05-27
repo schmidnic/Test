@@ -189,7 +189,7 @@ body.course-page {
 /* ── Quicknotes FAB ────────────────────────────────────────── */
 .quicknotes-fab {
   position: fixed;
-  top: calc(var(--nav-h) + 14px);
+  top: calc(var(--nav-h) + 70px + 48px);
   right: 24px;
   width: 34px;
   height: 34px;
@@ -238,8 +238,7 @@ body.course-page {
 .quicknotes-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px 8px;
+  padding: 10px 48px 8px 14px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
@@ -253,18 +252,6 @@ body.course-page {
   color: var(--muted);
   margin: 0;
 }
-
-.quicknotes-close {
-  background: none;
-  border: none;
-  font-size: 16px;
-  line-height: 1;
-  color: var(--muted);
-  cursor: pointer;
-  padding: 0 2px;
-  transition: color 0.15s;
-}
-.quicknotes-close:hover { color: var(--navy); }
 
 .quicknotes-area {
   flex: 1;
