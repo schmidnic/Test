@@ -162,11 +162,10 @@ body.course-page {
   align-items: center;
   gap: 10px;
   padding: 8px 12px 8px 6px;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background 0.2s;
   color: var(--muted);
-}
 
 .lesson-item:hover { background: #f0effe; color: var(--navy); }
 
