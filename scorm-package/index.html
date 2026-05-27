@@ -311,27 +311,59 @@
         </div>
 
         <div class="media-block" style="margin-top: 40px;">
-          <p class="media-label">What SSA claims — four properties at once</p>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 640px;">
+          <p class="media-label">What SSA claims: four properties at once</p>
+          <div class="flip-grid">
 
-            <div style="background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:20px;">
-              <p style="font-family:'Space Grotesk',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--magenta); margin-bottom:8px;">Content-dependent</p>
-              <p style="font-size:0.88rem; color:var(--muted); line-height:1.6;">Which pairs are computed depends on the actual tokens, not a fixed template. The model attends to what matters.</p>
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <p class="flip-card-label">Claim 1</p>
+                  <p class="flip-card-title">Content-dependent</p>
+                  <p class="flip-card-hint">Click to reveal</p>
+                </div>
+                <div class="flip-card-back">
+                  <p>Which pairs are computed depends on the actual tokens, not a fixed template. The model attends to what matters.</p>
+                </div>
+              </div>
             </div>
 
-            <div style="background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:20px;">
-              <p style="font-family:'Space Grotesk',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--magenta); margin-bottom:8px;">Exact</p>
-              <p style="font-size:0.88rem; color:var(--muted); line-height:1.6;">The computed attention values are identical to full attention for the selected pairs. No approximation error.</p>
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <p class="flip-card-label">Claim 2</p>
+                  <p class="flip-card-title">Exact</p>
+                  <p class="flip-card-hint">Click to reveal</p>
+                </div>
+                <div class="flip-card-back">
+                  <p>The computed attention values are identical to full attention for the selected pairs. No approximation error.</p>
+                </div>
+              </div>
             </div>
 
-            <div style="background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:20px;">
-              <p style="font-family:'Space Grotesk',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--magenta); margin-bottom:8px;">12M-token context</p>
-              <p style="font-size:0.88rem; color:var(--muted); line-height:1.6;">Demonstrated at 12 million tokens. For comparison, GPT-4 launched with 8,000 tokens. Current models reach 128k to 1M.</p>
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <p class="flip-card-label">Claim 3</p>
+                  <p class="flip-card-title">12M-token context</p>
+                  <p class="flip-card-hint">Click to reveal</p>
+                </div>
+                <div class="flip-card-back">
+                  <p>Demonstrated at 12 million tokens. For comparison, GPT-4 launched with 8,000 tokens. Current models reach 128k to 1M.</p>
+                </div>
+              </div>
             </div>
 
-            <div style="background:#fff; border:1.5px solid var(--border); border-radius:10px; padding:20px;">
-              <p style="font-family:'Space Grotesk',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--magenta); margin-bottom:8px;">End-to-end subquadratic</p>
-              <p style="font-size:0.88rem; color:var(--muted); line-height:1.6;">The selection mechanism itself is subquadratic. Previous sparse methods solved the compute problem but not the selection problem.</p>
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <p class="flip-card-label">Claim 4</p>
+                  <p class="flip-card-title">End-to-end subquadratic</p>
+                  <p class="flip-card-hint">Click to reveal</p>
+                </div>
+                <div class="flip-card-back">
+                  <p>The selection mechanism itself is subquadratic. Previous sparse methods solved the compute problem but not the selection problem.</p>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -470,7 +502,7 @@
           <p class="celebration-msg">You now understand why the O(n²) constraint shaped AI for nine years, and what SSA claims to change. That context is rare. Most people miss it entirely.</p>
 
           <div class="feedback-section" style="border-top:none; padding-top:0; margin-top:36px;">
-            <p class="feedback-prompt">How was this Micro Learning?</p>
+            <p class="feedback-prompt">How was this Microlearning?</p>
             <div class="feedback-emojis">
               <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great">
                 <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
