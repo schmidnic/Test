@@ -123,7 +123,13 @@ body.course-page {
   align-self: start;
   max-height: calc(100vh - var(--nav-h) - 56px);
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }
+
+.course-sidebar::-webkit-scrollbar { width: 4px; }
+.course-sidebar::-webkit-scrollbar-track { background: transparent; }
+.course-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
 .reset-btn {
   width: 22px;
