@@ -212,7 +212,7 @@ body.course-page {
 .quicknotes-panel {
   position: fixed;
   top: calc(var(--nav-h) + 70px + 48px + 17px);
-  right: var(--pad-x);
+  right: calc(var(--pad-x) + 17px);
   width: 280px;
   height: 220px;
   background: #fff;
@@ -231,7 +231,7 @@ body.course-page {
 }
 
 .course-layout.sidebar-collapsed ~ .quicknotes-panel {
-  width: 425px;
+  width: 420px;
 }
 
 
