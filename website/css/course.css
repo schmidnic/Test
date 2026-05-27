@@ -189,7 +189,7 @@ body.course-page {
 /* ── Quicknotes FAB ────────────────────────────────────────── */
 .quicknotes-fab {
   position: fixed;
-  top: calc(var(--nav-h) + 70px + 31px);
+  top: calc(var(--nav-h) + 70px + 48px);
   right: 15px;
   width: 34px;
   height: 34px;
