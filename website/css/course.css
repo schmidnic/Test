@@ -10,13 +10,13 @@ body.course-page {
   z-index: 900;
   background: #fff;
   border-bottom: 1px solid var(--border);
-  padding: 0 var(--pad-x);
   margin-top: var(--nav-h);
 }
 
 .course-header-inner {
   max-width: var(--max-w);
   margin: 0 auto;
+  padding: 0 var(--pad-x);
   display: flex;
   align-items: center;
   gap: 24px;
