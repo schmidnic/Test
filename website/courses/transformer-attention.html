@@ -442,43 +442,20 @@
       </div>
 
       <!-- ══════════════════════════════════════════════════════
-           LESSON 6 · COMPLETION
+           LESSON 6 · TAKEAWAYS
       ══════════════════════════════════════════════════════ -->
       <div class="lesson" id="lesson-6">
-        <h2 class="lesson-title">You made it.</h2>
-        <div class="completion-block" style="text-align:left; padding: 0;">
-          <div style="display:flex; align-items:center; gap:16px; margin-bottom:28px;">
-            <div class="completion-icon" style="margin:0; flex-shrink:0;">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/>
-                <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
-              </svg>
-            </div>
-            <p style="margin:0; font-family:'Space Grotesk',sans-serif; font-size:1.1rem; color:var(--navy); font-weight:500;">Micro Learning complete.</p>
-          </div>
+        <h2 class="lesson-title">What to take with you</h2>
 
-          <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">The O(n²) constraint is not a detail. It is the reason AI systems still cannot read a full book, track a multi-day conversation, or reason over a large codebase in a single pass. If SSA holds up under scrutiny, these limits start to move.</p>
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">The O(n²) constraint is not a detail. It is the reason AI systems still cannot read a full book, track a multi-day conversation, or reason over a large codebase in a single pass. If SSA holds up under scrutiny, these limits start to move.</p>
 
-          <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">Three things to watch for in the coming months:</p>
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">Three things to watch for in the coming months:</p>
 
-          <ul style="color:var(--muted); line-height:1.9; padding-left:20px; margin-bottom:40px; max-width:560px;">
-            <li>Independent benchmarks comparing SubQ to Llama, Gemini, and GPT on long-context tasks</li>
-            <li>Peer-reviewed analysis of the SSA selection algorithm's actual complexity</li>
-            <li>Whether existing models adopt the mechanism via fine-tuning, or require retraining from scratch</li>
-          </ul>
-
-          <div class="feedback-section">
-            <p class="feedback-prompt">How was this Micro Learning?</p>
-            <div class="feedback-emojis">
-              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great">😊</button>
-              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK">😐</button>
-              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great">😕</button>
-            </div>
-            <p class="feedback-thanks" id="feedbackThanks"></p>
-          </div>
-
-          <a href="../hub.html" class="btn-course" style="display:inline-block; margin-top:36px;">Back to Coffee Hours →</a>
-        </div>
+        <ul style="color:var(--muted); line-height:1.9; padding-left:20px; margin-bottom:16px; max-width:560px;">
+          <li>Independent benchmarks comparing SubQ to Llama, Gemini, and GPT on long-context tasks</li>
+          <li>Peer-reviewed analysis of the SSA selection algorithm's actual complexity</li>
+          <li>Whether existing models adopt the mechanism via fine-tuning, or require retraining from scratch</li>
+        </ul>
       </div>
 
       <!-- Bottom navigation -->
@@ -503,6 +480,37 @@
       </a>
     </div>
   </nav>
+
+  <!-- ── Celebration overlay ──────────────────────────────── -->
+  <div id="celebrationOverlay" class="celebration-overlay" role="dialog" aria-modal="true" aria-label="Course complete">
+    <div class="celebration-inner">
+      <div class="celebration-icon-wrap" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 4 L27.5 16.5 L40 16.5 L30 24.5 L33.5 37 L24 29.5 L14.5 37 L18 24.5 L8 16.5 L20.5 16.5 Z" fill="var(--magenta)" opacity="0.15" stroke="var(--magenta)" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M24 8 L26.8 17.2 L36.5 17.2 L28.8 22.8 L31.6 32 L24 26.4 L16.4 32 L19.2 22.8 L11.5 17.2 L21.2 17.2 Z" fill="var(--magenta)" stroke="none"/>
+          <circle cx="38" cy="10" r="2.5" fill="var(--magenta)" opacity="0.5"/>
+          <circle cx="10" cy="38" r="2" fill="var(--magenta)" opacity="0.4"/>
+          <circle cx="42" cy="34" r="1.8" fill="var(--navy)" opacity="0.3"/>
+          <circle cx="6"  cy="14" r="1.8" fill="var(--navy)" opacity="0.3"/>
+        </svg>
+      </div>
+      <h2 class="celebration-title">You made it.</h2>
+      <p class="celebration-subtitle">Micro Learning complete.</p>
+      <p class="celebration-msg">You now understand why the O(n²) constraint shaped AI for nine years, and what SSA claims to change. That context is rare. Most people miss it entirely.</p>
+
+      <div class="feedback-section" style="border-top:none; padding-top:0; margin-top:32px; align-items:center; text-align:center;">
+        <p class="feedback-prompt" style="text-align:center;">How was this Micro Learning?</p>
+        <div class="feedback-emojis" style="justify-content:center;">
+          <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great">😊</button>
+          <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK">😐</button>
+          <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great">😕</button>
+        </div>
+        <p class="feedback-thanks" id="feedbackThanks"></p>
+      </div>
+
+      <a href="../hub.html" class="btn-course" style="display:inline-block; margin-top:36px;">Back to Coffee Hours →</a>
+    </div>
+  </div>
 
   <script src="../js/main.js"></script>
   <script>
@@ -530,25 +538,32 @@
     function launchConfetti() {
       const existing = document.getElementById('confetti-container');
       if (existing) existing.remove();
-      const colors = ['#FF00FF','#160B52','#a78bfa','#fbbf24','#34d399','#f472b6','#60a5fa','#fff'];
+      const colors = ['#FF00FF','#e909f6','#160B52','#7C3AED','#a78bfa','#E9D5FF','#F0EFFE','#fff','#c4b5fd'];
       const wrap = document.createElement('div');
       wrap.id = 'confetti-container';
-      wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;';
+      wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden;';
       document.body.appendChild(wrap);
-      for (let i = 0; i < 90; i++) {
+      for (let i = 0; i < 100; i++) {
         const el = document.createElement('div');
         const color = colors[Math.floor(Math.random() * colors.length)];
         const left   = Math.random() * 100;
-        const delay  = Math.random() * 1.8;
-        const dur    = 2.2 + Math.random() * 2;
-        const w      = 5 + Math.random() * 9;
-        const h      = w * (0.4 + Math.random() * 0.5);
+        const delay  = Math.random() * 2;
+        const dur    = 2.5 + Math.random() * 2.5;
+        const w      = 5 + Math.random() * 10;
+        const h      = w * (0.35 + Math.random() * 0.5);
         const rot    = Math.random() * 360;
-        const drift  = (Math.random() - 0.5) * 120;
-        el.style.cssText = `position:absolute;top:-16px;left:${left}%;width:${w}px;height:${h}px;background:${color};border-radius:2px;opacity:0.9;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;transform:rotate(${rot}deg);`;
+        const drift  = (Math.random() - 0.5) * 140;
+        el.style.cssText = `position:absolute;top:-16px;left:${left}%;width:${w}px;height:${h}px;background:${color};border-radius:2px;opacity:0.92;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;transform:rotate(${rot}deg);`;
         wrap.appendChild(el);
       }
-      setTimeout(() => wrap.remove(), 6500);
+      setTimeout(() => wrap.remove(), 7000);
+    }
+
+    function showCelebration() {
+      const overlay = document.getElementById('celebrationOverlay');
+      overlay.classList.add('active');
+      launchConfetti();
+      document.body.style.overflow = 'hidden';
     }
 
     function submitFeedback(btn) {
@@ -571,7 +586,6 @@
       document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
       updateUI();
       window.scrollTo({ top: document.getElementById('courseMain').offsetTop - 130, behavior: 'smooth' });
-      if (n === TOTAL) launchConfetti();
     }
 
     function navigate(dir) {
@@ -585,7 +599,18 @@
       document.getElementById('progressText').textContent = current + ' / ' + TOTAL;
       document.getElementById('lessonCounter').textContent = current + ' / ' + TOTAL;
       document.getElementById('prevBtn').disabled = current === 1;
-      document.getElementById('nextBtn').disabled = current === TOTAL;
+      const nextBtn = document.getElementById('nextBtn');
+      if (current === TOTAL) {
+        nextBtn.textContent = 'Finish';
+        nextBtn.classList.add('finish-btn');
+        nextBtn.disabled = false;
+        nextBtn.onclick = showCelebration;
+      } else {
+        nextBtn.textContent = 'Next →';
+        nextBtn.classList.remove('finish-btn');
+        nextBtn.disabled = false;
+        nextBtn.onclick = () => navigate(1);
+      }
     }
 
     document.getElementById('lesson-1').classList.add('active');
