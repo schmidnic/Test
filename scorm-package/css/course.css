@@ -1137,7 +1137,7 @@ body.course-page {
 }
 
 .flip-card-hint {
-  color: var(--navy);
+  color: var(--magenta);
   margin: 0;
   line-height: 0;
   opacity: 0.4;
