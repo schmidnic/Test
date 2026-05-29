@@ -4,15 +4,15 @@
 
 // ── Block type registry ─────────────────────────────────────────
 const BLOCK_TYPES = [
-  { id:'page',       label:'Page',        icon:'≡',  desc:'Text, Überschriften, freier Inhalt' },
-  { id:'slides',     label:'Slides',      icon:'◧',  desc:'Slideshow mit Pfeilen und Dots' },
-  { id:'accordion',  label:'Accordion',   icon:'☰',  desc:'Aufklappbare Fragen & Antworten' },
-  { id:'flipcards',  label:'Flip Cards',  icon:'⬡',  desc:'Karten zum Umdrehen (Frage / Antwort)' },
-  { id:'agamotto',   label:'Agamotto',    icon:'◈',  desc:'Schrittweise Bildprogression (Slider)' },
-  { id:'juxtapose',  label:'Juxtapose',   icon:'⬕',  desc:'Vorher / Nachher Bildvergleich' },
-  { id:'quiz',       label:'Quiz',        icon:'✓',  desc:'Multiple-Choice Wissensabfrage' },
-  { id:'completion', label:'Completion',  icon:'★',  desc:'Abschlussbildschirm mit Konfetti' },
-  { id:'embed',      label:'Embed',       icon:'⊡',  desc:'Video, Audio, Website, Hotspot-Bild' },
+  { id:'page',       label:'Page',        icon:'≡',  desc:'Text, headings, free content' },
+  { id:'slides',     label:'Slides',      icon:'◧',  desc:'Slideshow with arrows and dots' },
+  { id:'accordion',  label:'Accordion',   icon:'☰',  desc:'Expandable questions and answers' },
+  { id:'flipcards',  label:'Flip Cards',  icon:'⬡',  desc:'Cards to flip (question / answer)' },
+  { id:'agamotto',   label:'Agamotto',    icon:'◈',  desc:'Step-by-step image progression (slider)' },
+  { id:'juxtapose',  label:'Juxtapose',   icon:'⬕',  desc:'Before / after image comparison' },
+  { id:'quiz',       label:'Quiz',        icon:'✓',  desc:'Multiple-choice knowledge check' },
+  { id:'completion', label:'Completion',  icon:'★',  desc:'Completion screen with confetti' },
+  { id:'embed',      label:'Embed',       icon:'⊡',  desc:'Video, audio, website, hotspot image' },
 ];
 
 const EMBED_TYPES = [
@@ -20,8 +20,8 @@ const EMBED_TYPES = [
   { id:'audio',   label:'Audio (Podcast, SoundCloud)' },
   { id:'website', label:'Website / Tool' },
   { id:'gamemap', label:'Game Map / Interactive Map' },
-  { id:'hotspot', label:'Hotspot-Bild' },
-  { id:'other',   label:'Sonstiges iframe' },
+  { id:'hotspot', label:'Hotspot Image' },
+  { id:'other',   label:'Other iframe' },
 ];
 
 // ── Default factories ───────────────────────────────────────────
@@ -1724,13 +1724,13 @@ async function handleImportFile(file) {
     } else if (ext === 'pptx') {
       importedText = await parsePptx(file);
     } else {
-      throw new Error('Nicht unterstütztes Format: .' + ext);
+      throw new Error('Unsupported format: .' + ext);
     }
 
     document.getElementById('importProgressBar').style.width = '100%';
 
     const words = importedText.trim().split(/\s+/).filter(Boolean).length;
-    document.getElementById('importWordCount').textContent  = words.toLocaleString('de') + ' Wörter';
+    document.getElementById('importWordCount').textContent  = words.toLocaleString() + ' words';
     document.getElementById('importPreview').value          = importedText;
     document.getElementById('importPreviewWrap').style.display  = '';
     document.getElementById('importAiSettings').style.display   = '';
@@ -2185,13 +2185,13 @@ async function publishCourse() {
     const res  = await ghPut(cfg, `website/courses/${key}.html`, html, `Publish: ${state.meta.title}`);
     if (res.ok) {
       await updateCoursesIndex(cfg);
-      toast('Veröffentlicht! GitHub Pages aktualisiert sich in ~30 Sekunden.');
+      toast('Published! GitHub Pages will update in ~30 seconds.');
     } else {
       const err = await res.json().catch(() => ({}));
       toast('Error: ' + (err.message || res.status));
     }
   } catch(ex) {
-    toast('Netzwerkfehler: ' + ex.message);
+    toast('Network error: ' + ex.message);
   } finally {
     label.style.display   = '';
     spinner.style.display = 'none';
@@ -2239,7 +2239,7 @@ async function uploadImage(file) {
   try {
     uploadFile = await processImageFile(file);
   } catch(convErr) {
-    toast('Konvertierung fehlgeschlagen, versuche Original…');
+    toast('Conversion failed, trying original…');
   }
 
   const reader = new FileReader();
@@ -2451,9 +2451,9 @@ async function exportScorm() {
     a.download = id + '-scorm.zip';
     a.click();
     URL.revokeObjectURL(a.href);
-    toast('SCORM-Paket erstellt.');
+    toast('SCORM package created.');
   } catch(ex) {
-    toast('SCORM-Fehler: ' + ex.message);
+    toast('SCORM error: ' + ex.message);
   }
 }
 
@@ -2793,7 +2793,7 @@ document.addEventListener('click', e => {
   }
   if (t.id === 'btnCopyPreviewUrl') {
     const val = document.getElementById('mobilePreviewUrl').value;
-    navigator.clipboard.writeText(val).then(() => toast('Link kopiert.')).catch(() => toast('Kopieren fehlgeschlagen.'));
+    navigator.clipboard.writeText(val).then(() => toast('Link copied.')).catch(() => toast('Copy failed.'));
     return;
   }
 
