@@ -156,7 +156,7 @@
     if (!pathDef) return;
 
     document.getElementById('sidebarTitle').textContent = pathDef.title;
-    document.getElementById('navPathTitle').textContent = isHJ() ? pathDef.title + ' · Hero's Journey' : pathDef.title;
+    document.getElementById('navPathTitle').textContent = isHJ() ? pathDef.title + " · Hero's Journey" : pathDef.title;
     document.title = pathDef.title + ' – prohelias';
     document.getElementById('ptsVal').textContent = (progress && progress.points) || 0;
 
@@ -244,7 +244,7 @@
     setMain(`
       <div class="path-content-scroll">
         <div class="path-screen-inner">
-          <div class="path-screen-tag">${tx('Learning Path', 'The Hero's Journey')}</div>
+          <div class="path-screen-tag">${tx('Learning Path', "The Hero's Journey")}</div>
           <h1 class="path-screen-h">${esc(p.title)}</h1>
           ${heroIntro}
           <p class="path-screen-p">${esc(p.description)}</p>
@@ -530,7 +530,7 @@
       <div class="path-content-scroll">
         <div class="path-screen-inner">
           <div class="complete-badge">${isHJ() ? '⚔️' : '🏆'}</div>
-          <div class="path-screen-tag">${tx('Learning path completed','Hero's Journey complete')}</div>
+          <div class="path-screen-tag">${tx('Learning path completed',"Hero's Journey complete")}</div>
           <h1 class="path-screen-h">${tx('Congratulations!','The Return.')}</h1>
           <p class="path-screen-p">
             ${isHJ()
