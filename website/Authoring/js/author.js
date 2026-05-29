@@ -101,7 +101,7 @@ function renderOutline() {
   // Course settings entry
   html += `<div class="au-outline-item ${sel.type==='meta'?'selected':''}" data-sel="meta">
     <span class="au-outline-icon">⚙</span>
-    <span>Kurseinstellungen</span>
+    <span>Course settings</span>
   </div>`;
 
   state.lessons.forEach((lesson, li) => {
@@ -112,8 +112,8 @@ function renderOutline() {
     html += `<div class="au-outline-lesson">
       <div class="au-outline-lesson-header ${lessonSel?'selected':''}" data-sel="lesson" data-li="${li}">
         <span class="au-outline-chevron">${open?'▾':'▸'}</span>
-        <span class="au-outline-lesson-title">${esc(lesson.title || 'Lektion ' + (li+1))}</span>
-        <button class="au-outline-del" data-del-lesson="${li}" title="Lektion löschen">×</button>
+        <span class="au-outline-lesson-title">${esc(lesson.title || 'Lesson ' + (li+1))}</span>
+        <button class="au-outline-del" data-del-lesson="${li}" title="Delete lesson">×</button>
       </div>`;
 
     if (open) {
@@ -127,23 +127,23 @@ function renderOutline() {
         </div>`;
       });
       html += `<div class="au-outline-addblock">
-        <button class="au-outline-add-btn" data-open-picker="${li}">+ Block hinzufügen</button>
+        <button class="au-outline-add-btn" data-open-picker="${li}">+ Add block</button>
       </div>`;
     }
     html += `</div>`;
   });
 
-  html += `<div class="au-add-lesson-btn" id="addLessonBtn">+ Neue Lektion</div>`;
+  html += `<div class="au-add-lesson-btn" id="addLessonBtn">+ New Lesson</div>`;
 
   // Paths section
   html += `<div class="au-outline-section-sep">
-    <span>Lernpfade</span>
-    <button class="au-icon-btn" id="btnAddPath" title="Neuen Lernpfad erstellen">+</button>
+    <span>Learning Paths</span>
+    <button class="au-icon-btn" id="btnAddPath" title="Create new learning path">+</button>
   </div>`;
   pathsList.forEach(p => {
     html += `<div class="au-outline-path-item ${selPath===p.id?'selected':''}" data-path="${p.id}">
       <span style="opacity:0.45">⟳</span>
-      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.title||'Neuer Pfad')}</span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.title||'New Path')}</span>
       <button class="au-outline-del" data-del-path="${p.id}">×</button>
     </div>`;
   });
@@ -281,7 +281,7 @@ function editorPath(path) {
 
   <div class="au-card">
     <div class="au-field">
-      <label class="au-label">Titel <span style="color:var(--magenta)">*</span></label>
+      <label class="au-label">Title <span style="color:var(--magenta)">*</span></label>
       <input class="au-input" type="text" name="path.title" value="${esc(path.title||'')}" placeholder="AI Introduction: Understanding Concepts" id="pathTitleInput">
     </div>
     <div class="au-field">
@@ -387,23 +387,23 @@ function imgField(label, name, value) {
 function editorMeta() {
   const m = state.meta;
   return `<div class="au-editor-section">
-    ${sectionTitle('Kurseinstellungen')}
-    ${f('Kurstitel','meta.title',m.title)}
-    ${f('Storage-Key (eindeutig pro Kurs)','meta.storageKey',m.storageKey)}
-    ${f('Zurück-Link (URL)','meta.backLink',m.backLink)}
-    ${f('Zurück-Label','meta.backLabel',m.backLabel)}
-    ${sel_('Kursformat','meta.format',[
-      {id:'stage',  label:'Stage (horizontale Lektionsnavigation)'},
-      {id:'scroll', label:'Endless Scroll (vertikales Scrollen)'},
+    ${sectionTitle('Course settings')}
+    ${f('Course title','meta.title',m.title)}
+    ${f('Storage key (unique per course)','meta.storageKey',m.storageKey)}
+    ${f('Back link (URL)','meta.backLink',m.backLink)}
+    ${f('Back label','meta.backLabel',m.backLabel)}
+    ${sel_('Course format','meta.format',[
+      {id:'stage',  label:'Stage (horizontal lesson navigation)'},
+      {id:'scroll', label:'Endless Scroll (vertical scrolling)'},
     ], m.format||'stage')}
   </div>`;
 }
 
 function editorLesson(lesson, li) {
   return `<div class="au-editor-section">
-    ${sectionTitle('Lektion ' + (li+1))}
-    ${f('Lektionstitel (im TOC sichtbar)','lesson.title',lesson.title)}
-    <p class="au-hint">Klicke im Outline auf "+ Block hinzufügen", um Inhalte zu ergänzen.</p>
+    ${sectionTitle('Lesson ' + (li+1))}
+    ${f('Lesson title (visible in TOC)','lesson.title',lesson.title)}
+    <p class="au-hint">Click "+ Add block" in the Outline to add content blocks.</p>
   </div>`;
 }
 
@@ -420,104 +420,104 @@ function editorBlock(block, li, bi) {
     case 'quiz':       inner = edQuiz(block);    break;
     case 'completion': inner = edCompletion(block); break;
     case 'embed':      inner = edEmbed(block);   break;
-    default:           inner = '<p>Unbekannter Block-Typ.</p>';
+    default:           inner = '<p>Unknown block type.</p>';
   }
   return `<div class="au-editor-section">
     <div class="au-editor-header">
       <h3 class="au-editor-title">${bt?bt.icon+' '+bt.label:block.type}</h3>
-      <span class="au-editor-path">Lektion ${li+1} · Block ${bi+1}</span>
+      <span class="au-editor-path">Lesson ${li+1} · Block ${bi+1}</span>
     </div>
     ${inner}
   </div>`;
 }
 
 function edPage(b) {
-  return f('Überschrift (optional)','page.heading',b.heading)
-       + ta('Inhalt (HTML erlaubt)','page.body',b.body,8);
+  return f('Heading (optional)','page.heading',b.heading)
+       + ta('Content (HTML allowed)','page.body',b.body,8);
 }
 
 function edSlides(b) {
-  let html = ta('Intro-Text (optional, über den Slides)','slides.intro',b.intro||'',2);
+  let html = ta('Intro text (optional, above slides)','slides.intro',b.intro||'',2);
   b.slides.forEach((s,si) => {
     html += `<div class="au-list-item">
       <div class="au-list-item-header">
         <span class="au-list-num">Slide ${si+1}</span>
-        ${b.slides.length>1?`<button class="au-btn au-btn-danger-sm" data-rm-slide="${si}">Entfernen</button>`:''}
+        ${b.slides.length>1?`<button class="au-btn au-btn-danger-sm" data-rm-slide="${si}">Remove</button>`:''}
       </div>
-      ${f('Überschrift',`slide.${si}.heading`,s.heading)}
+      ${f('Heading',`slide.${si}.heading`,s.heading)}
       ${ta('Text',`slide.${si}.body`,s.body,3)}
     </div>`;
   });
-  return html + `<button class="au-btn au-btn-add" data-add-slide>+ Slide hinzufügen</button>`;
+  return html + `<button class="au-btn au-btn-add" data-add-slide>+ Add slide</button>`;
 }
 
 function edAccordion(b) {
-  let html = ta('Intro-Text (optional)','accordion.intro',b.intro||'',2);
+  let html = ta('Intro text (optional)','accordion.intro',b.intro||'',2);
   b.items.forEach((item,ii) => {
     html += `<div class="au-list-item">
       <div class="au-list-item-header">
-        <span class="au-list-num">Eintrag ${ii+1}</span>
-        ${b.items.length>1?`<button class="au-btn au-btn-danger-sm" data-rm-acc="${ii}">Entfernen</button>`:''}
+        <span class="au-list-num">Entry ${ii+1}</span>
+        ${b.items.length>1?`<button class="au-btn au-btn-danger-sm" data-rm-acc="${ii}">Remove</button>`:''}
       </div>
-      ${f('Frage / Trigger',`acc.${ii}.trigger`,item.trigger)}
-      ${ta('Antwort / Inhalt',`acc.${ii}.content`,item.content,3)}
+      ${f('Question / trigger',`acc.${ii}.trigger`,item.trigger)}
+      ${ta('Answer / content',`acc.${ii}.content`,item.content,3)}
     </div>`;
   });
-  return html + `<button class="au-btn au-btn-add" data-add-acc>+ Eintrag hinzufügen</button>`;
+  return html + `<button class="au-btn au-btn-add" data-add-acc>+ Add entry</button>`;
 }
 
 function edFlipCards(b) {
-  let html = ta('Intro-Text (optional)','flipcards.intro',b.intro||'',2);
+  let html = ta('Intro text (optional)','flipcards.intro',b.intro||'',2);
   b.cards.forEach((c,ci) => {
     html += `<div class="au-list-item">
       <div class="au-list-item-header">
-        <span class="au-list-num">Karte ${ci+1}</span>
-        ${b.cards.length>1?`<button class="au-btn au-btn-danger-sm" data-rm-card="${ci}">Entfernen</button>`:''}
+        <span class="au-list-num">Card ${ci+1}</span>
+        ${b.cards.length>1?`<button class="au-btn au-btn-danger-sm" data-rm-card="${ci}">Remove</button>`:''}
       </div>
-      ${f('Label (z.B. "Claim 1")',`fc.${ci}.label`,c.label)}
-      ${f('Vorderseite: Frage',`fc.${ci}.question`,c.question)}
-      ${f('Rückseite: Überschrift (Claim-Titel)',`fc.${ci}.title`,c.title)}
-      ${ta('Rückseite: Antwort',`fc.${ci}.answer`,c.answer,2)}
+      ${f('Label (e.g. "Claim 1")',`fc.${ci}.label`,c.label)}
+      ${f('Front: question',`fc.${ci}.question`,c.question)}
+      ${f('Back: heading (claim title)',`fc.${ci}.title`,c.title)}
+      ${ta('Back: answer',`fc.${ci}.answer`,c.answer,2)}
     </div>`;
   });
-  return html + `<button class="au-btn au-btn-add" data-add-card>+ Karte hinzufügen</button>`;
+  return html + `<button class="au-btn au-btn-add" data-add-card>+ Add card</button>`;
 }
 
 function edAgamotto(b) {
-  let html = ta('Intro-Text (optional)','agamotto.intro',b.intro||'',2);
+  let html = ta('Intro text (optional)','agamotto.intro',b.intro||'',2);
   b.steps.forEach((s,si) => {
     html += `<div class="au-list-item">
       <div class="au-list-item-header">
-        <span class="au-list-num">Schritt ${si+1}</span>
-        ${b.steps.length>2?`<button class="au-btn au-btn-danger-sm" data-rm-aga="${si}">Entfernen</button>`:''}
+        <span class="au-list-num">Step ${si+1}</span>
+        ${b.steps.length>2?`<button class="au-btn au-btn-danger-sm" data-rm-aga="${si}">Remove</button>`:''}
       </div>
-      ${imgField('Bild',`aga.${si}.image`,s.image)}
-      ${ta('Beschriftung / Text',`aga.${si}.caption`,s.caption,2)}
+      ${imgField('Image',`aga.${si}.image`,s.image)}
+      ${ta('Caption / text',`aga.${si}.caption`,s.caption,2)}
     </div>`;
   });
-  return html + `<button class="au-btn au-btn-add" data-add-aga>+ Schritt hinzufügen</button>`;
+  return html + `<button class="au-btn au-btn-add" data-add-aga>+ Add step</button>`;
 }
 
 function edJuxtapose(b) {
-  return ta('Intro-Text (optional)','juxtapose.intro',b.intro||'',2)
-       + imgField('Vorher-Bild','juxtapose.beforeImage',b.beforeImage)
-       + f('Vorher-Label','juxtapose.beforeLabel',b.beforeLabel)
-       + imgField('Nachher-Bild','juxtapose.afterImage',b.afterImage)
-       + f('Nachher-Label','juxtapose.afterLabel',b.afterLabel);
+  return ta('Intro text (optional)','juxtapose.intro',b.intro||'',2)
+       + imgField('Before image','juxtapose.beforeImage',b.beforeImage)
+       + f('Before label','juxtapose.beforeLabel',b.beforeLabel)
+       + imgField('After image','juxtapose.afterImage',b.afterImage)
+       + f('After label','juxtapose.afterLabel',b.afterLabel);
 }
 
 function edQuiz(b) {
-  let html = ta('Intro-Text (optional)','quiz.intro',b.intro||'',2);
+  let html = ta('Intro text (optional)','quiz.intro',b.intro||'',2);
   b.questions.forEach((q,qi) => {
     html += `<div class="au-list-item">
       <div class="au-list-item-header">
-        <span class="au-list-num">Frage ${qi+1}</span>
-        ${b.questions.length>1?`<button class="au-btn au-btn-danger-sm" data-rm-q="${qi}">Entfernen</button>`:''}
+        <span class="au-list-num">Question ${qi+1}</span>
+        ${b.questions.length>1?`<button class="au-btn au-btn-danger-sm" data-rm-q="${qi}">Remove</button>`:''}
       </div>
-      ${ta('Fragetext',`q.${qi}.text`,q.text,2)}
-      ${sel_('Typ','q.'+qi+'.multi',[{id:'false',label:'Einfachauswahl (Radio)'},{id:'true',label:'Mehrfachauswahl (Checkbox)'}], q.multi?'true':'false')}
+      ${ta('Question text',`q.${qi}.text`,q.text,2)}
+      ${sel_('Type','q.'+qi+'.multi',[{id:'false',label:'Single choice (radio)'},{id:'true',label:'Multiple choice (checkbox)'}], q.multi?'true':'false')}
       <div class="au-field">
-        <label class="au-label">Antwortoptionen <span style="font-size:0.68rem;font-weight:400">(✓ = richtig)</span></label>`;
+        <label class="au-label">Answer options <span style="font-size:0.68rem;font-weight:400">(✓ = correct)</span></label>`;
     q.options.forEach((opt,oi) => {
       html += `<div class="au-option-row">
         <input type="checkbox" class="au-opt-correct" name="q.${qi}.opt.${oi}.correct" ${opt.correct?'checked':''}>
@@ -527,32 +527,32 @@ function edQuiz(b) {
     });
     html += `<button class="au-btn au-btn-add-sm" data-add-opt="${qi}">+ Option</button>
       </div>
-      ${f('Feedback bei richtiger Antwort',`q.${qi}.okMsg`,q.okMsg||'')}
-      ${f('Feedback bei falscher Antwort',`q.${qi}.wrongMsg`,q.wrongMsg||'')}
+      ${f('Feedback for correct answer',`q.${qi}.okMsg`,q.okMsg||'')}
+      ${f('Feedback for wrong answer',`q.${qi}.wrongMsg`,q.wrongMsg||'')}
     </div>`;
   });
-  return html + `<button class="au-btn au-btn-add" data-add-q>+ Frage hinzufügen</button>`;
+  return html + `<button class="au-btn au-btn-add" data-add-q>+ Add question</button>`;
 }
 
 function edCompletion(b) {
-  return f('Überschrift','completion.heading',b.heading)
+  return f('Heading','completion.heading',b.heading)
        + f('Subtitle','completion.subtitle',b.subtitle||'')
-       + ta('Nachricht','completion.message',b.message,4)
+       + ta('Message','completion.message',b.message,4)
        + `<div class="au-field">
-            <label class="au-label">Feedback-Smiley anzeigen</label>
+            <label class="au-label">Show feedback smiley</label>
             <select class="au-select" name="completion.showFeedback">
-              <option value="true" ${b.showFeedback!==false?'selected':''}>Ja</option>
-              <option value="false" ${b.showFeedback===false?'selected':''}>Nein</option>
+              <option value="true" ${b.showFeedback!==false?'selected':''}>Yes</option>
+              <option value="false" ${b.showFeedback===false?'selected':''}>No</option>
             </select>
           </div>`;
 }
 
 function edEmbed(b) {
-  return sel_('Embed-Typ','embed.embedType',EMBED_TYPES,b.embedType)
+  return sel_('Embed type','embed.embedType',EMBED_TYPES,b.embedType)
        + f('URL (iframe src)','embed.url',b.url)
-       + f('Titel / Label (Accessibility)','embed.title',b.title)
-       + f('Höhe in px','embed.height',b.height,'number','min="100" max="2000"')
-       + `<p class="au-hint">YouTube: Teilen → Einbetten → src-URL verwenden. Vimeo entsprechend.</p>`;
+       + f('Title / label (accessibility)','embed.title',b.title)
+       + f('Height in px','embed.height',b.height,'number','min="100" max="2000"')
+       + `<p class="au-hint">YouTube: Share → Embed → use the src URL. Vimeo works the same way.</p>`;
 }
 
 // ── State update from form ────────────────────────────────────────
@@ -595,7 +595,7 @@ function applyField(name, value) {
 
 // ── Scroll preview ───────────────────────────────────────────────
 function generateScrollPreviewHtml() {
-  const titles = state.lessons.map(l => l.title || 'Lektion');
+  const titles = state.lessons.map(l => l.title || 'Lesson');
   const total  = state.lessons.length;
   const tocHtml = titles.map((t,i) => `
     <li class="lesson-item" id="toc-${i+1}" data-lesson="${i+1}">
@@ -606,7 +606,7 @@ function generateScrollPreviewHtml() {
   let sectionsHtml = '';
   state.lessons.forEach((lesson, li) => {
     sectionsHtml += `<div class="scroll-section" id="section-${li+1}" data-section="${li+1}" style="padding:40px 0;border-bottom:1px solid rgba(22,11,82,0.06);">
-      <h2 class="lesson-title">${esc(lesson.title || 'Lektion ' + (li+1))}</h2>
+      <h2 class="lesson-title">${esc(lesson.title || 'Lesson ' + (li+1))}</h2>
       ${lesson.blocks.map((b,bi) => generateBlockHtml(b,li,bi)).join('\n')}
     </div>`;
   });
@@ -670,11 +670,11 @@ function updatePreview() {
 function generatePreviewHtml() {
   if ((state.meta.format || 'stage') === 'scroll') return generateScrollPreviewHtml();
   const lessonCount = state.lessons.length;
-  const titles = state.lessons.map(l => l.title || 'Lektion');
+  const titles = state.lessons.map(l => l.title || 'Lesson');
   let lessonsHtml = '';
   state.lessons.forEach((lesson, li) => {
     lessonsHtml += `<div class="lesson ${li===0?'active':''}" id="lesson-${li+1}">
-      <h2 class="lesson-title">${esc(lesson.title || 'Lektion ' + (li+1))}</h2>
+      <h2 class="lesson-title">${esc(lesson.title || 'Lesson ' + (li+1))}</h2>
       ${lesson.blocks.map((b,bi) => generateBlockHtml(b, li, bi)).join('\n')}
     </div>`;
   });
@@ -743,7 +743,7 @@ ${inlineCourseJs(state, lessonCount, titles)}
 // ── Scroll format generators ─────────────────────────────────────
 function generateScrollCourseHtml() {
   const m      = state.meta;
-  const titles = state.lessons.map(l => l.title || 'Lektion');
+  const titles = state.lessons.map(l => l.title || 'Lesson');
   const total  = state.lessons.length;
   const tocHtml = titles.map((t,i) => `
     <li class="lesson-item" id="toc-${i+1}" data-lesson="${i+1}">
@@ -990,7 +990,7 @@ function inlineScrollCourseJs(state, total, titles) {
 function generateCourseHtml() {
   if ((state.meta.format || 'stage') === 'scroll') return generateScrollCourseHtml();
   const m = state.meta;
-  const titles = state.lessons.map(l => l.title || 'Lektion');
+  const titles = state.lessons.map(l => l.title || 'Lesson');
   const total  = state.lessons.length;
 
   let lessonsHtml = '';
@@ -1894,15 +1894,15 @@ Regeln:
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.error?.message || 'API-Fehler ' + res.status);
+      throw new Error(err.error?.message || 'API error ' + res.status);
     }
 
     const data  = await res.json();
-    const raw   = data.content?.[0]?.text || '';
+    const raw   = (data.content?.[0]?.text || '').replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,'');
     const match = raw.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('Keine valide JSON-Antwort erhalten.');
+    if (!match) throw new Error('No valid JSON response received.');
     const generated = JSON.parse(match[0]);
-    if (!generated.meta || !Array.isArray(generated.lessons)) throw new Error('Ungültige Kursstruktur generiert.');
+    if (!generated.meta || !Array.isArray(generated.lessons)) throw new Error('Invalid course structure generated.');
 
     state = generated;
     sel   = { type: null, lessonIdx: null, blockIdx: null };
@@ -1910,13 +1910,13 @@ Regeln:
     document.getElementById('courseTitleDisplay').textContent = state.meta.title || 'New Course';
     closeImportModal();
     renderAll();
-    toast('✨ Kurs aus "' + filename + '" strukturiert: ' + generated.lessons.length + ' Lektionen.' + (truncated ? ' (Text war zu lang und wurde gekürzt.)' : ''));
+    toast('✨ Course from "' + filename + '" structured: ' + generated.lessons.length + ' lessons.' + (truncated ? ' (Text was too long and was trimmed.)' : ''));
 
   } catch(ex) {
-    document.getElementById('importError').textContent = 'Fehler: ' + ex.message;
+    document.getElementById('importError').textContent = 'Error: ' + ex.message;
   } finally {
     btn.disabled    = false;
-    btn.textContent = '✨ KI strukturieren';
+    btn.textContent = '✨ AI structure';
   }
 }
 
@@ -1937,7 +1937,7 @@ async function generateAiCourse() {
   const cfg = getAiConfig();
   if (!cfg.key) {
     document.getElementById('aiError').textContent =
-      'Bitte zuerst den Anthropic API Key in den Einstellungen (⚙) eingeben.';
+      'Please enter your Anthropic API Key in Settings (⚙) first.';
     return;
   }
   const topic      = document.getElementById('aiTopic').value.trim();
@@ -1947,11 +1947,11 @@ async function generateAiCourse() {
   const numLessons = document.getElementById('aiNumLessons').value;
   const format     = document.getElementById('aiFormat').value;
 
-  if (!topic) { document.getElementById('aiError').textContent = 'Bitte das Thema eingeben.'; return; }
+  if (!topic) { document.getElementById('aiError').textContent = 'Please enter a topic.'; return; }
 
   const btn = document.getElementById('btnAiGenerate');
   btn.disabled    = true;
-  btn.textContent = '⟳ Erstelle Konzept…';
+  btn.textContent = '⟳ Creating…';
   document.getElementById('aiError').textContent = '';
 
   const prompt = `Du bist ein erfahrener Instructional Designer. Erstelle einen Microlearning-Kurs auf Deutsch.
@@ -1977,24 +1977,11 @@ Antworte NUR mit einem validen JSON-Objekt (kein Markdown, keine Erklärung) mit
     {
       "title": "Lektionstitel",
       "blocks": [
-        // 2 bis 4 Blöcke pro Lektion, verschiedene Typen verwenden
-
-        // Page-Block (Einführung, Erklärung):
         {"type":"page","heading":"Überschrift","body":"<p>HTML-Text</p>"},
-
-        // Slides (Schritt-für-Schritt):
         {"type":"slides","intro":"Optionaler Intro-Text","slides":[{"heading":"","body":""}]},
-
-        // Accordion (aufklappbare Fragen & Antworten):
         {"type":"accordion","intro":"","items":[{"trigger":"Frage?","content":"Antwort"}]},
-
-        // Flip Cards (Vorderseite = Frage, Rückseite = Konzept + Erklärung):
         {"type":"flipcards","intro":"","cards":[{"label":"Begriff 1","question":"Was ist…?","title":"Konzeptname","answer":"Erklärung"}]},
-
-        // Quiz (Wissensabfrage):
         {"type":"quiz","intro":"","questions":[{"text":"Frage?","multi":false,"options":[{"text":"Richtige Antwort","correct":true},{"text":"Falsche Antwort","correct":false},{"text":"Falsche Antwort","correct":false}],"okMsg":"Richtig!","wrongMsg":"Leider falsch."}]},
-
-        // Completion (NUR als letzter Block der letzten Lektion):
         {"type":"completion","heading":"Gut gemacht!","subtitle":"Microlearning abgeschlossen.","message":"","showFeedback":true}
       ]
     }
@@ -2029,16 +2016,16 @@ Regeln:
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.error?.message || 'API-Fehler ' + res.status);
+      throw new Error(err.error?.message || 'API error ' + res.status);
     }
 
     const data   = await res.json();
-    const text   = data.content?.[0]?.text || '';
+    const text   = (data.content?.[0]?.text || '').replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,'');
     const match  = text.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('Keine valide JSON-Antwort erhalten.');
+    if (!match) throw new Error('No valid JSON response received.');
 
     const generated = JSON.parse(match[0]);
-    if (!generated.meta || !Array.isArray(generated.lessons)) throw new Error('Ungültige Kursstruktur generiert.');
+    if (!generated.meta || !Array.isArray(generated.lessons)) throw new Error('Invalid course structure generated.');
 
     state = generated;
     sel   = { type: null, lessonIdx: null, blockIdx: null };
@@ -2046,13 +2033,13 @@ Regeln:
     document.getElementById('courseTitleDisplay').textContent = state.meta.title || 'New Course';
     closeAiModal();
     renderAll();
-    toast(`✨ Kurs generiert: ${state.lessons.length} Lektionen.`);
+    toast(`✨ Course generated: ${state.lessons.length} lessons.`);
 
   } catch(ex) {
-    document.getElementById('aiError').textContent = 'Fehler: ' + ex.message;
+    document.getElementById('aiError').textContent = 'Error: ' + ex.message;
   } finally {
     btn.disabled    = false;
-    btn.textContent = '✨ Konzept erstellen';
+    btn.textContent = '✨ Create concept';
   }
 }
 
@@ -2353,7 +2340,7 @@ function generateManifest(title, id) {
 
 function generateScormHtml() {
   const m      = state.meta;
-  const titles = state.lessons.map(l => l.title || 'Lektion');
+  const titles = state.lessons.map(l => l.title || 'Lesson');
   const total  = state.lessons.length;
 
   let lessonsHtml = '';
@@ -2592,7 +2579,7 @@ document.addEventListener('click', e => {
   // Add lesson btn in outline
   if (t.closest('#addLessonBtn') || t.id === 'addLessonBtn') {
     const li = state.lessons.length;
-    state.lessons.push({ title:'Neue Lektion', blocks:[] });
+    state.lessons.push({ title:'New Lesson', blocks:[] });
     sel = { type:'lesson', lessonIdx:li, blockIdx:null };
     saveState(); renderAll(); return;
   }
@@ -2600,7 +2587,7 @@ document.addEventListener('click', e => {
   // Outline: add path
   if (t.id === 'btnAddPath') {
     const id = 'pfad-' + Date.now().toString(36);
-    pathsList.push({ id, title:'New Learning Path', subtitle:'', description:'', level:'Einsteiger',
+    pathsList.push({ id, title:'New Learning Path', subtitle:'', description:'', level:'Beginner',
       topics:[], estimatedMin:45, goal:'', behavioralAnchorTemplate:'', steps:[] });
     savePathsList();
     sel = { type:null, lessonIdx:null, blockIdx:null };
@@ -2620,7 +2607,7 @@ document.addEventListener('click', e => {
   if (t.closest('[data-del-path]')) {
     e.stopPropagation();
     const id = (t.closest('[data-del-path]') || t).dataset.delPath;
-    if (!id || !confirm('Lernpfad löschen?')) return;
+    if (!id || !confirm('Delete learning path?')) return;
     pathsList = pathsList.filter(p => p.id !== id);
     if (selPath === id) selPath = null;
     savePathsList(); renderAll(); return;
@@ -2678,7 +2665,7 @@ document.addEventListener('click', e => {
   // Header: add lesson
   if (t.id === 'btnAddLesson') {
     const li = state.lessons.length;
-    state.lessons.push({ title:'Neue Lektion', blocks:[] });
+    state.lessons.push({ title:'New Lesson', blocks:[] });
     sel = { type:'lesson', lessonIdx:li, blockIdx:null };
     saveState(); renderAll(); return;
   }

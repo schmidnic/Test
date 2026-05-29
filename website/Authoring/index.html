@@ -6,7 +6,7 @@
   <title>schmidpower Authoring</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/author.css?v=50">
+  <link rel="stylesheet" href="css/author.css?v=51">
 </head>
 <body>
 
@@ -158,34 +158,34 @@
         <button class="au-icon-btn" id="closeAiModal">×</button>
       </div>
       <div class="au-ai-body">
-        <p class="au-settings-intro">Beschreibe dein Thema und die KI erstellt ein vollständiges didaktisches Konzept.</p>
+        <p class="au-settings-intro">Describe your topic and the AI will create a complete didactic concept.</p>
         <div class="au-field">
-          <label class="au-label">Thema / Inhalt <span style="color:var(--magenta)">*</span></label>
-          <textarea class="au-textarea" id="aiTopic" rows="5" placeholder="Beschreibe das Thema, füge Texte ein, oder skizziere den Inhalt, den du vermitteln möchtest…"></textarea>
+          <label class="au-label">Topic / content <span style="color:var(--magenta)">*</span></label>
+          <textarea class="au-textarea" id="aiTopic" rows="5" placeholder="Describe the topic, paste existing text, or outline the content you want to teach…"></textarea>
         </div>
         <div class="au-field">
-          <label class="au-label">Lernziel</label>
-          <input type="text" class="au-input" id="aiGoal" placeholder="Was sollen Lernende danach können oder wissen?">
+          <label class="au-label">Learning goal</label>
+          <input type="text" class="au-input" id="aiGoal" placeholder="What should learners be able to do or know afterwards?">
         </div>
         <div class="au-ai-grid">
           <div class="au-field">
-            <label class="au-label">Zielgruppe</label>
+            <label class="au-label">Audience</label>
             <select class="au-select" id="aiAudience">
-              <option value="Einsteiger ohne Vorwissen">Einsteiger</option>
-              <option value="Berufstätige mit Grundkenntnissen" selected>Berufstätige</option>
-              <option value="Fachkräfte und Experten">Experten</option>
+              <option value="Einsteiger ohne Vorwissen">Beginners</option>
+              <option value="Berufstätige mit Grundkenntnissen" selected>Professionals</option>
+              <option value="Fachkräfte und Experten">Experts</option>
             </select>
           </div>
           <div class="au-field">
-            <label class="au-label">Vorerfahrung</label>
+            <label class="au-label">Prior experience</label>
             <select class="au-select" id="aiPrior">
-              <option value="keine Vorerfahrung">Keine</option>
-              <option value="etwas Vorerfahrung" selected>Etwas</option>
-              <option value="viel Vorerfahrung">Viel</option>
+              <option value="keine Vorerfahrung">None</option>
+              <option value="etwas Vorerfahrung" selected>Some</option>
+              <option value="viel Vorerfahrung">A lot</option>
             </select>
           </div>
           <div class="au-field">
-            <label class="au-label">Lektionen</label>
+            <label class="au-label">Lessons</label>
             <select class="au-select" id="aiNumLessons">
               <option value="3">3</option>
               <option value="4" selected>4</option>
@@ -202,7 +202,7 @@
           </div>
         </div>
         <div class="au-ai-actions">
-          <button class="au-btn au-btn-ai-generate" id="btnAiGenerate">✨ Konzept erstellen</button>
+          <button class="au-btn au-btn-ai-generate" id="btnAiGenerate">✨ Create concept</button>
           <p class="au-ai-error" id="aiError"></p>
         </div>
       </div>
@@ -213,25 +213,25 @@
   <div class="au-modal-overlay" id="importOverlay">
     <div class="au-modal au-modal-import">
       <div class="au-modal-header">
-        <span>⬆ Material importieren</span>
+        <span>⬆ Import material</span>
         <button class="au-icon-btn" id="closeImportModal">×</button>
       </div>
       <div class="au-import-body">
-        <p class="au-settings-intro">Lade ein vorhandenes Dokument hoch. Der Text wird extrahiert und du kannst ihn als Rohlektion übernehmen oder von der KI in einen strukturierten Kurs umwandeln lassen.</p>
+        <p class="au-settings-intro">Upload an existing document. The text will be extracted and you can use it as a raw lesson or let the AI turn it into a structured course.</p>
 
         <!-- Drop zone -->
         <div class="au-import-drop" id="importDrop">
           <div class="au-import-drop-icon">⬆</div>
-          <p class="au-import-drop-label">PDF, DOCX, PPTX, TXT oder MD hierher ziehen</p>
-          <p class="au-import-drop-sub">oder</p>
-          <button class="au-btn au-btn-ghost au-import-browse-btn" id="btnImportBrowse">Datei auswählen</button>
+          <p class="au-import-drop-label">Drag PDF, DOCX, PPTX, TXT or MD here</p>
+          <p class="au-import-drop-sub">or</p>
+          <button class="au-btn au-btn-ghost au-import-browse-btn" id="btnImportBrowse">Choose file</button>
         </div>
 
         <!-- File info + progress (hidden until file loaded) -->
         <div class="au-import-file-info" id="importFileInfo" style="display:none">
           <span class="au-import-filename" id="importFilename"></span>
           <span class="au-import-filesize" id="importFilesize"></span>
-          <button class="au-icon-btn au-import-clear" id="btnImportClear" title="Auswahl löschen">×</button>
+          <button class="au-icon-btn au-import-clear" id="btnImportClear" title="Clear selection">×</button>
         </div>
         <div class="au-import-progress" id="importProgress" style="display:none">
           <div class="au-import-progress-bar" id="importProgressBar"></div>
@@ -240,7 +240,7 @@
         <!-- Extracted text preview -->
         <div class="au-import-preview-wrap" id="importPreviewWrap" style="display:none">
           <div class="au-import-preview-header">
-            <span class="au-import-preview-label">Extrahierter Text</span>
+            <span class="au-import-preview-label">Extracted text</span>
             <span class="au-import-word-count" id="importWordCount"></span>
           </div>
           <textarea class="au-import-preview" id="importPreview" readonly></textarea>
@@ -250,7 +250,7 @@
         <div class="au-import-ai-settings" id="importAiSettings" style="display:none">
           <div class="au-ai-grid">
             <div class="au-field">
-              <label class="au-label">Lektionen</label>
+              <label class="au-label">Lessons</label>
               <select class="au-select" id="importNumLessons">
                 <option value="2">2</option>
                 <option value="3" selected>3</option>
@@ -259,11 +259,11 @@
               </select>
             </div>
             <div class="au-field">
-              <label class="au-label">Zielgruppe</label>
+              <label class="au-label">Audience</label>
               <select class="au-select" id="importAudience">
-                <option value="Einsteiger ohne Vorwissen">Einsteiger</option>
-                <option value="Berufstätige mit Grundkenntnissen" selected>Berufstätige</option>
-                <option value="Fachkräfte und Experten">Experten</option>
+                <option value="Einsteiger ohne Vorwissen">Beginners</option>
+                <option value="Berufstätige mit Grundkenntnissen" selected>Professionals</option>
+                <option value="Fachkräfte und Experten">Experts</option>
               </select>
             </div>
             <div class="au-field">
@@ -277,8 +277,8 @@
         </div>
 
         <div class="au-import-actions" id="importActions" style="display:none">
-          <button class="au-btn au-btn-ghost" id="btnImportRaw">Als Rohlektion übernehmen</button>
-          <button class="au-btn au-btn-ai-generate" id="btnImportAi">✨ KI strukturieren</button>
+          <button class="au-btn au-btn-ghost" id="btnImportRaw">Use as raw lesson</button>
+          <button class="au-btn au-btn-ai-generate" id="btnImportAi">✨ AI structure</button>
         </div>
         <p class="au-ai-error" id="importError"></p>
       </div>
