@@ -5,7 +5,7 @@ if (navLogo) {
   navLogo.innerHTML = [...text].map((char, i) =>
     `<span class="nlc" style="--i:${i}">${char === ' ' ? '&nbsp;' : char}</span>`
   ).join('');
-  const readyDelay = text.length * 40 + 200 + 500;
+  const readyDelay = text.length * 65 + 200 + 750;
   setTimeout(() => navLogo.classList.add('nlc-ready'), readyDelay);
 }
 
