@@ -1673,6 +1673,253 @@ function openMobilePreview() {
   document.getElementById('mobilePreviewOverlay').classList.add('open');
 }
 
+// ── Material Import ──────────────────────────────────────────────
+
+let importedText  = '';
+let importedName  = '';
+
+function openImportModal() {
+  importedText = '';
+  importedName = '';
+  document.getElementById('importError').textContent = '';
+  document.getElementById('importPreviewWrap').style.display  = 'none';
+  document.getElementById('importActions').style.display      = 'none';
+  document.getElementById('importAiSettings').style.display   = 'none';
+  document.getElementById('importFileInfo').style.display     = 'none';
+  document.getElementById('importProgress').style.display     = 'none';
+  document.getElementById('importDrop').style.display         = '';
+  document.getElementById('importOverlay').classList.add('open');
+}
+function closeImportModal() {
+  document.getElementById('importOverlay').classList.remove('open');
+}
+
+async function handleImportFile(file) {
+  if (!file) return;
+  importedName = file.name;
+  importedText = '';
+
+  const ext  = file.name.split('.').pop().toLowerCase();
+  const size = file.size > 1024*1024
+    ? (file.size / 1024 / 1024).toFixed(1) + ' MB'
+    : (file.size / 1024).toFixed(0) + ' KB';
+
+  document.getElementById('importDrop').style.display    = 'none';
+  document.getElementById('importFilename').textContent  = file.name;
+  document.getElementById('importFilesize').textContent  = size;
+  document.getElementById('importFileInfo').style.display = '';
+  document.getElementById('importProgress').style.display = '';
+  document.getElementById('importProgressBar').style.width = '10%';
+  document.getElementById('importError').textContent = '';
+
+  try {
+    if (ext === 'txt' || ext === 'md') {
+      importedText = await file.text();
+    } else if (ext === 'docx') {
+      importedText = await parseDocx(file);
+    } else if (ext === 'pdf') {
+      importedText = await parsePdf(file);
+    } else if (ext === 'pptx') {
+      importedText = await parsePptx(file);
+    } else {
+      throw new Error('Nicht unterstütztes Format: .' + ext);
+    }
+
+    document.getElementById('importProgressBar').style.width = '100%';
+
+    const words = importedText.trim().split(/\s+/).filter(Boolean).length;
+    document.getElementById('importWordCount').textContent  = words.toLocaleString('de') + ' Wörter';
+    document.getElementById('importPreview').value          = importedText;
+    document.getElementById('importPreviewWrap').style.display  = '';
+    document.getElementById('importAiSettings').style.display   = '';
+    document.getElementById('importActions').style.display      = '';
+
+  } catch(err) {
+    document.getElementById('importError').textContent = 'Fehler beim Lesen: ' + err.message;
+    document.getElementById('importProgressBar').style.width = '0%';
+  } finally {
+    setTimeout(() => {
+      const prog = document.getElementById('importProgress');
+      if (prog) prog.style.display = 'none';
+    }, 600);
+  }
+}
+
+async function parseDocx(file) {
+  if (typeof mammoth === 'undefined') throw new Error('mammoth.js nicht geladen. Bitte Internetverbindung prüfen.');
+  const ab  = await file.arrayBuffer();
+  const res = await mammoth.extractRawText({ arrayBuffer: ab });
+  return res.value;
+}
+
+async function parsePdf(file) {
+  if (typeof pdfjsLib === 'undefined') throw new Error('PDF.js nicht geladen. Bitte Internetverbindung prüfen.');
+  const ab  = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+  const parts = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    document.getElementById('importProgressBar').style.width = Math.round(10 + (i / pdf.numPages) * 80) + '%';
+    const page  = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const text  = content.items.map(it => it.str).join(' ');
+    if (text.trim()) parts.push(text.trim());
+  }
+  return parts.join('\n\n');
+}
+
+async function parsePptx(file) {
+  if (typeof JSZip === 'undefined') throw new Error('JSZip nicht geladen. Bitte Internetverbindung prüfen.');
+  const ab   = await file.arrayBuffer();
+  const zip  = await JSZip.loadAsync(ab);
+  const slideFiles = Object.keys(zip.files)
+    .filter(n => /^ppt\/slides\/slide\d+\.xml$/i.test(n))
+    .sort((a, b) => {
+      const na = parseInt(a.match(/\d+/)[0]);
+      const nb = parseInt(b.match(/\d+/)[0]);
+      return na - nb;
+    });
+
+  const slides = [];
+  for (let idx = 0; idx < slideFiles.length; idx++) {
+    document.getElementById('importProgressBar').style.width = Math.round(10 + (idx / slideFiles.length) * 80) + '%';
+    const xml  = await zip.files[slideFiles[idx]].async('text');
+    const parser = new DOMParser();
+    const doc  = parser.parseFromString(xml, 'text/xml');
+    const texts = Array.from(doc.getElementsByTagNameNS('http://schemas.openxmlformats.org/drawingml/2006/main', 't'))
+      .map(el => el.textContent)
+      .filter(t => t.trim());
+    if (texts.length) slides.push('--- Folie ' + (idx + 1) + ' ---\n' + texts.join(' '));
+  }
+  return slides.join('\n\n');
+}
+
+function importAsRawLesson(text, filename) {
+  const title  = filename.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+  const lesson = {
+    title,
+    blocks: [
+      {
+        type: 'page',
+        heading: title,
+        body: '<p>' + text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+                          .replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>') + '</p>'
+      }
+    ]
+  };
+  state.lessons.push(lesson);
+  sel = { type: 'lesson', lessonIdx: state.lessons.length - 1, blockIdx: null };
+  saveState();
+  closeImportModal();
+  renderAll();
+  toast('Rohlektion "' + title + '" importiert.');
+}
+
+async function importWithAi(text, filename) {
+  const cfg = getAiConfig();
+  if (!cfg.key) {
+    document.getElementById('importError').textContent = 'Bitte zuerst den Anthropic API Key in den Einstellungen (⚙) eingeben.';
+    return;
+  }
+
+  const numLessons = document.getElementById('importNumLessons').value;
+  const audience   = document.getElementById('importAudience').value;
+  const format     = document.getElementById('importFormat').value;
+  const title      = filename.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+
+  const btn = document.getElementById('btnImportAi');
+  btn.disabled    = true;
+  btn.textContent = '⟳ Strukturiere…';
+  document.getElementById('importError').textContent = '';
+
+  const MAX_CHARS = 12000;
+  const truncated  = text.length > MAX_CHARS;
+  const inputText  = truncated ? text.slice(0, MAX_CHARS) + '\n\n[Text gekürzt auf 12.000 Zeichen]' : text;
+
+  const prompt = `Du bist ein erfahrener Instructional Designer. Verarbeite das folgende Dokument zu einem Microlearning-Kurs auf Deutsch.
+
+ORIGINALTITEL: ${title}
+ZIELGRUPPE: ${audience}
+ANZAHL LEKTIONEN: ${numLessons}
+FORMAT: ${format}
+
+QUELLDOKUMENT:
+${inputText}
+
+Antworte NUR mit einem validen JSON-Objekt (kein Markdown, keine Erklärung) mit exakt dieser Struktur:
+
+{
+  "meta": {
+    "title": "Kurstitel auf Deutsch",
+    "storageKey": "kurs-slug-mit-bindestrichen",
+    "backLink": "../hub.html",
+    "backLabel": "Zurück",
+    "format": "${format}"
+  },
+  "lessons": [
+    {
+      "title": "Lektionstitel",
+      "blocks": [
+        {"type":"page","heading":"Überschrift","body":"<p>HTML-Text</p>"},
+        {"type":"quiz","intro":"","questions":[{"text":"Frage?","multi":false,"options":[{"text":"Richtig","correct":true},{"text":"Falsch","correct":false}],"okMsg":"Richtig!","wrongMsg":"Leider falsch."}]},
+        {"type":"completion","heading":"Gut gemacht!","subtitle":"Microlearning abgeschlossen.","message":"","showFeedback":true}
+      ]
+    }
+  ]
+}
+
+Regeln:
+- Inhalte aus dem Quelldokument übernehmen und für das Microlearning-Format aufbereiten
+- Jede Lektion: 2 bis 4 Blöcke, verschiedene Typen (page, slides, accordion, flipcards, quiz)
+- Genau einen completion-Block als letzten Block der letzten Lektion
+- Quizfragen: Inhalte aus dem Dokument prüfen, 3 Antwortmöglichkeiten
+- storageKey aus dem Titel ableiten: nur Kleinbuchstaben und Bindestriche
+- Kein Inhalt erfinden, der nicht im Quelldokument steht`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': cfg.key,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 6000,
+        system: 'Du bist ein Experte für Instructional Design und Microlearning. Antworte ausschließlich mit validem JSON.',
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || 'API-Fehler ' + res.status);
+    }
+
+    const data  = await res.json();
+    const raw   = data.content?.[0]?.text || '';
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('Keine valide JSON-Antwort erhalten.');
+    const generated = JSON.parse(match[0]);
+    if (!generated.meta || !Array.isArray(generated.lessons)) throw new Error('Ungültige Kursstruktur generiert.');
+
+    state = generated;
+    sel   = { type: null, lessonIdx: null, blockIdx: null };
+    saveState();
+    document.getElementById('courseTitleDisplay').textContent = state.meta.title || 'New Course';
+    closeImportModal();
+    renderAll();
+    toast('✨ Kurs aus "' + filename + '" strukturiert: ' + generated.lessons.length + ' Lektionen.' + (truncated ? ' (Text war zu lang und wurde gekürzt.)' : ''));
+
+  } catch(ex) {
+    document.getElementById('importError').textContent = 'Fehler: ' + ex.message;
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = '✨ KI strukturieren';
+  }
+}
+
 // ── Anthropic / AI config ────────────────────────────────────────
 function getAiConfig() {
   return { key: localStorage.getItem('au-anthropic-key') || '' };
@@ -2495,6 +2742,7 @@ document.addEventListener('click', e => {
   if (t.id === 'btnExport') { exportHtml(); return; }
   if (t.id === 'btnSave')   { saveJson();  return; }
   if (t.id === 'btnLoad')   { document.getElementById('fileInput').click(); return; }
+  if (t.id === 'btnImport') { openImportModal(); return; }
   if (t.id === 'btnNew') {
     if (!confirm('Neuen Kurs starten? Ungespeicherte Änderungen gehen verloren.')) return;
     state = { meta:{title:'New Course',storageKey:'course-new',backLink:'../hub.html',backLabel:'Coffee Hours',format:'stage'}, lessons:[] };
@@ -2549,6 +2797,28 @@ document.addEventListener('click', e => {
   if (t.id === 'btnOpenAi')  { openAiModal();  return; }
   if (t.id === 'closeAiModal' || t.id === 'aiOverlay') { closeAiModal(); return; }
   if (t.id === 'btnAiGenerate') { generateAiCourse(); return; }
+  if (t.id === 'closeImportModal' || t.id === 'importOverlay') { closeImportModal(); return; }
+  if (t.id === 'btnImportBrowse') { document.getElementById('importInput').click(); return; }
+  if (t.id === 'btnImportClear') {
+    document.getElementById('importDrop').style.display        = '';
+    document.getElementById('importFileInfo').style.display    = 'none';
+    document.getElementById('importPreviewWrap').style.display = 'none';
+    document.getElementById('importAiSettings').style.display  = 'none';
+    document.getElementById('importActions').style.display     = 'none';
+    document.getElementById('importError').textContent         = '';
+    importedText = ''; importedName = '';
+    return;
+  }
+  if (t.id === 'btnImportRaw') {
+    const txt = document.getElementById('importPreview').value;
+    if (txt.trim()) importAsRawLesson(txt, importedName || 'Import');
+    return;
+  }
+  if (t.id === 'btnImportAi') {
+    const txt = document.getElementById('importPreview').value;
+    if (txt.trim()) importWithAi(txt, importedName || 'Import.txt');
+    return;
+  }
 
   // Image upload trigger
   if (t.closest('[data-upload-for]')) {
@@ -2696,6 +2966,28 @@ document.getElementById('imageInput').addEventListener('change', e => {
   if (e.target.files[0]) uploadImage(e.target.files[0]);
   e.target.value = '';
 });
+
+// Import file input
+document.getElementById('importInput').addEventListener('change', e => {
+  if (e.target.files[0]) handleImportFile(e.target.files[0]);
+  e.target.value = '';
+});
+
+// Import drag-and-drop
+(function() {
+  const drop = document.getElementById('importDrop');
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag-over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('drag-over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault();
+    drop.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file) handleImportFile(file);
+  });
+  drop.addEventListener('click', e => {
+    if (e.target.id !== 'btnImportBrowse') document.getElementById('importInput').click();
+  });
+})();
 
 // ── Init ──────────────────────────────────────────────────────────
 async function init() {

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>schmidpower Authoring</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/author.css">
+</head>
+<body>
+
+  <header class="au-header">
+    <div class="au-header-left">
+      <span class="au-logo">schmidpower <span class="au-logo-badge">Authoring</span></span>
+    </div>
+    <div class="au-header-center">
+      <span class="au-course-title-display" id="courseTitleDisplay">New Course</span>
+    </div>
+    <div class="au-header-right">
+      <button class="au-icon-btn au-settings-btn" id="btnSettings" title="Einstellungen">⚙</button>
+      <div class="au-header-divider"></div>
+      <button class="au-btn au-btn-ai-header" id="btnOpenAi" title="KI-Kurs erstellen">✨ KI</button>
+      <button class="au-btn au-btn-ghost" id="btnNew" title="Neuer Kurs">New</button>
+      <button class="au-btn au-btn-ghost" id="btnLoad" title="JSON öffnen">Open</button>
+      <button class="au-btn au-btn-import" id="btnImport" title="Materialien importieren (PDF, DOCX, PPTX, TXT, MD)">⬆ Import</button>
+      <button class="au-btn au-btn-ghost" id="btnSave" title="Als JSON speichern">Save JSON</button>
+      <button class="au-btn au-btn-ghost" id="btnExport" title="Als HTML exportieren">Export HTML</button>
+      <button class="au-btn au-btn-ghost" id="btnMobilePreview" title="Mobil-Vorschau">📱</button>
+      <button class="au-btn au-btn-ghost" id="btnExportScorm" title="Als SCORM-Paket exportieren">Export SCORM</button>
+      <button class="au-btn au-btn-publish" id="btnPublish" title="Direkt auf prohelias.com veröffentlichen">
+        <span class="au-publish-label">Publish</span>
+        <span class="au-publish-spinner" style="display:none">⟳</span>
+      </button>
+      <input type="file" id="fileInput" accept=".json" style="display:none">
+      <input type="file" id="imageInput" accept="image/*" style="display:none">
+      <input type="file" id="importInput" accept=".pdf,.docx,.pptx,.txt,.md" style="display:none">
+    </div>
+  </header>
+
+  <div class="au-workspace">
+
+    <!-- ── Outline ─────────────────────────────────────────────── -->
+    <aside class="au-panel au-outline">
+      <div class="au-panel-header">
+        <span>Outline</span>
+        <div class="au-outline-header-actions">
+          <button class="au-icon-btn" id="btnAddLesson" title="Lektion hinzufügen">+</button>
+          <button class="au-icon-btn au-outline-collapse" id="btnCollapseOutline" title="Outline einklappen">‹</button>
+        </div>
+      </div>
+      <div class="au-outline-scroll" id="outlineContent">
+        <!-- rendered by JS -->
+      </div>
+    </aside>
+
+    <!-- ── Editor ─────────────────────────────────────────────── -->
+    <section class="au-panel au-editor">
+      <div class="au-editor-scroll" id="editorContent">
+        <div class="au-empty-state">
+          <div class="au-empty-icon">✦</div>
+          <p>Wähle einen Eintrag im Outline<br>oder lege eine neue Lektion an.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Preview ────────────────────────────────────────────── -->
+    <section class="au-panel au-preview">
+      <div class="au-panel-header">
+        <span>Preview</span>
+        <button class="au-icon-btn" id="btnPreviewRefresh" title="Vorschau aktualisieren">↺</button>
+      </div>
+      <iframe id="previewFrame" class="au-preview-frame" title="Course preview" sandbox="allow-scripts allow-same-origin"></iframe>
+    </section>
+
+  </div>
+
+  <!-- Block type picker modal -->
+  <div class="au-modal-overlay" id="blockPickerOverlay">
+    <div class="au-modal">
+      <div class="au-modal-header">
+        <span>Block hinzufügen</span>
+        <button class="au-icon-btn" id="closeBlockPicker">×</button>
+      </div>
+      <div class="au-block-grid" id="blockPickerGrid"></div>
+    </div>
+  </div>
+
+  <!-- Settings modal -->
+  <div class="au-modal-overlay" id="settingsOverlay">
+    <div class="au-modal au-modal-settings">
+      <div class="au-modal-header">
+        <span>⚙ Einstellungen</span>
+        <button class="au-icon-btn" id="closeSettings">×</button>
+      </div>
+      <div class="au-settings-body">
+        <p class="au-settings-intro">Für <strong>Publish</strong> und <strong>Bild-Upload</strong> wird ein GitHub Personal Access Token benötigt.</p>
+        <div class="au-field">
+          <label class="au-label">GitHub Personal Access Token</label>
+          <input type="password" class="au-input" id="ghToken" placeholder="ghp_...">
+          <p class="au-hint">Berechtigungen: <code>Contents → Read & write</code>. Token unter github.com → Settings → Developer Settings → Personal Access Tokens erstellen.</p>
+        </div>
+        <div class="au-settings-row">
+          <div class="au-field">
+            <label class="au-label">Repo Owner</label>
+            <input type="text" class="au-input" id="ghOwner" placeholder="schmidnic">
+          </div>
+          <div class="au-field">
+            <label class="au-label">Repo Name</label>
+            <input type="text" class="au-input" id="ghRepo" placeholder="Test">
+          </div>
+          <div class="au-field">
+            <label class="au-label">Branch</label>
+            <input type="text" class="au-input" id="ghBranch" placeholder="master">
+          </div>
+        </div>
+        <div class="au-settings-section-title">KI-Assistent</div>
+        <div class="au-field">
+          <label class="au-label">Anthropic API Key</label>
+          <input type="password" class="au-input" id="anthropicKey" placeholder="sk-ant-...">
+          <p class="au-hint">Für den KI-Kursassistenten. Unter console.anthropic.com → API Keys erstellen.</p>
+        </div>
+        <div class="au-settings-actions">
+          <button class="au-btn au-btn-primary" id="saveSettings">Speichern</button>
+          <span class="au-settings-status" id="settingsStatus"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile preview modal -->
+  <div class="au-modal-overlay" id="mobilePreviewOverlay">
+    <div class="au-modal au-modal-mobile-preview">
+      <div class="au-modal-header">
+        <span>📱 Mobil-Vorschau</span>
+        <button class="au-icon-btn" id="closeMobilePreview">×</button>
+      </div>
+      <div class="au-mobile-preview-body">
+        <p class="au-hint">Kopiere den Link und öffne ihn auf deinem Mobilgerät, oder nutze "Teilen".</p>
+        <div class="au-preview-url-row">
+          <input type="text" class="au-input au-preview-url-input" id="mobilePreviewUrl" readonly>
+          <button class="au-btn au-btn-ghost" id="btnCopyPreviewUrl">Kopieren</button>
+        </div>
+        <div class="au-mobile-preview-actions">
+          <button class="au-btn au-btn-primary" id="btnOpenMobilePreview">Öffnen ↗</button>
+          <button class="au-btn au-btn-ghost" id="btnShareMobilePreview">Teilen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI assistant modal -->
+  <div class="au-modal-overlay" id="aiOverlay">
+    <div class="au-modal au-modal-ai">
+      <div class="au-modal-header">
+        <span>✨ KI-Kursassistent</span>
+        <button class="au-icon-btn" id="closeAiModal">×</button>
+      </div>
+      <div class="au-ai-body">
+        <p class="au-settings-intro">Beschreibe dein Thema und die KI erstellt ein vollständiges didaktisches Konzept.</p>
+        <div class="au-field">
+          <label class="au-label">Thema / Inhalt <span style="color:var(--magenta)">*</span></label>
+          <textarea class="au-textarea" id="aiTopic" rows="5" placeholder="Beschreibe das Thema, füge Texte ein, oder skizziere den Inhalt, den du vermitteln möchtest…"></textarea>
+        </div>
+        <div class="au-field">
+          <label class="au-label">Lernziel</label>
+          <input type="text" class="au-input" id="aiGoal" placeholder="Was sollen Lernende danach können oder wissen?">
+        </div>
+        <div class="au-ai-grid">
+          <div class="au-field">
+            <label class="au-label">Zielgruppe</label>
+            <select class="au-select" id="aiAudience">
+              <option value="Einsteiger ohne Vorwissen">Einsteiger</option>
+              <option value="Berufstätige mit Grundkenntnissen" selected>Berufstätige</option>
+              <option value="Fachkräfte und Experten">Experten</option>
+            </select>
+          </div>
+          <div class="au-field">
+            <label class="au-label">Vorerfahrung</label>
+            <select class="au-select" id="aiPrior">
+              <option value="keine Vorerfahrung">Keine</option>
+              <option value="etwas Vorerfahrung" selected>Etwas</option>
+              <option value="viel Vorerfahrung">Viel</option>
+            </select>
+          </div>
+          <div class="au-field">
+            <label class="au-label">Lektionen</label>
+            <select class="au-select" id="aiNumLessons">
+              <option value="3">3</option>
+              <option value="4" selected>4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </div>
+          <div class="au-field">
+            <label class="au-label">Format</label>
+            <select class="au-select" id="aiFormat">
+              <option value="stage">Stage</option>
+              <option value="scroll">Endless Scroll</option>
+            </select>
+          </div>
+        </div>
+        <div class="au-ai-actions">
+          <button class="au-btn au-btn-ai-generate" id="btnAiGenerate">✨ Konzept erstellen</button>
+          <p class="au-ai-error" id="aiError"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import modal -->
+  <div class="au-modal-overlay" id="importOverlay">
+    <div class="au-modal au-modal-import">
+      <div class="au-modal-header">
+        <span>⬆ Material importieren</span>
+        <button class="au-icon-btn" id="closeImportModal">×</button>
+      </div>
+      <div class="au-import-body">
+        <p class="au-settings-intro">Lade ein vorhandenes Dokument hoch. Der Text wird extrahiert und du kannst ihn als Rohlektion übernehmen oder von der KI in einen strukturierten Kurs umwandeln lassen.</p>
+
+        <!-- Drop zone -->
+        <div class="au-import-drop" id="importDrop">
+          <div class="au-import-drop-icon">⬆</div>
+          <p class="au-import-drop-label">PDF, DOCX, PPTX, TXT oder MD hierher ziehen</p>
+          <p class="au-import-drop-sub">oder</p>
+          <button class="au-btn au-btn-ghost au-import-browse-btn" id="btnImportBrowse">Datei auswählen</button>
+        </div>
+
+        <!-- File info + progress (hidden until file loaded) -->
+        <div class="au-import-file-info" id="importFileInfo" style="display:none">
+          <span class="au-import-filename" id="importFilename"></span>
+          <span class="au-import-filesize" id="importFilesize"></span>
+          <button class="au-icon-btn au-import-clear" id="btnImportClear" title="Auswahl löschen">×</button>
+        </div>
+        <div class="au-import-progress" id="importProgress" style="display:none">
+          <div class="au-import-progress-bar" id="importProgressBar"></div>
+        </div>
+
+        <!-- Extracted text preview -->
+        <div class="au-import-preview-wrap" id="importPreviewWrap" style="display:none">
+          <div class="au-import-preview-header">
+            <span class="au-import-preview-label">Extrahierter Text</span>
+            <span class="au-import-word-count" id="importWordCount"></span>
+          </div>
+          <textarea class="au-import-preview" id="importPreview" readonly></textarea>
+        </div>
+
+        <!-- Settings for AI structuring -->
+        <div class="au-import-ai-settings" id="importAiSettings" style="display:none">
+          <div class="au-ai-grid">
+            <div class="au-field">
+              <label class="au-label">Lektionen</label>
+              <select class="au-select" id="importNumLessons">
+                <option value="2">2</option>
+                <option value="3" selected>3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <div class="au-field">
+              <label class="au-label">Zielgruppe</label>
+              <select class="au-select" id="importAudience">
+                <option value="Einsteiger ohne Vorwissen">Einsteiger</option>
+                <option value="Berufstätige mit Grundkenntnissen" selected>Berufstätige</option>
+                <option value="Fachkräfte und Experten">Experten</option>
+              </select>
+            </div>
+            <div class="au-field">
+              <label class="au-label">Format</label>
+              <select class="au-select" id="importFormat">
+                <option value="stage">Stage</option>
+                <option value="scroll">Endless Scroll</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="au-import-actions" id="importActions" style="display:none">
+          <button class="au-btn au-btn-ghost" id="btnImportRaw">Als Rohlektion übernehmen</button>
+          <button class="au-btn au-btn-ai-generate" id="btnImportAi">✨ KI strukturieren</button>
+        </div>
+        <p class="au-ai-error" id="importError"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="au-toast" id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous"></script>
+  <script>if (typeof pdfjsLib !== 'undefined') pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+  <script src="js/author.js"></script>
+</body>
+</html>
