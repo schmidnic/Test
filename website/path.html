@@ -6,8 +6,8 @@
   <title>Learning Path – prohelias</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=53">
-  <link rel="stylesheet" href="css/catalog.css?v=54">
+  <link rel="stylesheet" href="css/style.css?v=55">
+  <link rel="stylesheet" href="css/catalog.css?v=55">
 </head>
 <body class="path-page">
 
@@ -345,7 +345,7 @@
     const prevConf = prevData.confidence || 0;
     const adaptHint = step.adaptiveHint || '';
     const adaptMsg = isHJ() && adaptHint
-      ? `Ein weiser Begleiter flüstert dir zu: „${adaptHint}"`
+      ? `A wise companion whispers to you: "${adaptHint}"`
       : adaptHint;
 
     setMain(`
@@ -496,12 +496,12 @@
     setMain(`
       <div class="path-content-scroll">
         <div class="path-screen-inner">
-          <div class="path-screen-tag">${tx('Kommt bald','Noch verborgen')}</div>
+          <div class="path-screen-tag">${tx('Coming soon','Still hidden')}</div>
           <h2 class="path-screen-h" style="font-size:1.6rem">${esc(step.title)}</h2>
           <p class="path-screen-p">
             ${tx(
-              'Dieser Schritt ist noch in Arbeit. Komm bald wieder.',
-              'Diese Prüfung liegt noch im Nebel. Der Weg wird sich zeigen, sobald die Zeit gekommen ist.'
+              'This step is still in progress. Check back soon.',
+              'This trial lies hidden in the mist. The path will reveal itself when the time has come.'
             )}
           </p>
           <a href="catalog.html" class="path-btn path-btn-ghost" style="display:inline-block">${tx('← Back to The Lounge','← Return to the Ordinary World')}</a>
