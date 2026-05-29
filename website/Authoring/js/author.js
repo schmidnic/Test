@@ -1385,15 +1385,15 @@ async function init() {
   // Fetch course CSS for preview
   try {
     const [styleCss, courseCss] = await Promise.all([
-      fetch('../website/css/style.css').then(r => r.text()),
-      fetch('../website/css/course.css').then(r => r.text()),
+      fetch('../css/style.css').then(r => r.text()),
+      fetch('../css/course.css').then(r => r.text()),
     ]);
     previewCss = styleCss + '\n' + courseCss;
   } catch(e) {
     previewCss = '/* CSS not available offline */';
   }
   try {
-    previewMainJs = await fetch('../website/js/main.js').then(r => r.text());
+    previewMainJs = await fetch('../js/main.js').then(r => r.text());
   } catch(e) {
     previewMainJs = '';
   }
