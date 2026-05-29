@@ -1170,3 +1170,28 @@ body.course-page {
   gap: 16px;
   margin: 12px 0;
 }
+
+/* ── Agamotto ────────────────────────────────────────────────── */
+.agamotto { max-width: 640px; margin-top: 24px; }
+.agamotto-stage { position:relative; width:100%; min-height:120px; background:#F8F7FF; border:1.5px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:16px; }
+.agamotto-step { display:none; padding:24px; }
+.agamotto-step.active { display:block; }
+.agamotto-step img { width:100%; height:auto; border-radius:6px; display:block; margin-bottom:12px; }
+.agamotto-caption { font-size:0.9rem; color:var(--muted); line-height:1.6; margin:0; }
+.agamotto-controls { display:flex; align-items:center; gap:12px; }
+.agamotto-slider { flex:1; -webkit-appearance:none; height:4px; background:var(--border); border-radius:2px; outline:none; cursor:pointer; }
+.agamotto-slider::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:var(--navy); cursor:pointer; }
+.agamotto-counter { font-family:'Space Grotesk',sans-serif; font-size:0.78rem; color:var(--muted); min-width:40px; text-align:right; flex-shrink:0; }
+
+/* ── Juxtapose ───────────────────────────────────────────────── */
+.juxtapose { max-width:640px; margin-top:24px; }
+.juxtapose-stage { position:relative; overflow:hidden; border-radius:10px; cursor:ew-resize; user-select:none; -webkit-user-select:none; background:var(--border); }
+.juxtapose-after { width:100%; display:block; }
+.juxtapose-before { position:absolute; inset:0; overflow:hidden; width:50%; }
+.juxtapose-before img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; display:block; }
+.juxtapose-after img { width:100%; display:block; }
+.juxtapose-handle { position:absolute; top:0; bottom:0; left:50%; width:3px; background:rgba(255,255,255,0.9); transform:translateX(-50%); pointer-events:none; }
+.juxtapose-handle::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:36px; height:36px; border-radius:50%; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+.juxtapose-label { position:absolute; bottom:12px; font-family:'Space Grotesk',sans-serif; font-size:0.72rem; font-weight:600; background:rgba(0,0,0,0.45); color:#fff; padding:4px 8px; border-radius:4px; pointer-events:none; }
+.juxtapose-label.before { left:12px; }
+.juxtapose-label.after  { right:12px; }

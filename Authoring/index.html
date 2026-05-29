@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>schmidpower Authoring</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/author.css">
+</head>
+<body>
+
+  <header class="au-header">
+    <div class="au-header-left">
+      <span class="au-logo">schmidpower <span class="au-logo-badge">Authoring</span></span>
+    </div>
+    <div class="au-header-center">
+      <span class="au-course-title-display" id="courseTitleDisplay">New Course</span>
+    </div>
+    <div class="au-header-right">
+      <button class="au-btn au-btn-ghost" id="btnNew" title="New course">New</button>
+      <button class="au-btn au-btn-ghost" id="btnLoad" title="Open JSON">Open</button>
+      <button class="au-btn au-btn-ghost" id="btnSave" title="Save JSON">Save JSON</button>
+      <button class="au-btn au-btn-primary" id="btnExport" title="Export course as HTML">Export HTML</button>
+      <input type="file" id="fileInput" accept=".json" style="display:none">
+    </div>
+  </header>
+
+  <div class="au-workspace">
+
+    <!-- ── Outline ─────────────────────────────────────────────── -->
+    <aside class="au-panel au-outline">
+      <div class="au-panel-header">
+        <span>Outline</span>
+        <button class="au-icon-btn" id="btnAddLesson" title="Add lesson">+</button>
+      </div>
+      <div class="au-outline-scroll" id="outlineContent">
+        <!-- rendered by JS -->
+      </div>
+    </aside>
+
+    <!-- ── Editor ─────────────────────────────────────────────── -->
+    <section class="au-panel au-editor">
+      <div class="au-editor-scroll" id="editorContent">
+        <div class="au-empty-state">
+          <div class="au-empty-icon">✦</div>
+          <p>Wähle einen Eintrag im Outline<br>oder lege eine neue Lektion an.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Preview ────────────────────────────────────────────── -->
+    <section class="au-panel au-preview">
+      <div class="au-panel-header">
+        <span>Preview</span>
+        <button class="au-icon-btn" id="btnPreviewRefresh" title="Refresh">↺</button>
+      </div>
+      <iframe id="previewFrame" class="au-preview-frame" title="Course preview" sandbox="allow-scripts allow-same-origin"></iframe>
+    </section>
+
+  </div>
+
+  <!-- Block type picker modal -->
+  <div class="au-modal-overlay" id="blockPickerOverlay">
+    <div class="au-modal">
+      <div class="au-modal-header">
+        <span>Block hinzufügen</span>
+        <button class="au-icon-btn" id="closeBlockPicker">×</button>
+      </div>
+      <div class="au-block-grid" id="blockPickerGrid">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="au-toast" id="toast"></div>
+
+  <script src="js/author.js"></script>
+</body>
+</html>
