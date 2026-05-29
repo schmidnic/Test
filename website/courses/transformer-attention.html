@@ -875,5 +875,20 @@
     })();
   </script>
 
+  <script>
+  (function() {
+    if (!localStorage.getItem('au-gh-token')) return;
+    var btn = document.createElement('a');
+    btn.href = '../Authoring/?edit=ta';
+    btn.title = 'Kurs bearbeiten';
+    btn.setAttribute('aria-label', 'Kurs bearbeiten');
+    btn.style.cssText = 'position:fixed;bottom:80px;right:20px;z-index:9999;width:42px;height:42px;border-radius:50%;background:#160B52;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;box-shadow:0 2px 12px rgba(22,11,82,0.35);opacity:0.8;transition:opacity 0.2s;';
+    btn.onmouseenter = function() { this.style.opacity = '1'; };
+    btn.onmouseleave = function() { this.style.opacity = '0.8'; };
+    btn.innerHTML = '&#9998;';
+    document.body.appendChild(btn);
+  })();
+  </script>
+
 </body>
 </html>

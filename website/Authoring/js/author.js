@@ -55,10 +55,14 @@ let previewTimer = null;
 // ── Persistence ─────────────────────────────────────────────────
 function saveState() {
   localStorage.setItem('au-state', JSON.stringify(state));
+  const key = state.meta.storageKey;
+  if (key) localStorage.setItem('au-course-' + key, JSON.stringify(state));
 }
-function loadState() {
-  const s = localStorage.getItem('au-state');
-  if (s) { try { state = JSON.parse(s); } catch(e) {} }
+function loadState(courseKey) {
+  const stored = courseKey
+    ? (localStorage.getItem('au-course-' + courseKey) || localStorage.getItem('au-state'))
+    : localStorage.getItem('au-state');
+  if (stored) { try { state = JSON.parse(stored); } catch(e) {} }
 }
 
 // ── Utils ────────────────────────────────────────────────────────
@@ -570,6 +574,21 @@ ${lessonsHtml}
   <script src="../js/main.js"></script>
   <script>
 ${inlineCourseJs(state, total, titles)}
+  </script>
+
+  <script>
+  (function() {
+    if (!localStorage.getItem('au-gh-token')) return;
+    var btn = document.createElement('a');
+    btn.href = '../Authoring/?edit=${escJs(m.storageKey)}';
+    btn.title = 'Kurs bearbeiten';
+    btn.setAttribute('aria-label', 'Kurs bearbeiten');
+    btn.style.cssText = 'position:fixed;bottom:80px;right:20px;z-index:9999;width:42px;height:42px;border-radius:50%;background:#160B52;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;box-shadow:0 2px 12px rgba(22,11,82,0.35);opacity:0.8;transition:opacity 0.2s;';
+    btn.onmouseenter = function() { this.style.opacity = '1'; };
+    btn.onmouseleave = function() { this.style.opacity = '0.8'; };
+    btn.innerHTML = '&#9998;';
+    document.body.appendChild(btn);
+  })();
   </script>
 
 </body>
@@ -1739,7 +1758,23 @@ async function init() {
     previewMainJs = '';
   }
 
-  loadState();
+  const params  = new URLSearchParams(window.location.search);
+  const editKey = params.get('edit');
+
+  loadState(editKey);
+
+  // If opened via Edit button from a course page, show back link
+  if (editKey) {
+    const left    = document.querySelector('.au-header-left');
+    const backBtn = document.createElement('a');
+    backBtn.href      = `../courses/${editKey}.html`;
+    backBtn.className = 'au-btn au-btn-ghost';
+    backBtn.style.cssText = 'margin-left:12px;font-size:0.78rem;';
+    backBtn.textContent   = '← Kurs';
+    backBtn.title         = 'Zurück zur Kursseite';
+    left.appendChild(backBtn);
+  }
+
   document.getElementById('courseTitleDisplay').textContent = state.meta.title || 'New Course';
   renderAll();
 }
