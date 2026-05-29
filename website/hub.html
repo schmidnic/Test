@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coffee Hours – prohelias.com</title>
   <meta name="description" content="Free resources on AI, technology, learning and thoughtful living. Curated by Nicole Schmidbauer.">
-  <link rel="stylesheet" href="css/style.css?v=62">
-  <link rel="stylesheet" href="css/hub.css?v=62">
+  <link rel="stylesheet" href="css/style.css?v=63">
+  <link rel="stylesheet" href="css/hub.css?v=63">
 </head>
 <body class="hub-page">
 
@@ -266,21 +266,31 @@
                 </filter>
               </defs>
               <g filter="url(#fss)" stroke-linecap="round" stroke-linejoin="round">
-                <!-- Axes -->
-                <line x1="60" y1="40" x2="60" y2="230" stroke="rgba(22,11,82,0.5)" stroke-width="2.5"/>
-                <line x1="60" y1="230" x2="560" y2="230" stroke="rgba(22,11,82,0.5)" stroke-width="2.5"/>
-                <!-- Bars: ascending height -->
-                <rect x="80"  y="195" width="60" height="35"  stroke="rgba(22,11,82,0.45)" stroke-width="2"   fill="rgba(22,11,82,0.06)"/>
-                <rect x="160" y="170" width="60" height="60"  stroke="rgba(22,11,82,0.45)" stroke-width="2"   fill="rgba(22,11,82,0.06)"/>
-                <rect x="240" y="138" width="60" height="92"  stroke="rgba(22,11,82,0.45)" stroke-width="2"   fill="rgba(22,11,82,0.06)"/>
-                <rect x="320" y="100" width="60" height="130" stroke="rgba(22,11,82,0.45)" stroke-width="2"   fill="rgba(22,11,82,0.06)"/>
-                <!-- Last bar: shovel sellers, magenta -->
-                <rect x="420" y="52"  width="80" height="178" stroke="#FF00FF"             stroke-width="3"   fill="rgba(255,0,255,0.08)"/>
-                <!-- Arrow up on last bar -->
-                <line x1="460" y1="52" x2="460" y2="30" stroke="#FF00FF" stroke-width="2.5"/>
-                <path d="M 451 38 L 460 22 L 469 38" stroke="#FF00FF" stroke-width="2.5" fill="none"/>
-                <!-- Label -->
-                <text x="460" y="268" text-anchor="middle" fill="rgba(233,9,246,0.85)" font-family="Space Grotesk,sans-serif" font-size="9" font-weight="600">Shovel sellers</text>
+                <!-- Grid infrastructure -->
+                <line x1="60"  y1="80"  x2="60"  y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+                <line x1="160" y1="80"  x2="160" y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+                <line x1="260" y1="80"  x2="260" y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+                <line x1="360" y1="80"  x2="360" y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+                <line x1="460" y1="80"  x2="460" y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+                <line x1="560" y1="80"  x2="560" y2="230" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+                <line x1="40"  y1="105" x2="580" y2="105" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+                <line x1="40"  y1="155" x2="580" y2="155" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+                <line x1="40"  y1="205" x2="580" y2="205" stroke="rgba(22,11,82,0.15)" stroke-width="1.5"/>
+                <!-- Highlighted path through grid -->
+                <line x1="60"  y1="205" x2="160" y2="155" stroke="rgba(22,11,82,0.35)" stroke-width="2"/>
+                <line x1="160" y1="155" x2="260" y2="155" stroke="rgba(22,11,82,0.35)" stroke-width="2"/>
+                <line x1="260" y1="155" x2="360" y2="105" stroke="rgba(22,11,82,0.35)" stroke-width="2"/>
+                <line x1="360" y1="105" x2="460" y2="105" stroke="#FF00FF"             stroke-width="2.5"/>
+                <line x1="460" y1="105" x2="560" y2="55"  stroke="#FF00FF"             stroke-width="2.5"/>
+                <!-- Grid nodes -->
+                <circle cx="60"  cy="205" r="4.5" stroke="rgba(22,11,82,0.4)"  stroke-width="1.5"/>
+                <circle cx="160" cy="155" r="4.5" stroke="rgba(22,11,82,0.4)"  stroke-width="1.5"/>
+                <circle cx="260" cy="155" r="4.5" stroke="rgba(22,11,82,0.4)"  stroke-width="1.5"/>
+                <circle cx="360" cy="105" r="6"   stroke="rgba(22,11,82,0.55)" stroke-width="2"/>
+                <circle cx="460" cy="105" r="9"   stroke="#FF00FF"              stroke-width="2.5"/>
+                <circle cx="460" cy="105" r="3.5" fill="#FF00FF"/>
+                <circle cx="560" cy="55"  r="6"   stroke="#FF00FF"              stroke-width="2"/>
+                <circle cx="560" cy="55"  r="2.5" fill="#FF00FF" opacity="0.6"/>
               </g>
             </svg>
           </div>
