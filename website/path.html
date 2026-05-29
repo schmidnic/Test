@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lernpfad – prohelias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/catalog.css">
+</head>
+<body class="path-page">
+
+  <!-- Minimal nav -->
+  <nav class="nav" id="nav" style="position:static;border-bottom:1px solid rgba(22,11,82,0.08)">
+    <a href="index.html" class="nav-logo">schmidpower</a>
+    <div class="nav-right" id="navPathTitle" style="font-family:'Space Grotesk',sans-serif;font-size:0.85rem;color:rgba(22,11,82,0.5)"></div>
+  </nav>
+
+  <!-- Path layout -->
+  <div class="path-layout">
+
+    <!-- Sidebar -->
+    <aside class="path-sidebar">
+      <div class="path-sidebar-header">
+        <a href="catalog.html" class="path-back">← Schulungskatalog</a>
+        <div class="path-sidebar-name" id="sidebarTitle">Lernpfad wird geladen…</div>
+        <div class="path-bar-wrap">
+          <div class="path-bar-fill" id="pathBarFill" style="width:0%"></div>
+        </div>
+        <div class="path-bar-text" id="pathBarText">0 % abgeschlossen</div>
+      </div>
+      <div class="path-steps-scroll" id="stepsScroll"></div>
+      <div class="path-sidebar-foot">
+        <span class="path-pts-icon">🏆</span>
+        <span class="path-pts-val" id="ptsVal">0</span>
+        <span class="path-pts-label">Lernpunkte</span>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="path-main" id="pathMain">
+      <div class="path-content-scroll">
+        <div class="path-screen-inner">
+          <div style="color:rgba(22,11,82,0.4);font-size:0.9rem">Wird geladen…</div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+  // ══════════════════════════════════════════════════════════
+  //  State
+  // ══════════════════════════════════════════════════════════
+  let pathDef  = null;
+  let progress = null;   // stored in ph-learner.paths[pathId]
+  let pathId   = null;
+  let currentStepIdx = 0;
+  let currentScreen  = 'welcome'; // welcome | course | checkin | assess | complete
+
+  // ── Persistence ────────────────────────────────────────────
+  function getLearner() {
+    try { return JSON.parse(localStorage.getItem('ph-learner')) || { totalPoints:0, paths:{} }; }
+    catch(e) { return { totalPoints:0, paths:{} }; }
+  }
+  function saveLearner(l) {
+    localStorage.setItem('ph-learner', JSON.stringify(l));
+  }
+  function loadProgress() {
+    const l = getLearner();
+    progress = (l.paths && l.paths[pathId]) || null;
+  }
+  function saveProgress() {
+    const l = getLearner();
+    if (!l.paths) l.paths = {};
+    l.paths[pathId] = progress;
+    saveLearner(l);
+  }
+  function addPoints(pts) {
+    progress.points = (progress.points || 0) + pts;
+    const l = getLearner();
+    l.totalPoints = (l.totalPoints || 0) + pts;
+    if (!l.paths) l.paths = {};
+    l.paths[pathId] = progress;
+    saveLearner(l);
+    renderSidebar();
+  }
+
+  // ── Helpers ────────────────────────────────────────────────
+  function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function stepStatus(stepId) {
+    if (!progress || !progress.steps) return 'locked';
+    const s = progress.steps[stepId];
+    if (!s) return 'locked';
+    return s.status || 'locked';
+  }
+  function isStepAvailable(idx) {
+    if (idx === 0) return true;
+    const prev = pathDef.steps[idx - 1];
+    return stepStatus(prev.id) === 'done';
+  }
+
+  // ── Sidebar ────────────────────────────────────────────────
+  function renderSidebar() {
+    if (!pathDef) return;
+
+    document.getElementById('sidebarTitle').textContent = pathDef.title;
+    document.getElementById('navPathTitle').textContent = pathDef.title;
+    document.title = pathDef.title + ' – prohelias';
+
+    const total = pathDef.steps.length;
+    const done  = pathDef.steps.filter(s => stepStatus(s.id) === 'done').length;
+    const pct   = total ? Math.round(done / total * 100) : 0;
+    document.getElementById('pathBarFill').style.width = pct + '%';
+    document.getElementById('pathBarText').textContent = pct + ' % abgeschlossen';
+    document.getElementById('ptsVal').textContent = (progress && progress.points) || 0;
+
+    document.getElementById('stepsScroll').innerHTML = pathDef.steps.map((step, i) => {
+      const status  = step.comingSoon ? 'soon'
+                    : stepStatus(step.id) === 'done' ? 'done'
+                    : !isStepAvailable(i) ? 'locked'
+                    : i === currentStepIdx && currentScreen !== 'welcome' && currentScreen !== 'complete' ? 'active'
+                    : 'available';
+
+      const dotCls  = 'dot-' + (status === 'active' ? 'active' : status);
+      const rowCls  = status === 'locked' || status === 'soon' ? 'step-locked'
+                    : status === 'active' ? 'step-active' : '';
+      const typeLabel = step.type === 'checkin' ? 'Reflexion' : 'Kurs';
+      const dur     = step.estimatedMin ? step.estimatedMin + ' Min.' : '';
+
+      return `<div class="path-step-row ${rowCls}" data-step="${i}">
+        <div class="step-dot ${dotCls}"></div>
+        <div class="step-row-info">
+          <div class="step-row-type">${typeLabel}</div>
+          <div class="step-row-title">${esc(step.title)}</div>
+          ${dur ? `<div class="step-row-dur">${dur}</div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+
+    // Click on step row
+    document.querySelectorAll('.path-step-row:not(.step-locked)').forEach(row => {
+      row.addEventListener('click', () => {
+        const idx = +row.dataset.step;
+        const step = pathDef.steps[idx];
+        if (!step || step.comingSoon) return;
+        if (stepStatus(step.id) === 'done') {
+          // Allow viewing done step
+          currentStepIdx = idx;
+          showStep(idx);
+        } else if (isStepAvailable(idx)) {
+          currentStepIdx = idx;
+          showStep(idx);
+        }
+      });
+    });
+  }
+
+  // ── Welcome screen ─────────────────────────────────────────
+  function renderWelcome() {
+    currentScreen = 'welcome';
+    const p = pathDef;
+    const goalVal = (progress && progress.goal) || '';
+    const anchorVal = (progress && progress.anchor) || p.behavioralAnchorTemplate || '';
+
+    setMain(`
+      <div class="path-content-scroll">
+        <div class="path-screen-inner">
+          <div class="path-screen-tag">Lernpfad</div>
+          <h1 class="path-screen-h">${esc(p.title)}</h1>
+          <p class="path-screen-p">${esc(p.description)}</p>
+          <div class="path-screen-meta">
+            <span>⏱ ${p.estimatedMin} Min.</span>
+            <span>${p.steps.length} Schritte</span>
+            <span>${esc(p.level)}</span>
+          </div>
+
+          <div class="anchor-card">
+            <div class="anchor-card-label">Prozesssicherung: Dein Lernziel</div>
+            <div class="anchor-field-label">Was möchtest du am Ende können oder wissen?</div>
+            <textarea class="anchor-textarea" id="goalInput" rows="2" placeholder="${esc(p.goal)}">${esc(goalVal)}</textarea>
+
+            <div class="anchor-field-label">Dein Lernrhythmus (Implementation Intention)</div>
+            <textarea class="anchor-textarea" id="anchorInput" rows="3">${esc(anchorVal)}</textarea>
+            <p class="anchor-hint-text">
+              Diese "Wenn-dann-um"-Formel stammt aus der Motivationspsychologie (vgl. PEACH). Sie hilft dir, Lernen zur konkreten Gewohnheit zu machen, statt es beim guten Vorsatz zu belassen.
+            </p>
+          </div>
+
+          <button class="path-btn path-btn-gradient" id="startPathBtn">Lernpfad starten →</button>
+        </div>
+      </div>
+    `);
+
+    document.getElementById('startPathBtn').addEventListener('click', () => {
+      if (!progress) {
+        progress = { startedAt: new Date().toISOString(), goal:'', anchor:'', steps:{}, points:0, completedAt:null };
+      }
+      progress.goal   = document.getElementById('goalInput').value.trim();
+      progress.anchor = document.getElementById('anchorInput').value.trim();
+      saveProgress();
+      currentStepIdx = firstAvailableStep();
+      showStep(currentStepIdx);
+    });
+  }
+
+  function firstAvailableStep() {
+    for (let i = 0; i < pathDef.steps.length; i++) {
+      if (stepStatus(pathDef.steps[i].id) !== 'done') return i;
+    }
+    return pathDef.steps.length - 1;
+  }
+
+  // ── Show a step ─────────────────────────────────────────────
+  function showStep(idx) {
+    currentStepIdx = idx;
+    const step = pathDef.steps[idx];
+    if (!step) { renderComplete(); return; }
+    if (step.comingSoon) { renderComingSoon(step); return; }
+    if (step.type === 'checkin') {
+      renderCheckin(step, idx);
+    } else {
+      renderCourse(step, idx);
+    }
+    renderSidebar();
+  }
+
+  // ── Course step ─────────────────────────────────────────────
+  function renderCourse(step, idx) {
+    currentScreen = 'course';
+    const alreadyDone = stepStatus(step.id) === 'done';
+    const iframeSrc   = step.courseUrl ? step.courseUrl + '?pathId=' + encodeURIComponent(pathId) + '&stepId=' + encodeURIComponent(step.id) : '';
+
+    setMain(`
+      <div class="path-step-bar">
+        <div class="step-bar-info">
+          <div class="step-bar-label">Schritt ${idx+1} von ${pathDef.steps.length}</div>
+          <div class="step-bar-title">${esc(step.title)}</div>
+        </div>
+        ${!alreadyDone ? `<button class="step-bar-complete-btn" id="completeStepBtn">Schritt abschließen →</button>` : `<span style="font-size:0.78rem;color:#15803d;font-family:'Space Grotesk',sans-serif;font-weight:600">✓ Abgeschlossen</span>`}
+      </div>
+      <iframe class="path-course-frame" src="${esc(iframeSrc)}" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" title="${esc(step.title)}"></iframe>
+    `);
+
+    if (!alreadyDone) {
+      document.getElementById('completeStepBtn').addEventListener('click', () => {
+        renderAssess(step, idx);
+      });
+    }
+  }
+
+  // ── Assess (post-course self-assessment + reflection) ──────
+  function renderAssess(step, idx) {
+    currentScreen = 'assess';
+    const prevData = (progress.steps && progress.steps[step.id]) || {};
+    const prevConf = prevData.confidence || 0;
+
+    setMain(`
+      <div class="path-content-scroll">
+        <div class="path-screen-inner">
+          <div class="path-screen-tag">Schritt abgeschlossen</div>
+          <h2 class="path-screen-h" style="font-size:1.6rem">Wie sicher fühlst du dich?</h2>
+          <p class="path-screen-p" style="margin-bottom:16px">
+            Bewerte ehrlich, wie gut du den Inhalt verstanden hast. Das hilft dir bei der Entscheidung, ob du weitergehen oder etwas vertiefen möchtest.
+          </p>
+
+          <div class="assess-stars">
+            ${[1,2,3,4,5].map(n => `
+              <button class="star-opt ${prevConf===n?'selected':''}" data-val="${n}" title="${n}">
+                ${'★'.repeat(n)}${'☆'.repeat(5-n)}
+              </button>`).join('')}
+          </div>
+          <div class="assess-legend">
+            <span>Noch unsicher</span><span>Sehr sicher</span>
+          </div>
+
+          <div class="adaptive-hint-box" id="adaptiveBox" style="display:none">
+            <span class="adaptive-hint-icon">💡</span>
+            <span class="adaptive-hint-msg">${esc(step.adaptiveHint || '')}</span>
+          </div>
+
+          ${step.reflection ? `
+            <div class="path-field-label">${esc(step.reflection)}</div>
+            <textarea class="path-textarea" id="reflectionInput" placeholder="Deine Gedanken…">${esc(prevData.reflection||'')}</textarea>
+          ` : ''}
+
+          <button class="path-btn" id="saveAssessBtn">Speichern und weiter →</button>
+        </div>
+      </div>
+    `);
+
+    let selectedConf = prevConf;
+
+    document.querySelectorAll('.star-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedConf = +btn.dataset.val;
+        document.querySelectorAll('.star-opt').forEach(b => b.classList.toggle('selected', +b.dataset.val === selectedConf));
+        if (selectedConf <= 2 && step.adaptiveHint) {
+          document.getElementById('adaptiveBox').style.display = 'flex';
+        } else {
+          document.getElementById('adaptiveBox').style.display = 'none';
+        }
+      });
+    });
+
+    document.getElementById('saveAssessBtn').addEventListener('click', () => {
+      const reflection = document.getElementById('reflectionInput') ? document.getElementById('reflectionInput').value.trim() : '';
+      if (!progress.steps) progress.steps = {};
+      const wasNew = !progress.steps[step.id] || progress.steps[step.id].status !== 'done';
+      progress.steps[step.id] = {
+        status: 'done',
+        confidence: selectedConf,
+        reflection,
+        completedAt: new Date().toISOString()
+      };
+
+      if (wasNew) {
+        const pts = 20 + (reflection ? 5 : 0) + (selectedConf >= 4 ? 10 : 0);
+        saveProgress();
+        addPoints(pts);
+        showPointsAndNext(pts, idx);
+      } else {
+        saveProgress();
+        advanceAfterStep(idx);
+      }
+    });
+  }
+
+  function showPointsAndNext(pts, idx) {
+    const ptsEl = document.getElementById('ptsVal');
+    if (ptsEl) {
+      ptsEl.style.transition = 'transform 0.3s,color 0.3s';
+      ptsEl.style.transform = 'scale(1.4)';
+      ptsEl.style.color = '#e909f6';
+      setTimeout(() => { ptsEl.style.transform=''; ptsEl.style.color=''; }, 600);
+    }
+    setTimeout(() => advanceAfterStep(idx), 300);
+  }
+
+  function advanceAfterStep(idx) {
+    const next = idx + 1;
+    if (next >= pathDef.steps.length) {
+      renderComplete();
+    } else {
+      currentStepIdx = next;
+      showStep(next);
+    }
+    renderSidebar();
+  }
+
+  // ── Check-in step ───────────────────────────────────────────
+  function renderCheckin(step, idx) {
+    currentScreen = 'checkin';
+    const prevData = (progress && progress.steps && progress.steps[step.id]) || {};
+
+    setMain(`
+      <div class="path-content-scroll">
+        <div class="path-screen-inner">
+          <div class="path-screen-tag">Reflexion · Schritt ${idx+1} von ${pathDef.steps.length}</div>
+          <h2 class="path-screen-h" style="font-size:1.6rem">${esc(step.title)}</h2>
+
+          <p class="checkin-prompt">${esc(step.prompt)}</p>
+
+          ${step.hint ? `
+            <div class="checkin-hint" id="hintToggle">
+              <div class="checkin-hint-toggle">
+                <span id="hintArrow">▸</span> Hinweis anzeigen
+              </div>
+              <div class="checkin-hint-text" id="hintText" style="display:none">${esc(step.hint)}</div>
+            </div>
+          ` : ''}
+
+          <div class="path-field-label">Deine Antwort</div>
+          <textarea class="path-textarea" id="checkinInput" rows="6" placeholder="Schreib in eigenen Worten…">${esc(prevData.reflection||'')}</textarea>
+
+          <button class="path-btn" id="saveCheckinBtn">Reflexion speichern →</button>
+          ${prevData.status === 'done' ? `<button class="path-btn path-btn-ghost" id="skipCheckinBtn" style="margin-left:12px">Überspringen</button>` : ''}
+        </div>
+      </div>
+    `);
+
+    if (step.hint) {
+      document.getElementById('hintToggle').addEventListener('click', () => {
+        const txt = document.getElementById('hintText');
+        const arr = document.getElementById('hintArrow');
+        const open = txt.style.display === 'block';
+        txt.style.display = open ? 'none' : 'block';
+        arr.textContent = open ? '▸' : '▾';
+      });
+    }
+
+    document.getElementById('saveCheckinBtn').addEventListener('click', () => {
+      const val = document.getElementById('checkinInput').value.trim();
+      if (!val) { document.getElementById('checkinInput').style.borderColor='#e909f6'; return; }
+      if (!progress.steps) progress.steps = {};
+      const wasNew = !progress.steps[step.id] || progress.steps[step.id].status !== 'done';
+      progress.steps[step.id] = { status:'done', reflection:val, completedAt: new Date().toISOString() };
+      saveProgress();
+      if (wasNew) addPoints(10);
+      advanceAfterStep(idx);
+      renderSidebar();
+    });
+
+    const skipBtn = document.getElementById('skipCheckinBtn');
+    if (skipBtn) {
+      skipBtn.addEventListener('click', () => advanceAfterStep(idx));
+    }
+  }
+
+  // ── Coming soon ─────────────────────────────────────────────
+  function renderComingSoon(step) {
+    currentScreen = 'coming-soon';
+    setMain(`
+      <div class="path-content-scroll">
+        <div class="path-screen-inner">
+          <div class="path-screen-tag">Kommt bald</div>
+          <h2 class="path-screen-h" style="font-size:1.6rem">${esc(step.title)}</h2>
+          <p class="path-screen-p">
+            Dieser Schritt ist noch in Arbeit. Komm bald wieder, er wird freigeschaltet, sobald der Kurs fertig ist.
+          </p>
+          <a href="catalog.html" class="path-btn path-btn-ghost" style="display:inline-block">← Zurück zum Katalog</a>
+        </div>
+      </div>
+    `);
+  }
+
+  // ── Path complete ───────────────────────────────────────────
+  function renderComplete() {
+    currentScreen = 'complete';
+
+    // Award path completion bonus if not yet awarded
+    if (!progress.completedAt) {
+      progress.completedAt = new Date().toISOString();
+      addPoints(50);
+      saveProgress();
+    }
+
+    const totalPts = progress.points || 0;
+
+    // Collect all reflections
+    const refs = pathDef.steps
+      .filter(s => progress.steps && progress.steps[s.id] && progress.steps[s.id].reflection)
+      .map(s => ({
+        title: s.title,
+        text: progress.steps[s.id].reflection
+      }));
+
+    setMain(`
+      <div class="path-content-scroll">
+        <div class="path-screen-inner">
+          <div class="complete-badge">🏆</div>
+          <div class="path-screen-tag">Lernpfad abgeschlossen</div>
+          <h1 class="path-screen-h">Glückwunsch!</h1>
+          <p class="path-screen-p">
+            Du hast <strong>${esc(pathDef.title)}</strong> erfolgreich abgeschlossen. Du hast <strong>${totalPts} Lernpunkte</strong> gesammelt.
+          </p>
+
+          ${progress.goal ? `
+            <div class="anchor-card" style="margin-bottom:24px">
+              <div class="anchor-card-label">Dein Lernziel war</div>
+              <p style="font-size:0.9rem;color:var(--navy);line-height:1.6">${esc(progress.goal)}</p>
+            </div>
+          ` : ''}
+
+          ${refs.length ? `
+            <div class="reflections-list">
+              <div class="path-screen-tag" style="margin-bottom:12px">Deine Erkenntnisse</div>
+              ${refs.map(r => `
+                <div class="reflection-entry">
+                  <div class="reflection-step-label">${esc(r.title)}</div>
+                  <div class="reflection-text">${esc(r.text)}</div>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+
+          <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
+            <a href="catalog.html" class="path-btn">← Zurück zum Katalog</a>
+          </div>
+        </div>
+      </div>
+    `);
+
+    renderSidebar();
+  }
+
+  // ── setMain ─────────────────────────────────────────────────
+  function setMain(html) {
+    document.getElementById('pathMain').innerHTML = html;
+  }
+
+  // ── Init ────────────────────────────────────────────────────
+  async function init() {
+    const params = new URLSearchParams(location.search);
+    pathId = params.get('path');
+    if (!pathId) {
+      setMain('<div class="path-content-scroll"><div class="path-screen-inner"><p>Kein Lernpfad angegeben.</p><a href="catalog.html" class="path-btn" style="margin-top:16px">← Katalog</a></div></div>');
+      return;
+    }
+
+    // Ensure learner exists
+    const learner = getLearner();
+    if (!learner.name) {
+      const name = prompt('Wie darf ich dich nennen?') || 'Lernender';
+      learner.name = name;
+      saveLearner(learner);
+    }
+
+    // Fetch path definition
+    try {
+      const r = await fetch('paths/' + pathId + '.json');
+      if (!r.ok) throw new Error('Not found');
+      pathDef = await r.json();
+    } catch(e) {
+      setMain('<div class="path-content-scroll"><div class="path-screen-inner"><p>Lernpfad nicht gefunden.</p><a href="catalog.html" class="path-btn" style="margin-top:16px">← Katalog</a></div></div>');
+      return;
+    }
+
+    loadProgress();
+    renderSidebar();
+
+    // Decide initial screen
+    if (!progress || !progress.startedAt) {
+      renderWelcome();
+    } else if (progress.completedAt) {
+      renderComplete();
+    } else {
+      // Resume: go to current incomplete step
+      currentStepIdx = firstAvailableStep();
+      // If all steps done but completedAt not set, complete now
+      const allDone = pathDef.steps.every(s => s.comingSoon || stepStatus(s.id) === 'done');
+      if (allDone) {
+        renderComplete();
+      } else {
+        showStep(currentStepIdx);
+      }
+    }
+  }
+
+  init();
+  </script>
+</body>
+</html>

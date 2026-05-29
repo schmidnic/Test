@@ -1,0 +1,11 @@
+[
+  {
+    "key": "transformer-attention",
+    "title": "Transformer und Attention",
+    "description": "Wie moderne KI-Modelle Text verstehen: von der Aufmerksamkeitsmechanik bis zu den neuesten SSA-Architekturen.",
+    "url": "courses/transformer-attention.html",
+    "level": "Fortgeschritten",
+    "topics": ["ai"],
+    "estimatedMin": 20
+  }
+]

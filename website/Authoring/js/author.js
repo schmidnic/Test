@@ -52,6 +52,18 @@ let previewMainJs = '';
 let previewDirty = true;
 let previewTimer = null;
 
+// ── Path designer state ─────────────────────────────────────────
+let pathsList = [];
+let selPath   = null; // id of selected path
+
+function savePathsList() {
+  localStorage.setItem('au-paths', JSON.stringify(pathsList));
+}
+function loadPathsList() {
+  try { pathsList = JSON.parse(localStorage.getItem('au-paths') || '[]'); } catch(e) { pathsList = []; }
+}
+function pathById(id) { return pathsList.find(p => p.id === id) || null; }
+
 // ── Persistence ─────────────────────────────────────────────────
 function saveState() {
   localStorage.setItem('au-state', JSON.stringify(state));
@@ -121,12 +133,30 @@ function renderOutline() {
   });
 
   html += `<div class="au-add-lesson-btn" id="addLessonBtn">+ Neue Lektion</div>`;
+
+  // Paths section
+  html += `<div class="au-outline-section-sep">
+    <span>Lernpfade</span>
+    <button class="au-icon-btn" id="btnAddPath" title="Neuen Lernpfad erstellen">+</button>
+  </div>`;
+  pathsList.forEach(p => {
+    html += `<div class="au-outline-path-item ${selPath===p.id?'selected':''}" data-path="${p.id}">
+      <span style="opacity:0.45">⟳</span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.title||'Neuer Pfad')}</span>
+      <button class="au-outline-del" data-del-path="${p.id}">×</button>
+    </div>`;
+  });
+
   c.innerHTML = html;
 }
 
 // ── Editor ───────────────────────────────────────────────────────
 function renderEditor() {
   const c = document.getElementById('editorContent');
+  if (selPath) {
+    const p = pathById(selPath);
+    if (p) { c.innerHTML = editorPath(p); return; }
+  }
   if (sel.type === 'meta') {
     c.innerHTML = editorMeta();
   } else if (sel.type === 'lesson') {
@@ -138,6 +168,88 @@ function renderEditor() {
     c.innerHTML = `<div class="au-empty-state"><div class="au-empty-icon">✦</div>
       <p>Wähle einen Eintrag im Outline<br>oder lege eine neue Lektion an.</p></div>`;
   }
+}
+
+// ── Path editor ──────────────────────────────────────────────────
+function editorPath(path) {
+  const levels = ['Einsteiger','Fortgeschritten','Experte'];
+  const levelSel = l => levels.map(lv =>
+    `<option value="${lv}" ${path.level===lv?'selected':''}>${lv}</option>`
+  ).join('');
+
+  const stepHtml = (path.steps||[]).map((step, si) => {
+    const typeSel = ['course','checkin'].map(t =>
+      `<option value="${t}" ${step.type===t?'selected':''}>${t==='course'?'Kurs':'Check-in / Reflexion'}</option>`
+    ).join('');
+
+    const courseFields = step.type !== 'checkin' ? `
+      ${f('Kurs-Key (storageKey des Kurses)','step.'+si+'.courseKey',step.courseKey||'')}
+      ${f('Kurs-URL (z.B. courses/mein-kurs.html)','step.'+si+'.courseUrl',step.courseUrl||'')}
+      ${f('Reflexionsfrage nach dem Kurs','step.'+si+'.reflection',step.reflection||'')}
+      ${f('Adaptiver Hinweis (bei niedriger Selbsteinschätzung)','step.'+si+'.adaptiveHint',step.adaptiveHint||'')}
+    ` : `
+      <div class="au-field">
+        <label class="au-label">Reflexionsprompt</label>
+        <textarea class="au-textarea" name="step.${si}.prompt" rows="2">${esc(step.prompt||'')}</textarea>
+      </div>
+      ${f('Hinweis (aufklappbar für Lernende)','step.'+si+'.hint',step.hint||'')}
+    `;
+
+    return `<div class="au-path-step-block">
+      <div class="au-path-step-header">
+        <span class="au-path-step-num">${si+1}</span>
+        <strong style="flex:1;font-size:0.85rem">${esc(step.title||'Schritt '+(si+1))}</strong>
+        <button class="au-icon-btn au-outline-del" data-del-step="${si}" title="Schritt löschen">×</button>
+      </div>
+      <div class="au-field">
+        <label class="au-label">Typ</label>
+        <select class="au-select" name="step.${si}.type">${typeSel}</select>
+      </div>
+      ${f('Titel','step.'+si+'.title',step.title||'')}
+      ${courseFields}
+      ${f('Geschätzte Zeit (Min.)','step.'+si+'.estimatedMin',step.estimatedMin||'','number','min="1" max="180"')}
+    </div>`;
+  }).join('');
+
+  return `<div class="au-section-header">
+    <span class="au-section-title">Lernpfad</span>
+    <button class="au-btn au-btn-publish" id="btnPublishPath" style="margin-left:auto">
+      <span id="publishPathLabel">Pfad veröffentlichen</span>
+      <span id="publishPathSpinner" style="display:none">⟳</span>
+    </button>
+  </div>
+  <div class="au-card">
+    ${f('Titel','path.title',path.title||'')}
+    ${f('Untertitel','path.subtitle',path.subtitle||'')}
+    <div class="au-field">
+      <label class="au-label">Beschreibung</label>
+      <textarea class="au-textarea" name="path.description" rows="3">${esc(path.description||'')}</textarea>
+    </div>
+    <div class="au-field">
+      <label class="au-label">Level</label>
+      <select class="au-select" name="path.level">${levelSel()}</select>
+    </div>
+    ${f('Themen (kommagetrennt: ai, learning, …)','path.topics',(path.topics||[]).join(','))}
+    ${f('Geschätzte Gesamtzeit (Min.)','path.estimatedMin',path.estimatedMin||'','number')}
+    <div class="au-field">
+      <label class="au-label">Lernziel (Vorlage für Lernende)</label>
+      <textarea class="au-textarea" name="path.goal" rows="2">${esc(path.goal||'')}</textarea>
+    </div>
+    <div class="au-field">
+      <label class="au-label">Verhaltensanker-Vorlage (Wenn-dann-um-Formel)</label>
+      <textarea class="au-textarea" name="path.behavioralAnchorTemplate" rows="2">${esc(path.behavioralAnchorTemplate||'')}</textarea>
+      <p class="au-hint">Beispiel: "Wenn ich auf ein neues KI-Tool stoße, wende ich die Konzepte an, um es kritisch einzuordnen."</p>
+    </div>
+  </div>
+
+  <div class="au-section-header" style="margin-top:20px">
+    <span class="au-section-title">Schritte</span>
+  </div>
+  <div id="pathStepsContainer">${stepHtml}</div>
+  <div style="display:flex;gap:8px;margin:8px 0 32px">
+    <button class="au-btn au-btn-ghost" id="btnAddCourseStep">+ Kurs-Schritt</button>
+    <button class="au-btn au-btn-ghost" id="btnAddCheckinStep">+ Reflexion</button>
+  </div>`;
 }
 
 function f(label, name, value, type='text', attrs='') {
@@ -1630,6 +1742,87 @@ function closeSettings() {
   document.getElementById('settingsOverlay').classList.remove('open');
 }
 
+// ── GitHub PUT helper ─────────────────────────────────────────────
+async function ghPut(cfg, path, content, message) {
+  const url  = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
+  const hdrs = { Authorization:`token ${cfg.token}`, Accept:'application/vnd.github+json', 'Content-Type':'application/json' };
+  let sha = null;
+  const check = await fetch(url, { headers: hdrs });
+  if (check.ok) sha = (await check.json()).sha;
+  const isStr  = typeof content === 'string';
+  const b64    = isStr ? btoa(unescape(encodeURIComponent(content)))
+                       : btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2))));
+  const body   = { message, content: b64, branch: cfg.branch };
+  if (sha) body.sha = sha;
+  return fetch(url, { method:'PUT', headers: hdrs, body: JSON.stringify(body) });
+}
+
+// ── Update courses/index.json after publish ───────────────────────
+async function updateCoursesIndex(cfg) {
+  const m = state.meta;
+  const entry = {
+    key: m.storageKey || 'course',
+    title: m.title || 'Kurs',
+    description: m.description || '',
+    url: 'courses/' + (m.storageKey||'course') + '.html',
+    level: m.level || 'Einsteiger',
+    topics: m.topics || [],
+    estimatedMin: m.estimatedMin || 20
+  };
+  try {
+    const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/website/courses/index.json`;
+    const hdrs = { Authorization:`token ${cfg.token}`, Accept:'application/vnd.github+json' };
+    let existing = [];
+    const check = await fetch(url, { headers: hdrs });
+    if (check.ok) {
+      const file = await check.json();
+      try { existing = JSON.parse(atob(file.content.replace(/\n/g,''))); } catch(e) {}
+    }
+    const idx = existing.findIndex(c => c.key === entry.key);
+    if (idx >= 0) existing[idx] = entry; else existing.push(entry);
+    await ghPut(cfg, 'website/courses/index.json', existing, `Update courses index: ${entry.title}`);
+  } catch(e) { /* non-critical */ }
+}
+
+// ── Publish Learning Path ─────────────────────────────────────────
+async function publishPath() {
+  const cfg = getGhConfig();
+  if (!cfg.token || !cfg.owner || !cfg.repo) {
+    toast('Bitte zuerst GitHub-Einstellungen konfigurieren (⚙).'); return;
+  }
+  const p = pathById(selPath);
+  if (!p || !p.title) { toast('Lernpfad hat keinen Titel.'); return; }
+  if (!p.id) { toast('Lernpfad hat keine ID.'); return; }
+
+  const label   = document.getElementById('publishPathLabel');
+  const spinner = document.getElementById('publishPathSpinner');
+  const btn     = document.getElementById('btnPublishPath');
+  if (label)   label.style.display   = 'none';
+  if (spinner) spinner.style.display = '';
+  if (btn)     btn.disabled = true;
+
+  try {
+    const r1 = await ghPut(cfg, `website/paths/${p.id}.json`, p, `Publish path: ${p.title}`);
+    if (!r1.ok) { const e = await r1.json().catch(()=>({})); throw new Error(e.message || r1.status); }
+
+    // Rebuild index from all paths in localStorage
+    const index = pathsList.map(p2 => ({
+      id: p2.id, title: p2.title||'', subtitle: p2.subtitle||'',
+      description: p2.description||'', level: p2.level||'',
+      topics: p2.topics||[], stepsCount: (p2.steps||[]).length,
+      estimatedMin: p2.estimatedMin||0
+    }));
+    await ghPut(cfg, 'website/paths/index.json', index, 'Update paths index');
+    toast(`Lernpfad "${p.title}" veröffentlicht!`);
+  } catch(ex) {
+    toast('Fehler: ' + ex.message);
+  } finally {
+    if (label)   label.style.display   = '';
+    if (spinner) spinner.style.display = 'none';
+    if (btn)     btn.disabled = false;
+  }
+}
+
 // ── Publish to GitHub Pages ──────────────────────────────────────
 async function publishCourse() {
   const cfg = getGhConfig();
@@ -1647,25 +1840,10 @@ async function publishCourse() {
 
   try {
     const html = generateCourseHtml();
-    const b64  = btoa(unescape(encodeURIComponent(html)));
     const key  = state.meta.storageKey || 'course';
-    const path = `website/courses/${key}.html`;
-    const url  = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
-    const hdrs = {
-      Authorization: `token ${cfg.token}`,
-      Accept: 'application/vnd.github+json',
-      'Content-Type': 'application/json'
-    };
-
-    let sha = null;
-    const check = await fetch(url, { headers: hdrs });
-    if (check.ok) sha = (await check.json()).sha;
-
-    const body = { message: `Publish: ${state.meta.title}`, content: b64, branch: cfg.branch };
-    if (sha) body.sha = sha;
-
-    const res = await fetch(url, { method: 'PUT', headers: hdrs, body: JSON.stringify(body) });
+    const res  = await ghPut(cfg, `website/courses/${key}.html`, html, `Publish: ${state.meta.title}`);
     if (res.ok) {
+      await updateCoursesIndex(cfg);
       toast('Veröffentlicht! GitHub Pages aktualisiert sich in ~30 Sekunden.');
     } else {
       const err = await res.json().catch(() => ({}));
@@ -1983,6 +2161,7 @@ document.addEventListener('click', e => {
     sel = sel.type==='lesson' && sel.lessonIdx===li
       ? { type:null, lessonIdx:null, blockIdx:null }
       : { type:'lesson', lessonIdx:li, blockIdx:null };
+    selPath = null;
     renderAll(); return;
   }
 
@@ -2030,6 +2209,67 @@ document.addEventListener('click', e => {
     sel = { type:'lesson', lessonIdx:li, blockIdx:null };
     saveState(); renderAll(); return;
   }
+
+  // Outline: add path
+  if (t.id === 'btnAddPath') {
+    const id = 'pfad-' + Date.now().toString(36);
+    pathsList.push({ id, title:'Neuer Lernpfad', subtitle:'', description:'', level:'Einsteiger',
+      topics:[], estimatedMin:45, goal:'', behavioralAnchorTemplate:'', steps:[] });
+    savePathsList();
+    sel = { type:null, lessonIdx:null, blockIdx:null };
+    selPath = id;
+    renderAll(); return;
+  }
+
+  // Outline: select path
+  if (t.closest('[data-path]') && !t.closest('[data-del-path]')) {
+    const id = t.closest('[data-path]').dataset.path;
+    selPath = selPath === id ? null : id;
+    sel = { type:null, lessonIdx:null, blockIdx:null };
+    renderAll(); return;
+  }
+
+  // Outline: delete path
+  if (t.closest('[data-del-path]')) {
+    e.stopPropagation();
+    const id = (t.closest('[data-del-path]') || t).dataset.delPath;
+    if (!id || !confirm('Lernpfad löschen?')) return;
+    pathsList = pathsList.filter(p => p.id !== id);
+    if (selPath === id) selPath = null;
+    savePathsList(); renderAll(); return;
+  }
+
+  // Path editor: add course step
+  if (t.id === 'btnAddCourseStep') {
+    const p = pathById(selPath);
+    if (!p) return;
+    const n = (p.steps||[]).length + 1;
+    if (!p.steps) p.steps = [];
+    p.steps.push({ id:'step-'+n, type:'course', title:'Kurs '+n, courseKey:'', courseUrl:'', estimatedMin:20, reflection:'', adaptiveHint:'' });
+    savePathsList(); renderEditor(); return;
+  }
+
+  // Path editor: add checkin step
+  if (t.id === 'btnAddCheckinStep') {
+    const p = pathById(selPath);
+    if (!p) return;
+    const n = (p.steps||[]).length + 1;
+    if (!p.steps) p.steps = [];
+    p.steps.push({ id:'step-'+n, type:'checkin', title:'Reflexion '+n, prompt:'', hint:'', estimatedMin:5 });
+    savePathsList(); renderEditor(); return;
+  }
+
+  // Path editor: delete step
+  if (t.dataset.delStep !== undefined) {
+    e.stopPropagation();
+    const p = pathById(selPath);
+    if (!p || !p.steps) return;
+    p.steps.splice(+t.dataset.delStep, 1);
+    savePathsList(); renderEditor(); return;
+  }
+
+  // Path editor: publish path
+  if (t.id === 'btnPublishPath') { publishPath(); return; }
 
   // Header: add lesson
   if (t.id === 'btnAddLesson') {
@@ -2201,6 +2441,35 @@ document.addEventListener('input', e => {
   const t = e.target;
   if (!t.name) return;
 
+  // Path field updates
+  if (t.name.startsWith('path.') && selPath) {
+    const p = pathById(selPath);
+    if (p) {
+      const field = t.name.slice(5);
+      p[field] = field === 'topics' ? t.value.split(',').map(s=>s.trim()).filter(Boolean)
+               : t.type === 'number' ? +t.value : t.value;
+      savePathsList();
+      if (field === 'title') renderOutline();
+    }
+    return;
+  }
+
+  // Step field updates
+  if (t.name.startsWith('step.') && selPath) {
+    const p = pathById(selPath);
+    if (p && p.steps) {
+      const parts = t.name.split('.');
+      const si    = +parts[1];
+      const field = parts.slice(2).join('.');
+      if (p.steps[si]) {
+        p.steps[si][field] = t.type === 'number' ? +t.value : t.value;
+        savePathsList();
+        if (field === 'title' || field === 'type') renderEditor();
+      }
+    }
+    return;
+  }
+
   // Checkbox (au-opt-correct)
   if (t.type === 'checkbox') {
     applyField(t.name, t.checked);
@@ -2225,6 +2494,17 @@ document.addEventListener('input', e => {
 document.addEventListener('change', e => {
   const t = e.target;
   if (!t.name) return;
+
+  // Path step type change: re-render editor
+  if (t.name.startsWith('step.') && t.name.endsWith('.type') && selPath) {
+    const p = pathById(selPath);
+    if (p && p.steps) {
+      const si = +t.name.split('.')[1];
+      if (p.steps[si]) { p.steps[si].type = t.value; savePathsList(); renderEditor(); }
+    }
+    return;
+  }
+
   applyField(t.name, t.value);
   // Re-render quiz editor if type toggled (multi/single)
   if (t.name.startsWith('q.') && t.name.endsWith('.multi')) {
@@ -2273,6 +2553,7 @@ async function init() {
   const editKey = params.get('edit');
 
   loadState(editKey);
+  loadPathsList();
 
   // If opened via Edit button from a course page, show back link
   if (editKey) {

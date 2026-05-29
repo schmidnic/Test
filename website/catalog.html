@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schulungskatalog – prohelias</title>
+  <meta name="description" content="Strukturiert lernen: Lernpfade und Microlearnings für KI, Technologie und bewusstes Leben.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/catalog.css">
+</head>
+<body class="catalog-page">
+
+  <nav class="nav scrolled" id="nav">
+    <a href="index.html" class="nav-logo">schmidpower</a>
+    <div class="nav-right">
+      <a href="hub.html"        class="nav-link">Coffee Hours</a>
+      <a href="catalog.html"    class="nav-link active">Lernen</a>
+      <a href="ueber-mich.html" class="nav-link">About</a>
+      <a href="https://substack.com/prohelias" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html"     onclick="closeMobileMenu()">Home</a>
+    <a href="hub.html"       onclick="closeMobileMenu()">Coffee Hours</a>
+    <a href="catalog.html"   onclick="closeMobileMenu()">Lernen</a>
+    <a href="ueber-mich.html" onclick="closeMobileMenu()">About</a>
+  </div>
+
+  <!-- Learner bar -->
+  <div class="learner-bar" id="learnerBar" style="display:none">
+    <span>Hallo, <span class="learner-name" id="lbName"></span></span>
+    <div class="learner-points-display">
+      <span class="learner-pts-val" id="lbPoints">0</span>
+      <span style="color:rgba(255,255,255,0.5)">Lernpunkte</span>
+      <span class="learner-bar-link" id="lbReset" style="margin-left:16px">Profil zurücksetzen</span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="catalog-hero">
+    <span class="catalog-label">Schulungskatalog</span>
+    <h1 class="catalog-headline">Strukturiert<br>lernen.</h1>
+    <p class="catalog-intro">
+      Lernpfade, die aufeinander aufbauen. Microlearnings, die du einzeln nutzen kannst. Mit eingebautem Reflexionssystem und adaptivem Feedback.
+    </p>
+  </div>
+
+  <!-- Filter -->
+  <div class="catalog-filters">
+    <button class="filter-btn active" data-filter="all">Alle</button>
+    <button class="filter-btn" data-filter="path">Lernpfade</button>
+    <button class="filter-btn" data-filter="course">Microlearnings</button>
+    <button class="filter-btn" data-filter="ai">KI &amp; Technologie</button>
+    <button class="filter-btn" data-filter="learning">Lernen</button>
+  </div>
+
+  <!-- Lernpfade -->
+  <section class="catalog-section" id="pathsSection">
+    <p class="catalog-section-title">Lernpfade</p>
+    <div class="paths-grid" id="pathsGrid">
+      <div style="font-size:0.85rem;color:rgba(22,11,82,0.4);padding:20px 0;">Lernpfade werden geladen…</div>
+    </div>
+  </section>
+
+  <!-- Einzelne Microlearnings -->
+  <section class="catalog-section" id="coursesSection">
+    <p class="catalog-section-title">Einzelne Microlearnings</p>
+    <div class="courses-grid" id="coursesGrid">
+      <div style="font-size:0.85rem;color:rgba(22,11,82,0.4);padding:20px 0;">Kurse werden geladen…</div>
+    </div>
+  </section>
+
+  <!-- Learner name prompt -->
+  <div class="learner-overlay" id="learnerOverlay">
+    <div class="learner-box">
+      <div class="learner-box-title">Willkommen.</div>
+      <p class="learner-box-sub">
+        Wie darf ich dich nennen? Dein Fortschritt wird lokal in deinem Browser gespeichert. Keine Registrierung nötig.
+      </p>
+      <input type="text" class="learner-name-input" id="learnerNameInput" placeholder="Dein Name" maxlength="40">
+      <button class="learner-confirm-btn" id="learnerConfirmBtn">Lernreise starten →</button>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+  // ── Learner state ──────────────────────────────────────────
+  function getLearner() {
+    try { return JSON.parse(localStorage.getItem('ph-learner')); } catch(e) { return null; }
+  }
+  function saveLearner(l) {
+    localStorage.setItem('ph-learner', JSON.stringify(l));
+  }
+  function getPathProgress(pathId) {
+    const l = getLearner();
+    return l && l.paths && l.paths[pathId] ? l.paths[pathId] : null;
+  }
+
+  // ── Level badge ────────────────────────────────────────────
+  function levelClass(l) {
+    if (!l) return '';
+    return 'level-' + l.toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/[^a-z]/g,'-');
+  }
+
+  // ── Render path card ───────────────────────────────────────
+  function pathCard(p) {
+    const prog  = getPathProgress(p.id);
+    const done  = prog ? Object.values(prog.steps||{}).filter(s=>s.status==='done').length : 0;
+    const pct   = prog ? Math.round(done / p.stepsCount * 100) : 0;
+    const cta   = !prog ? 'Starten →'
+                : pct===100 ? '✓ Abgeschlossen'
+                : 'Weiterlernern →';
+    const ctaCls = !prog ? '' : pct===100 ? 'cta-done' : 'cta-started';
+    const lvl   = (p.level||'').toLowerCase();
+    const topics = (p.topics||[]).join(' ');
+
+    return `<a class="path-card" href="path.html?path=${p.id}" data-filter="path ${topics}">
+      <div class="path-card-top">
+        <span class="path-type-badge">Lernpfad</span>
+        <span class="level-badge level-${lvl}">${p.level||''}</span>
+      </div>
+      <div class="path-card-title">${p.title}</div>
+      <div class="path-card-desc">${p.description}</div>
+      <div class="path-card-meta">
+        <span>⏱ ${p.estimatedMin} Min.</span>
+        <span>${p.stepsCount} Schritte</span>
+      </div>
+      <div class="path-card-footer">
+        <div class="path-progress-bar">
+          <div class="path-progress-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="path-progress-label">${prog ? pct+'% abgeschlossen' : 'Noch nicht gestartet'}</div>
+        <span class="path-card-cta ${ctaCls}">${cta}</span>
+      </div>
+    </a>`;
+  }
+
+  // ── Render course card ─────────────────────────────────────
+  function courseCard(c) {
+    const topics = (c.topics||[]).join(' ');
+    const lvl = (c.level||'').toLowerCase();
+    return `<a class="mini-course-card" href="${c.url}" data-filter="course ${topics}">
+      <div class="mini-course-title">${c.title}</div>
+      <div class="mini-course-desc">${c.description}</div>
+      <div class="mini-course-meta">
+        <span class="level-badge level-${lvl}" style="font-size:0.66rem;padding:2px 8px">${c.level}</span>
+        <span>⏱ ${c.estimatedMin} Min.</span>
+      </div>
+    </a>`;
+  }
+
+  // ── Filter ─────────────────────────────────────────────────
+  document.querySelector('.catalog-filters').addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('[data-filter]').forEach(el => {
+      const filters = el.dataset.filter || '';
+      el.style.display = (f==='all' || filters.split(' ').includes(f)) ? '' : 'none';
+    });
+    document.getElementById('pathsSection').style.display =
+      (f==='all' || f==='path' || ['ai','learning'].includes(f)) ? '' : 'none';
+    document.getElementById('coursesSection').style.display =
+      (f==='all' || f==='course' || ['ai','learning'].includes(f)) ? '' : 'none';
+  });
+
+  // ── Learner bar ────────────────────────────────────────────
+  function updateLearnerBar() {
+    const l = getLearner();
+    if (!l) return;
+    document.getElementById('learnerBar').style.display = '';
+    document.getElementById('lbName').textContent    = l.name;
+    document.getElementById('lbPoints').textContent  = l.totalPoints || 0;
+  }
+
+  // ── Learner name prompt ────────────────────────────────────
+  function checkLearnerPrompt() {
+    const l = getLearner();
+    const overlay = document.getElementById('learnerOverlay');
+    if (l && l.name) {
+      overlay.classList.add('hidden');
+      updateLearnerBar();
+    }
+  }
+  document.getElementById('learnerConfirmBtn').addEventListener('click', () => {
+    const name = document.getElementById('learnerNameInput').value.trim();
+    if (!name) return;
+    const l = getLearner() || { totalPoints: 0, paths: {} };
+    l.name = name;
+    saveLearner(l);
+    document.getElementById('learnerOverlay').classList.add('hidden');
+    updateLearnerBar();
+  });
+  document.getElementById('learnerNameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('learnerConfirmBtn').click();
+  });
+  document.getElementById('lbReset').addEventListener('click', () => {
+    if (!confirm('Deinen gesamten Lernfortschritt löschen?')) return;
+    localStorage.removeItem('ph-learner');
+    location.reload();
+  });
+
+  // ── Init ───────────────────────────────────────────────────
+  async function init() {
+    checkLearnerPrompt();
+
+    // Load paths
+    try {
+      const r = await fetch('paths/index.json');
+      const paths = await r.json();
+      document.getElementById('pathsGrid').innerHTML = paths.map(pathCard).join('') || '<p style="color:rgba(22,11,82,0.4);font-size:0.85rem">Noch keine Lernpfade veröffentlicht.</p>';
+    } catch(e) {
+      document.getElementById('pathsGrid').innerHTML = '<p style="color:rgba(22,11,82,0.4);font-size:0.85rem">Lernpfade konnten nicht geladen werden.</p>';
+    }
+
+    // Load courses
+    try {
+      const r = await fetch('courses/index.json');
+      const courses = await r.json();
+      document.getElementById('coursesGrid').innerHTML = courses.map(courseCard).join('') || '<p style="color:rgba(22,11,82,0.4);font-size:0.85rem">Noch keine Kurse.</p>';
+    } catch(e) {
+      document.getElementById('coursesGrid').innerHTML = '<p style="color:rgba(22,11,82,0.4);font-size:0.85rem">Kurse konnten nicht geladen werden.</p>';
+    }
+  }
+
+  init();
+  </script>
+</body>
+</html>
