@@ -449,9 +449,6 @@ body.course-page {
 }
 
 .slide-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%) translateY(-18px);
   width: 32px;
   height: 32px;
   display: flex;
@@ -466,18 +463,18 @@ body.course-page {
   border-radius: 50%;
   cursor: pointer;
   transition: border-color 0.2s, opacity 0.2s;
-  z-index: 2;
   line-height: 1;
   padding: 0;
+  flex-shrink: 0;
 }
-.slide-prev { left: 10px; }
-.slide-next { right: 10px; }
 .slide-arrow:hover:not(:disabled) { border-color: var(--navy); }
 .slide-arrow:disabled { opacity: 0.25; cursor: default; }
 
 .slide-dots-row {
   display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 12px;
   padding: 12px;
   border-top: 1px solid var(--border);
   background: #fafafa;
