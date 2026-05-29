@@ -39,7 +39,7 @@ const DEFAULTS = {
 
 // ── App state ───────────────────────────────────────────────────
 let state = {
-  meta: { title:'New Course', storageKey:'course-new', backLink:'../hub.html', backLabel:'Coffee Hours' },
+  meta: { title:'New Course', storageKey:'course-new', backLink:'../hub.html', backLabel:'Coffee Hours', format:'stage' },
   lessons: []
 };
 
@@ -183,6 +183,10 @@ function editorMeta() {
     ${f('Storage-Key (eindeutig pro Kurs)','meta.storageKey',m.storageKey)}
     ${f('Zurück-Link (URL)','meta.backLink',m.backLink)}
     ${f('Zurück-Label','meta.backLabel',m.backLabel)}
+    ${sel_('Kursformat','meta.format',[
+      {id:'stage',  label:'Stage (horizontale Lektionsnavigation)'},
+      {id:'scroll', label:'Endless Scroll (vertikales Scrollen)'},
+    ], m.format||'stage')}
   </div>`;
 }
 
@@ -380,6 +384,68 @@ function applyField(name, value) {
   }
 }
 
+// ── Scroll preview ───────────────────────────────────────────────
+function generateScrollPreviewHtml() {
+  const titles = state.lessons.map(l => l.title || 'Lektion');
+  const total  = state.lessons.length;
+  const tocHtml = titles.map((t,i) => `
+    <li class="lesson-item" id="toc-${i+1}" data-lesson="${i+1}">
+      <a class="toc-anchor" href="#section-${i+1}" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;">
+        <span class="lesson-num">${i+1}</span><span class="lesson-name">${esc(t)}</span>
+      </a>
+    </li>`).join('');
+  let sectionsHtml = '';
+  state.lessons.forEach((lesson, li) => {
+    sectionsHtml += `<div class="scroll-section" id="section-${li+1}" data-section="${li+1}" style="padding:40px 0;border-bottom:1px solid rgba(22,11,82,0.06);">
+      <h2 class="lesson-title">${esc(lesson.title || 'Lektion ' + (li+1))}</h2>
+      ${lesson.blocks.map((b,bi) => generateBlockHtml(b,li,bi)).join('\n')}
+    </div>`;
+  });
+  return `<!DOCTYPE html><html lang="de"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(state.meta.title)}</title>
+<style>${previewCss}
+.scroll-section:last-child{padding-bottom:80px;border-bottom:none;}
+</style></head>
+<body class="course-page">
+<nav class="nav scrolled" id="nav">
+  <a href="#" class="nav-logo">${esc('schmidpower')}</a>
+  <div class="nav-right"><a href="#" class="nav-link">Coffee Hours</a><a href="#" class="nav-btn">Join me on Substack</a></div>
+</nav>
+<header class="course-header">
+  <div class="course-header-inner">
+    <div class="course-meta"><h1 class="course-title">${esc(state.meta.title)}</h1></div>
+    <div class="course-progress">
+      <span class="progress-text" id="progressText">0%</span>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+  </div>
+</header>
+<div class="course-layout">
+  <div class="sidebar-wrap">
+    <aside class="course-sidebar"><nav><ul class="lesson-list" id="lessonList">${tocHtml}</ul></nav></aside>
+    <button class="sidebar-toggle" id="sidebarToggle"><span></span><span></span><span></span></button>
+  </div>
+  <main class="course-main" id="courseMain">${sectionsHtml}</main>
+</div>
+<button class="quicknotes-fab" id="quicknotesToggle" aria-label="Open notes">
+  <svg viewBox="0 0 24 24" width="15" height="15" fill="none">
+    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+<div class="quicknotes-panel" id="quicknotesPanel">
+  <div class="quicknotes-header"><p class="quicknotes-title">Notes</p></div>
+  <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Jot down your thoughts..."></textarea>
+  <div class="quicknotes-footer"><span class="quicknotes-saved" id="quicknotesSaved"></span><button class="quicknotes-clear" id="quicknotesClear">Clear</button></div>
+</div>
+<script>
+${previewMainJs}
+${inlineScrollCourseJs(state, total, titles)}
+</script>
+</body></html>`;
+}
+
 // ── Preview ──────────────────────────────────────────────────────
 function schedulePreview() {
   clearTimeout(previewTimer);
@@ -393,6 +459,7 @@ function updatePreview() {
 }
 
 function generatePreviewHtml() {
+  if ((state.meta.format || 'stage') === 'scroll') return generateScrollPreviewHtml();
   const lessonCount = state.lessons.length;
   const titles = state.lessons.map(l => l.title || 'Lektion');
   let lessonsHtml = '';
@@ -464,8 +531,255 @@ ${inlineCourseJs(state, lessonCount, titles)}
 </body></html>`;
 }
 
+// ── Scroll format generators ─────────────────────────────────────
+function generateScrollCourseHtml() {
+  const m      = state.meta;
+  const titles = state.lessons.map(l => l.title || 'Lektion');
+  const total  = state.lessons.length;
+  const tocHtml = titles.map((t,i) => `
+    <li class="lesson-item" id="toc-${i+1}" data-lesson="${i+1}">
+      <a class="toc-anchor" href="#section-${i+1}">
+        <span class="lesson-num">${i+1}</span>
+        <span class="lesson-name">${esc(t)}</span>
+      </a>
+    </li>`).join('');
+  let sectionsHtml = '';
+  state.lessons.forEach((lesson, li) => {
+    sectionsHtml += `
+      <div class="scroll-section" id="section-${li+1}" data-section="${li+1}">
+        <h2 class="lesson-title">${esc(lesson.title)}</h2>
+        ${lesson.blocks.map((b,bi) => generateBlockHtml(b, li, bi)).join('\n        ')}
+      </div>`;
+  });
+  return `<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>${esc(m.title)} – schmidpower</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/course.css">
+  <style>
+    .scroll-section { padding: 40px 0; border-bottom: 1px solid rgba(22,11,82,0.06); }
+    .scroll-section:last-child { border-bottom: none; padding-bottom: 80px; }
+    .toc-anchor { text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px; width: 100%; }
+    .toc-anchor:hover .lesson-name { color: var(--magenta); }
+  </style>
+</head>
+<body class="course-page">
+  <nav class="nav scrolled" id="nav">
+    <a href="../index.html" class="nav-logo">schmidpower</a>
+    <div class="nav-right">
+      <a href="${esc(m.backLink)}" class="nav-link">${esc(m.backLabel)}</a>
+      <a href="../ueber-mich.html" class="nav-link">About</a>
+      <a href="https://substack.com/prohelias" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="${esc(m.backLink)}" onclick="closeMobileMenu()">${esc(m.backLabel)}</a>
+    <a href="../ueber-mich.html" onclick="closeMobileMenu()">About</a>
+  </div>
+  <header class="course-header">
+    <div class="course-header-inner">
+      <div class="course-meta"><h1 class="course-title">${esc(m.title)}</h1></div>
+      <div class="course-progress">
+        <span class="progress-text" id="progressText">0%</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+  </header>
+  <div class="course-layout">
+    <div class="sidebar-wrap">
+      <aside class="course-sidebar">
+        <nav aria-label="Inhalte"><ul class="lesson-list" id="lessonList">${tocHtml}</ul></nav>
+      </aside>
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle TOC">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <main class="course-main" id="courseMain">
+${sectionsHtml}
+    </main>
+  </div>
+  <button class="quicknotes-fab" id="quicknotesToggle" aria-label="Open notes">
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="quicknotes-panel" id="quicknotesPanel">
+    <div class="quicknotes-header"><p class="quicknotes-title">Notes</p></div>
+    <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Jot down your thoughts..."></textarea>
+    <div class="quicknotes-footer">
+      <span class="quicknotes-saved" id="quicknotesSaved"></span>
+      <button class="quicknotes-clear" id="quicknotesClear">Clear</button>
+    </div>
+  </div>
+  <script src="../js/main.js"></script>
+  <script>
+${inlineScrollCourseJs(state, total, titles)}
+  </script>
+  <script>
+  (function() {
+    if (!localStorage.getItem('au-gh-token')) return;
+    var btn = document.createElement('a');
+    btn.href = '../Authoring/?edit=${escJs(m.storageKey)}';
+    btn.title = 'Kurs bearbeiten';
+    btn.style.cssText = 'position:fixed;bottom:80px;right:20px;z-index:9999;width:42px;height:42px;border-radius:50%;background:#160B52;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;box-shadow:0 2px 12px rgba(22,11,82,0.35);opacity:0.8;transition:opacity 0.2s;';
+    btn.onmouseenter = function() { this.style.opacity = '1'; };
+    btn.onmouseleave = function() { this.style.opacity = '0.8'; };
+    btn.innerHTML = '&#9998;';
+    document.body.appendChild(btn);
+  })();
+  </script>
+</body>
+</html>`;
+}
+
+function inlineScrollCourseJs(state, total, titles) {
+  const key = state.meta.storageKey || 'course-new';
+  return `
+    var pf = document.getElementById('progressFill');
+    var pt = document.getElementById('progressText');
+    function updateScrollProgress() {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      if (max <= 0) { if (pf) pf.style.width = '100%'; if (pt) pt.textContent = '100%'; return; }
+      var pct = Math.min(100, Math.round(window.scrollY / max * 100));
+      if (pf) pf.style.width = pct + '%';
+      if (pt) pt.textContent = pct + '%';
+    }
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    updateScrollProgress();
+
+    if ('IntersectionObserver' in window) {
+      var tocOb = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            var n = e.target.dataset.section;
+            document.querySelectorAll('.lesson-item').forEach(function(el) { el.classList.remove('active'); });
+            var toc = document.getElementById('toc-' + n);
+            if (toc) toc.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+      document.querySelectorAll('.scroll-section').forEach(function(s) { tocOb.observe(s); });
+
+      var confettiFired = false;
+      function launchConfetti() {
+        if (confettiFired) return; confettiFired = true;
+        var colors = ['#FF00FF','#e909f6','#160B52','#7C3AED','#a78bfa','#fff'];
+        var wrap = document.createElement('div');
+        wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden;';
+        document.body.appendChild(wrap);
+        for (var i = 0; i < 120; i++) {
+          var el = document.createElement('div');
+          var c = colors[Math.floor(Math.random() * colors.length)];
+          var l = Math.random() * 100, d = Math.random() * 1.6, dur = 2 + Math.random() * 2.5, w = 5 + Math.random() * 13;
+          var drift = (Math.random() - 0.5) * 200, wobble = (Math.random() - 0.5) * 80;
+          el.style.cssText = 'position:absolute;top:-20px;left:' + l + '%;width:' + w + 'px;height:' + w + 'px;background:' + c + ';border-radius:50%;opacity:0.95;animation:confettiFall ' + dur + 's ' + d + 's ease-in forwards;--drift:' + drift + 'px;--wobble:' + wobble + 'px;';
+          wrap.appendChild(el);
+        }
+        setTimeout(function() { wrap.remove(); }, 7000);
+      }
+      var lastSec = document.querySelector('.scroll-section:last-child');
+      if (lastSec) {
+        var confOb = new IntersectionObserver(function(entries) { if (entries[0].isIntersecting) launchConfetti(); }, { threshold: 0.3 });
+        confOb.observe(lastSec);
+      }
+    }
+
+    function submitFeedback(btn) {
+      document.querySelectorAll('.feedback-btn').forEach(function(b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      var thanks = document.getElementById('feedbackThanks');
+      if (thanks) { thanks.textContent = 'Thanks for your feedback!'; thanks.classList.add('visible'); }
+      localStorage.setItem('${escJs(key)}-feedback', '1');
+    }
+
+    var sidebarToggle = document.getElementById('sidebarToggle');
+    if (sidebarToggle) sidebarToggle.addEventListener('click', function() {
+      document.querySelector('.course-layout').classList.toggle('sidebar-collapsed');
+    });
+
+    function initDots(deckId) {
+      var deck = document.getElementById(deckId); if (!deck) return;
+      var slides = deck.querySelectorAll('.slide'); var dots = document.getElementById('dots-' + deckId); if (!dots) return;
+      dots.innerHTML = '';
+      slides.forEach(function(_, i) { var d = document.createElement('button'); d.className = 'slide-dot' + (i===0?' active':''); d.setAttribute('aria-label','Slide '+(i+1)); d.onclick = function() { goToSlide(deckId, i); }; dots.appendChild(d); });
+    }
+    function goToSlide(deckId, idx) {
+      var deck = document.getElementById(deckId); if (!deck) return;
+      deck.querySelectorAll('.slide').forEach(function(s,i) { s.classList.toggle('active', i===idx); });
+      var dotsEl = document.getElementById('dots-'+deckId); if (dotsEl) dotsEl.querySelectorAll('.slide-dot').forEach(function(d,i) { d.classList.toggle('active',i===idx); });
+      var prev = document.getElementById('prev-'+deckId), next = document.getElementById('next-'+deckId), slides = deck.querySelectorAll('.slide');
+      if (prev) prev.disabled = idx===0; if (next) next.disabled = idx===slides.length-1;
+    }
+    function currentSlideIdx(deckId) { var deck = document.getElementById(deckId); return deck ? Array.from(deck.querySelectorAll('.slide')).findIndex(function(s){return s.classList.contains('active');}) : 0; }
+    function nextSlide(deckId) { var slides = document.getElementById(deckId)?document.getElementById(deckId).querySelectorAll('.slide'):[]; goToSlide(deckId, Math.min(currentSlideIdx(deckId)+1, slides.length-1)); }
+    function prevSlide(deckId) { goToSlide(deckId, Math.max(currentSlideIdx(deckId)-1, 0)); }
+    document.querySelectorAll('.slide-deck').forEach(function(deck) { initDots(deck.id); });
+
+    document.querySelectorAll('.agamotto').forEach(function(ag) {
+      var slider = ag.querySelector('.agamotto-slider'), steps = ag.querySelectorAll('.agamotto-step'), counter = ag.querySelector('.agamotto-counter');
+      function showStep(idx) { steps.forEach(function(s,i){s.classList.toggle('active',i===idx);}); if(counter) counter.textContent=(idx+1)+' / '+steps.length; }
+      if (slider) { slider.max = steps.length-1; slider.addEventListener('input', function() { showStep(parseInt(slider.value)); }); }
+      showStep(0);
+    });
+
+    document.querySelectorAll('.juxtapose-stage').forEach(function(stage) {
+      var beforeDiv = stage.querySelector('.juxtapose-before'), handle = stage.querySelector('.juxtapose-handle'), dragging = false;
+      function setPos(x) { var rect=stage.getBoundingClientRect(), pct=Math.max(0,Math.min(100,(x-rect.left)/rect.width*100)); if(beforeDiv)beforeDiv.style.width=pct+'%'; if(handle)handle.style.left=pct+'%'; }
+      stage.addEventListener('mousedown',function(e){dragging=true;setPos(e.clientX);});
+      stage.addEventListener('touchstart',function(e){dragging=true;setPos(e.touches[0].clientX);},{passive:true});
+      document.addEventListener('mousemove',function(e){if(dragging)setPos(e.clientX);});
+      document.addEventListener('touchmove',function(e){if(dragging)setPos(e.touches[0].clientX);},{passive:true});
+      document.addEventListener('mouseup',function(){dragging=false;}); document.addEventListener('touchend',function(){dragging=false;});
+      setPos(stage.getBoundingClientRect().left+stage.getBoundingClientRect().width/2);
+    });
+
+    function checkQuiz(quizId, correct, okMsg, wrongMsg) {
+      var quiz=document.getElementById(quizId); if(!quiz)return;
+      var sel=quiz.querySelector('input[type="radio"]:checked'), fb=document.getElementById('feedback-'+quizId);
+      if(!sel){fb.textContent='Bitte eine Antwort wählen.';fb.className='quiz-feedback show neutral';return;}
+      fb.textContent=sel.value===correct?(okMsg||'Richtig!'):(wrongMsg||'Nicht ganz.');
+      fb.className='quiz-feedback show '+(sel.value===correct?'correct':'wrong');
+    }
+    function checkMulti(quizId, correct, okMsg, wrongMsg) {
+      var quiz=document.getElementById(quizId); if(!quiz)return;
+      var sel=Array.from(quiz.querySelectorAll('input[type="checkbox"]:checked')).map(function(i){return i.value;}).sort();
+      var fb=document.getElementById('feedback-'+quizId);
+      if(sel.length===0){fb.textContent='Bitte mindestens eine Antwort wählen.';fb.className='quiz-feedback show neutral';return;}
+      var ok=JSON.stringify(sel)===JSON.stringify(Array.from(correct).sort());
+      fb.textContent=ok?(okMsg||'Richtig!'):(wrongMsg||'Nicht ganz.'); fb.className='quiz-feedback show '+(ok?'correct':'wrong');
+    }
+
+    document.querySelectorAll('.accordion-trigger').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var exp=this.getAttribute('aria-expanded')==='true'; this.setAttribute('aria-expanded',String(!exp));
+        var panel=this.nextElementSibling; if(panel)panel.style.display=exp?'none':'block';
+      });
+    });
+
+    (function() {
+      var NOTES_KEY='${escJs(key)}-notes', area=document.getElementById('quicknotesArea'), savedEl=document.getElementById('quicknotesSaved'), clearBtn=document.getElementById('quicknotesClear'), fab=document.getElementById('quicknotesToggle'), panel=document.getElementById('quicknotesPanel');
+      if(!area)return;
+      area.value=localStorage.getItem(NOTES_KEY)||'';
+      var saveTimer;
+      area.addEventListener('input',function(){clearTimeout(saveTimer);savedEl.textContent='';saveTimer=setTimeout(function(){localStorage.setItem(NOTES_KEY,area.value);savedEl.textContent='Saved';setTimeout(function(){savedEl.textContent='';},2000);},600);});
+      if(clearBtn)clearBtn.addEventListener('click',function(){if(!area.value)return;if(confirm('Clear all notes?')){area.value='';localStorage.removeItem(NOTES_KEY);}});
+      if(fab&&panel)fab.addEventListener('click',function(){var isOpen=panel.classList.toggle('open');fab.classList.toggle('active',isOpen);});
+    })();
+  `;
+}
+
 // ── HTML Generator (export) ──────────────────────────────────────
 function generateCourseHtml() {
+  if ((state.meta.format || 'stage') === 'scroll') return generateScrollCourseHtml();
   const m = state.meta;
   const titles = state.lessons.map(l => l.title || 'Lektion');
   const total  = state.lessons.length;
@@ -1684,13 +1998,21 @@ document.addEventListener('click', e => {
   if (t.id === 'btnLoad')   { document.getElementById('fileInput').click(); return; }
   if (t.id === 'btnNew') {
     if (!confirm('Neuen Kurs starten? Ungespeicherte Änderungen gehen verloren.')) return;
-    state = { meta:{title:'New Course',storageKey:'course-new',backLink:'../hub.html',backLabel:'Coffee Hours'}, lessons:[] };
+    state = { meta:{title:'New Course',storageKey:'course-new',backLink:'../hub.html',backLabel:'Coffee Hours',format:'stage'}, lessons:[] };
     sel   = { type:null, lessonIdx:null, blockIdx:null };
     localStorage.removeItem('au-state');
     document.getElementById('courseTitleDisplay').textContent = 'New Course';
     renderAll(); return;
   }
   if (t.id === 'btnPreviewRefresh') { updatePreview(); return; }
+
+  // Outline collapse
+  if (t.id === 'btnCollapseOutline') {
+    const panel = document.querySelector('.au-outline');
+    panel.classList.toggle('collapsed');
+    localStorage.setItem('au-outline-collapsed', panel.classList.contains('collapsed') ? '1' : '0');
+    return;
+  }
 
   // Mobile preview
   if (t.id === 'btnMobilePreview') { openMobilePreview(); return; }
@@ -1794,6 +2116,10 @@ async function init() {
     previewMainJs = await fetch('../js/main.js').then(r => r.text());
   } catch(e) {
     previewMainJs = '';
+  }
+
+  if (localStorage.getItem('au-outline-collapsed') === '1') {
+    document.querySelector('.au-outline').classList.add('collapsed');
   }
 
   const params  = new URLSearchParams(window.location.search);

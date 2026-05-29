@@ -689,3 +689,19 @@ html, body {
   display: flex;
   gap: 10px;
 }
+
+/* ── Outline collapse ─────────────────────────────────────────── */
+.au-outline { transition: width 0.22s ease; }
+.au-outline.collapsed { width: 40px !important; }
+.au-outline.collapsed .au-outline-scroll,
+.au-outline.collapsed .au-panel-header > span,
+.au-outline.collapsed #btnAddLesson { display: none; }
+.au-outline-collapse { font-size: 1rem; transition: transform 0.22s ease; }
+.au-outline.collapsed .au-outline-collapse { transform: rotate(180deg); }
+.au-outline-header-actions { display: flex; align-items: center; gap: 4px; }
+
+/* ── Scroll format player ─────────────────────────────────────── */
+.scroll-section { padding: 40px 0; border-bottom: 1px solid rgba(22,11,82,0.06); }
+.scroll-section:last-child { border-bottom: none; padding-bottom: 80px; }
+.toc-anchor { text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px; width: 100%; }
+.toc-anchor:hover .lesson-name { color: var(--magenta, #e909f6); }
