@@ -2213,16 +2213,51 @@ async function publishCourse() {
 // ── Image upload via GitHub API ──────────────────────────────────
 let pendingUploadField = null;
 
+async function processImageFile(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const MAX = 1400;
+      let w = img.naturalWidth  || img.width;
+      let h = img.naturalHeight || img.height;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else       { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      canvas.toBlob(blob => {
+        if (!blob) { reject(new Error('Canvas conversion failed')); return; }
+        const safeName = file.name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_') + '.jpg';
+        resolve(new File([blob], safeName, { type: 'image/jpeg' }));
+      }, 'image/jpeg', 0.88);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not load image')); };
+    img.src = url;
+  });
+}
+
 async function uploadImage(file) {
   const cfg = getGhConfig();
   if (!cfg.token || !cfg.owner || !cfg.repo) {
     toast('Bitte zuerst GitHub-Einstellungen konfigurieren.'); return;
   }
+
+  let uploadFile = file;
+  try {
+    uploadFile = await processImageFile(file);
+  } catch(convErr) {
+    toast('Konvertierung fehlgeschlagen, versuche Original…');
+  }
+
   const reader = new FileReader();
   reader.onload = async e => {
     try {
       const b64  = e.target.result.split(',')[1];
-      const name = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const name = uploadFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
       const path = `website/images/${name}`;
       const url  = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
       const hdrs = {
@@ -2260,7 +2295,7 @@ async function uploadImage(file) {
       toast('Fehler: ' + ex.message);
     }
   };
-  reader.readAsDataURL(file);
+  reader.readAsDataURL(uploadFile);
 }
 
 // ── SCORM export ─────────────────────────────────────────────────

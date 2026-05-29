@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lernpfad – prohelias</title>
+  <title>Learning Path – prohelias</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=49">
@@ -20,8 +20,8 @@
 
     <aside class="path-sidebar" id="pathSidebar">
       <div class="path-sidebar-header">
-        <a href="catalog.html" class="path-back" id="pathBackLink">← Schulungskatalog</a>
-        <div class="path-sidebar-name" id="sidebarTitle">Wird geladen…</div>
+        <a href="catalog.html" class="path-back" id="pathBackLink">← The Lounge</a>
+        <div class="path-sidebar-name" id="sidebarTitle">Loading…</div>
         <div class="path-bar-wrap">
           <div class="path-bar-fill" id="pathBarFill" style="width:0%"></div>
         </div>
@@ -31,14 +31,14 @@
       <div class="path-sidebar-foot">
         <span class="path-pts-icon" id="ptsIcon">🏆</span>
         <span class="path-pts-val" id="ptsVal">0</span>
-        <span class="path-pts-label" id="ptsLabel">Lernpunkte</span>
+        <span class="path-pts-label" id="ptsLabel">Points</span>
       </div>
     </aside>
 
     <main class="path-main" id="pathMain">
       <div class="path-content-scroll">
         <div class="path-screen-inner" style="display:flex;align-items:center;justify-content:center;min-height:60vh">
-          <div class="path-pts-label">Wird geladen…</div>
+          <div class="path-pts-label">Loading…</div>
         </div>
       </div>
     </main>
@@ -63,11 +63,11 @@
 
   // Hero's journey stage labels, distributed across N steps
   const HJ_MAP = [
-    ['Die Prüfung'],
-    ['Der Aufbruch', 'Die Rückkehr'],
-    ['Der Aufbruch', 'Die Prüfung', 'Die Rückkehr'],
-    ['Der Aufbruch', 'Die erste Prüfung', 'Die innere Höhle', 'Die Rückkehr'],
-    ['Der Aufbruch', 'Die erste Prüfung', 'Die Begegnung', 'Die innere Höhle', 'Die Rückkehr'],
+    ['The Trial'],
+    ['The Departure', 'The Return'],
+    ['The Departure', 'The Trial', 'The Return'],
+    ['The Departure', 'The First Trial', 'The Innermost Cave', 'The Return'],
+    ['The Departure', 'The First Trial', 'The Encounter', 'The Innermost Cave', 'The Return'],
   ];
   function hjStage(idx, total) {
     const steps = pathDef && pathDef.steps[idx] && pathDef.steps[idx].stageLabel
@@ -143,9 +143,9 @@
       nav.style.cssText = 'position:static;background:#0D0828;border-bottom:1px solid rgba(233,9,246,0.15)';
       document.getElementById('navPathTitle').style.color = 'rgba(255,255,255,0.35)';
       document.querySelector('.nav-logo').style.color = 'rgba(255,255,255,0.7)';
-      document.getElementById('pathBackLink').innerHTML = '← Zurück';
+      document.getElementById('pathBackLink').innerHTML = '← Back';
       document.getElementById('ptsIcon').textContent = '⚡';
-      document.getElementById('ptsLabel').textContent = 'Erfahrungspunkte';
+      document.getElementById('ptsLabel').textContent = 'XP';
     }
   }
 
@@ -156,7 +156,7 @@
     if (!pathDef) return;
 
     document.getElementById('sidebarTitle').textContent = pathDef.title;
-    document.getElementById('navPathTitle').textContent = isHJ() ? pathDef.title + ' · Heldenreise' : pathDef.title;
+    document.getElementById('navPathTitle').textContent = isHJ() ? pathDef.title + ' · Hero's Journey' : pathDef.title;
     document.title = pathDef.title + ' – prohelias';
     document.getElementById('ptsVal').textContent = (progress && progress.points) || 0;
 
@@ -165,8 +165,8 @@
     const pct   = total ? Math.round(done / total * 100) : 0;
     document.getElementById('pathBarFill').style.width = pct + '%';
     document.getElementById('pathBarText').textContent = isHJ()
-      ? `${done} von ${total} Prüfungen bestanden`
-      : pct + ' % abgeschlossen';
+      ? `${done} of ${total} trials completed`
+      : pct + ' % complete';
 
     document.getElementById('stepsScroll').innerHTML = isHJ()
       ? renderHJSteps()
@@ -192,9 +192,9 @@
       return `<div class="path-step-row ${rowCls}" data-step="${i}">
         <div class="step-dot ${dotCls}"></div>
         <div class="step-row-info">
-          <div class="step-row-type">${step.type === 'checkin' ? 'Reflexion' : 'Kurs'}</div>
+          <div class="step-row-type">${step.type === 'checkin' ? 'Reflection' : 'Course'}</div>
           <div class="step-row-title">${esc(step.title)}</div>
-          ${step.estimatedMin ? `<div class="step-row-dur">${step.estimatedMin} Min.</div>` : ''}
+          ${step.estimatedMin ? `<div class="step-row-dur">${step.estimatedMin} min.</div>` : ''}
         </div>
       </div>`;
     }).join('');
@@ -213,7 +213,7 @@
           <div class="hj-step-info">
             <div class="hj-stage-label">${esc(stage)}</div>
             <div class="hj-step-title">${esc(step.title)}</div>
-            ${step.estimatedMin ? `<div class="hj-step-dur">${step.estimatedMin} Min.</div>` : ''}
+            ${step.estimatedMin ? `<div class="hj-step-dur">${step.estimatedMin} min.</div>` : ''}
           </div>
         </div>`;
       }).join('')}
@@ -238,38 +238,38 @@
     const anchorVal = (progress && progress.anchor) || p.behavioralAnchorTemplate || '';
 
     const heroIntro = isHJ()
-      ? `<p class="hj-intro-quote">"Der Held bricht nicht auf, weil er keine Angst hat.<br>Er bricht auf, obwohl er sie hat."</p>`
+      ? `<p class="hj-intro-quote">"The hero does not set out because they have no fear.<br>They set out in spite of it."</p>`
       : '';
 
     setMain(`
       <div class="path-content-scroll">
         <div class="path-screen-inner">
-          <div class="path-screen-tag">${tx('Lernpfad', 'Die Heldenreise')}</div>
+          <div class="path-screen-tag">${tx('Learning Path', 'The Hero's Journey')}</div>
           <h1 class="path-screen-h">${esc(p.title)}</h1>
           ${heroIntro}
           <p class="path-screen-p">${esc(p.description)}</p>
           <div class="path-screen-meta">
-            <span>⏱ ${p.estimatedMin} Min.</span>
-            <span>${p.steps.length} ${tx('Schritte','Prüfungen')}</span>
+            <span>⏱ ${p.estimatedMin} min.</span>
+            <span>${p.steps.length} ${tx('steps','trials')}</span>
             <span>${esc(p.level)}</span>
           </div>
 
           <div class="anchor-card">
-            <div class="anchor-card-label">${tx('Prozesssicherung: Dein Lernziel','Dein Bund vor dem Aufbruch')}</div>
-            <div class="anchor-field-label">${tx('Was möchtest du am Ende können oder wissen?','Was suchst du auf dieser Reise?')}</div>
+            <div class="anchor-card-label">${tx('Your learning goal','Your pledge before the journey')}</div>
+            <div class="anchor-field-label">${tx('What do you want to be able to do or know at the end?','What are you seeking on this journey?')}</div>
             <textarea class="anchor-textarea" id="goalInput" rows="2" placeholder="${esc(p.goal)}">${esc(goalVal)}</textarea>
 
-            <div class="anchor-field-label">${tx('Dein Lernrhythmus (Implementation Intention)','Mit welchem Versprechen brichst du auf?')}</div>
+            <div class="anchor-field-label">${tx('Your learning rhythm (implementation intention)','What promise do you set out with?')}</div>
             <textarea class="anchor-textarea" id="anchorInput" rows="3">${esc(anchorVal)}</textarea>
             <p class="anchor-hint-text">
               ${tx(
-                'Diese "Wenn-dann-um"-Formel stammt aus der Motivationspsychologie (vgl. PEACH). Sie hilft dir, Lernen zur Gewohnheit zu machen.',
-                'Helden brauchen ein Versprechen, das größer ist als ihre Angst. Die "Wenn-dann-um"-Formel macht es konkret und bindend.'
+                'This if-then-in-order-to formula comes from motivational psychology (cf. PEACH). It helps you turn learning into a habit.',
+                'Heroes need a promise bigger than their fear. The if-then-in-order-to formula makes it concrete and binding.'
               )}
             </p>
           </div>
 
-          <button class="path-btn path-btn-gradient" id="startPathBtn">${tx('Lernpfad starten →','Aufbrechen →')}</button>
+          <button class="path-btn path-btn-gradient" id="startPathBtn">${tx('Start learning path →','Begin the journey →')}</button>
         </div>
       </div>
     `);
@@ -310,7 +310,7 @@
     const total = pathDef.steps.length;
     const barLabel = isHJ()
       ? hjStage(idx, total)
-      : `Schritt ${idx+1} von ${total}`;
+      : `Schritt ${idx+1} of ${total}`;
 
     setMain(`
       <div class="path-step-bar">
@@ -319,9 +319,9 @@
           <div class="step-bar-title">${esc(step.title)}</div>
         </div>
         ${!alreadyDone
-          ? `<button class="step-bar-complete-btn" id="completeStepBtn">${tx('Schritt abschließen →','Prüfung bestanden →')}</button>`
+          ? `<button class="step-bar-complete-btn" id="completeStepBtn">${tx('Complete step →','Trial passed →')}</button>`
           : `<span style="font-size:0.78rem;font-family:'Space Grotesk',sans-serif;font-weight:600;color:${isHJ()?'#e909f6':'#15803d'}">
-               ${tx('✓ Abgeschlossen','⚡ Meistergepäck')}
+               ${tx('✓ Completed','⚡ Mastered')}
              </span>`}
       </div>
       <iframe class="path-course-frame" src="${esc(iframeSrc)}"
@@ -351,12 +351,12 @@
     setMain(`
       <div class="path-content-scroll">
         <div class="path-screen-inner">
-          <div class="path-screen-tag">${tx('Schritt abgeschlossen','Prüfung abgeschlossen')}</div>
-          <h2 class="path-screen-h" style="font-size:1.65rem">${tx('Wie sicher fühlst du dich?','Wie weit bist du gewachsen?')}</h2>
+          <div class="path-screen-tag">${tx('Step completed','Trial completed')}</div>
+          <h2 class="path-screen-h" style="font-size:1.65rem">${tx('How confident do you feel?','How much have you grown?')}</h2>
           <p class="path-screen-p" style="margin-bottom:16px">
             ${tx(
-              'Bewerte ehrlich, wie gut du den Inhalt verstanden hast.',
-              'Helden wachsen durch ihre Prüfungen. Wie stark hat dich dieser Schritt weitergebracht?'
+              'Be honest about how well you understood the content.',
+              'Heroes grow through their trials. How much did this step move you forward?'
             )}
           </p>
 
@@ -367,8 +367,8 @@
               </button>`).join('')}
           </div>
           <div class="assess-legend">
-            <span>${tx('Noch unsicher','Noch am Beginn')}</span>
-            <span>${tx('Sehr sicher','Meisterschaft')}</span>
+            <span>${tx('Not sure yet','Just beginning')}</span>
+            <span>${tx('Very confident','Mastery')}</span>
           </div>
 
           <div class="adaptive-hint-box" id="adaptiveBox" style="display:none">
@@ -379,10 +379,10 @@
           ${step.reflection ? `
             <div class="path-field-label">${esc(step.reflection)}</div>
             <textarea class="path-textarea" id="reflectionInput"
-              placeholder="${tx('Deine Gedanken…','Deine Erkenntnis als Schatz…')}">${esc(prevData.reflection||'')}</textarea>
+              placeholder="${tx('Your thoughts…','Your insight as treasure…')}">${esc(prevData.reflection||'')}</textarea>
           ` : ''}
 
-          <button class="path-btn" id="saveAssessBtn">${tx('Speichern und weiter →','Weitergehen →')}</button>
+          <button class="path-btn" id="saveAssessBtn">${tx('Save and continue →','Move forward →')}</button>
         </div>
       </div>
     `);
@@ -432,8 +432,8 @@
     const prevData = (progress && progress.steps && progress.steps[step.id]) || {};
     const total    = pathDef.steps.length;
     const tag      = isHJ()
-      ? `Begegnung mit dem inneren Begleiter · ${hjStage(idx, total)}`
-      : `Reflexion · Schritt ${idx+1} von ${total}`;
+      ? `Encounter with the inner guide · ${hjStage(idx, total)}`
+      : `Reflection · Step ${idx+1} of ${total}`;
 
     setMain(`
       <div class="path-content-scroll">
@@ -446,18 +446,18 @@
             <div class="checkin-hint" id="hintToggle">
               <div class="checkin-hint-toggle">
                 <span id="hintArrow">▸</span>
-                ${tx('Hinweis anzeigen', 'Den Mentor befragen')}
+                ${tx('Show hint', 'Consult the mentor')}
               </div>
               <div class="checkin-hint-text" id="hintText" style="display:none">${esc(step.hint)}</div>
             </div>
           ` : ''}
 
-          <div class="path-field-label">${tx('Deine Antwort','Deine Erkenntnis')}</div>
+          <div class="path-field-label">${tx('Your answer','Your insight')}</div>
           <textarea class="path-textarea" id="checkinInput" rows="6"
-            placeholder="${tx('Schreib in eigenen Worten…','Was trägst du von hier mit dir fort?')}">${esc(prevData.reflection||'')}</textarea>
+            placeholder="${tx('Write in your own words…','What do you carry forward from here?')}">${esc(prevData.reflection||'')}</textarea>
 
-          <button class="path-btn" id="saveCheckinBtn">${tx('Reflexion speichern →','Erkenntnis festhalten →')}</button>
-          ${prevData.status === 'done' ? `<button class="path-btn path-btn-ghost" id="skipCheckinBtn" style="margin-left:12px">Überspringen</button>` : ''}
+          <button class="path-btn" id="saveCheckinBtn">${tx('Save reflection →','Record your insight →')}</button>
+          ${prevData.status === 'done' ? `<button class="path-btn path-btn-ghost" id="skipCheckinBtn" style="margin-left:12px">Skip</button>` : ''}
         </div>
       </div>
     `);
@@ -504,7 +504,7 @@
               'Diese Prüfung liegt noch im Nebel. Der Weg wird sich zeigen, sobald die Zeit gekommen ist.'
             )}
           </p>
-          <a href="catalog.html" class="path-btn path-btn-ghost" style="display:inline-block">${tx('← Zurück zum Katalog','← Zurück in die Gewöhnliche Welt')}</a>
+          <a href="catalog.html" class="path-btn path-btn-ghost" style="display:inline-block">${tx('← Back to The Lounge','← Return to the Ordinary World')}</a>
         </div>
       </div>
     `);
@@ -530,17 +530,17 @@
       <div class="path-content-scroll">
         <div class="path-screen-inner">
           <div class="complete-badge">${isHJ() ? '⚔️' : '🏆'}</div>
-          <div class="path-screen-tag">${tx('Lernpfad abgeschlossen','Heldenreise vollendet')}</div>
-          <h1 class="path-screen-h">${tx('Glückwunsch!','Die Rückkehr.')}</h1>
+          <div class="path-screen-tag">${tx('Learning path completed','Hero's Journey complete')}</div>
+          <h1 class="path-screen-h">${tx('Congratulations!','The Return.')}</h1>
           <p class="path-screen-p">
             ${isHJ()
-              ? `Du hast die Heldenreise durch <strong style="color:${isHJ()?'#e909f6':'inherit'}">${esc(pathDef.title)}</strong> vollendet.<br>Du kehrst zurück mit <strong>${totalPts} Erfahrungspunkten</strong> als Schatz in deinem Gepäck.`
-              : `Du hast <strong>${esc(pathDef.title)}</strong> erfolgreich abgeschlossen. Du hast <strong>${totalPts} Lernpunkte</strong> gesammelt.`}
+              ? `You have completed the Hero's Journey through <strong style="color:${isHJ()?'#e909f6':'inherit'}">${esc(pathDef.title)}</strong>.<br>You return with <strong>${totalPts} XP</strong> as treasure in your pack.`
+              : `You have successfully completed <strong>${esc(pathDef.title)}</strong> and earned <strong>${totalPts} points</strong>.`}
           </p>
 
           ${progress.goal ? `
             <div class="anchor-card" style="margin-bottom:24px">
-              <div class="anchor-card-label">${tx('Dein Lernziel war','Du brachst auf, um')}</div>
+              <div class="anchor-card-label">${tx('Your learning goal was','You set out to')}</div>
               <p style="font-size:0.9rem;line-height:1.6">${esc(progress.goal)}</p>
             </div>
           ` : ''}
@@ -548,7 +548,7 @@
           ${refs.length ? `
             <div class="reflections-list">
               <div class="path-screen-tag" style="margin-bottom:12px">
-                ${tx('Deine Erkenntnisse','Dein Schatz: Die gesammelten Erkenntnisse')}
+                ${tx('Your insights','Your treasure: the insights you collected')}
               </div>
               ${refs.map(r => `
                 <div class="reflection-entry">
@@ -561,12 +561,12 @@
 
           ${isHJ() ? `
             <div style="margin:32px 0 8px;font-size:0.82rem;color:rgba(255,255,255,0.3);font-style:italic;font-family:'Space Grotesk',sans-serif">
-              "Der wahre Schatz ist nicht das Ziel. Es ist, wer du auf dem Weg dorthin geworden bist."
+              "The true treasure is not the destination. It is who you became on the way there."
             </div>
           ` : ''}
 
           <div style="margin-top:${isHJ()?'16':'32'}px;display:flex;gap:12px;flex-wrap:wrap">
-            <a href="catalog.html" class="path-btn">${tx('← Zurück zum Katalog','← Zurück in die Welt')}</a>
+            <a href="catalog.html" class="path-btn">${tx('← Back to The Lounge','← Return to the World')}</a>
           </div>
         </div>
       </div>
@@ -582,14 +582,14 @@
     const params = new URLSearchParams(location.search);
     pathId = params.get('path');
     if (!pathId) {
-      setMain('<div class="path-content-scroll"><div class="path-screen-inner"><p class="path-pts-label">Kein Lernpfad angegeben.</p><a href="catalog.html" class="path-btn" style="margin-top:16px;display:inline-block">← Katalog</a></div></div>');
+      setMain('<div class="path-content-scroll"><div class="path-screen-inner"><p class="path-pts-label">No learning path specified.</p><a href="catalog.html" class="path-btn" style="margin-top:16px;display:inline-block">← The Lounge</a></div></div>');
       return;
     }
 
     // Ensure learner name
     const learner = getLearner();
     if (!learner.name) {
-      const name = prompt('Wie darf ich dich nennen?') || 'Heldenperson';
+      const name = prompt('What shall I call you?') || 'Traveller';
       learner.name = name;
       saveLearner(learner);
     }
@@ -600,7 +600,7 @@
       if (!r.ok) throw new Error('Not found');
       pathDef = await r.json();
     } catch(e) {
-      setMain('<div class="path-content-scroll"><div class="path-screen-inner"><p class="path-pts-label">Lernpfad nicht gefunden.</p><a href="catalog.html" class="path-btn" style="margin-top:16px;display:inline-block">← Katalog</a></div></div>');
+      setMain('<div class="path-content-scroll"><div class="path-screen-inner"><p class="path-pts-label">Learning path not found.</p><a href="catalog.html" class="path-btn" style="margin-top:16px;display:inline-block">← The Lounge</a></div></div>');
       return;
     }
 
