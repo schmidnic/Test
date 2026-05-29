@@ -586,11 +586,10 @@
       return;
     }
 
-    // Ensure learner name
+    // Ensure learner name (set via catalog overlay; fall back silently)
     const learner = getLearner();
     if (!learner.name) {
-      const name = prompt('What shall I call you?') || 'Traveller';
-      learner.name = name;
+      learner.name = 'Traveller';
       saveLearner(learner);
     }
 
