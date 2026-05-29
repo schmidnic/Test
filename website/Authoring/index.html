@@ -6,13 +6,14 @@
   <title>schmidpower Authoring</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/author.css">
+  <link rel="stylesheet" href="css/author.css?v=50">
 </head>
 <body>
 
   <header class="au-header">
     <div class="au-header-left">
       <span class="au-logo">schmidpower <span class="au-logo-badge">Authoring</span></span>
+      <a href="../index.html" class="au-back-to-site" target="_blank" rel="noopener" title="Open live site">← site</a>
     </div>
     <div class="au-header-center">
       <span class="au-course-title-display" id="courseTitleDisplay">New Course</span>
@@ -23,6 +24,7 @@
       <button class="au-btn au-btn-ai-header" id="btnOpenAi" title="KI-Kurs erstellen">✨ KI</button>
       <button class="au-btn au-btn-ghost" id="btnNew" title="Neuer Kurs">New</button>
       <button class="au-btn au-btn-ghost" id="btnLoad" title="JSON öffnen">Open</button>
+      <button class="au-btn au-btn-import" id="btnImport" title="Materialien importieren (PDF, DOCX, PPTX, TXT, MD)">⬆ Import</button>
       <button class="au-btn au-btn-ghost" id="btnSave" title="Als JSON speichern">Save JSON</button>
       <button class="au-btn au-btn-ghost" id="btnExport" title="Als HTML exportieren">Export HTML</button>
       <button class="au-btn au-btn-ghost" id="btnMobilePreview" title="Mobil-Vorschau">📱</button>
@@ -33,6 +35,7 @@
       </button>
       <input type="file" id="fileInput" accept=".json" style="display:none">
       <input type="file" id="imageInput" accept="image/*" style="display:none">
+      <input type="file" id="importInput" accept=".pdf,.docx,.pptx,.txt,.md" style="display:none">
     </div>
   </header>
 
@@ -206,10 +209,89 @@
     </div>
   </div>
 
+  <!-- Import modal -->
+  <div class="au-modal-overlay" id="importOverlay">
+    <div class="au-modal au-modal-import">
+      <div class="au-modal-header">
+        <span>⬆ Material importieren</span>
+        <button class="au-icon-btn" id="closeImportModal">×</button>
+      </div>
+      <div class="au-import-body">
+        <p class="au-settings-intro">Lade ein vorhandenes Dokument hoch. Der Text wird extrahiert und du kannst ihn als Rohlektion übernehmen oder von der KI in einen strukturierten Kurs umwandeln lassen.</p>
+
+        <!-- Drop zone -->
+        <div class="au-import-drop" id="importDrop">
+          <div class="au-import-drop-icon">⬆</div>
+          <p class="au-import-drop-label">PDF, DOCX, PPTX, TXT oder MD hierher ziehen</p>
+          <p class="au-import-drop-sub">oder</p>
+          <button class="au-btn au-btn-ghost au-import-browse-btn" id="btnImportBrowse">Datei auswählen</button>
+        </div>
+
+        <!-- File info + progress (hidden until file loaded) -->
+        <div class="au-import-file-info" id="importFileInfo" style="display:none">
+          <span class="au-import-filename" id="importFilename"></span>
+          <span class="au-import-filesize" id="importFilesize"></span>
+          <button class="au-icon-btn au-import-clear" id="btnImportClear" title="Auswahl löschen">×</button>
+        </div>
+        <div class="au-import-progress" id="importProgress" style="display:none">
+          <div class="au-import-progress-bar" id="importProgressBar"></div>
+        </div>
+
+        <!-- Extracted text preview -->
+        <div class="au-import-preview-wrap" id="importPreviewWrap" style="display:none">
+          <div class="au-import-preview-header">
+            <span class="au-import-preview-label">Extrahierter Text</span>
+            <span class="au-import-word-count" id="importWordCount"></span>
+          </div>
+          <textarea class="au-import-preview" id="importPreview" readonly></textarea>
+        </div>
+
+        <!-- Settings for AI structuring -->
+        <div class="au-import-ai-settings" id="importAiSettings" style="display:none">
+          <div class="au-ai-grid">
+            <div class="au-field">
+              <label class="au-label">Lektionen</label>
+              <select class="au-select" id="importNumLessons">
+                <option value="2">2</option>
+                <option value="3" selected>3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <div class="au-field">
+              <label class="au-label">Zielgruppe</label>
+              <select class="au-select" id="importAudience">
+                <option value="Einsteiger ohne Vorwissen">Einsteiger</option>
+                <option value="Berufstätige mit Grundkenntnissen" selected>Berufstätige</option>
+                <option value="Fachkräfte und Experten">Experten</option>
+              </select>
+            </div>
+            <div class="au-field">
+              <label class="au-label">Format</label>
+              <select class="au-select" id="importFormat">
+                <option value="stage">Stage</option>
+                <option value="scroll">Endless Scroll</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="au-import-actions" id="importActions" style="display:none">
+          <button class="au-btn au-btn-ghost" id="btnImportRaw">Als Rohlektion übernehmen</button>
+          <button class="au-btn au-btn-ai-generate" id="btnImportAi">✨ KI strukturieren</button>
+        </div>
+        <p class="au-ai-error" id="importError"></p>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast notification -->
   <div class="au-toast" id="toast"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous"></script>
+  <script>if (typeof pdfjsLib !== 'undefined') pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
   <script src="js/author.js"></script>
 </body>
 </html>

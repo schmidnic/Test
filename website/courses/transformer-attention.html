@@ -3,18 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>How transformers think – prohelias</title>
   <meta name="description" content="From 'Attention Is All You Need' to Subquadratic Sparse Attention: the constraint that shaped AI for nine years, and what just changed.">
-  <link rel="stylesheet" href="../css/style.css?v=48">
-  <link rel="stylesheet" href="../css/course.css?v=70">
+  <link rel="stylesheet" href="../css/style.css?v=50">
+  <link rel="stylesheet" href="../css/course.css?v=50">
 </head>
 <body class="course-page">
 
   <nav class="nav scrolled" id="nav">
-    <a href="../index.html" class="nav-logo">schmidpower</a>
+    <a href="../index.html" class="nav-logo">prohelias</a>
     <div class="nav-right">
       <a href="../hub.html" class="nav-link">Coffee Hours</a>
       <a href="../ueber-mich.html" class="nav-link">About</a>
@@ -33,14 +30,9 @@
 
   <header class="course-header">
     <div class="course-header-inner">
+      <a href="../hub.html" class="course-back-link">← Coffee Hours</a>
       <div class="course-meta">
         <h1 class="course-title">How transformers think, and what just changed</h1>
-        <button class="reset-btn" onclick="resetProgress()" title="Start over">
-          <svg viewBox="0 0 16 16" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13.5 8a5.5 5.5 0 1 1-1.1-3.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-            <path d="M13.5 3v2.5H11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
       </div>
       <div class="course-progress">
         <span class="progress-text" id="progressText">1 / 6</span>
@@ -51,16 +43,11 @@
 
   <div class="course-layout">
 
-    <div class="sidebar-wrap">
-      <aside class="course-sidebar">
-        <nav aria-label="Lessons">
-          <ul class="lesson-list" id="lessonList"></ul>
-        </nav>
-      </aside>
-      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle table of contents">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+    <aside class="course-sidebar">
+      <nav aria-label="Lessons">
+        <ul class="lesson-list" id="lessonList"></ul>
+      </nav>
+    </aside>
 
     <main class="course-main" id="courseMain">
 
@@ -106,9 +93,9 @@
           </div>
 
           <div class="slide-controls">
-            <button class="slide-btn" id="prev-slide-deck-1" onclick="prevSlide('slide-deck-1')" aria-label="Previous slide">&#8249;</button>
+            <button class="slide-btn" onclick="prevSlide('slide-deck-1')">← Back</button>
             <div class="slide-dots" id="dots-slide-deck-1"></div>
-            <button class="slide-btn" id="next-slide-deck-1" onclick="nextSlide('slide-deck-1')" aria-label="Next slide">&#8250;</button>
+            <button class="slide-btn" onclick="nextSlide('slide-deck-1')">Next →</button>
           </div>
         </div>
       </div>
@@ -172,7 +159,6 @@
 
             <svg viewBox="0 0 680 380" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
               <rect width="680" height="380" fill="#F0EFFE"/>
-              <g transform="translate(33, 0)">
 
               <!-- ── Input tokens (left) ── -->
               <rect x="28" y="60"  width="72" height="28" rx="5" fill="#fff" stroke="rgba(22,11,82,0.35)" stroke-width="1.5"/>
@@ -278,17 +264,16 @@
               <text x="388" y="321" fill="rgba(22,11,82,0.6)" font-family="Space Grotesk,sans-serif" font-size="10">computed (SSA, content-selected)</text>
               <rect x="370" y="330" width="12" height="12" rx="2" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.2)" stroke-width="1"/>
               <text x="388" y="341" fill="rgba(22,11,82,0.45)" font-family="Space Grotesk,sans-serif" font-size="10">skipped (subquadratic saving)</text>
-              </g>
             </svg>
 
             <!-- Hotspot markers -->
-            <div class="hotspot" style="left: 14%; top: 38%;" data-tooltip="tooltip-tokens">
+            <div class="hotspot" style="left: 9%; top: 38%;" data-tooltip="tooltip-tokens">
               <div class="hotspot-marker">+</div>
             </div>
-            <div class="hotspot" style="left: 43%; top: 38%;" data-tooltip="tooltip-full">
+            <div class="hotspot" style="left: 37%; top: 38%;" data-tooltip="tooltip-full">
               <div class="hotspot-marker">+</div>
             </div>
-            <div class="hotspot" style="left: 73%; top: 38%;" data-tooltip="tooltip-sparse">
+            <div class="hotspot" style="left: 72%; top: 38%;" data-tooltip="tooltip-sparse">
               <div class="hotspot-marker">+</div>
             </div>
 
@@ -340,11 +325,10 @@
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <p class="flip-card-label">Claim 1</p>
-                  <p class="flip-card-title">What makes SSA content-dependent?</p>
+                  <p class="flip-card-title">Content-dependent</p>
                   <div class="flip-card-hint"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 </div>
                 <div class="flip-card-back">
-                  <strong>Content-dependent</strong>
                   <p>Which pairs are computed depends on the actual tokens, not a fixed template. The model attends to what matters.</p>
                 </div>
               </div>
@@ -354,11 +338,10 @@
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <p class="flip-card-label">Claim 2</p>
-                  <p class="flip-card-title">What does "exact" mean for SSA?</p>
+                  <p class="flip-card-title">Exact</p>
                   <div class="flip-card-hint"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 </div>
                 <div class="flip-card-back">
-                  <strong>Exact</strong>
                   <p>The computed attention values are identical to full attention for the selected pairs. No approximation error.</p>
                 </div>
               </div>
@@ -368,11 +351,10 @@
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <p class="flip-card-label">Claim 3</p>
-                  <p class="flip-card-title">What context length does SubQ support?</p>
+                  <p class="flip-card-title">12M-token context</p>
                   <div class="flip-card-hint"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 </div>
                 <div class="flip-card-back">
-                  <strong>12M-token context</strong>
                   <p>Demonstrated at 12 million tokens. For comparison, GPT-4 launched with 8,000 tokens. Current models reach 128k to 1M.</p>
                 </div>
               </div>
@@ -382,11 +364,10 @@
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <p class="flip-card-label">Claim 4</p>
-                  <p class="flip-card-title">What is end-to-end subquadratic?</p>
+                  <p class="flip-card-title">End-to-end subquadratic</p>
                   <div class="flip-card-hint"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 </div>
                 <div class="flip-card-back">
-                  <strong>End-to-end subquadratic</strong>
                   <p>The selection mechanism itself is subquadratic. Previous sparse methods solved the compute problem but not the selection problem.</p>
                 </div>
               </div>
@@ -494,70 +475,32 @@
       </div>
 
       <!-- ══════════════════════════════════════════════════════
-           LESSON 6 · TAKEAWAYS
+           LESSON 6 · COMPLETION
       ══════════════════════════════════════════════════════ -->
       <div class="lesson" id="lesson-6">
         <h2 class="lesson-title">What to take with you</h2>
-
-        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">The O(n²) constraint is not a detail. It is the reason AI systems still cannot read a full book, track a multi-day conversation, or reason over a large codebase in a single pass. If SSA holds up under scrutiny, these limits start to move.</p>
-
-        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">Three things to watch for in the coming months:</p>
-
-        <ul style="color:var(--muted); line-height:1.9; padding-left:20px; margin-bottom:16px; max-width:560px;">
-          <li>Independent benchmarks comparing SubQ to Llama, Gemini, and GPT on long-context tasks</li>
-          <li>Peer-reviewed analysis of the SSA selection algorithm's actual complexity</li>
-          <li>Whether existing models adopt the mechanism via fine-tuning, or require retraining from scratch</li>
-        </ul>
-      </div>
-
-      <!-- ══════════════════════════════════════════════════════
-           LESSON 7 · CELEBRATION
-      ══════════════════════════════════════════════════════ -->
-      <div class="lesson" id="lesson-7">
-        <div class="completion-screen">
-          <div class="completion-screen-icon" aria-hidden="true">
-            <div class="thumb-icon">
-              <svg viewBox="0 0 24 24" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <div class="completion-block" style="text-align:left; padding: 0;">
+          <div style="display:flex; align-items:center; gap:16px; margin-bottom:28px;">
+            <div class="completion-icon" style="margin:0; flex-shrink:0;">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/>
+                <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
               </svg>
             </div>
-          </div>
-          <h2 class="celebration-title">You made it.</h2>
-          <p class="celebration-subtitle">Microlearning complete.</p>
-          <p class="celebration-msg">You now understand why the O(n²) constraint shaped AI for nine years, and what SSA claims to change. That context is rare. Most people miss it entirely.</p>
-
-          <div class="feedback-section" style="border-top:none; padding-top:0; margin-top:36px;">
-            <p class="feedback-prompt">How was this Microlearning?</p>
-            <div class="feedback-emojis">
-              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great">
-                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
-                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
-                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
-                  <path d="M10 18.5 Q16 24.5 22 18.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                </svg>
-              </button>
-              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK">
-                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
-                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
-                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
-                  <line x1="10" y1="20.5" x2="22" y2="20.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round"/>
-                </svg>
-              </button>
-              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great">
-                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
-                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
-                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
-                  <path d="M10 22.5 Q16 16.5 22 22.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-                </svg>
-              </button>
-            </div>
-            <p class="feedback-thanks" id="feedbackThanks"></p>
+            <p style="margin:0; font-family:'Space Grotesk',sans-serif; font-size:1.1rem; color:var(--navy); font-weight:500;">Course complete.</p>
           </div>
 
+          <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">The O(n²) constraint is not a detail. It is the reason AI systems still cannot read a full book, track a multi-day conversation, or reason over a large codebase in a single pass. If SSA holds up under scrutiny, these limits start to move.</p>
+
+          <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">Three things to watch for in the coming months:</p>
+
+          <ul style="color:var(--muted); line-height:1.9; padding-left:20px; margin-bottom:36px; max-width:560px;">
+            <li>Independent benchmarks comparing SubQ to Llama, Gemini, and GPT on long-context tasks</li>
+            <li>Peer-reviewed analysis of the SSA selection algorithm's actual complexity</li>
+            <li>Whether existing models adopt the mechanism via fine-tuning, or require retraining from scratch</li>
+          </ul>
+
+          <a href="../hub.html" class="btn-course" style="display:inline-block;">Back to Coffee Hours →</a>
         </div>
       </div>
 
@@ -569,25 +512,6 @@
       </div>
 
     </main>
-
-  </div>
-
-  <button class="quicknotes-fab" id="quicknotesToggle" aria-label="Open notes">
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="none">
-      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
-
-  <div class="quicknotes-panel" id="quicknotesPanel">
-    <div class="quicknotes-header">
-      <p class="quicknotes-title">Notes</p>
-    </div>
-    <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Jot down your thoughts..."></textarea>
-    <div class="quicknotes-footer">
-      <span class="quicknotes-saved" id="quicknotesSaved"></span>
-      <button class="quicknotes-clear" id="quicknotesClear">Clear</button>
-    </div>
   </div>
 
   <nav class="post-nav" aria-label="More content">
@@ -610,8 +534,7 @@
       "Key concepts",
       "Attention diagram",
       "SSA in detail",
-      "Test your knowledge",
-      "Key take aways",
+      "Quiz",
       "Complete"
     ];
     const TOTAL = LESSON_TITLES.length;
@@ -627,58 +550,7 @@
       list.appendChild(li);
     });
 
-    function launchConfetti() {
-      const existing = document.getElementById('confetti-container');
-      if (existing) existing.remove();
-      const colors = ['#FF00FF','#e909f6','#160B52','#7C3AED','#a78bfa','#E9D5FF','#F0EFFE','#fff','#c4b5fd'];
-      const wrap = document.createElement('div');
-      wrap.id = 'confetti-container';
-      wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden;';
-      document.body.appendChild(wrap);
-      for (let i = 0; i < 140; i++) {
-        const el = document.createElement('div');
-        const color  = colors[Math.floor(Math.random() * colors.length)];
-        const left   = Math.random() * 100;
-        const delay  = Math.random() * 1.6;
-        const dur    = 2 + Math.random() * 2.5;
-        const w      = 5 + Math.random() * 13;
-        const drift  = (Math.random() - 0.5) * 200;
-        const wobble = (Math.random() - 0.5) * 80;
-        el.style.cssText = `position:absolute;top:-20px;left:${left}%;width:${w}px;height:${w}px;background:${color};border-radius:50%;opacity:0.95;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;--wobble:${wobble}px;`;
-        wrap.appendChild(el);
-      }
-      setTimeout(() => wrap.remove(), 7000);
-    }
-
-    function resetProgress() {
-      localStorage.removeItem('ta-lesson');
-      localStorage.removeItem('ta-feedback');
-      document.getElementById('feedbackThanks').textContent = '';
-      document.getElementById('feedbackThanks').classList.remove('visible');
-      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
-      goTo(1);
-    }
-
-    function submitFeedback(btn) {
-      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      const thanks = document.getElementById('feedbackThanks');
-      thanks.textContent = 'Thanks for your feedback!';
-      thanks.classList.add('visible');
-      const item7 = document.querySelector('.lesson-item[data-lesson="7"]');
-      item7.classList.add('done');
-      item7.classList.remove('active');
-      localStorage.setItem('ta-feedback', '1');
-      const thumb = document.querySelector('.thumb-icon');
-      if (thumb) {
-        thumb.classList.remove('bounce');
-        void thumb.offsetWidth;
-        thumb.classList.add('bounce');
-        thumb.addEventListener('animationend', () => thumb.classList.remove('bounce'), { once: true });
-      }
-    }
-
-    function goTo(n, silent) {
+    function goTo(n) {
       document.getElementById('lesson-' + current).classList.remove('active');
       document.querySelectorAll('.lesson-item').forEach(el => {
         el.classList.remove('active');
@@ -689,14 +561,7 @@
       document.getElementById('lesson-' + current).classList.add('active');
       document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
       updateUI();
-      if (!silent) {
-        const courseTop = document.getElementById('courseMain').offsetTop - 130;
-        if (window.scrollY > courseTop) {
-          window.scrollTo({ top: courseTop, behavior: 'smooth' });
-        }
-      }
-      if (n === TOTAL && !silent) launchConfetti();
-      localStorage.setItem('ta-lesson', n);
+      window.scrollTo({ top: document.getElementById('courseMain').offsetTop - 130, behavior: 'smooth' });
     }
 
     function navigate(dir) {
@@ -710,30 +575,11 @@
       document.getElementById('progressText').textContent = current + ' / ' + TOTAL;
       document.getElementById('lessonCounter').textContent = current + ' / ' + TOTAL;
       document.getElementById('prevBtn').disabled = current === 1;
-      const nextBtn = document.getElementById('nextBtn');
-      const footer  = document.getElementById('lessonFooter');
-      if (current === TOTAL) {
-        footer.style.display = 'none';
-      } else {
-        footer.style.display = '';
-        nextBtn.disabled = false;
-        nextBtn.onclick = () => navigate(1);
-        if (current === TOTAL - 1) {
-          nextBtn.textContent = 'Finish';
-        } else {
-          nextBtn.textContent = 'Next →';
-        }
-      }
+      document.getElementById('nextBtn').disabled = current === TOTAL;
     }
 
-    const savedLesson = parseInt(localStorage.getItem('ta-lesson')) || 1;
-    goTo(savedLesson, true);
-    if (localStorage.getItem('ta-feedback')) {
-      const item7 = document.querySelector('.lesson-item[data-lesson="7"]');
-      if (item7) { item7.classList.add('done'); item7.classList.remove('active'); }
-      const thanks = document.getElementById('feedbackThanks');
-      if (thanks) { thanks.textContent = 'Thanks for your feedback!'; thanks.classList.add('visible'); }
-    }
+    document.getElementById('lesson-1').classList.add('active');
+    updateUI();
 
     // Slides
     function initDots(deckId) {
@@ -754,14 +600,9 @@
 
     function goToSlide(deckId, idx) {
       const deck = document.getElementById(deckId);
-      const slides = deck.querySelectorAll('.slide');
-      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      deck.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === idx));
       document.getElementById('dots-' + deckId)
         .querySelectorAll('.slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-      const prevBtn = document.getElementById('prev-' + deckId);
-      const nextBtn = document.getElementById('next-' + deckId);
-      if (prevBtn) prevBtn.disabled = idx === 0;
-      if (nextBtn) nextBtn.disabled = idx === slides.length - 1;
     }
 
     function currentSlideIdx(deckId) {
@@ -837,57 +678,6 @@
       fb.textContent = ok ? (okMsg || 'Correct!') : (wrongMsg || 'Not quite.');
       fb.className = 'quiz-feedback show ' + (ok ? 'correct' : 'wrong');
     }
-
-    document.getElementById('sidebarToggle').addEventListener('click', function() {
-      document.querySelector('.course-layout').classList.toggle('sidebar-collapsed');
-    });
-
-    (function() {
-      var NOTES_KEY = 'ta-quicknotes';
-      var area = document.getElementById('quicknotesArea');
-      var savedEl = document.getElementById('quicknotesSaved');
-      var clearBtn = document.getElementById('quicknotesClear');
-      area.value = localStorage.getItem(NOTES_KEY) || '';
-      var saveTimer;
-      area.addEventListener('input', function() {
-        clearTimeout(saveTimer);
-        savedEl.textContent = '';
-        saveTimer = setTimeout(function() {
-          localStorage.setItem(NOTES_KEY, area.value);
-          savedEl.textContent = 'Saved';
-          setTimeout(function() { savedEl.textContent = ''; }, 2000);
-        }, 600);
-      });
-      clearBtn.addEventListener('click', function() {
-        if (!area.value) return;
-        if (confirm('Clear all notes?')) {
-          area.value = '';
-          localStorage.removeItem(NOTES_KEY);
-        }
-      });
-      var fab   = document.getElementById('quicknotesToggle');
-      var panel = document.getElementById('quicknotesPanel');
-      function toggleNotes() {
-        var isOpen = panel.classList.toggle('open');
-        fab.classList.toggle('active', isOpen);
-      }
-      fab.addEventListener('click', toggleNotes);
-    })();
-  </script>
-
-  <script>
-  (function() {
-    if (!localStorage.getItem('au-gh-token')) return;
-    var btn = document.createElement('a');
-    btn.href = '../Authoring/?edit=ta';
-    btn.title = 'Kurs bearbeiten';
-    btn.setAttribute('aria-label', 'Kurs bearbeiten');
-    btn.style.cssText = 'position:fixed;bottom:80px;right:20px;z-index:9999;width:42px;height:42px;border-radius:50%;background:#160B52;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;box-shadow:0 2px 12px rgba(22,11,82,0.35);opacity:0.8;transition:opacity 0.2s;';
-    btn.onmouseenter = function() { this.style.opacity = '1'; };
-    btn.onmouseleave = function() { this.style.opacity = '0.8'; };
-    btn.innerHTML = '&#9998;';
-    document.body.appendChild(btn);
-  })();
   </script>
 
 </body>

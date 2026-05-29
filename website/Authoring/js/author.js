@@ -179,14 +179,14 @@ function slugify(s) {
 }
 
 function editorPath(path) {
-  const levels  = ['Einsteiger','Fortgeschritten','Experte'];
+  const levels  = ['Beginner','Intermediate','Expert'];
   const levelSel = levels.map(lv =>
     `<option value="${lv}" ${path.level===lv?'selected':''}>${lv}</option>`
   ).join('');
 
   // Course picker options (from publishedCourses loaded at init)
   const coursePickerOpts = publishedCourses.length
-    ? `<option value="">— Kurs auswählen —</option>` +
+    ? `<option value="">— Select course —</option>` +
       publishedCourses.map(c =>
         `<option value="${esc(c.key)}" ${path._tmpPickKey===c.key?'selected':''}>${esc(c.title)}</option>`
       ).join('')
@@ -194,13 +194,13 @@ function editorPath(path) {
 
   const stepHtml = (path.steps||[]).map((step, si) => {
     const typeSel = ['course','checkin'].map(t =>
-      `<option value="${t}" ${step.type===t?'selected':''}>${t==='course'?'Kurs':'Check-in / Reflexion'}</option>`
+      `<option value="${t}" ${step.type===t?'selected':''}>${t==='course'?'Course':'Check-in / Reflection'}</option>`
     ).join('');
 
     const courseFields = step.type !== 'checkin' ? `
       ${coursePickerOpts ? `
         <div class="au-field">
-          <label class="au-label">Kurs auswählen</label>
+          <label class="au-label">Select course</label>
           <select class="au-select au-course-picker" data-step="${si}">${
             coursePickerOpts.replace(
               `value="${esc(step.courseKey)}"`,
@@ -210,65 +210,71 @@ function editorPath(path) {
         </div>
       ` : ''}
       <div class="au-field">
-        <label class="au-label">Kurs-Key</label>
+        <label class="au-label">Course key</label>
         <input class="au-input" type="text" name="step.${si}.courseKey" value="${esc(step.courseKey||'')}" placeholder="z.B. transformer-attention">
-        <p class="au-hint">Der storageKey aus den Kurs-Einstellungen.</p>
+        <p class="au-hint">The storageKey from course settings.</p>
       </div>
       <div class="au-field">
-        <label class="au-label">Kurs-URL</label>
-        <input class="au-input" type="text" name="step.${si}.courseUrl" value="${esc(step.courseUrl||'')}" placeholder="courses/mein-kurs.html">
+        <label class="au-label">Course URL</label>
+        <input class="au-input" type="text" name="step.${si}.courseUrl" value="${esc(step.courseUrl||'')}" placeholder="courses/my-course.html">
       </div>
       <div class="au-field">
-        <label class="au-label">Reflexionsfrage</label>
-        <input class="au-input" type="text" name="step.${si}.reflection" value="${esc(step.reflection||'')}" placeholder="Was war die überraschendste Erkenntnis für dich?">
-        <p class="au-hint">Wird nach dem Kurs angezeigt, bevor der nächste Schritt freigeschaltet wird.</p>
+        <label class="au-label">Reflection question</label>
+        <input class="au-input" type="text" name="step.${si}.reflection" value="${esc(step.reflection||'')}" placeholder="What was the most surprising insight for you?">
+        <p class="au-hint">Shown after the course, before the next step is unlocked.</p>
       </div>
       <div class="au-field">
-        <label class="au-label">Adaptiver Hinweis</label>
-        <input class="au-input" type="text" name="step.${si}.adaptiveHint" value="${esc(step.adaptiveHint||'')}" placeholder="Schau noch einmal Lektion … an, bevor du weitermachst.">
-        <p class="au-hint">Erscheint automatisch, wenn Lernende ihre Sicherheit mit 1 oder 2 Sternen bewerten.</p>
+        <label class="au-label">Adaptive hint</label>
+        <input class="au-input" type="text" name="step.${si}.adaptiveHint" value="${esc(step.adaptiveHint||'')}" placeholder="Review lesson … again before continuing.">
+        <p class="au-hint">Appears automatically when learners rate their confidence 1 or 2 stars.</p>
       </div>
     ` : `
       <div class="au-field">
-        <label class="au-label">Reflexionsprompt</label>
-        <textarea class="au-textarea" name="step.${si}.prompt" rows="2" placeholder="Erkläre in eigenen Worten: …">${esc(step.prompt||'')}</textarea>
-        <p class="au-hint">Die konkrete Frage, über die Lernende nachdenken sollen.</p>
+        <label class="au-label">Reflection prompt</label>
+        <textarea class="au-textarea" name="step.${si}.prompt" rows="2" placeholder="Explain in your own words: …">${esc(step.prompt||'')}</textarea>
+        <p class="au-hint">The specific question learners should reflect on.</p>
       </div>
       <div class="au-field">
-        <label class="au-label">Hinweis (aufklappbar)</label>
-        <input class="au-input" type="text" name="step.${si}.hint" value="${esc(step.hint||'')}" placeholder="Denke an die Analogie aus Lektion 2 …">
-        <p class="au-hint">Optionaler Denkanstoß, den Lernende selbst aufklappen können.</p>
+        <label class="au-label">Hint (expandable)</label>
+        <input class="au-input" type="text" name="step.${si}.hint" value="${esc(step.hint||'')}" placeholder="Think about the analogy from lesson 2 …">
+        <p class="au-hint">Optional thinking prompt learners can expand themselves.</p>
       </div>
     `;
 
     return `<div class="au-path-step-block">
       <div class="au-path-step-header">
         <span class="au-path-step-num">${si+1}</span>
-        <strong style="flex:1;font-size:0.85rem">${esc(step.title||'Schritt '+(si+1))}</strong>
-        <button class="au-icon-btn au-outline-del" data-del-step="${si}" title="Schritt löschen">×</button>
+        <strong style="flex:1;font-size:0.85rem">${esc(step.title||'Step '+(si+1))}</strong>
+        <button class="au-icon-btn au-outline-del" data-del-step="${si}" title="Delete step">×</button>
       </div>
       <div class="au-field">
-        <label class="au-label">Typ</label>
+        <label class="au-label">Type</label>
         <select class="au-select" name="step.${si}.type">${typeSel}</select>
       </div>
       <div class="au-field">
-        <label class="au-label">Titel des Schritts</label>
-        <input class="au-input" type="text" name="step.${si}.title" value="${esc(step.title||'')}" placeholder="Sichtbarer Name in der Fortschrittsleiste">
+        <label class="au-label">Step title</label>
+        <input class="au-input" type="text" name="step.${si}.title" value="${esc(step.title||'')}" placeholder="Visible name in the progress bar">
       </div>
       ${courseFields}
       <div class="au-field">
-        <label class="au-label">Geschätzte Zeit (Min.)</label>
+        <label class="au-label">Estimated time (min.)</label>
         <input class="au-input" type="number" name="step.${si}.estimatedMin" value="${step.estimatedMin||''}" min="1" max="180" placeholder="20">
       </div>
+      ${path.theme==='heros-journey' ? `
+      <div class="au-field">
+        <label class="au-label">Chapter title (Hero's Journey)</label>
+        <input class="au-input" type="text" name="step.${si}.stageLabel" value="${esc(step.stageLabel||'')}" placeholder="e.g. The First Trial">
+        <p class="au-hint">Overrides the automatic stage name. Leave empty for automatic assignment.</p>
+      </div>` : ''}
     </div>`;
   }).join('');
 
   const noSteps = !(path.steps||[]).length;
 
   return `<div class="au-section-header">
-    <span class="au-section-title">Lernpfad</span>
+    <span class="au-section-title">Learning Path</span>
     <button class="au-btn au-btn-publish" id="btnPublishPath" style="margin-left:auto">
-      <span id="publishPathLabel">Pfad veröffentlichen</span>
+      <span id="publishPathLabel">Publish Path</span>
       <span id="publishPathSpinner" style="display:none">⟳</span>
     </button>
   </div>
@@ -276,23 +282,23 @@ function editorPath(path) {
   <div class="au-card">
     <div class="au-field">
       <label class="au-label">Titel <span style="color:var(--magenta)">*</span></label>
-      <input class="au-input" type="text" name="path.title" value="${esc(path.title||'')}" placeholder="KI-Einstieg: Konzepte verstehen" id="pathTitleInput">
+      <input class="au-input" type="text" name="path.title" value="${esc(path.title||'')}" placeholder="AI Introduction: Understanding Concepts" id="pathTitleInput">
     </div>
     <div class="au-field">
-      <label class="au-label">URL-Slug (Pfad-ID)</label>
+      <label class="au-label">URL Slug (Path ID)</label>
       <div style="display:flex;gap:8px;align-items:center">
         <input class="au-input" type="text" name="path.id" value="${esc(path.id||'')}" placeholder="ki-einstieg" id="pathSlugInput" style="font-family:monospace;font-size:0.82rem">
-        <button class="au-btn au-btn-ghost" id="btnAutoSlug" title="Aus Titel generieren" style="white-space:nowrap;font-size:0.75rem;padding:6px 10px">↺ Auto</button>
+        <button class="au-btn au-btn-ghost" id="btnAutoSlug" title="Generate from title" style="white-space:nowrap;font-size:0.75rem;padding:6px 10px">↺ Auto</button>
       </div>
-      <p class="au-hint">Sichtbar in der URL: /path.html?path=<strong id="slugPreview">${esc(path.id||'…')}</strong></p>
+      <p class="au-hint">Visible in the URL: /path.html?path=<strong id="slugPreview">${esc(path.id||'…')}</strong></p>
     </div>
     <div class="au-field">
-      <label class="au-label">Untertitel</label>
-      <input class="au-input" type="text" name="path.subtitle" value="${esc(path.subtitle||'')}" placeholder="Von der Theorie zur Praxis">
+      <label class="au-label">Subtitle</label>
+      <input class="au-input" type="text" name="path.subtitle" value="${esc(path.subtitle||'')}" placeholder="From theory to practice">
     </div>
     <div class="au-field">
-      <label class="au-label">Beschreibung (Katalogkarte)</label>
-      <textarea class="au-textarea" name="path.description" rows="3" placeholder="Was lernen deine Teilnehmenden? Was können sie danach?">${esc(path.description||'')}</textarea>
+      <label class="au-label">Description (Lounge card)</label>
+      <textarea class="au-textarea" name="path.description" rows="3" placeholder="What will learners gain? What can they do afterwards?">${esc(path.description||'')}</textarea>
     </div>
     <div class="au-settings-row">
       <div class="au-field">
@@ -300,38 +306,46 @@ function editorPath(path) {
         <select class="au-select" name="path.level">${levelSel}</select>
       </div>
       <div class="au-field">
-        <label class="au-label">Gesamtzeit (Min.)</label>
+        <label class="au-label">Total time (min.)</label>
         <input class="au-input" type="number" name="path.estimatedMin" value="${path.estimatedMin||''}" placeholder="45">
       </div>
     </div>
     <div class="au-field">
-      <label class="au-label">Themen (kommagetrennt)</label>
+      <label class="au-label">Topics (comma-separated)</label>
       <input class="au-input" type="text" name="path.topics" value="${esc((path.topics||[]).join(','))}" placeholder="ai, learning">
+    </div>
+    <div class="au-field">
+      <label class="au-label">Design theme</label>
+      <select class="au-select" name="path.theme">
+        <option value="" ${!path.theme?'selected':''}>Standard</option>
+        <option value="heros-journey" ${path.theme==='heros-journey'?'selected':''}>Hero's Journey (dark, atmospheric)</option>
+      </select>
+      <p class="au-hint">The Hero's Journey turns the learning path into an epic journey with chapter names, dark design, and narrative language.</p>
     </div>
   </div>
 
   <div class="au-card" style="margin-top:12px">
-    <div class="au-section-title" style="margin-bottom:14px">Prozesssicherung</div>
+    <div class="au-section-title" style="margin-bottom:14px">Accountability</div>
     <div class="au-field">
-      <label class="au-label">Lernziel-Vorlage</label>
-      <textarea class="au-textarea" name="path.goal" rows="2" placeholder="Verstehe, wie moderne KI-Systeme grundsätzlich funktionieren …">${esc(path.goal||'')}</textarea>
-      <p class="au-hint">Lernende sehen diesen Text vorausgefüllt und können ihn personalisieren.</p>
+      <label class="au-label">Learning goal template</label>
+      <textarea class="au-textarea" name="path.goal" rows="2" placeholder="Understand how modern AI systems fundamentally work …">${esc(path.goal||'')}</textarea>
+      <p class="au-hint">Learners see this text pre-filled and can personalise it.</p>
     </div>
     <div class="au-field">
-      <label class="au-label">Verhaltensanker-Vorlage (Wenn-dann-um-Formel)</label>
-      <textarea class="au-textarea" name="path.behavioralAnchorTemplate" rows="2" placeholder="Wenn ich auf ein neues KI-Tool stoße, wende ich die Konzepte aus diesem Lernpfad an, um es kritisch einzuordnen.">${esc(path.behavioralAnchorTemplate||'')}</textarea>
-      <p class="au-hint">Implementation Intention: hilft Lernenden, das Gelernte an konkrete Situationen zu knüpfen.</p>
+      <label class="au-label">Behavioral anchor template (if-then-in-order-to)</label>
+      <textarea class="au-textarea" name="path.behavioralAnchorTemplate" rows="2" placeholder="When I encounter a new AI tool, I apply the concepts from this learning path to assess it critically.">${esc(path.behavioralAnchorTemplate||'')}</textarea>
+      <p class="au-hint">Implementation intention: helps learners tie what they have learned to concrete situations.</p>
     </div>
   </div>
 
   <div class="au-section-header" style="margin-top:20px">
-    <span class="au-section-title">Schritte ${(path.steps||[]).length ? '(' + path.steps.length + ')' : ''}</span>
+    <span class="au-section-title">Steps ${(path.steps||[]).length ? '(' + path.steps.length + ')' : ''}</span>
   </div>
-  ${noSteps ? `<p class="au-hint" style="margin-bottom:12px">Noch keine Schritte. Füge Kurse und Reflexionen hinzu, um den Lernpfad zu strukturieren.</p>` : ''}
+  ${noSteps ? `<p class="au-hint" style="margin-bottom:12px">No steps yet. Add courses and reflections to structure the learning path.</p>` : ''}
   <div id="pathStepsContainer">${stepHtml}</div>
   <div style="display:flex;gap:8px;margin:8px 0 32px">
-    <button class="au-btn au-btn-ghost" id="btnAddCourseStep">+ Kurs-Schritt</button>
-    <button class="au-btn au-btn-ghost" id="btnAddCheckinStep">+ Reflexion</button>
+    <button class="au-btn au-btn-ghost" id="btnAddCourseStep">+ Course Step</button>
+    <button class="au-btn au-btn-ghost" id="btnAddCheckinStep">+ Reflection</button>
   </div>`;
 }
 
@@ -522,7 +536,7 @@ function edQuiz(b) {
 
 function edCompletion(b) {
   return f('Überschrift','completion.heading',b.heading)
-       + f('Untertitel','completion.subtitle',b.subtitle||'')
+       + f('Subtitle','completion.subtitle',b.subtitle||'')
        + ta('Nachricht','completion.message',b.message,4)
        + `<div class="au-field">
             <label class="au-label">Feedback-Smiley anzeigen</label>
@@ -1659,6 +1673,253 @@ function openMobilePreview() {
   document.getElementById('mobilePreviewOverlay').classList.add('open');
 }
 
+// ── Material Import ──────────────────────────────────────────────
+
+let importedText  = '';
+let importedName  = '';
+
+function openImportModal() {
+  importedText = '';
+  importedName = '';
+  document.getElementById('importError').textContent = '';
+  document.getElementById('importPreviewWrap').style.display  = 'none';
+  document.getElementById('importActions').style.display      = 'none';
+  document.getElementById('importAiSettings').style.display   = 'none';
+  document.getElementById('importFileInfo').style.display     = 'none';
+  document.getElementById('importProgress').style.display     = 'none';
+  document.getElementById('importDrop').style.display         = '';
+  document.getElementById('importOverlay').classList.add('open');
+}
+function closeImportModal() {
+  document.getElementById('importOverlay').classList.remove('open');
+}
+
+async function handleImportFile(file) {
+  if (!file) return;
+  importedName = file.name;
+  importedText = '';
+
+  const ext  = file.name.split('.').pop().toLowerCase();
+  const size = file.size > 1024*1024
+    ? (file.size / 1024 / 1024).toFixed(1) + ' MB'
+    : (file.size / 1024).toFixed(0) + ' KB';
+
+  document.getElementById('importDrop').style.display    = 'none';
+  document.getElementById('importFilename').textContent  = file.name;
+  document.getElementById('importFilesize').textContent  = size;
+  document.getElementById('importFileInfo').style.display = '';
+  document.getElementById('importProgress').style.display = '';
+  document.getElementById('importProgressBar').style.width = '10%';
+  document.getElementById('importError').textContent = '';
+
+  try {
+    if (ext === 'txt' || ext === 'md') {
+      importedText = await file.text();
+    } else if (ext === 'docx') {
+      importedText = await parseDocx(file);
+    } else if (ext === 'pdf') {
+      importedText = await parsePdf(file);
+    } else if (ext === 'pptx') {
+      importedText = await parsePptx(file);
+    } else {
+      throw new Error('Nicht unterstütztes Format: .' + ext);
+    }
+
+    document.getElementById('importProgressBar').style.width = '100%';
+
+    const words = importedText.trim().split(/\s+/).filter(Boolean).length;
+    document.getElementById('importWordCount').textContent  = words.toLocaleString('de') + ' Wörter';
+    document.getElementById('importPreview').value          = importedText;
+    document.getElementById('importPreviewWrap').style.display  = '';
+    document.getElementById('importAiSettings').style.display   = '';
+    document.getElementById('importActions').style.display      = '';
+
+  } catch(err) {
+    document.getElementById('importError').textContent = 'Fehler beim Lesen: ' + err.message;
+    document.getElementById('importProgressBar').style.width = '0%';
+  } finally {
+    setTimeout(() => {
+      const prog = document.getElementById('importProgress');
+      if (prog) prog.style.display = 'none';
+    }, 600);
+  }
+}
+
+async function parseDocx(file) {
+  if (typeof mammoth === 'undefined') throw new Error('mammoth.js nicht geladen. Bitte Internetverbindung prüfen.');
+  const ab  = await file.arrayBuffer();
+  const res = await mammoth.extractRawText({ arrayBuffer: ab });
+  return res.value;
+}
+
+async function parsePdf(file) {
+  if (typeof pdfjsLib === 'undefined') throw new Error('PDF.js nicht geladen. Bitte Internetverbindung prüfen.');
+  const ab  = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+  const parts = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    document.getElementById('importProgressBar').style.width = Math.round(10 + (i / pdf.numPages) * 80) + '%';
+    const page  = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const text  = content.items.map(it => it.str).join(' ');
+    if (text.trim()) parts.push(text.trim());
+  }
+  return parts.join('\n\n');
+}
+
+async function parsePptx(file) {
+  if (typeof JSZip === 'undefined') throw new Error('JSZip nicht geladen. Bitte Internetverbindung prüfen.');
+  const ab   = await file.arrayBuffer();
+  const zip  = await JSZip.loadAsync(ab);
+  const slideFiles = Object.keys(zip.files)
+    .filter(n => /^ppt\/slides\/slide\d+\.xml$/i.test(n))
+    .sort((a, b) => {
+      const na = parseInt(a.match(/\d+/)[0]);
+      const nb = parseInt(b.match(/\d+/)[0]);
+      return na - nb;
+    });
+
+  const slides = [];
+  for (let idx = 0; idx < slideFiles.length; idx++) {
+    document.getElementById('importProgressBar').style.width = Math.round(10 + (idx / slideFiles.length) * 80) + '%';
+    const xml  = await zip.files[slideFiles[idx]].async('text');
+    const parser = new DOMParser();
+    const doc  = parser.parseFromString(xml, 'text/xml');
+    const texts = Array.from(doc.getElementsByTagNameNS('http://schemas.openxmlformats.org/drawingml/2006/main', 't'))
+      .map(el => el.textContent)
+      .filter(t => t.trim());
+    if (texts.length) slides.push('--- Folie ' + (idx + 1) + ' ---\n' + texts.join(' '));
+  }
+  return slides.join('\n\n');
+}
+
+function importAsRawLesson(text, filename) {
+  const title  = filename.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+  const lesson = {
+    title,
+    blocks: [
+      {
+        type: 'page',
+        heading: title,
+        body: '<p>' + text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+                          .replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>') + '</p>'
+      }
+    ]
+  };
+  state.lessons.push(lesson);
+  sel = { type: 'lesson', lessonIdx: state.lessons.length - 1, blockIdx: null };
+  saveState();
+  closeImportModal();
+  renderAll();
+  toast('Rohlektion "' + title + '" importiert.');
+}
+
+async function importWithAi(text, filename) {
+  const cfg = getAiConfig();
+  if (!cfg.key) {
+    document.getElementById('importError').textContent = 'Bitte zuerst den Anthropic API Key in den Einstellungen (⚙) eingeben.';
+    return;
+  }
+
+  const numLessons = document.getElementById('importNumLessons').value;
+  const audience   = document.getElementById('importAudience').value;
+  const format     = document.getElementById('importFormat').value;
+  const title      = filename.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+
+  const btn = document.getElementById('btnImportAi');
+  btn.disabled    = true;
+  btn.textContent = '⟳ Strukturiere…';
+  document.getElementById('importError').textContent = '';
+
+  const MAX_CHARS = 12000;
+  const truncated  = text.length > MAX_CHARS;
+  const inputText  = truncated ? text.slice(0, MAX_CHARS) + '\n\n[Text gekürzt auf 12.000 Zeichen]' : text;
+
+  const prompt = `Du bist ein erfahrener Instructional Designer. Verarbeite das folgende Dokument zu einem Microlearning-Kurs auf Deutsch.
+
+ORIGINALTITEL: ${title}
+ZIELGRUPPE: ${audience}
+ANZAHL LEKTIONEN: ${numLessons}
+FORMAT: ${format}
+
+QUELLDOKUMENT:
+${inputText}
+
+Antworte NUR mit einem validen JSON-Objekt (kein Markdown, keine Erklärung) mit exakt dieser Struktur:
+
+{
+  "meta": {
+    "title": "Kurstitel auf Deutsch",
+    "storageKey": "kurs-slug-mit-bindestrichen",
+    "backLink": "../hub.html",
+    "backLabel": "Zurück",
+    "format": "${format}"
+  },
+  "lessons": [
+    {
+      "title": "Lektionstitel",
+      "blocks": [
+        {"type":"page","heading":"Überschrift","body":"<p>HTML-Text</p>"},
+        {"type":"quiz","intro":"","questions":[{"text":"Frage?","multi":false,"options":[{"text":"Richtig","correct":true},{"text":"Falsch","correct":false}],"okMsg":"Richtig!","wrongMsg":"Leider falsch."}]},
+        {"type":"completion","heading":"Gut gemacht!","subtitle":"Microlearning abgeschlossen.","message":"","showFeedback":true}
+      ]
+    }
+  ]
+}
+
+Regeln:
+- Inhalte aus dem Quelldokument übernehmen und für das Microlearning-Format aufbereiten
+- Jede Lektion: 2 bis 4 Blöcke, verschiedene Typen (page, slides, accordion, flipcards, quiz)
+- Genau einen completion-Block als letzten Block der letzten Lektion
+- Quizfragen: Inhalte aus dem Dokument prüfen, 3 Antwortmöglichkeiten
+- storageKey aus dem Titel ableiten: nur Kleinbuchstaben und Bindestriche
+- Kein Inhalt erfinden, der nicht im Quelldokument steht`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': cfg.key,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 6000,
+        system: 'Du bist ein Experte für Instructional Design und Microlearning. Antworte ausschließlich mit validem JSON.',
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || 'API-Fehler ' + res.status);
+    }
+
+    const data  = await res.json();
+    const raw   = data.content?.[0]?.text || '';
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('Keine valide JSON-Antwort erhalten.');
+    const generated = JSON.parse(match[0]);
+    if (!generated.meta || !Array.isArray(generated.lessons)) throw new Error('Ungültige Kursstruktur generiert.');
+
+    state = generated;
+    sel   = { type: null, lessonIdx: null, blockIdx: null };
+    saveState();
+    document.getElementById('courseTitleDisplay').textContent = state.meta.title || 'New Course';
+    closeImportModal();
+    renderAll();
+    toast('✨ Kurs aus "' + filename + '" strukturiert: ' + generated.lessons.length + ' Lektionen.' + (truncated ? ' (Text war zu lang und wurde gekürzt.)' : ''));
+
+  } catch(ex) {
+    document.getElementById('importError').textContent = 'Fehler: ' + ex.message;
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = '✨ KI strukturieren';
+  }
+}
+
 // ── Anthropic / AI config ────────────────────────────────────────
 function getAiConfig() {
   return { key: localStorage.getItem('au-anthropic-key') || '' };
@@ -1871,19 +2132,19 @@ async function updateCoursesIndex(cfg) {
 async function publishPath() {
   const cfg = getGhConfig();
   if (!cfg.token || !cfg.owner || !cfg.repo) {
-    toast('Bitte zuerst GitHub-Einstellungen konfigurieren (⚙).'); return;
+    toast('Please configure GitHub settings (⚙) first.'); return;
   }
   const p = pathById(selPath);
   if (!p) return;
 
   // Validation
   const errs = [];
-  if (!p.title || p.title === 'Neuer Lernpfad') errs.push('Kein Titel gesetzt');
-  if (!p.id || p.id.startsWith('pfad-')) errs.push('Bitte einen lesbaren URL-Slug vergeben (↺ Auto-Knopf)');
-  if (!(p.steps||[]).length) errs.push('Mindestens 1 Schritt erforderlich');
+  if (!p.title || p.title === 'New Learning Path') errs.push('No title set');
+  if (!p.id || p.id.startsWith('pfad-')) errs.push('Please set a readable URL slug (↺ Auto button)');
+  if (!(p.steps||[]).length) errs.push('At least 1 step required');
   const emptyCourse = (p.steps||[]).find(s => s.type!=='checkin' && !s.comingSoon && !s.courseKey);
-  if (emptyCourse) errs.push(`Schritt "${emptyCourse.title}" hat keinen Kurs-Key`);
-  if (errs.length) { toast('Vor dem Veröffentlichen: ' + errs.join(' · ')); return; }
+  if (emptyCourse) errs.push(`Schritt "${emptyCourse.title}" has no course key`);
+  if (errs.length) { toast('Before publishing: ' + errs.join(' · ')); return; }
 
   const label   = document.getElementById('publishPathLabel');
   const spinner = document.getElementById('publishPathSpinner');
@@ -1904,7 +2165,7 @@ async function publishPath() {
       estimatedMin: p2.estimatedMin||0
     }));
     await ghPut(cfg, 'website/paths/index.json', index, 'Update paths index');
-    toast(`Lernpfad "${p.title}" veröffentlicht!`);
+    toast(`Learning path "${p.title}" published!`);
   } catch(ex) {
     toast('Fehler: ' + ex.message);
   } finally {
@@ -1918,7 +2179,7 @@ async function publishPath() {
 async function publishCourse() {
   const cfg = getGhConfig();
   if (!cfg.token || !cfg.owner || !cfg.repo) {
-    toast('Bitte zuerst GitHub-Einstellungen konfigurieren (⚙).'); return;
+    toast('Please configure GitHub settings (⚙) first.'); return;
   }
   if (!state.lessons.length) { toast('Keine Lektionen vorhanden.'); return; }
 
@@ -1952,16 +2213,51 @@ async function publishCourse() {
 // ── Image upload via GitHub API ──────────────────────────────────
 let pendingUploadField = null;
 
+async function processImageFile(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const MAX = 1400;
+      let w = img.naturalWidth  || img.width;
+      let h = img.naturalHeight || img.height;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else       { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      canvas.toBlob(blob => {
+        if (!blob) { reject(new Error('Canvas conversion failed')); return; }
+        const safeName = file.name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_') + '.jpg';
+        resolve(new File([blob], safeName, { type: 'image/jpeg' }));
+      }, 'image/jpeg', 0.88);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not load image')); };
+    img.src = url;
+  });
+}
+
 async function uploadImage(file) {
   const cfg = getGhConfig();
   if (!cfg.token || !cfg.owner || !cfg.repo) {
-    toast('Bitte zuerst GitHub-Einstellungen konfigurieren.'); return;
+    toast('Please configure GitHub settings first.'); return;
   }
+
+  let uploadFile = file;
+  try {
+    uploadFile = await processImageFile(file);
+  } catch(convErr) {
+    toast('Konvertierung fehlgeschlagen, versuche Original…');
+  }
+
   const reader = new FileReader();
   reader.onload = async e => {
     try {
       const b64  = e.target.result.split(',')[1];
-      const name = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const name = uploadFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
       const path = `website/images/${name}`;
       const url  = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
       const hdrs = {
@@ -1999,7 +2295,7 @@ async function uploadImage(file) {
       toast('Fehler: ' + ex.message);
     }
   };
-  reader.readAsDataURL(file);
+  reader.readAsDataURL(uploadFile);
 }
 
 // ── SCORM export ─────────────────────────────────────────────────
@@ -2304,7 +2600,7 @@ document.addEventListener('click', e => {
   // Outline: add path
   if (t.id === 'btnAddPath') {
     const id = 'pfad-' + Date.now().toString(36);
-    pathsList.push({ id, title:'Neuer Lernpfad', subtitle:'', description:'', level:'Einsteiger',
+    pathsList.push({ id, title:'New Learning Path', subtitle:'', description:'', level:'Einsteiger',
       topics:[], estimatedMin:45, goal:'', behavioralAnchorTemplate:'', steps:[] });
     savePathsList();
     sel = { type:null, lessonIdx:null, blockIdx:null };
@@ -2353,7 +2649,7 @@ document.addEventListener('click', e => {
     if (!p) return;
     const n = (p.steps||[]).length + 1;
     if (!p.steps) p.steps = [];
-    p.steps.push({ id:'step-'+n, type:'course', title:'Kurs '+n, courseKey:'', courseUrl:'', estimatedMin:20, reflection:'', adaptiveHint:'' });
+    p.steps.push({ id:'step-'+n, type:'course', title:'Course '+n, courseKey:'', courseUrl:'', estimatedMin:20, reflection:'', adaptiveHint:'' });
     savePathsList(); renderEditor(); return;
   }
 
@@ -2363,7 +2659,7 @@ document.addEventListener('click', e => {
     if (!p) return;
     const n = (p.steps||[]).length + 1;
     if (!p.steps) p.steps = [];
-    p.steps.push({ id:'step-'+n, type:'checkin', title:'Reflexion '+n, prompt:'', hint:'', estimatedMin:5 });
+    p.steps.push({ id:'step-'+n, type:'checkin', title:'Reflection '+n, prompt:'', hint:'', estimatedMin:5 });
     savePathsList(); renderEditor(); return;
   }
 
@@ -2481,6 +2777,7 @@ document.addEventListener('click', e => {
   if (t.id === 'btnExport') { exportHtml(); return; }
   if (t.id === 'btnSave')   { saveJson();  return; }
   if (t.id === 'btnLoad')   { document.getElementById('fileInput').click(); return; }
+  if (t.id === 'btnImport') { openImportModal(); return; }
   if (t.id === 'btnNew') {
     if (!confirm('Neuen Kurs starten? Ungespeicherte Änderungen gehen verloren.')) return;
     state = { meta:{title:'New Course',storageKey:'course-new',backLink:'../hub.html',backLabel:'Coffee Hours',format:'stage'}, lessons:[] };
@@ -2535,6 +2832,28 @@ document.addEventListener('click', e => {
   if (t.id === 'btnOpenAi')  { openAiModal();  return; }
   if (t.id === 'closeAiModal' || t.id === 'aiOverlay') { closeAiModal(); return; }
   if (t.id === 'btnAiGenerate') { generateAiCourse(); return; }
+  if (t.id === 'closeImportModal' || t.id === 'importOverlay') { closeImportModal(); return; }
+  if (t.id === 'btnImportBrowse') { document.getElementById('importInput').click(); return; }
+  if (t.id === 'btnImportClear') {
+    document.getElementById('importDrop').style.display        = '';
+    document.getElementById('importFileInfo').style.display    = 'none';
+    document.getElementById('importPreviewWrap').style.display = 'none';
+    document.getElementById('importAiSettings').style.display  = 'none';
+    document.getElementById('importActions').style.display     = 'none';
+    document.getElementById('importError').textContent         = '';
+    importedText = ''; importedName = '';
+    return;
+  }
+  if (t.id === 'btnImportRaw') {
+    const txt = document.getElementById('importPreview').value;
+    if (txt.trim()) importAsRawLesson(txt, importedName || 'Import');
+    return;
+  }
+  if (t.id === 'btnImportAi') {
+    const txt = document.getElementById('importPreview').value;
+    if (txt.trim()) importWithAi(txt, importedName || 'Import.txt');
+    return;
+  }
 
   // Image upload trigger
   if (t.closest('[data-upload-for]')) {
@@ -2640,6 +2959,18 @@ document.addEventListener('change', e => {
     return;
   }
 
+  // Path select fields (level, theme)
+  if (t.name.startsWith('path.') && selPath) {
+    const p = pathById(selPath);
+    if (p) {
+      const field = t.name.slice(5);
+      p[field] = t.value;
+      savePathsList();
+      if (field === 'theme') renderEditor();
+    }
+    return;
+  }
+
   // Path step type change: re-render editor
   if (t.name.startsWith('step.') && t.name.endsWith('.type') && selPath) {
     const p = pathById(selPath);
@@ -2670,6 +3001,28 @@ document.getElementById('imageInput').addEventListener('change', e => {
   if (e.target.files[0]) uploadImage(e.target.files[0]);
   e.target.value = '';
 });
+
+// Import file input
+document.getElementById('importInput').addEventListener('change', e => {
+  if (e.target.files[0]) handleImportFile(e.target.files[0]);
+  e.target.value = '';
+});
+
+// Import drag-and-drop
+(function() {
+  const drop = document.getElementById('importDrop');
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag-over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('drag-over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault();
+    drop.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file) handleImportFile(file);
+  });
+  drop.addEventListener('click', e => {
+    if (e.target.id !== 'btnImportBrowse') document.getElementById('importInput').click();
+  });
+})();
 
 // ── Init ──────────────────────────────────────────────────────────
 async function init() {

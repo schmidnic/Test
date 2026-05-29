@@ -38,7 +38,18 @@ html, body {
   box-shadow: 0 1px 8px rgba(0,0,0,0.18);
 }
 
-.au-header-left { flex-shrink: 0; }
+.au-header-left { flex-shrink: 0; display: flex; align-items: center; gap: 16px; }
+
+.au-back-to-site {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.au-back-to-site:hover { color: rgba(255,255,255,0.85); }
 
 .au-logo {
   font-family: var(--font-ui);
@@ -840,4 +851,126 @@ html, body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+/* ── Import button ────────────────────────────────────────── */
+.au-btn-import {
+  background: rgba(22,11,82,0.06);
+  color: var(--navy);
+  border: 1.5px solid rgba(22,11,82,0.18);
+  font-weight: 600;
+}
+.au-btn-import:hover {
+  background: rgba(22,11,82,0.1);
+  border-color: rgba(22,11,82,0.3);
+}
+
+/* ── Import modal ────────────────────────────────────────── */
+.au-modal-import { width: 620px; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; }
+
+.au-import-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Drop zone */
+.au-import-drop {
+  border: 2px dashed rgba(22,11,82,0.2);
+  border-radius: 12px;
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: rgba(22,11,82,0.02);
+  margin-bottom: 16px;
+}
+.au-import-drop:hover,
+.au-import-drop.drag-over {
+  border-color: #e909f6;
+  background: rgba(233,9,246,0.03);
+}
+.au-import-drop-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  opacity: 0.4;
+}
+.au-import-drop-label {
+  font-size: 0.88rem;
+  color: var(--navy);
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+.au-import-drop-sub {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.au-import-browse-btn { font-size: 0.82rem; padding: 6px 16px; }
+
+/* File info bar */
+.au-import-file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(22,11,82,0.04);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 0.82rem;
+}
+.au-import-filename { font-weight: 600; color: var(--navy); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.au-import-filesize { color: var(--muted); white-space: nowrap; }
+.au-import-clear { flex-shrink: 0; }
+
+/* Progress bar */
+.au-import-progress {
+  height: 4px;
+  background: rgba(22,11,82,0.08);
+  border-radius: 2px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+.au-import-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #e909f6, #7B2FFF);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Text preview */
+.au-import-preview-wrap { margin-bottom: 16px; }
+.au-import-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.au-import-preview-label { font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.au-import-word-count    { font-size: 0.76rem; color: var(--muted); }
+.au-import-preview {
+  width: 100%;
+  height: 200px;
+  border: 1.5px solid rgba(22,11,82,0.12);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.78rem;
+  color: var(--navy);
+  background: #fafaf8;
+  resize: vertical;
+  outline: none;
+  line-height: 1.55;
+}
+
+/* AI settings row */
+.au-import-ai-settings { margin-bottom: 16px; }
+
+/* Action buttons */
+.au-import-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
 }
