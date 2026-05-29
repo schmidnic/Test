@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kursname – prohelias</title>
   <meta name="description" content="Kurzbeschreibung des Kurses.">
-  <link rel="stylesheet" href="../css/style.css?v=58">
-  <link rel="stylesheet" href="../css/course.css?v=58">
+  <link rel="stylesheet" href="../css/style.css?v=59">
+  <link rel="stylesheet" href="../css/course.css?v=59">
 </head>
 <body class="course-page">
 
@@ -68,32 +68,32 @@
 
           <div class="slide active">
             <div class="slide-content">
-              <p class="slide-label">Folie 1 von 3</p>
-              <h3>Was du lernen wirst</h3>
-              <p>Hier kommt der Einstieg. Was erwartet die lernende Person in diesem Kurs?</p>
+              <p class="slide-label">Slide 1 of 3</p>
+              <h3>What you will learn</h3>
+              <p>Introduction goes here. What can the learner expect from this course?</p>
             </div>
           </div>
 
           <div class="slide">
             <div class="slide-content">
-              <p class="slide-label">Folie 2 von 3</p>
-              <h3>Warum es wichtig ist</h3>
-              <p>Kontext und Relevanz des Themas. Was verändert sich, wenn man das verstanden hat?</p>
+              <p class="slide-label">Slide 2 of 3</p>
+              <h3>Why it matters</h3>
+              <p>Context and relevance of the topic. What changes once you understand this?</p>
             </div>
           </div>
 
           <div class="slide">
             <div class="slide-content">
-              <p class="slide-label">Folie 3 von 3</p>
-              <h3>Los geht's</h3>
-              <p>Nutze die Vor/Zurück-Buttons oder das Menü links, um durch die Lektionen zu navigieren.</p>
+              <p class="slide-label">Slide 3 of 3</p>
+              <h3>Let's go</h3>
+              <p>Use the arrows or the menu on the left to navigate through the lessons.</p>
             </div>
           </div>
 
-          <div class="slide-controls">
-            <button class="slide-btn" onclick="prevSlide('slide-deck-1')">← Zurück</button>
+          <button class="slide-arrow slide-prev" id="prev-slide-deck-1" onclick="prevSlide('slide-deck-1')" aria-label="Previous slide" disabled>&lt;</button>
+          <button class="slide-arrow slide-next" id="next-slide-deck-1" onclick="nextSlide('slide-deck-1')" aria-label="Next slide">&gt;</button>
+          <div class="slide-dots-row">
             <div class="slide-dots" id="dots-slide-deck-1"></div>
-            <button class="slide-btn" onclick="nextSlide('slide-deck-1')">Weiter →</button>
           </div>
         </div>
       </div>
@@ -399,7 +399,7 @@
       slides.forEach((_, i) => {
         const d = document.createElement('button');
         d.className = 'slide-dot' + (i === 0 ? ' active' : '');
-        d.setAttribute('aria-label', 'Folie ' + (i + 1));
+        d.setAttribute('aria-label', 'Slide ' + (i + 1));
         d.onclick = () => goToSlide(deckId, i);
         dots.appendChild(d);
       });
@@ -407,9 +407,14 @@
 
     function goToSlide(deckId, idx) {
       const deck = document.getElementById(deckId);
-      deck.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === idx));
-      document.getElementById('dots-' + deckId)
-        .querySelectorAll('.slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+      const slides = deck.querySelectorAll('.slide');
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      const dotsEl = document.getElementById('dots-' + deckId);
+      if (dotsEl) dotsEl.querySelectorAll('.slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+      const prev = document.getElementById('prev-' + deckId);
+      const next = document.getElementById('next-' + deckId);
+      if (prev) prev.disabled = idx === 0;
+      if (next) next.disabled = idx === slides.length - 1;
     }
 
     function currentSlideIdx(deckId) {
@@ -426,7 +431,7 @@
       goToSlide(deckId, Math.max(currentSlideIdx(deckId) - 1, 0));
     }
 
-    // Alle Slide-Decks initialisieren
+    // Initialise all slide decks
     document.querySelectorAll('.slide-deck').forEach(deck => initDots(deck.id));
 
     /* Accordion wird von main.js behandelt */

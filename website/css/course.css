@@ -407,6 +407,7 @@ body.course-page {
 
 /* ── Slides ────────────────────────────────────────────────── */
 .slide-deck {
+  position: relative;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -416,7 +417,7 @@ body.course-page {
 
 .slide {
   display: none;
-  padding: 40px;
+  padding: 40px 56px;
   min-height: 220px;
 }
 
@@ -447,35 +448,40 @@ body.course-page {
   line-height: 1.7;
 }
 
-.slide-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
-  border-top: 1px solid var(--border);
-  background: #fafafa;
-}
-
-.slide-btn {
-  width: 36px;
-  height: 36px;
+.slide-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) translateY(-18px);
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--navy);
   background: #fff;
   border: 1.5px solid var(--border);
   border-radius: 50%;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s, opacity 0.2s;
-  flex-shrink: 0;
+  transition: border-color 0.2s, opacity 0.2s;
+  z-index: 2;
   line-height: 1;
+  padding: 0;
 }
-.slide-btn:hover:not(:disabled) { border-color: var(--navy); }
-.slide-btn:disabled { opacity: 0.3; cursor: default; }
+.slide-prev { left: 10px; }
+.slide-next { right: 10px; }
+.slide-arrow:hover:not(:disabled) { border-color: var(--navy); }
+.slide-arrow:disabled { opacity: 0.25; cursor: default; }
+
+.slide-dots-row {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  background: #fafafa;
+}
 
 .slide-dots {
   display: flex;
@@ -1079,7 +1085,7 @@ body.course-page {
 
   .course-back-link { display: none; }
 
-  .slide { padding: 24px; }
+  .slide { padding: 24px 48px; }
 
   .quiz { padding: 20px; }
 }

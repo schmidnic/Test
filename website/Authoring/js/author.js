@@ -1158,10 +1158,10 @@ function genSlides(b, li, bi) {
   return `${intro}
         <div class="slide-deck" id="${deckId}">
           ${slidesHtml}
-          <div class="slide-controls">
-            <button class="slide-btn" id="prev-${deckId}" onclick="prevSlide('${deckId}')" aria-label="Previous slide">&#8249;</button>
+          <button class="slide-arrow slide-prev" id="prev-${deckId}" onclick="prevSlide('${deckId}')" aria-label="Previous slide" disabled>&lt;</button>
+          <button class="slide-arrow slide-next" id="next-${deckId}" onclick="nextSlide('${deckId}')" aria-label="Next slide">&gt;</button>
+          <div class="slide-dots-row">
             <div class="slide-dots" id="dots-${deckId}"></div>
-            <button class="slide-btn" id="next-${deckId}" onclick="nextSlide('${deckId}')" aria-label="Next slide">&#8250;</button>
           </div>
         </div>`;
 }
