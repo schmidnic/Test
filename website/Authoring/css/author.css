@@ -662,3 +662,30 @@ html, body {
   font-weight: 600;
 }
 
+
+/* ── Mobile preview modal ─────────────────────────────────────── */
+.au-modal-mobile-preview { width: 480px; }
+
+.au-mobile-preview-body { padding: 20px; }
+
+.au-preview-url-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.au-preview-url-input {
+  flex: 1;
+  font-size: 0.75rem;
+  color: var(--muted);
+  cursor: text;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.au-mobile-preview-actions {
+  display: flex;
+  gap: 10px;
+}

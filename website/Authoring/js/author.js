@@ -1123,6 +1123,33 @@ function inlineCourseJs(state, total, titles) {
   `;
 }
 
+// ── Mobile preview ───────────────────────────────────────────────
+function openMobilePreview() {
+  if (!state.lessons.length) { toast('Keine Lektionen vorhanden.'); return; }
+
+  let d;
+  try {
+    d = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
+  } catch(e) {
+    toast('Fehler beim Kodieren: ' + e.message); return;
+  }
+
+  const base = window.location.href.split('?')[0].replace(/index\.html$/, '');
+  const url  = base + 'preview.html#d=' + d;
+
+  const input = document.getElementById('mobilePreviewUrl');
+  input.value = url;
+
+  const shareBtn = document.getElementById('btnShareMobilePreview');
+  shareBtn.style.display = navigator.share ? '' : 'none';
+
+  document.getElementById('btnOpenMobilePreview').onclick  = () => window.open(url, '_blank');
+  document.getElementById('btnShareMobilePreview').onclick = () =>
+    navigator.share({ title: state.meta.title || 'Kursvorschau', url }).catch(() => {});
+
+  document.getElementById('mobilePreviewOverlay').classList.add('open');
+}
+
 // ── GitHub config ────────────────────────────────────────────────
 function getGhConfig() {
   return {
@@ -1664,6 +1691,17 @@ document.addEventListener('click', e => {
     renderAll(); return;
   }
   if (t.id === 'btnPreviewRefresh') { updatePreview(); return; }
+
+  // Mobile preview
+  if (t.id === 'btnMobilePreview') { openMobilePreview(); return; }
+  if (t.id === 'closeMobilePreview' || t.id === 'mobilePreviewOverlay') {
+    document.getElementById('mobilePreviewOverlay').classList.remove('open'); return;
+  }
+  if (t.id === 'btnCopyPreviewUrl') {
+    const val = document.getElementById('mobilePreviewUrl').value;
+    navigator.clipboard.writeText(val).then(() => toast('Link kopiert.')).catch(() => toast('Kopieren fehlgeschlagen.'));
+    return;
+  }
 
   // Settings / Publish / SCORM
   if (t.id === 'btnSettings')    { openSettings();  return; }
