@@ -160,6 +160,15 @@ function sel_(label, name, options, current) {
 function sectionTitle(t) {
   return `<div class="au-editor-header"><h3 class="au-editor-title">${esc(t)}</h3></div>`;
 }
+function imgField(label, name, value) {
+  return `<div class="au-field">
+    <label class="au-label">${label}</label>
+    <div class="au-img-row">
+      <input class="au-input" type="text" name="${name}" value="${esc(value)}" placeholder="https://... oder ↑ Upload">
+      <button class="au-img-upload-btn" data-upload-for="${name}" type="button">↑ Upload</button>
+    </div>
+  </div>`;
+}
 
 // ── Block editors ────────────────────────────────────────────────
 function editorMeta() {
@@ -265,7 +274,7 @@ function edAgamotto(b) {
         <span class="au-list-num">Schritt ${si+1}</span>
         ${b.steps.length>2?`<button class="au-btn au-btn-danger-sm" data-rm-aga="${si}">Entfernen</button>`:''}
       </div>
-      ${f('Bild-URL (optional)',`aga.${si}.image`,s.image)}
+      ${imgField('Bild',`aga.${si}.image`,s.image)}
       ${ta('Beschriftung / Text',`aga.${si}.caption`,s.caption,2)}
     </div>`;
   });
@@ -274,9 +283,9 @@ function edAgamotto(b) {
 
 function edJuxtapose(b) {
   return ta('Intro-Text (optional)','juxtapose.intro',b.intro||'',2)
-       + f('Vorher-Bild URL','juxtapose.beforeImage',b.beforeImage)
+       + imgField('Vorher-Bild','juxtapose.beforeImage',b.beforeImage)
        + f('Vorher-Label','juxtapose.beforeLabel',b.beforeLabel)
-       + f('Nachher-Bild URL','juxtapose.afterImage',b.afterImage)
+       + imgField('Nachher-Bild','juxtapose.afterImage',b.afterImage)
        + f('Nachher-Label','juxtapose.afterLabel',b.afterLabel);
 }
 
@@ -1095,6 +1104,308 @@ function inlineCourseJs(state, total, titles) {
   `;
 }
 
+// ── GitHub config ────────────────────────────────────────────────
+function getGhConfig() {
+  return {
+    token:  localStorage.getItem('au-gh-token')  || '',
+    owner:  localStorage.getItem('au-gh-owner')  || '',
+    repo:   localStorage.getItem('au-gh-repo')   || '',
+    branch: localStorage.getItem('au-gh-branch') || 'master',
+  };
+}
+function saveGhConfig(token, owner, repo, branch) {
+  localStorage.setItem('au-gh-token',  token);
+  localStorage.setItem('au-gh-owner',  owner);
+  localStorage.setItem('au-gh-repo',   repo);
+  localStorage.setItem('au-gh-branch', branch || 'master');
+}
+
+// ── Settings modal ───────────────────────────────────────────────
+function openSettings() {
+  const cfg = getGhConfig();
+  document.getElementById('ghToken').value  = cfg.token;
+  document.getElementById('ghOwner').value  = cfg.owner;
+  document.getElementById('ghRepo').value   = cfg.repo;
+  document.getElementById('ghBranch').value = cfg.branch;
+  document.getElementById('settingsOverlay').classList.add('open');
+}
+function closeSettings() {
+  document.getElementById('settingsOverlay').classList.remove('open');
+}
+
+// ── Publish to GitHub Pages ──────────────────────────────────────
+async function publishCourse() {
+  const cfg = getGhConfig();
+  if (!cfg.token || !cfg.owner || !cfg.repo) {
+    toast('Bitte zuerst GitHub-Einstellungen konfigurieren (⚙).'); return;
+  }
+  if (!state.lessons.length) { toast('Keine Lektionen vorhanden.'); return; }
+
+  const btn     = document.getElementById('btnPublish');
+  const label   = btn.querySelector('.au-publish-label');
+  const spinner = btn.querySelector('.au-publish-spinner');
+  label.style.display   = 'none';
+  spinner.style.display = '';
+  btn.disabled = true;
+
+  try {
+    const html = generateCourseHtml();
+    const b64  = btoa(unescape(encodeURIComponent(html)));
+    const key  = state.meta.storageKey || 'course';
+    const path = `website/courses/${key}.html`;
+    const url  = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
+    const hdrs = {
+      Authorization: `token ${cfg.token}`,
+      Accept: 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    };
+
+    let sha = null;
+    const check = await fetch(url, { headers: hdrs });
+    if (check.ok) sha = (await check.json()).sha;
+
+    const body = { message: `Publish: ${state.meta.title}`, content: b64, branch: cfg.branch };
+    if (sha) body.sha = sha;
+
+    const res = await fetch(url, { method: 'PUT', headers: hdrs, body: JSON.stringify(body) });
+    if (res.ok) {
+      toast('Veröffentlicht! GitHub Pages aktualisiert sich in ~30 Sekunden.');
+    } else {
+      const err = await res.json().catch(() => ({}));
+      toast('Fehler: ' + (err.message || res.status));
+    }
+  } catch(ex) {
+    toast('Netzwerkfehler: ' + ex.message);
+  } finally {
+    label.style.display   = '';
+    spinner.style.display = 'none';
+    btn.disabled = false;
+  }
+}
+
+// ── Image upload via GitHub API ──────────────────────────────────
+let pendingUploadField = null;
+
+async function uploadImage(file) {
+  const cfg = getGhConfig();
+  if (!cfg.token || !cfg.owner || !cfg.repo) {
+    toast('Bitte zuerst GitHub-Einstellungen konfigurieren.'); return;
+  }
+  const reader = new FileReader();
+  reader.onload = async e => {
+    try {
+      const b64  = e.target.result.split(',')[1];
+      const name = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const path = `website/images/${name}`;
+      const url  = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
+      const hdrs = {
+        Authorization: `token ${cfg.token}`,
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      };
+
+      let sha = null;
+      const check = await fetch(url, { headers: hdrs });
+      if (check.ok) sha = (await check.json()).sha;
+
+      const body = { message: `Upload image: ${name}`, content: b64, branch: cfg.branch };
+      if (sha) body.sha = sha;
+
+      const res = await fetch(url, { method: 'PUT', headers: hdrs, body: JSON.stringify(body) });
+      if (res.ok) {
+        const imgUrl = `../images/${name}`;
+        if (pendingUploadField) {
+          const input = document.querySelector(`[name="${pendingUploadField}"]`);
+          if (input) {
+            input.value = imgUrl;
+            applyField(pendingUploadField, imgUrl);
+            saveState();
+            schedulePreview();
+          }
+          pendingUploadField = null;
+        }
+        toast('Bild hochgeladen.');
+      } else {
+        const err = await res.json().catch(() => ({}));
+        toast('Upload-Fehler: ' + (err.message || res.status));
+      }
+    } catch(ex) {
+      toast('Fehler: ' + ex.message);
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── SCORM export ─────────────────────────────────────────────────
+const SCORM_API_JS = `var ScormAPI = (function () {
+  function findAPI(win) {
+    var tries = 0;
+    while (!win.API && win.parent && win.parent !== win && tries < 10) {
+      win = win.parent; tries++;
+    }
+    return win.API || null;
+  }
+  var api = null, initialized = false;
+  return {
+    init: function () { api = findAPI(window); if (api) { api.LMSInitialize(''); initialized = true; } },
+    setValue: function (k, v) { if (api && initialized) { api.LMSSetValue(k, String(v)); api.LMSCommit(''); } },
+    getValue: function (k) { return api && initialized ? api.LMSGetValue(k) : ''; },
+    saveLocation: function (n) { this.setValue('cmi.core.lesson_location', n); },
+    getLocation: function () { return parseInt(this.getValue('cmi.core.lesson_location')) || 0; },
+    complete: function () { this.setValue('cmi.core.lesson_status', 'completed'); this.setValue('cmi.core.score.raw', '100'); },
+    finish: function () { if (api && initialized) { api.LMSFinish(''); initialized = false; } }
+  };
+})();
+ScormAPI.init();
+window.addEventListener('beforeunload', function () { ScormAPI.finish(); });
+`;
+
+function generateManifest(title, id) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="${id}" version="1.2"
+  xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+  <organizations default="org1">
+    <organization identifier="org1">
+      <title>${esc(title)}</title>
+      <item identifier="item1" identifierref="res1">
+        <title>${esc(title)}</title>
+        <adlcp:masteryscore>80</adlcp:masteryscore>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="res1" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html"/>
+      <file href="scorm_api.js"/>
+    </resource>
+  </resources>
+</manifest>`;
+}
+
+function generateScormHtml() {
+  const m      = state.meta;
+  const titles = state.lessons.map(l => l.title || 'Lektion');
+  const total  = state.lessons.length;
+
+  let lessonsHtml = '';
+  state.lessons.forEach((lesson, li) => {
+    lessonsHtml += `
+      <div class="lesson ${li===0?'active':''}" id="lesson-${li+1}">
+        <h2 class="lesson-title">${esc(lesson.title)}</h2>
+        ${lesson.blocks.map((b,bi) => generateBlockHtml(b, li, bi)).join('\n        ')}
+      </div>`;
+  });
+
+  return `<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(m.title)}</title>
+  <style>
+${previewCss}
+.nav { display: none !important; }
+body.course-page { --nav-h: 0px; }
+.course-header { top: 0; }
+  </style>
+</head>
+<body class="course-page">
+  <header class="course-header">
+    <div class="course-header-inner">
+      <div class="course-meta">
+        <h1 class="course-title">${esc(m.title)}</h1>
+      </div>
+      <div class="course-progress">
+        <span class="progress-text" id="progressText">1 / ${total}</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+  </header>
+  <div class="course-layout">
+    <div class="sidebar-wrap">
+      <aside class="course-sidebar">
+        <nav aria-label="Lessons"><ul class="lesson-list" id="lessonList"></ul></nav>
+      </aside>
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle TOC">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <main class="course-main" id="courseMain">
+${lessonsHtml}
+      <div class="lesson-footer" id="lessonFooter">
+        <button class="lesson-nav-btn" id="prevBtn" onclick="navigate(-1)" disabled>← Back</button>
+        <span class="lesson-counter" id="lessonCounter">1 / ${total}</span>
+        <button class="lesson-nav-btn" id="nextBtn" onclick="navigate(1)">Next →</button>
+      </div>
+    </main>
+  </div>
+  <button class="quicknotes-fab" id="quicknotesToggle" aria-label="Open notes">
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="quicknotes-panel" id="quicknotesPanel">
+    <div class="quicknotes-header"><p class="quicknotes-title">Notes</p></div>
+    <textarea class="quicknotes-area" id="quicknotesArea" placeholder="Jot down your thoughts..."></textarea>
+    <div class="quicknotes-footer">
+      <span class="quicknotes-saved" id="quicknotesSaved"></span>
+      <button class="quicknotes-clear" id="quicknotesClear">Clear</button>
+    </div>
+  </div>
+  <script src="scorm_api.js"><\/script>
+  <script>
+${inlineCourseJs(state, total, titles)}
+(function () {
+  var origGoTo = window.goTo;
+  if (origGoTo) {
+    window.goTo = function (n, silent) {
+      origGoTo(n, silent);
+      ScormAPI.saveLocation(n);
+      if (n === TOTAL) ScormAPI.complete();
+    };
+    var bookmark = ScormAPI.getLocation();
+    if (bookmark > 1 && bookmark <= TOTAL) window.goTo(bookmark, true);
+  }
+})();
+  <\/script>
+</body>
+</html>`;
+}
+
+async function exportScorm() {
+  if (!state.lessons.length) { toast('Keine Lektionen vorhanden.'); return; }
+  if (typeof JSZip === 'undefined') { toast('JSZip nicht geladen.'); return; }
+  if (!previewCss) { toast('CSS noch nicht geladen. Bitte kurz warten.'); return; }
+
+  const title = state.meta.title || 'Course';
+  const id    = state.meta.storageKey || 'course-new';
+
+  try {
+    const zip = new JSZip();
+    zip.file('imsmanifest.xml', generateManifest(title, id));
+    zip.file('scorm_api.js',    SCORM_API_JS);
+    zip.file('index.html',      generateScormHtml());
+
+    const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+    const a    = document.createElement('a');
+    a.href     = URL.createObjectURL(blob);
+    a.download = id + '-scorm.zip';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast('SCORM-Paket erstellt.');
+  } catch(ex) {
+    toast('SCORM-Fehler: ' + ex.message);
+  }
+}
+
 // ── Block picker modal ───────────────────────────────────────────
 function openBlockPicker(lessonIdx) {
   pendingBlockLessonIdx = lessonIdx;
@@ -1334,6 +1645,30 @@ document.addEventListener('click', e => {
     renderAll(); return;
   }
   if (t.id === 'btnPreviewRefresh') { updatePreview(); return; }
+
+  // Settings / Publish / SCORM
+  if (t.id === 'btnSettings')    { openSettings();  return; }
+  if (t.id === 'btnPublish' || t.closest('#btnPublish')) { publishCourse(); return; }
+  if (t.id === 'btnExportScorm') { exportScorm();   return; }
+  if (t.id === 'saveSettings') {
+    const token  = document.getElementById('ghToken').value.trim();
+    const owner  = document.getElementById('ghOwner').value.trim();
+    const repo   = document.getElementById('ghRepo').value.trim();
+    const branch = document.getElementById('ghBranch').value.trim() || 'master';
+    saveGhConfig(token, owner, repo, branch);
+    const st = document.getElementById('settingsStatus');
+    st.textContent = 'Gespeichert ✓';
+    setTimeout(() => { st.textContent = ''; }, 2000);
+    return;
+  }
+  if (t.id === 'closeSettings' || t.id === 'settingsOverlay') { closeSettings(); return; }
+
+  // Image upload trigger
+  if (t.closest('[data-upload-for]')) {
+    pendingUploadField = (t.closest('[data-upload-for]')).dataset.uploadFor;
+    document.getElementById('imageInput').click();
+    return;
+  }
 });
 
 // Editor: form input changes
@@ -1377,6 +1712,12 @@ document.addEventListener('change', e => {
 // File input
 document.getElementById('fileInput').addEventListener('change', e => {
   if (e.target.files[0]) loadJson(e.target.files[0]);
+  e.target.value = '';
+});
+
+// Image upload input
+document.getElementById('imageInput').addEventListener('change', e => {
+  if (e.target.files[0]) uploadImage(e.target.files[0]);
   e.target.value = '';
 });
 

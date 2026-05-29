@@ -570,3 +570,95 @@ html, body {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
 }
+
+/* ── Header additions ──────────────────────────────────────────── */
+.au-header-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.2);
+  flex-shrink: 0;
+}
+
+.au-settings-btn {
+  color: rgba(255,255,255,0.7);
+  font-size: 1rem;
+}
+.au-settings-btn:hover { color: #fff; background: rgba(255,255,255,0.15); }
+
+.au-btn-publish {
+  background: var(--magenta);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.au-btn-publish:hover { opacity: 0.88; }
+.au-btn-publish.loading { opacity: 0.6; cursor: not-allowed; }
+.au-publish-spinner { display: inline-block; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Image upload row ──────────────────────────────────────────── */
+.au-img-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.au-img-row .au-input { flex: 1; }
+
+.au-img-upload-btn {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+  color: var(--muted);
+}
+.au-img-upload-btn:hover { border-color: var(--navy); color: var(--navy); background: #fff; }
+.au-img-upload-btn.uploading { opacity: 0.5; cursor: wait; }
+
+/* ── Settings modal ────────────────────────────────────────────── */
+.au-modal-settings { width: 520px; }
+
+.au-settings-body { padding: 20px; }
+
+.au-settings-intro {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  background: rgba(22,11,82,0.04);
+  border-radius: 6px;
+  border-left: 3px solid var(--magenta);
+}
+.au-settings-intro strong { color: var(--navy); }
+
+.au-settings-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.au-settings-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.au-settings-status {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: #27ae60;
+  font-weight: 600;
+}
+

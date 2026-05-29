@@ -18,11 +18,19 @@
       <span class="au-course-title-display" id="courseTitleDisplay">New Course</span>
     </div>
     <div class="au-header-right">
-      <button class="au-btn au-btn-ghost" id="btnNew" title="New course">New</button>
-      <button class="au-btn au-btn-ghost" id="btnLoad" title="Open JSON">Open</button>
-      <button class="au-btn au-btn-ghost" id="btnSave" title="Save JSON">Save JSON</button>
-      <button class="au-btn au-btn-primary" id="btnExport" title="Export course as HTML">Export HTML</button>
+      <button class="au-icon-btn au-settings-btn" id="btnSettings" title="Einstellungen">⚙</button>
+      <div class="au-header-divider"></div>
+      <button class="au-btn au-btn-ghost" id="btnNew" title="Neuer Kurs">New</button>
+      <button class="au-btn au-btn-ghost" id="btnLoad" title="JSON öffnen">Open</button>
+      <button class="au-btn au-btn-ghost" id="btnSave" title="Als JSON speichern">Save JSON</button>
+      <button class="au-btn au-btn-ghost" id="btnExport" title="Als HTML exportieren">Export HTML</button>
+      <button class="au-btn au-btn-ghost" id="btnExportScorm" title="Als SCORM-Paket exportieren">Export SCORM</button>
+      <button class="au-btn au-btn-publish" id="btnPublish" title="Direkt auf prohelias.com veröffentlichen">
+        <span class="au-publish-label">Publish</span>
+        <span class="au-publish-spinner" style="display:none">⟳</span>
+      </button>
       <input type="file" id="fileInput" accept=".json" style="display:none">
+      <input type="file" id="imageInput" accept="image/*" style="display:none">
     </div>
   </header>
 
@@ -32,7 +40,7 @@
     <aside class="au-panel au-outline">
       <div class="au-panel-header">
         <span>Outline</span>
-        <button class="au-icon-btn" id="btnAddLesson" title="Add lesson">+</button>
+        <button class="au-icon-btn" id="btnAddLesson" title="Lektion hinzufügen">+</button>
       </div>
       <div class="au-outline-scroll" id="outlineContent">
         <!-- rendered by JS -->
@@ -53,7 +61,7 @@
     <section class="au-panel au-preview">
       <div class="au-panel-header">
         <span>Preview</span>
-        <button class="au-icon-btn" id="btnPreviewRefresh" title="Refresh">↺</button>
+        <button class="au-icon-btn" id="btnPreviewRefresh" title="Vorschau aktualisieren">↺</button>
       </div>
       <iframe id="previewFrame" class="au-preview-frame" title="Course preview" sandbox="allow-scripts allow-same-origin"></iframe>
     </section>
@@ -67,8 +75,42 @@
         <span>Block hinzufügen</span>
         <button class="au-icon-btn" id="closeBlockPicker">×</button>
       </div>
-      <div class="au-block-grid" id="blockPickerGrid">
-        <!-- rendered by JS -->
+      <div class="au-block-grid" id="blockPickerGrid"></div>
+    </div>
+  </div>
+
+  <!-- Settings modal -->
+  <div class="au-modal-overlay" id="settingsOverlay">
+    <div class="au-modal au-modal-settings">
+      <div class="au-modal-header">
+        <span>⚙ Einstellungen</span>
+        <button class="au-icon-btn" id="closeSettings">×</button>
+      </div>
+      <div class="au-settings-body">
+        <p class="au-settings-intro">Für <strong>Publish</strong> und <strong>Bild-Upload</strong> wird ein GitHub Personal Access Token benötigt.</p>
+        <div class="au-field">
+          <label class="au-label">GitHub Personal Access Token</label>
+          <input type="password" class="au-input" id="ghToken" placeholder="ghp_...">
+          <p class="au-hint">Berechtigungen: <code>Contents → Read & write</code>. Token unter github.com → Settings → Developer Settings → Personal Access Tokens erstellen.</p>
+        </div>
+        <div class="au-settings-row">
+          <div class="au-field">
+            <label class="au-label">Repo Owner</label>
+            <input type="text" class="au-input" id="ghOwner" placeholder="schmidnic">
+          </div>
+          <div class="au-field">
+            <label class="au-label">Repo Name</label>
+            <input type="text" class="au-input" id="ghRepo" placeholder="Test">
+          </div>
+          <div class="au-field">
+            <label class="au-label">Branch</label>
+            <input type="text" class="au-input" id="ghBranch" placeholder="master">
+          </div>
+        </div>
+        <div class="au-settings-actions">
+          <button class="au-btn au-btn-primary" id="saveSettings">Speichern</button>
+          <span class="au-settings-status" id="settingsStatus"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -76,6 +118,7 @@
   <!-- Toast notification -->
   <div class="au-toast" id="toast"></div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
   <script src="js/author.js"></script>
 </body>
 </html>
