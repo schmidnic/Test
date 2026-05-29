@@ -1464,6 +1464,142 @@ function openMobilePreview() {
   document.getElementById('mobilePreviewOverlay').classList.add('open');
 }
 
+// ── Anthropic / AI config ────────────────────────────────────────
+function getAiConfig() {
+  return { key: localStorage.getItem('au-anthropic-key') || '' };
+}
+
+function openAiModal() {
+  document.getElementById('aiError').textContent = '';
+  document.getElementById('aiOverlay').classList.add('open');
+}
+function closeAiModal() {
+  document.getElementById('aiOverlay').classList.remove('open');
+}
+
+async function generateAiCourse() {
+  const cfg = getAiConfig();
+  if (!cfg.key) {
+    document.getElementById('aiError').textContent =
+      'Bitte zuerst den Anthropic API Key in den Einstellungen (⚙) eingeben.';
+    return;
+  }
+  const topic      = document.getElementById('aiTopic').value.trim();
+  const goal       = document.getElementById('aiGoal').value.trim();
+  const audience   = document.getElementById('aiAudience').value;
+  const prior      = document.getElementById('aiPrior').value;
+  const numLessons = document.getElementById('aiNumLessons').value;
+  const format     = document.getElementById('aiFormat').value;
+
+  if (!topic) { document.getElementById('aiError').textContent = 'Bitte das Thema eingeben.'; return; }
+
+  const btn = document.getElementById('btnAiGenerate');
+  btn.disabled    = true;
+  btn.textContent = '⟳ Erstelle Konzept…';
+  document.getElementById('aiError').textContent = '';
+
+  const prompt = `Du bist ein erfahrener Instructional Designer. Erstelle einen Microlearning-Kurs auf Deutsch.
+
+THEMA: ${topic}
+LERNZIEL: ${goal || 'nicht angegeben'}
+ZIELGRUPPE: ${audience}
+VORERFAHRUNG: ${prior}
+ANZAHL LEKTIONEN: ${numLessons}
+FORMAT: ${format}
+
+Antworte NUR mit einem validen JSON-Objekt (kein Markdown, keine Erklärung) mit exakt dieser Struktur:
+
+{
+  "meta": {
+    "title": "Kurstitel auf Deutsch",
+    "storageKey": "kurs-slug-mit-bindestrichen",
+    "backLink": "../hub.html",
+    "backLabel": "Zurück",
+    "format": "${format}"
+  },
+  "lessons": [
+    {
+      "title": "Lektionstitel",
+      "blocks": [
+        // 2 bis 4 Blöcke pro Lektion, verschiedene Typen verwenden
+
+        // Page-Block (Einführung, Erklärung):
+        {"type":"page","heading":"Überschrift","body":"<p>HTML-Text</p>"},
+
+        // Slides (Schritt-für-Schritt):
+        {"type":"slides","intro":"Optionaler Intro-Text","slides":[{"heading":"","body":""}]},
+
+        // Accordion (aufklappbare Fragen & Antworten):
+        {"type":"accordion","intro":"","items":[{"trigger":"Frage?","content":"Antwort"}]},
+
+        // Flip Cards (Vorderseite = Frage, Rückseite = Konzept + Erklärung):
+        {"type":"flipcards","intro":"","cards":[{"label":"Begriff 1","question":"Was ist…?","title":"Konzeptname","answer":"Erklärung"}]},
+
+        // Quiz (Wissensabfrage):
+        {"type":"quiz","intro":"","questions":[{"text":"Frage?","multi":false,"options":[{"text":"Richtige Antwort","correct":true},{"text":"Falsche Antwort","correct":false},{"text":"Falsche Antwort","correct":false}],"okMsg":"Richtig!","wrongMsg":"Leider falsch."}]},
+
+        // Completion (NUR als letzter Block der letzten Lektion):
+        {"type":"completion","heading":"Gut gemacht!","subtitle":"Microlearning abgeschlossen.","message":"","showFeedback":true}
+      ]
+    }
+  ]
+}
+
+Regeln:
+- Alle Inhalte auf Deutsch
+- Jede Lektion hat 2 bis 4 sinnvoll gewählte Blöcke
+- Genau einen Completion-Block als letzten Block der letzten Lektion
+- Quizfragen: 3 bis 4 Optionen, mindestens eine korrekte Antwort
+- Flip Cards: label = Konzeptname, question = anregende Frage, title = kurzer Titel, answer = Erklärung
+- Inhalt soll spezifisch und nützlich sein
+- storageKey: aus dem Titel ableiten, nur Kleinbuchstaben und Bindestriche`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': cfg.key,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 4096,
+        system: 'Du bist ein Experte für Instructional Design und Microlearning. Antworte ausschließlich mit validem JSON.',
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || 'API-Fehler ' + res.status);
+    }
+
+    const data   = await res.json();
+    const text   = data.content?.[0]?.text || '';
+    const match  = text.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('Keine valide JSON-Antwort erhalten.');
+
+    const generated = JSON.parse(match[0]);
+    if (!generated.meta || !Array.isArray(generated.lessons)) throw new Error('Ungültige Kursstruktur generiert.');
+
+    state = generated;
+    sel   = { type: null, lessonIdx: null, blockIdx: null };
+    saveState();
+    document.getElementById('courseTitleDisplay').textContent = state.meta.title || 'New Course';
+    closeAiModal();
+    renderAll();
+    toast(`✨ Kurs generiert: ${state.lessons.length} Lektionen.`);
+
+  } catch(ex) {
+    document.getElementById('aiError').textContent = 'Fehler: ' + ex.message;
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = '✨ Konzept erstellen';
+  }
+}
+
 // ── GitHub config ────────────────────────────────────────────────
 function getGhConfig() {
   return {
@@ -1483,10 +1619,11 @@ function saveGhConfig(token, owner, repo, branch) {
 // ── Settings modal ───────────────────────────────────────────────
 function openSettings() {
   const cfg = getGhConfig();
-  document.getElementById('ghToken').value  = cfg.token;
-  document.getElementById('ghOwner').value  = cfg.owner;
-  document.getElementById('ghRepo').value   = cfg.repo;
-  document.getElementById('ghBranch').value = cfg.branch;
+  document.getElementById('ghToken').value       = cfg.token;
+  document.getElementById('ghOwner').value       = cfg.owner;
+  document.getElementById('ghRepo').value        = cfg.repo;
+  document.getElementById('ghBranch').value      = cfg.branch;
+  document.getElementById('anthropicKey').value  = getAiConfig().key;
   document.getElementById('settingsOverlay').classList.add('open');
 }
 function closeSettings() {
@@ -2008,9 +2145,10 @@ document.addEventListener('click', e => {
 
   // Outline collapse
   if (t.id === 'btnCollapseOutline') {
-    const panel = document.querySelector('.au-outline');
-    panel.classList.toggle('collapsed');
-    localStorage.setItem('au-outline-collapsed', panel.classList.contains('collapsed') ? '1' : '0');
+    const panel     = document.querySelector('.au-outline');
+    const collapsed = panel.classList.toggle('collapsed');
+    document.documentElement.style.setProperty('--outline-w', collapsed ? '40px' : '240px');
+    localStorage.setItem('au-outline-collapsed', collapsed ? '1' : '0');
     return;
   }
 
@@ -2035,12 +2173,20 @@ document.addEventListener('click', e => {
     const repo   = document.getElementById('ghRepo').value.trim();
     const branch = document.getElementById('ghBranch').value.trim() || 'master';
     saveGhConfig(token, owner, repo, branch);
+    const aiKey = document.getElementById('anthropicKey').value.trim();
+    if (aiKey) localStorage.setItem('au-anthropic-key', aiKey);
+    else localStorage.removeItem('au-anthropic-key');
     const st = document.getElementById('settingsStatus');
     st.textContent = 'Gespeichert ✓';
     setTimeout(() => { st.textContent = ''; }, 2000);
     return;
   }
   if (t.id === 'closeSettings' || t.id === 'settingsOverlay') { closeSettings(); return; }
+
+  // AI modal
+  if (t.id === 'btnOpenAi')  { openAiModal();  return; }
+  if (t.id === 'closeAiModal' || t.id === 'aiOverlay') { closeAiModal(); return; }
+  if (t.id === 'btnAiGenerate') { generateAiCourse(); return; }
 
   // Image upload trigger
   if (t.closest('[data-upload-for]')) {
@@ -2120,6 +2266,7 @@ async function init() {
 
   if (localStorage.getItem('au-outline-collapsed') === '1') {
     document.querySelector('.au-outline').classList.add('collapsed');
+    document.documentElement.style.setProperty('--outline-w', '40px');
   }
 
   const params  = new URLSearchParams(window.location.search);

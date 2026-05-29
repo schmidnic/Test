@@ -180,6 +180,7 @@ html, body {
   right: 0;
   display: grid;
   grid-template-columns: var(--outline-w) 1fr var(--preview-w);
+  transition: grid-template-columns 0.22s ease;
 }
 
 .au-panel {
@@ -691,8 +692,7 @@ html, body {
 }
 
 /* ── Outline collapse ─────────────────────────────────────────── */
-.au-outline { transition: width 0.22s ease; }
-.au-outline.collapsed { width: 40px !important; }
+.au-outline { overflow: hidden; }
 .au-outline.collapsed .au-outline-scroll,
 .au-outline.collapsed .au-panel-header > span,
 .au-outline.collapsed #btnAddLesson { display: none; }
@@ -705,3 +705,67 @@ html, body {
 .scroll-section:last-child { border-bottom: none; padding-bottom: 80px; }
 .toc-anchor { text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px; width: 100%; }
 .toc-anchor:hover .lesson-name { color: var(--magenta, #e909f6); }
+
+/* ── KI button in header ─────────────────────────────────────── */
+.au-btn-ai-header {
+  background: linear-gradient(135deg, #7C3AED, #e909f6);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.au-btn-ai-header:hover { opacity: 0.88; background: linear-gradient(135deg, #7C3AED, #e909f6); }
+
+/* ── AI modal ────────────────────────────────────────────────── */
+.au-modal-ai { width: 580px; }
+
+.au-ai-body { padding: 20px; }
+
+.au-ai-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.au-ai-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.au-btn-ai-generate {
+  background: linear-gradient(135deg, #7C3AED, #e909f6);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 10px 24px;
+  align-self: flex-start;
+  letter-spacing: 0.02em;
+}
+.au-btn-ai-generate:hover { opacity: 0.88; background: linear-gradient(135deg, #7C3AED, #e909f6); }
+.au-btn-ai-generate:disabled { opacity: 0.55; cursor: wait; }
+
+.au-ai-error {
+  font-size: 0.8rem;
+  color: #c0392b;
+  line-height: 1.5;
+  min-height: 0;
+}
+
+/* ── Settings section title ─────────────────────────────────── */
+.au-settings-section-title {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 16px 0 8px;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+}

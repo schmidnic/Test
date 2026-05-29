@@ -20,6 +20,7 @@
     <div class="au-header-right">
       <button class="au-icon-btn au-settings-btn" id="btnSettings" title="Einstellungen">⚙</button>
       <div class="au-header-divider"></div>
+      <button class="au-btn au-btn-ai-header" id="btnOpenAi" title="KI-Kurs erstellen">✨ KI</button>
       <button class="au-btn au-btn-ghost" id="btnNew" title="Neuer Kurs">New</button>
       <button class="au-btn au-btn-ghost" id="btnLoad" title="JSON öffnen">Open</button>
       <button class="au-btn au-btn-ghost" id="btnSave" title="Als JSON speichern">Save JSON</button>
@@ -111,6 +112,12 @@
             <input type="text" class="au-input" id="ghBranch" placeholder="master">
           </div>
         </div>
+        <div class="au-settings-section-title">KI-Assistent</div>
+        <div class="au-field">
+          <label class="au-label">Anthropic API Key</label>
+          <input type="password" class="au-input" id="anthropicKey" placeholder="sk-ant-...">
+          <p class="au-hint">Für den KI-Kursassistenten. Unter console.anthropic.com → API Keys erstellen.</p>
+        </div>
         <div class="au-settings-actions">
           <button class="au-btn au-btn-primary" id="saveSettings">Speichern</button>
           <span class="au-settings-status" id="settingsStatus"></span>
@@ -135,6 +142,65 @@
         <div class="au-mobile-preview-actions">
           <button class="au-btn au-btn-primary" id="btnOpenMobilePreview">Öffnen ↗</button>
           <button class="au-btn au-btn-ghost" id="btnShareMobilePreview">Teilen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI assistant modal -->
+  <div class="au-modal-overlay" id="aiOverlay">
+    <div class="au-modal au-modal-ai">
+      <div class="au-modal-header">
+        <span>✨ KI-Kursassistent</span>
+        <button class="au-icon-btn" id="closeAiModal">×</button>
+      </div>
+      <div class="au-ai-body">
+        <p class="au-settings-intro">Beschreibe dein Thema und die KI erstellt ein vollständiges didaktisches Konzept.</p>
+        <div class="au-field">
+          <label class="au-label">Thema / Inhalt <span style="color:var(--magenta)">*</span></label>
+          <textarea class="au-textarea" id="aiTopic" rows="5" placeholder="Beschreibe das Thema, füge Texte ein, oder skizziere den Inhalt, den du vermitteln möchtest…"></textarea>
+        </div>
+        <div class="au-field">
+          <label class="au-label">Lernziel</label>
+          <input type="text" class="au-input" id="aiGoal" placeholder="Was sollen Lernende danach können oder wissen?">
+        </div>
+        <div class="au-ai-grid">
+          <div class="au-field">
+            <label class="au-label">Zielgruppe</label>
+            <select class="au-select" id="aiAudience">
+              <option value="Einsteiger ohne Vorwissen">Einsteiger</option>
+              <option value="Berufstätige mit Grundkenntnissen" selected>Berufstätige</option>
+              <option value="Fachkräfte und Experten">Experten</option>
+            </select>
+          </div>
+          <div class="au-field">
+            <label class="au-label">Vorerfahrung</label>
+            <select class="au-select" id="aiPrior">
+              <option value="keine Vorerfahrung">Keine</option>
+              <option value="etwas Vorerfahrung" selected>Etwas</option>
+              <option value="viel Vorerfahrung">Viel</option>
+            </select>
+          </div>
+          <div class="au-field">
+            <label class="au-label">Lektionen</label>
+            <select class="au-select" id="aiNumLessons">
+              <option value="3">3</option>
+              <option value="4" selected>4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </div>
+          <div class="au-field">
+            <label class="au-label">Format</label>
+            <select class="au-select" id="aiFormat">
+              <option value="stage">Stage</option>
+              <option value="scroll">Endless Scroll</option>
+            </select>
+          </div>
+        </div>
+        <div class="au-ai-actions">
+          <button class="au-btn au-btn-ai-generate" id="btnAiGenerate">✨ Konzept erstellen</button>
+          <p class="au-ai-error" id="aiError"></p>
         </div>
       </div>
     </div>
