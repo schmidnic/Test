@@ -38,7 +38,18 @@ html, body {
   box-shadow: 0 1px 8px rgba(0,0,0,0.18);
 }
 
-.au-header-left { flex-shrink: 0; }
+.au-header-left { flex-shrink: 0; display: flex; align-items: center; gap: 16px; }
+
+.au-back-to-site {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.au-back-to-site:hover { color: rgba(255,255,255,0.85); }
 
 .au-logo {
   font-family: var(--font-ui);

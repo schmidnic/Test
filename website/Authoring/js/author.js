@@ -179,14 +179,14 @@ function slugify(s) {
 }
 
 function editorPath(path) {
-  const levels  = ['Einsteiger','Fortgeschritten','Experte'];
+  const levels  = ['Beginner','Intermediate','Expert'];
   const levelSel = levels.map(lv =>
     `<option value="${lv}" ${path.level===lv?'selected':''}>${lv}</option>`
   ).join('');
 
   // Course picker options (from publishedCourses loaded at init)
   const coursePickerOpts = publishedCourses.length
-    ? `<option value="">— Kurs auswählen —</option>` +
+    ? `<option value="">— Select course —</option>` +
       publishedCourses.map(c =>
         `<option value="${esc(c.key)}" ${path._tmpPickKey===c.key?'selected':''}>${esc(c.title)}</option>`
       ).join('')
@@ -194,13 +194,13 @@ function editorPath(path) {
 
   const stepHtml = (path.steps||[]).map((step, si) => {
     const typeSel = ['course','checkin'].map(t =>
-      `<option value="${t}" ${step.type===t?'selected':''}>${t==='course'?'Kurs':'Check-in / Reflexion'}</option>`
+      `<option value="${t}" ${step.type===t?'selected':''}>${t==='course'?'Course':'Check-in / Reflection'}</option>`
     ).join('');
 
     const courseFields = step.type !== 'checkin' ? `
       ${coursePickerOpts ? `
         <div class="au-field">
-          <label class="au-label">Kurs auswählen</label>
+          <label class="au-label">Select course</label>
           <select class="au-select au-course-picker" data-step="${si}">${
             coursePickerOpts.replace(
               `value="${esc(step.courseKey)}"`,
@@ -210,61 +210,61 @@ function editorPath(path) {
         </div>
       ` : ''}
       <div class="au-field">
-        <label class="au-label">Kurs-Key</label>
+        <label class="au-label">Course key</label>
         <input class="au-input" type="text" name="step.${si}.courseKey" value="${esc(step.courseKey||'')}" placeholder="z.B. transformer-attention">
-        <p class="au-hint">Der storageKey aus den Kurs-Einstellungen.</p>
+        <p class="au-hint">The storageKey from course settings.</p>
       </div>
       <div class="au-field">
-        <label class="au-label">Kurs-URL</label>
-        <input class="au-input" type="text" name="step.${si}.courseUrl" value="${esc(step.courseUrl||'')}" placeholder="courses/mein-kurs.html">
+        <label class="au-label">Course URL</label>
+        <input class="au-input" type="text" name="step.${si}.courseUrl" value="${esc(step.courseUrl||'')}" placeholder="courses/my-course.html">
       </div>
       <div class="au-field">
-        <label class="au-label">Reflexionsfrage</label>
-        <input class="au-input" type="text" name="step.${si}.reflection" value="${esc(step.reflection||'')}" placeholder="Was war die überraschendste Erkenntnis für dich?">
-        <p class="au-hint">Wird nach dem Kurs angezeigt, bevor der nächste Schritt freigeschaltet wird.</p>
+        <label class="au-label">Reflection question</label>
+        <input class="au-input" type="text" name="step.${si}.reflection" value="${esc(step.reflection||'')}" placeholder="What was the most surprising insight for you?">
+        <p class="au-hint">Shown after the course, before the next step is unlocked.</p>
       </div>
       <div class="au-field">
-        <label class="au-label">Adaptiver Hinweis</label>
-        <input class="au-input" type="text" name="step.${si}.adaptiveHint" value="${esc(step.adaptiveHint||'')}" placeholder="Schau noch einmal Lektion … an, bevor du weitermachst.">
-        <p class="au-hint">Erscheint automatisch, wenn Lernende ihre Sicherheit mit 1 oder 2 Sternen bewerten.</p>
+        <label class="au-label">Adaptive hint</label>
+        <input class="au-input" type="text" name="step.${si}.adaptiveHint" value="${esc(step.adaptiveHint||'')}" placeholder="Review lesson … again before continuing.">
+        <p class="au-hint">Appears automatically when learners rate their confidence 1 or 2 stars.</p>
       </div>
     ` : `
       <div class="au-field">
-        <label class="au-label">Reflexionsprompt</label>
-        <textarea class="au-textarea" name="step.${si}.prompt" rows="2" placeholder="Erkläre in eigenen Worten: …">${esc(step.prompt||'')}</textarea>
-        <p class="au-hint">Die konkrete Frage, über die Lernende nachdenken sollen.</p>
+        <label class="au-label">Reflection prompt</label>
+        <textarea class="au-textarea" name="step.${si}.prompt" rows="2" placeholder="Explain in your own words: …">${esc(step.prompt||'')}</textarea>
+        <p class="au-hint">The specific question learners should reflect on.</p>
       </div>
       <div class="au-field">
-        <label class="au-label">Hinweis (aufklappbar)</label>
-        <input class="au-input" type="text" name="step.${si}.hint" value="${esc(step.hint||'')}" placeholder="Denke an die Analogie aus Lektion 2 …">
-        <p class="au-hint">Optionaler Denkanstoß, den Lernende selbst aufklappen können.</p>
+        <label class="au-label">Hint (expandable)</label>
+        <input class="au-input" type="text" name="step.${si}.hint" value="${esc(step.hint||'')}" placeholder="Think about the analogy from lesson 2 …">
+        <p class="au-hint">Optional thinking prompt learners can expand themselves.</p>
       </div>
     `;
 
     return `<div class="au-path-step-block">
       <div class="au-path-step-header">
         <span class="au-path-step-num">${si+1}</span>
-        <strong style="flex:1;font-size:0.85rem">${esc(step.title||'Schritt '+(si+1))}</strong>
-        <button class="au-icon-btn au-outline-del" data-del-step="${si}" title="Schritt löschen">×</button>
+        <strong style="flex:1;font-size:0.85rem">${esc(step.title||'Step '+(si+1))}</strong>
+        <button class="au-icon-btn au-outline-del" data-del-step="${si}" title="Delete step">×</button>
       </div>
       <div class="au-field">
-        <label class="au-label">Typ</label>
+        <label class="au-label">Type</label>
         <select class="au-select" name="step.${si}.type">${typeSel}</select>
       </div>
       <div class="au-field">
-        <label class="au-label">Titel des Schritts</label>
-        <input class="au-input" type="text" name="step.${si}.title" value="${esc(step.title||'')}" placeholder="Sichtbarer Name in der Fortschrittsleiste">
+        <label class="au-label">Step title</label>
+        <input class="au-input" type="text" name="step.${si}.title" value="${esc(step.title||'')}" placeholder="Visible name in the progress bar">
       </div>
       ${courseFields}
       <div class="au-field">
-        <label class="au-label">Geschätzte Zeit (Min.)</label>
+        <label class="au-label">Estimated time (min.)</label>
         <input class="au-input" type="number" name="step.${si}.estimatedMin" value="${step.estimatedMin||''}" min="1" max="180" placeholder="20">
       </div>
       ${path.theme==='heros-journey' ? `
       <div class="au-field">
-        <label class="au-label">Kapiteltitel (Heldenreise)</label>
-        <input class="au-input" type="text" name="step.${si}.stageLabel" value="${esc(step.stageLabel||'')}" placeholder="z.B. Die erste Prüfung">
-        <p class="au-hint">Überschreibt den automatischen Stufennamen. Leer lassen für automatische Zuweisung.</p>
+        <label class="au-label">Chapter title (Hero's Journey)</label>
+        <input class="au-input" type="text" name="step.${si}.stageLabel" value="${esc(step.stageLabel||'')}" placeholder="e.g. The First Trial">
+        <p class="au-hint">Overrides the automatic stage name. Leave empty for automatic assignment.</p>
       </div>` : ''}
     </div>`;
   }).join('');
@@ -272,9 +272,9 @@ function editorPath(path) {
   const noSteps = !(path.steps||[]).length;
 
   return `<div class="au-section-header">
-    <span class="au-section-title">Lernpfad</span>
+    <span class="au-section-title">Learning Path</span>
     <button class="au-btn au-btn-publish" id="btnPublishPath" style="margin-left:auto">
-      <span id="publishPathLabel">Pfad veröffentlichen</span>
+      <span id="publishPathLabel">Publish Path</span>
       <span id="publishPathSpinner" style="display:none">⟳</span>
     </button>
   </div>
@@ -282,23 +282,23 @@ function editorPath(path) {
   <div class="au-card">
     <div class="au-field">
       <label class="au-label">Titel <span style="color:var(--magenta)">*</span></label>
-      <input class="au-input" type="text" name="path.title" value="${esc(path.title||'')}" placeholder="KI-Einstieg: Konzepte verstehen" id="pathTitleInput">
+      <input class="au-input" type="text" name="path.title" value="${esc(path.title||'')}" placeholder="AI Introduction: Understanding Concepts" id="pathTitleInput">
     </div>
     <div class="au-field">
-      <label class="au-label">URL-Slug (Pfad-ID)</label>
+      <label class="au-label">URL Slug (Path ID)</label>
       <div style="display:flex;gap:8px;align-items:center">
         <input class="au-input" type="text" name="path.id" value="${esc(path.id||'')}" placeholder="ki-einstieg" id="pathSlugInput" style="font-family:monospace;font-size:0.82rem">
-        <button class="au-btn au-btn-ghost" id="btnAutoSlug" title="Aus Titel generieren" style="white-space:nowrap;font-size:0.75rem;padding:6px 10px">↺ Auto</button>
+        <button class="au-btn au-btn-ghost" id="btnAutoSlug" title="Generate from title" style="white-space:nowrap;font-size:0.75rem;padding:6px 10px">↺ Auto</button>
       </div>
-      <p class="au-hint">Sichtbar in der URL: /path.html?path=<strong id="slugPreview">${esc(path.id||'…')}</strong></p>
+      <p class="au-hint">Visible in the URL: /path.html?path=<strong id="slugPreview">${esc(path.id||'…')}</strong></p>
     </div>
     <div class="au-field">
-      <label class="au-label">Untertitel</label>
-      <input class="au-input" type="text" name="path.subtitle" value="${esc(path.subtitle||'')}" placeholder="Von der Theorie zur Praxis">
+      <label class="au-label">Subtitle</label>
+      <input class="au-input" type="text" name="path.subtitle" value="${esc(path.subtitle||'')}" placeholder="From theory to practice">
     </div>
     <div class="au-field">
-      <label class="au-label">Beschreibung (Katalogkarte)</label>
-      <textarea class="au-textarea" name="path.description" rows="3" placeholder="Was lernen deine Teilnehmenden? Was können sie danach?">${esc(path.description||'')}</textarea>
+      <label class="au-label">Description (Lounge card)</label>
+      <textarea class="au-textarea" name="path.description" rows="3" placeholder="What will learners gain? What can they do afterwards?">${esc(path.description||'')}</textarea>
     </div>
     <div class="au-settings-row">
       <div class="au-field">
@@ -306,46 +306,46 @@ function editorPath(path) {
         <select class="au-select" name="path.level">${levelSel}</select>
       </div>
       <div class="au-field">
-        <label class="au-label">Gesamtzeit (Min.)</label>
+        <label class="au-label">Total time (min.)</label>
         <input class="au-input" type="number" name="path.estimatedMin" value="${path.estimatedMin||''}" placeholder="45">
       </div>
     </div>
     <div class="au-field">
-      <label class="au-label">Themen (kommagetrennt)</label>
+      <label class="au-label">Topics (comma-separated)</label>
       <input class="au-input" type="text" name="path.topics" value="${esc((path.topics||[]).join(','))}" placeholder="ai, learning">
     </div>
     <div class="au-field">
-      <label class="au-label">Design-Thema</label>
+      <label class="au-label">Design theme</label>
       <select class="au-select" name="path.theme">
         <option value="" ${!path.theme?'selected':''}>Standard</option>
-        <option value="heros-journey" ${path.theme==='heros-journey'?'selected':''}>Heldenreise (dunkel, atmosphärisch)</option>
+        <option value="heros-journey" ${path.theme==='heros-journey'?'selected':''}>Hero's Journey (dark, atmospheric)</option>
       </select>
-      <p class="au-hint">Die Heldenreise verwandelt den Lernpfad in eine epische Reise mit Kapitelnamen, dunklem Design und narrativer Sprache.</p>
+      <p class="au-hint">The Hero's Journey turns the learning path into an epic journey with chapter names, dark design, and narrative language.</p>
     </div>
   </div>
 
   <div class="au-card" style="margin-top:12px">
-    <div class="au-section-title" style="margin-bottom:14px">Prozesssicherung</div>
+    <div class="au-section-title" style="margin-bottom:14px">Accountability</div>
     <div class="au-field">
-      <label class="au-label">Lernziel-Vorlage</label>
-      <textarea class="au-textarea" name="path.goal" rows="2" placeholder="Verstehe, wie moderne KI-Systeme grundsätzlich funktionieren …">${esc(path.goal||'')}</textarea>
-      <p class="au-hint">Lernende sehen diesen Text vorausgefüllt und können ihn personalisieren.</p>
+      <label class="au-label">Learning goal template</label>
+      <textarea class="au-textarea" name="path.goal" rows="2" placeholder="Understand how modern AI systems fundamentally work …">${esc(path.goal||'')}</textarea>
+      <p class="au-hint">Learners see this text pre-filled and can personalise it.</p>
     </div>
     <div class="au-field">
-      <label class="au-label">Verhaltensanker-Vorlage (Wenn-dann-um-Formel)</label>
-      <textarea class="au-textarea" name="path.behavioralAnchorTemplate" rows="2" placeholder="Wenn ich auf ein neues KI-Tool stoße, wende ich die Konzepte aus diesem Lernpfad an, um es kritisch einzuordnen.">${esc(path.behavioralAnchorTemplate||'')}</textarea>
-      <p class="au-hint">Implementation Intention: hilft Lernenden, das Gelernte an konkrete Situationen zu knüpfen.</p>
+      <label class="au-label">Behavioral anchor template (if-then-in-order-to)</label>
+      <textarea class="au-textarea" name="path.behavioralAnchorTemplate" rows="2" placeholder="When I encounter a new AI tool, I apply the concepts from this learning path to assess it critically.">${esc(path.behavioralAnchorTemplate||'')}</textarea>
+      <p class="au-hint">Implementation intention: helps learners tie what they have learned to concrete situations.</p>
     </div>
   </div>
 
   <div class="au-section-header" style="margin-top:20px">
-    <span class="au-section-title">Schritte ${(path.steps||[]).length ? '(' + path.steps.length + ')' : ''}</span>
+    <span class="au-section-title">Steps ${(path.steps||[]).length ? '(' + path.steps.length + ')' : ''}</span>
   </div>
-  ${noSteps ? `<p class="au-hint" style="margin-bottom:12px">Noch keine Schritte. Füge Kurse und Reflexionen hinzu, um den Lernpfad zu strukturieren.</p>` : ''}
+  ${noSteps ? `<p class="au-hint" style="margin-bottom:12px">No steps yet. Add courses and reflections to structure the learning path.</p>` : ''}
   <div id="pathStepsContainer">${stepHtml}</div>
   <div style="display:flex;gap:8px;margin:8px 0 32px">
-    <button class="au-btn au-btn-ghost" id="btnAddCourseStep">+ Kurs-Schritt</button>
-    <button class="au-btn au-btn-ghost" id="btnAddCheckinStep">+ Reflexion</button>
+    <button class="au-btn au-btn-ghost" id="btnAddCourseStep">+ Course Step</button>
+    <button class="au-btn au-btn-ghost" id="btnAddCheckinStep">+ Reflection</button>
   </div>`;
 }
 
@@ -536,7 +536,7 @@ function edQuiz(b) {
 
 function edCompletion(b) {
   return f('Überschrift','completion.heading',b.heading)
-       + f('Untertitel','completion.subtitle',b.subtitle||'')
+       + f('Subtitle','completion.subtitle',b.subtitle||'')
        + ta('Nachricht','completion.message',b.message,4)
        + `<div class="au-field">
             <label class="au-label">Feedback-Smiley anzeigen</label>
@@ -2132,19 +2132,19 @@ async function updateCoursesIndex(cfg) {
 async function publishPath() {
   const cfg = getGhConfig();
   if (!cfg.token || !cfg.owner || !cfg.repo) {
-    toast('Bitte zuerst GitHub-Einstellungen konfigurieren (⚙).'); return;
+    toast('Please configure GitHub settings (⚙) first.'); return;
   }
   const p = pathById(selPath);
   if (!p) return;
 
   // Validation
   const errs = [];
-  if (!p.title || p.title === 'Neuer Lernpfad') errs.push('Kein Titel gesetzt');
-  if (!p.id || p.id.startsWith('pfad-')) errs.push('Bitte einen lesbaren URL-Slug vergeben (↺ Auto-Knopf)');
-  if (!(p.steps||[]).length) errs.push('Mindestens 1 Schritt erforderlich');
+  if (!p.title || p.title === 'New Learning Path') errs.push('No title set');
+  if (!p.id || p.id.startsWith('pfad-')) errs.push('Please set a readable URL slug (↺ Auto button)');
+  if (!(p.steps||[]).length) errs.push('At least 1 step required');
   const emptyCourse = (p.steps||[]).find(s => s.type!=='checkin' && !s.comingSoon && !s.courseKey);
-  if (emptyCourse) errs.push(`Schritt "${emptyCourse.title}" hat keinen Kurs-Key`);
-  if (errs.length) { toast('Vor dem Veröffentlichen: ' + errs.join(' · ')); return; }
+  if (emptyCourse) errs.push(`Schritt "${emptyCourse.title}" has no course key`);
+  if (errs.length) { toast('Before publishing: ' + errs.join(' · ')); return; }
 
   const label   = document.getElementById('publishPathLabel');
   const spinner = document.getElementById('publishPathSpinner');
@@ -2165,7 +2165,7 @@ async function publishPath() {
       estimatedMin: p2.estimatedMin||0
     }));
     await ghPut(cfg, 'website/paths/index.json', index, 'Update paths index');
-    toast(`Lernpfad "${p.title}" veröffentlicht!`);
+    toast(`Learning path "${p.title}" published!`);
   } catch(ex) {
     toast('Fehler: ' + ex.message);
   } finally {
@@ -2179,7 +2179,7 @@ async function publishPath() {
 async function publishCourse() {
   const cfg = getGhConfig();
   if (!cfg.token || !cfg.owner || !cfg.repo) {
-    toast('Bitte zuerst GitHub-Einstellungen konfigurieren (⚙).'); return;
+    toast('Please configure GitHub settings (⚙) first.'); return;
   }
   if (!state.lessons.length) { toast('Keine Lektionen vorhanden.'); return; }
 
@@ -2243,7 +2243,7 @@ async function processImageFile(file) {
 async function uploadImage(file) {
   const cfg = getGhConfig();
   if (!cfg.token || !cfg.owner || !cfg.repo) {
-    toast('Bitte zuerst GitHub-Einstellungen konfigurieren.'); return;
+    toast('Please configure GitHub settings first.'); return;
   }
 
   let uploadFile = file;
@@ -2600,7 +2600,7 @@ document.addEventListener('click', e => {
   // Outline: add path
   if (t.id === 'btnAddPath') {
     const id = 'pfad-' + Date.now().toString(36);
-    pathsList.push({ id, title:'Neuer Lernpfad', subtitle:'', description:'', level:'Einsteiger',
+    pathsList.push({ id, title:'New Learning Path', subtitle:'', description:'', level:'Einsteiger',
       topics:[], estimatedMin:45, goal:'', behavioralAnchorTemplate:'', steps:[] });
     savePathsList();
     sel = { type:null, lessonIdx:null, blockIdx:null };
@@ -2649,7 +2649,7 @@ document.addEventListener('click', e => {
     if (!p) return;
     const n = (p.steps||[]).length + 1;
     if (!p.steps) p.steps = [];
-    p.steps.push({ id:'step-'+n, type:'course', title:'Kurs '+n, courseKey:'', courseUrl:'', estimatedMin:20, reflection:'', adaptiveHint:'' });
+    p.steps.push({ id:'step-'+n, type:'course', title:'Course '+n, courseKey:'', courseUrl:'', estimatedMin:20, reflection:'', adaptiveHint:'' });
     savePathsList(); renderEditor(); return;
   }
 
@@ -2659,7 +2659,7 @@ document.addEventListener('click', e => {
     if (!p) return;
     const n = (p.steps||[]).length + 1;
     if (!p.steps) p.steps = [];
-    p.steps.push({ id:'step-'+n, type:'checkin', title:'Reflexion '+n, prompt:'', hint:'', estimatedMin:5 });
+    p.steps.push({ id:'step-'+n, type:'checkin', title:'Reflection '+n, prompt:'', hint:'', estimatedMin:5 });
     savePathsList(); renderEditor(); return;
   }
 
