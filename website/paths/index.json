@@ -1,10 +1,10 @@
 [
   {
     "id": "ki-einstieg",
-    "title": "KI-Einstieg",
-    "subtitle": "Konzepte verstehen, kritisch einordnen",
-    "description": "Die Grundbausteine moderner KI, kompakt und ohne Vorwissen. Du verstehst am Ende, wie Sprachmodelle intern arbeiten, und kannst neue KI-Systeme kritisch einordnen.",
-    "level": "Einsteiger",
+    "title": "AI Fundamentals",
+    "subtitle": "Understand concepts, think critically",
+    "description": "The core building blocks of modern AI, compact and without prior knowledge. By the end, you understand how language models work internally and can evaluate new AI systems with a critical eye.",
+    "level": "Beginner",
     "topics": ["ai"],
     "stepsCount": 3,
     "estimatedMin": 45

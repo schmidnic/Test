@@ -1,36 +1,36 @@
 {
   "id": "ki-einstieg",
-  "title": "KI-Einstieg",
-  "subtitle": "Konzepte verstehen, kritisch einordnen",
-  "description": "Die Grundbausteine moderner KI, kompakt und ohne Vorwissen. Du verstehst am Ende, wie Sprachmodelle intern arbeiten, und kannst neue KI-Systeme kritisch einordnen.",
-  "level": "Einsteiger",
+  "title": "AI Fundamentals",
+  "subtitle": "Understand concepts, think critically",
+  "description": "The core building blocks of modern AI, compact and without prior knowledge. By the end, you understand how language models work internally and can evaluate new AI systems with a critical eye.",
+  "level": "Beginner",
   "topics": ["ai"],
   "estimatedMin": 45,
-  "goal": "Verstehe, wie moderne Sprachmodelle grundsätzlich funktionieren, und ordne KI-Systeme im Alltag kritisch ein.",
-  "behavioralAnchorTemplate": "Wenn ich auf eine neue KI-Anwendung stoße, wende ich die Konzepte aus diesem Lernpfad an, um sie kritisch zu beurteilen.",
+  "goal": "Understand how modern language models work at a fundamental level, and evaluate AI systems in everyday life with a critical eye.",
+  "behavioralAnchorTemplate": "When I encounter a new AI application, I apply the concepts from this learning path to evaluate it critically.",
   "steps": [
     {
       "id": "step-1",
       "type": "course",
-      "title": "Transformer und Attention",
+      "title": "Transformers and Attention",
       "courseKey": "transformer-attention",
       "courseUrl": "courses/transformer-attention.html",
       "estimatedMin": 20,
-      "reflection": "Was war die überraschendste Erkenntnis für dich in diesem Kurs?",
-      "adaptiveHint": "Schau noch einmal Lektion 3 zur Query/Key/Value-Logik an. Das ist der Kern, auf dem alles aufbaut, und es lohnt sich, dabei zu bleiben."
+      "reflection": "What was the most surprising insight for you in this course?",
+      "adaptiveHint": "Take another look at Lesson 3 on the Query/Key/Value logic. That is the core everything else builds on, and it is worth staying with."
     },
     {
       "id": "step-2",
       "type": "checkin",
-      "title": "Zwischenreflexion",
+      "title": "Mid-path reflection",
       "estimatedMin": 5,
-      "prompt": "Erkläre in eigenen Worten: Warum müssen Tokens \"miteinander sprechen\", bevor ein Sprachmodell eine Antwort generiert?",
-      "hint": "Denke an die Buchbibliothek-Analogie und das Konzept des Kontexts aus Lektion 2."
+      "prompt": "Explain in your own words: why do tokens need to \"talk to each other\" before a language model generates a response?",
+      "hint": "Think about the book library analogy and the concept of context from Lesson 2."
     },
     {
       "id": "step-3",
       "type": "course",
-      "title": "KI im Alltag einordnen",
+      "title": "Making sense of AI in everyday life",
       "courseKey": "coming-soon",
       "courseUrl": null,
       "estimatedMin": 20,
