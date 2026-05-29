@@ -51,6 +51,7 @@ let previewCss = '';
 let previewMainJs = '';
 let previewDirty = true;
 let previewTimer = null;
+let publishedCourses = []; // loaded from courses/index.json for path picker
 
 // ── Path designer state ─────────────────────────────────────────
 let pathsList = [];
@@ -171,11 +172,25 @@ function renderEditor() {
 }
 
 // ── Path editor ──────────────────────────────────────────────────
+function slugify(s) {
+  return String(s||'').toLowerCase()
+    .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,50) || 'pfad';
+}
+
 function editorPath(path) {
-  const levels = ['Einsteiger','Fortgeschritten','Experte'];
-  const levelSel = l => levels.map(lv =>
+  const levels  = ['Einsteiger','Fortgeschritten','Experte'];
+  const levelSel = levels.map(lv =>
     `<option value="${lv}" ${path.level===lv?'selected':''}>${lv}</option>`
   ).join('');
+
+  // Course picker options (from publishedCourses loaded at init)
+  const coursePickerOpts = publishedCourses.length
+    ? `<option value="">— Kurs auswählen —</option>` +
+      publishedCourses.map(c =>
+        `<option value="${esc(c.key)}" ${path._tmpPickKey===c.key?'selected':''}>${esc(c.title)}</option>`
+      ).join('')
+    : null;
 
   const stepHtml = (path.steps||[]).map((step, si) => {
     const typeSel = ['course','checkin'].map(t =>
@@ -183,16 +198,47 @@ function editorPath(path) {
     ).join('');
 
     const courseFields = step.type !== 'checkin' ? `
-      ${f('Kurs-Key (storageKey des Kurses)','step.'+si+'.courseKey',step.courseKey||'')}
-      ${f('Kurs-URL (z.B. courses/mein-kurs.html)','step.'+si+'.courseUrl',step.courseUrl||'')}
-      ${f('Reflexionsfrage nach dem Kurs','step.'+si+'.reflection',step.reflection||'')}
-      ${f('Adaptiver Hinweis (bei niedriger Selbsteinschätzung)','step.'+si+'.adaptiveHint',step.adaptiveHint||'')}
+      ${coursePickerOpts ? `
+        <div class="au-field">
+          <label class="au-label">Kurs auswählen</label>
+          <select class="au-select au-course-picker" data-step="${si}">${
+            coursePickerOpts.replace(
+              `value="${esc(step.courseKey)}"`,
+              `value="${esc(step.courseKey)}" selected`
+            )
+          }</select>
+        </div>
+      ` : ''}
+      <div class="au-field">
+        <label class="au-label">Kurs-Key</label>
+        <input class="au-input" type="text" name="step.${si}.courseKey" value="${esc(step.courseKey||'')}" placeholder="z.B. transformer-attention">
+        <p class="au-hint">Der storageKey aus den Kurs-Einstellungen.</p>
+      </div>
+      <div class="au-field">
+        <label class="au-label">Kurs-URL</label>
+        <input class="au-input" type="text" name="step.${si}.courseUrl" value="${esc(step.courseUrl||'')}" placeholder="courses/mein-kurs.html">
+      </div>
+      <div class="au-field">
+        <label class="au-label">Reflexionsfrage</label>
+        <input class="au-input" type="text" name="step.${si}.reflection" value="${esc(step.reflection||'')}" placeholder="Was war die überraschendste Erkenntnis für dich?">
+        <p class="au-hint">Wird nach dem Kurs angezeigt, bevor der nächste Schritt freigeschaltet wird.</p>
+      </div>
+      <div class="au-field">
+        <label class="au-label">Adaptiver Hinweis</label>
+        <input class="au-input" type="text" name="step.${si}.adaptiveHint" value="${esc(step.adaptiveHint||'')}" placeholder="Schau noch einmal Lektion … an, bevor du weitermachst.">
+        <p class="au-hint">Erscheint automatisch, wenn Lernende ihre Sicherheit mit 1 oder 2 Sternen bewerten.</p>
+      </div>
     ` : `
       <div class="au-field">
         <label class="au-label">Reflexionsprompt</label>
-        <textarea class="au-textarea" name="step.${si}.prompt" rows="2">${esc(step.prompt||'')}</textarea>
+        <textarea class="au-textarea" name="step.${si}.prompt" rows="2" placeholder="Erkläre in eigenen Worten: …">${esc(step.prompt||'')}</textarea>
+        <p class="au-hint">Die konkrete Frage, über die Lernende nachdenken sollen.</p>
       </div>
-      ${f('Hinweis (aufklappbar für Lernende)','step.'+si+'.hint',step.hint||'')}
+      <div class="au-field">
+        <label class="au-label">Hinweis (aufklappbar)</label>
+        <input class="au-input" type="text" name="step.${si}.hint" value="${esc(step.hint||'')}" placeholder="Denke an die Analogie aus Lektion 2 …">
+        <p class="au-hint">Optionaler Denkanstoß, den Lernende selbst aufklappen können.</p>
+      </div>
     `;
 
     return `<div class="au-path-step-block">
@@ -205,11 +251,19 @@ function editorPath(path) {
         <label class="au-label">Typ</label>
         <select class="au-select" name="step.${si}.type">${typeSel}</select>
       </div>
-      ${f('Titel','step.'+si+'.title',step.title||'')}
+      <div class="au-field">
+        <label class="au-label">Titel des Schritts</label>
+        <input class="au-input" type="text" name="step.${si}.title" value="${esc(step.title||'')}" placeholder="Sichtbarer Name in der Fortschrittsleiste">
+      </div>
       ${courseFields}
-      ${f('Geschätzte Zeit (Min.)','step.'+si+'.estimatedMin',step.estimatedMin||'','number','min="1" max="180"')}
+      <div class="au-field">
+        <label class="au-label">Geschätzte Zeit (Min.)</label>
+        <input class="au-input" type="number" name="step.${si}.estimatedMin" value="${step.estimatedMin||''}" min="1" max="180" placeholder="20">
+      </div>
     </div>`;
   }).join('');
+
+  const noSteps = !(path.steps||[]).length;
 
   return `<div class="au-section-header">
     <span class="au-section-title">Lernpfad</span>
@@ -218,33 +272,62 @@ function editorPath(path) {
       <span id="publishPathSpinner" style="display:none">⟳</span>
     </button>
   </div>
+
   <div class="au-card">
-    ${f('Titel','path.title',path.title||'')}
-    ${f('Untertitel','path.subtitle',path.subtitle||'')}
     <div class="au-field">
-      <label class="au-label">Beschreibung</label>
-      <textarea class="au-textarea" name="path.description" rows="3">${esc(path.description||'')}</textarea>
+      <label class="au-label">Titel <span style="color:var(--magenta)">*</span></label>
+      <input class="au-input" type="text" name="path.title" value="${esc(path.title||'')}" placeholder="KI-Einstieg: Konzepte verstehen" id="pathTitleInput">
     </div>
     <div class="au-field">
-      <label class="au-label">Level</label>
-      <select class="au-select" name="path.level">${levelSel()}</select>
+      <label class="au-label">URL-Slug (Pfad-ID)</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input class="au-input" type="text" name="path.id" value="${esc(path.id||'')}" placeholder="ki-einstieg" id="pathSlugInput" style="font-family:monospace;font-size:0.82rem">
+        <button class="au-btn au-btn-ghost" id="btnAutoSlug" title="Aus Titel generieren" style="white-space:nowrap;font-size:0.75rem;padding:6px 10px">↺ Auto</button>
+      </div>
+      <p class="au-hint">Sichtbar in der URL: /path.html?path=<strong id="slugPreview">${esc(path.id||'…')}</strong></p>
     </div>
-    ${f('Themen (kommagetrennt: ai, learning, …)','path.topics',(path.topics||[]).join(','))}
-    ${f('Geschätzte Gesamtzeit (Min.)','path.estimatedMin',path.estimatedMin||'','number')}
     <div class="au-field">
-      <label class="au-label">Lernziel (Vorlage für Lernende)</label>
-      <textarea class="au-textarea" name="path.goal" rows="2">${esc(path.goal||'')}</textarea>
+      <label class="au-label">Untertitel</label>
+      <input class="au-input" type="text" name="path.subtitle" value="${esc(path.subtitle||'')}" placeholder="Von der Theorie zur Praxis">
+    </div>
+    <div class="au-field">
+      <label class="au-label">Beschreibung (Katalogkarte)</label>
+      <textarea class="au-textarea" name="path.description" rows="3" placeholder="Was lernen deine Teilnehmenden? Was können sie danach?">${esc(path.description||'')}</textarea>
+    </div>
+    <div class="au-settings-row">
+      <div class="au-field">
+        <label class="au-label">Level</label>
+        <select class="au-select" name="path.level">${levelSel}</select>
+      </div>
+      <div class="au-field">
+        <label class="au-label">Gesamtzeit (Min.)</label>
+        <input class="au-input" type="number" name="path.estimatedMin" value="${path.estimatedMin||''}" placeholder="45">
+      </div>
+    </div>
+    <div class="au-field">
+      <label class="au-label">Themen (kommagetrennt)</label>
+      <input class="au-input" type="text" name="path.topics" value="${esc((path.topics||[]).join(','))}" placeholder="ai, learning">
+    </div>
+  </div>
+
+  <div class="au-card" style="margin-top:12px">
+    <div class="au-section-title" style="margin-bottom:14px">Prozesssicherung</div>
+    <div class="au-field">
+      <label class="au-label">Lernziel-Vorlage</label>
+      <textarea class="au-textarea" name="path.goal" rows="2" placeholder="Verstehe, wie moderne KI-Systeme grundsätzlich funktionieren …">${esc(path.goal||'')}</textarea>
+      <p class="au-hint">Lernende sehen diesen Text vorausgefüllt und können ihn personalisieren.</p>
     </div>
     <div class="au-field">
       <label class="au-label">Verhaltensanker-Vorlage (Wenn-dann-um-Formel)</label>
-      <textarea class="au-textarea" name="path.behavioralAnchorTemplate" rows="2">${esc(path.behavioralAnchorTemplate||'')}</textarea>
-      <p class="au-hint">Beispiel: "Wenn ich auf ein neues KI-Tool stoße, wende ich die Konzepte an, um es kritisch einzuordnen."</p>
+      <textarea class="au-textarea" name="path.behavioralAnchorTemplate" rows="2" placeholder="Wenn ich auf ein neues KI-Tool stoße, wende ich die Konzepte aus diesem Lernpfad an, um es kritisch einzuordnen.">${esc(path.behavioralAnchorTemplate||'')}</textarea>
+      <p class="au-hint">Implementation Intention: hilft Lernenden, das Gelernte an konkrete Situationen zu knüpfen.</p>
     </div>
   </div>
 
   <div class="au-section-header" style="margin-top:20px">
-    <span class="au-section-title">Schritte</span>
+    <span class="au-section-title">Schritte ${(path.steps||[]).length ? '(' + path.steps.length + ')' : ''}</span>
   </div>
+  ${noSteps ? `<p class="au-hint" style="margin-bottom:12px">Noch keine Schritte. Füge Kurse und Reflexionen hinzu, um den Lernpfad zu strukturieren.</p>` : ''}
   <div id="pathStepsContainer">${stepHtml}</div>
   <div style="display:flex;gap:8px;margin:8px 0 32px">
     <button class="au-btn au-btn-ghost" id="btnAddCourseStep">+ Kurs-Schritt</button>
@@ -1791,8 +1874,16 @@ async function publishPath() {
     toast('Bitte zuerst GitHub-Einstellungen konfigurieren (⚙).'); return;
   }
   const p = pathById(selPath);
-  if (!p || !p.title) { toast('Lernpfad hat keinen Titel.'); return; }
-  if (!p.id) { toast('Lernpfad hat keine ID.'); return; }
+  if (!p) return;
+
+  // Validation
+  const errs = [];
+  if (!p.title || p.title === 'Neuer Lernpfad') errs.push('Kein Titel gesetzt');
+  if (!p.id || p.id.startsWith('pfad-')) errs.push('Bitte einen lesbaren URL-Slug vergeben (↺ Auto-Knopf)');
+  if (!(p.steps||[]).length) errs.push('Mindestens 1 Schritt erforderlich');
+  const emptyCourse = (p.steps||[]).find(s => s.type!=='checkin' && !s.comingSoon && !s.courseKey);
+  if (emptyCourse) errs.push(`Schritt "${emptyCourse.title}" hat keinen Kurs-Key`);
+  if (errs.length) { toast('Vor dem Veröffentlichen: ' + errs.join(' · ')); return; }
 
   const label   = document.getElementById('publishPathLabel');
   const spinner = document.getElementById('publishPathSpinner');
@@ -2239,6 +2330,23 @@ document.addEventListener('click', e => {
     savePathsList(); renderAll(); return;
   }
 
+  // Path editor: auto-slug button
+  if (t.id === 'btnAutoSlug') {
+    const p = pathById(selPath);
+    if (!p) return;
+    const titleEl = document.getElementById('pathTitleInput');
+    const slugEl  = document.getElementById('pathSlugInput');
+    const newSlug = slugify(titleEl ? titleEl.value : p.title);
+    p.id = newSlug;
+    if (slugEl) { slugEl.value = newSlug; }
+    const prev = document.getElementById('slugPreview');
+    if (prev) prev.textContent = newSlug;
+    // Update selPath and pathsList entry
+    pathsList = pathsList.map(lp => lp.id === selPath ? p : lp);
+    selPath = newSlug;
+    savePathsList(); renderOutline(); return;
+  }
+
   // Path editor: add course step
   if (t.id === 'btnAddCourseStep') {
     const p = pathById(selPath);
@@ -2446,10 +2554,30 @@ document.addEventListener('input', e => {
     const p = pathById(selPath);
     if (p) {
       const field = t.name.slice(5);
+
+      if (field === 'id') {
+        // Rename the path: update selPath and entry in list
+        const newId = slugify(t.value) || selPath;
+        pathsList = pathsList.map(lp => lp.id === selPath ? {...lp, id: newId} : lp);
+        selPath = newId;
+        const prev = document.getElementById('slugPreview');
+        if (prev) prev.textContent = newId || '…';
+        savePathsList(); renderOutline();
+        return;
+      }
+
       p[field] = field === 'topics' ? t.value.split(',').map(s=>s.trim()).filter(Boolean)
                : t.type === 'number' ? +t.value : t.value;
       savePathsList();
-      if (field === 'title') renderOutline();
+      if (field === 'title') {
+        renderOutline();
+        // Live-update slug preview with suggestion
+        const slugPrev = document.getElementById('slugPreview');
+        const slugInp  = document.getElementById('pathSlugInput');
+        if (slugPrev && slugInp && !slugInp.dataset.manuallyEdited) {
+          slugPrev.textContent = slugify(t.value) || '…';
+        }
+      }
     }
     return;
   }
@@ -2494,6 +2622,23 @@ document.addEventListener('input', e => {
 document.addEventListener('change', e => {
   const t = e.target;
   if (!t.name) return;
+
+  // Path course picker
+  if (t.classList && t.classList.contains('au-course-picker') && selPath) {
+    const p   = pathById(selPath);
+    const si  = +t.dataset.step;
+    if (!p || !p.steps || !p.steps[si]) return;
+    const found = publishedCourses.find(c => c.key === t.value);
+    if (found) {
+      p.steps[si].courseKey = found.key;
+      p.steps[si].courseUrl = found.url;
+      if (!p.steps[si].title || p.steps[si].title === 'Kurs ' + (si+1)) {
+        p.steps[si].title = found.title;
+      }
+      savePathsList(); renderEditor();
+    }
+    return;
+  }
 
   // Path step type change: re-render editor
   if (t.name.startsWith('step.') && t.name.endsWith('.type') && selPath) {
@@ -2554,6 +2699,11 @@ async function init() {
 
   loadState(editKey);
   loadPathsList();
+
+  // Load published courses for course picker in path designer
+  fetch('../courses/index.json').then(r => r.ok ? r.json() : []).then(list => {
+    publishedCourses = list || [];
+  }).catch(() => {});
 
   // If opened via Edit button from a course page, show back link
   if (editKey) {
