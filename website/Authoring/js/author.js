@@ -180,8 +180,10 @@ function slugify(s) {
 
 function editorPath(path) {
   const levels  = ['Beginner','Intermediate','Expert'];
+  const levelMap = { 'Einsteiger':'Beginner', 'Fortgeschritten':'Intermediate', 'Experte':'Expert', 'Fachkräfte und Experten':'Expert' };
+  const normalizedLevel = levelMap[path.level] || path.level;
   const levelSel = levels.map(lv =>
-    `<option value="${lv}" ${path.level===lv?'selected':''}>${lv}</option>`
+    `<option value="${lv}" ${normalizedLevel===lv?'selected':''}>${lv}</option>`
   ).join('');
 
   // Course picker options (from publishedCourses loaded at init)
@@ -2096,7 +2098,7 @@ async function updateCoursesIndex(cfg) {
     title: m.title || 'Course',
     description: m.description || '',
     url: 'courses/' + (m.storageKey||'course') + '.html',
-    level: m.level || 'Einsteiger',
+    level: m.level || 'Beginner',
     topics: m.topics || [],
     estimatedMin: m.estimatedMin || 20
   };
