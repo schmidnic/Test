@@ -123,7 +123,7 @@ function renderOutline() {
         html += `<div class="au-outline-block ${blockSel?'selected':''}" data-sel="block" data-li="${li}" data-bi="${bi}">
           <span class="au-outline-block-icon">${bt?bt.icon:'?'}</span>
           <span class="au-outline-block-label">${bt?bt.label:block.type}</span>
-          <button class="au-outline-del" data-del-block="${li}-${bi}" title="Block löschen">×</button>
+          <button class="au-outline-del" data-del-block="${li}-${bi}" title="Delete block">×</button>
         </div>`;
       });
       html += `<div class="au-outline-addblock">
@@ -167,7 +167,7 @@ function renderEditor() {
     c.innerHTML = editorBlock(block, sel.lessonIdx, sel.blockIdx);
   } else {
     c.innerHTML = `<div class="au-empty-state"><div class="au-empty-icon">✦</div>
-      <p>Wähle einen Eintrag im Outline<br>oder lege eine neue Lektion an.</p></div>`;
+      <p>Select an entry in the Outline<br>or create a new lesson.</p></div>`;
   }
 }
 
@@ -838,7 +838,7 @@ ${inlineScrollCourseJs(state, total, titles)}
     if (!localStorage.getItem('au-gh-token')) return;
     var btn = document.createElement('a');
     btn.href = '../Authoring/?edit=${escJs(m.storageKey)}';
-    btn.title = 'Kurs bearbeiten';
+    btn.title = 'Edit course';
     btn.style.cssText = 'position:fixed;bottom:80px;right:20px;z-index:9999;width:42px;height:42px;border-radius:50%;background:#160B52;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;box-shadow:0 2px 12px rgba(22,11,82,0.35);opacity:0.8;transition:opacity 0.2s;';
     btn.onmouseenter = function() { this.style.opacity = '1'; };
     btn.onmouseleave = function() { this.style.opacity = '0.8'; };
@@ -954,17 +954,17 @@ function inlineScrollCourseJs(state, total, titles) {
     function checkQuiz(quizId, correct, okMsg, wrongMsg) {
       var quiz=document.getElementById(quizId); if(!quiz)return;
       var sel=quiz.querySelector('input[type="radio"]:checked'), fb=document.getElementById('feedback-'+quizId);
-      if(!sel){fb.textContent='Bitte eine Antwort wählen.';fb.className='quiz-feedback show neutral';return;}
-      fb.textContent=sel.value===correct?(okMsg||'Richtig!'):(wrongMsg||'Nicht ganz.');
+      if(!sel){fb.textContent='Please select an answer.';fb.className='quiz-feedback show neutral';return;}
+      fb.textContent=sel.value===correct?(okMsg||'Correct!'):(wrongMsg||'Not quite.');
       fb.className='quiz-feedback show '+(sel.value===correct?'correct':'wrong');
     }
     function checkMulti(quizId, correct, okMsg, wrongMsg) {
       var quiz=document.getElementById(quizId); if(!quiz)return;
       var sel=Array.from(quiz.querySelectorAll('input[type="checkbox"]:checked')).map(function(i){return i.value;}).sort();
       var fb=document.getElementById('feedback-'+quizId);
-      if(sel.length===0){fb.textContent='Bitte mindestens eine Antwort wählen.';fb.className='quiz-feedback show neutral';return;}
+      if(sel.length===0){fb.textContent='Please select at least one answer.';fb.className='quiz-feedback show neutral';return;}
       var ok=JSON.stringify(sel)===JSON.stringify(Array.from(correct).sort());
-      fb.textContent=ok?(okMsg||'Richtig!'):(wrongMsg||'Nicht ganz.'); fb.className='quiz-feedback show '+(ok?'correct':'wrong');
+      fb.textContent=ok?(okMsg||'Correct!'):(wrongMsg||'Not quite.'); fb.className='quiz-feedback show '+(ok?'correct':'wrong');
     }
 
     document.querySelectorAll('.accordion-trigger').forEach(function(btn) {
@@ -1104,8 +1104,8 @@ ${inlineCourseJs(state, total, titles)}
     if (!localStorage.getItem('au-gh-token')) return;
     var btn = document.createElement('a');
     btn.href = '../Authoring/?edit=${escJs(m.storageKey)}';
-    btn.title = 'Kurs bearbeiten';
-    btn.setAttribute('aria-label', 'Kurs bearbeiten');
+    btn.title = 'Edit course';
+    btn.setAttribute('aria-label', 'Edit course');
     btn.style.cssText = 'position:fixed;bottom:80px;right:20px;z-index:9999;width:42px;height:42px;border-radius:50%;background:#160B52;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;box-shadow:0 2px 12px rgba(22,11,82,0.35);opacity:0.8;transition:opacity 0.2s;';
     btn.onmouseenter = function() { this.style.opacity = '1'; };
     btn.onmouseleave = function() { this.style.opacity = '0.8'; };
@@ -1251,8 +1251,8 @@ function genQuiz(b, li, bi) {
             </label>`;
     }).join('\n            ');
 
-    const okMsg = q.okMsg || 'Richtig!';
-    const wrongMsg = q.wrongMsg || 'Nicht ganz.';
+    const okMsg = q.okMsg || 'Correct!';
+    const wrongMsg = q.wrongMsg || 'Not quite.';
 
     let checkFn, checkCall;
     if (isMulti) {
@@ -1266,11 +1266,11 @@ function genQuiz(b, li, bi) {
     return `
         <div class="quiz" id="${qid}">
           <p class="quiz-question">${qi+1}. ${esc(q.text)}</p>
-          <p class="quiz-hint">${isMulti ? 'Mehrere Antworten möglich' : 'Eine Antwort korrekt'}</p>
+          <p class="quiz-hint">${isMulti ? 'Multiple answers possible' : 'One correct answer'}</p>
           <div class="quiz-options">
             ${options}
           </div>
-          <button class="quiz-submit" onclick="${checkCall}">Antwort prüfen</button>
+          <button class="quiz-submit" onclick="${checkCall}">Check answer</button>
           <div class="quiz-feedback" id="feedback-${qid}"></div>
         </div>`;
   }).join('');
@@ -1593,8 +1593,8 @@ function inlineCourseJs(state, total, titles) {
       if (!quiz) return;
       const selected = quiz.querySelector('input[type="radio"]:checked');
       const fb = document.getElementById('feedback-' + quizId);
-      if (!selected) { fb.textContent = 'Bitte eine Antwort wählen.'; fb.className = 'quiz-feedback show neutral'; return; }
-      fb.textContent = selected.value === correct ? (okMsg || 'Richtig!') : (wrongMsg || 'Nicht ganz.');
+      if (!selected) { fb.textContent = 'Please select an answer.'; fb.className = 'quiz-feedback show neutral'; return; }
+      fb.textContent = selected.value === correct ? (okMsg || 'Correct!') : (wrongMsg || 'Not quite.');
       fb.className   = 'quiz-feedback show ' + (selected.value === correct ? 'correct' : 'wrong');
     }
     function checkMulti(quizId, correct, okMsg, wrongMsg) {
@@ -1602,9 +1602,9 @@ function inlineCourseJs(state, total, titles) {
       if (!quiz) return;
       const selected = [...quiz.querySelectorAll('input[type="checkbox"]:checked')].map(i => i.value).sort();
       const fb = document.getElementById('feedback-' + quizId);
-      if (selected.length === 0) { fb.textContent = 'Bitte mindestens eine Antwort wählen.'; fb.className = 'quiz-feedback show neutral'; return; }
+      if (selected.length === 0) { fb.textContent = 'Please select at least one answer.'; fb.className = 'quiz-feedback show neutral'; return; }
       const ok = JSON.stringify(selected) === JSON.stringify([...correct].sort());
-      fb.textContent = ok ? (okMsg || 'Richtig!') : (wrongMsg || 'Nicht ganz.');
+      fb.textContent = ok ? (okMsg || 'Correct!') : (wrongMsg || 'Not quite.');
       fb.className   = 'quiz-feedback show ' + (ok ? 'correct' : 'wrong');
     }
 
@@ -1648,13 +1648,13 @@ function inlineCourseJs(state, total, titles) {
 
 // ── Mobile preview ───────────────────────────────────────────────
 function openMobilePreview() {
-  if (!state.lessons.length) { toast('Keine Lektionen vorhanden.'); return; }
+  if (!state.lessons.length) { toast('No lessons available.'); return; }
 
   let d;
   try {
     d = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
   } catch(e) {
-    toast('Fehler beim Kodieren: ' + e.message); return;
+    toast('Encoding error: ' + e.message); return;
   }
 
   const base = window.location.href.split('?')[0].replace(/index\.html$/, '');
@@ -1735,7 +1735,7 @@ async function handleImportFile(file) {
     document.getElementById('importActions').style.display      = '';
 
   } catch(err) {
-    document.getElementById('importError').textContent = 'Fehler beim Lesen: ' + err.message;
+    document.getElementById('importError').textContent = 'Error reading file: ' + err.message;
     document.getElementById('importProgressBar').style.width = '0%';
   } finally {
     setTimeout(() => {
@@ -1746,14 +1746,14 @@ async function handleImportFile(file) {
 }
 
 async function parseDocx(file) {
-  if (typeof mammoth === 'undefined') throw new Error('mammoth.js nicht geladen. Bitte Internetverbindung prüfen.');
+  if (typeof mammoth === 'undefined') throw new Error('mammoth.js not loaded. Please check your internet connection.');
   const ab  = await file.arrayBuffer();
   const res = await mammoth.extractRawText({ arrayBuffer: ab });
   return res.value;
 }
 
 async function parsePdf(file) {
-  if (typeof pdfjsLib === 'undefined') throw new Error('PDF.js nicht geladen. Bitte Internetverbindung prüfen.');
+  if (typeof pdfjsLib === 'undefined') throw new Error('PDF.js not loaded. Please check your internet connection.');
   const ab  = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
   const parts = [];
@@ -1768,7 +1768,7 @@ async function parsePdf(file) {
 }
 
 async function parsePptx(file) {
-  if (typeof JSZip === 'undefined') throw new Error('JSZip nicht geladen. Bitte Internetverbindung prüfen.');
+  if (typeof JSZip === 'undefined') throw new Error('JSZip not loaded. Please check your internet connection.');
   const ab   = await file.arrayBuffer();
   const zip  = await JSZip.loadAsync(ab);
   const slideFiles = Object.keys(zip.files)
@@ -1817,7 +1817,7 @@ function importAsRawLesson(text, filename) {
 async function importWithAi(text, filename) {
   const cfg = getAiConfig();
   if (!cfg.key) {
-    document.getElementById('importError').textContent = 'Bitte zuerst den Anthropic API Key in den Einstellungen (⚙) eingeben.';
+    document.getElementById('importError').textContent = 'Please enter your Anthropic API Key in Settings (⚙) first.';
     return;
   }
 
@@ -2093,7 +2093,7 @@ async function updateCoursesIndex(cfg) {
   const m = state.meta;
   const entry = {
     key: m.storageKey || 'course',
-    title: m.title || 'Kurs',
+    title: m.title || 'Course',
     description: m.description || '',
     url: 'courses/' + (m.storageKey||'course') + '.html',
     level: m.level || 'Einsteiger',
@@ -2154,7 +2154,7 @@ async function publishPath() {
     await ghPut(cfg, 'website/paths/index.json', index, 'Update paths index');
     toast(`Learning path "${p.title}" published!`);
   } catch(ex) {
-    toast('Fehler: ' + ex.message);
+    toast('Error: ' + ex.message);
   } finally {
     if (label)   label.style.display   = '';
     if (spinner) spinner.style.display = 'none';
@@ -2168,7 +2168,7 @@ async function publishCourse() {
   if (!cfg.token || !cfg.owner || !cfg.repo) {
     toast('Please configure GitHub settings (⚙) first.'); return;
   }
-  if (!state.lessons.length) { toast('Keine Lektionen vorhanden.'); return; }
+  if (!state.lessons.length) { toast('No lessons available.'); return; }
 
   const btn     = document.getElementById('btnPublish');
   const label   = btn.querySelector('.au-publish-label');
@@ -2186,7 +2186,7 @@ async function publishCourse() {
       toast('Veröffentlicht! GitHub Pages aktualisiert sich in ~30 Sekunden.');
     } else {
       const err = await res.json().catch(() => ({}));
-      toast('Fehler: ' + (err.message || res.status));
+      toast('Error: ' + (err.message || res.status));
     }
   } catch(ex) {
     toast('Netzwerkfehler: ' + ex.message);
@@ -2273,13 +2273,13 @@ async function uploadImage(file) {
           }
           pendingUploadField = null;
         }
-        toast('Bild hochgeladen.');
+        toast('Image uploaded.');
       } else {
         const err = await res.json().catch(() => ({}));
-        toast('Upload-Fehler: ' + (err.message || res.status));
+        toast('Upload error: ' + (err.message || res.status));
       }
     } catch(ex) {
-      toast('Fehler: ' + ex.message);
+      toast('Error: ' + ex.message);
     }
   };
   reader.readAsDataURL(uploadFile);
@@ -2430,9 +2430,9 @@ ${inlineCourseJs(state, total, titles)}
 }
 
 async function exportScorm() {
-  if (!state.lessons.length) { toast('Keine Lektionen vorhanden.'); return; }
-  if (typeof JSZip === 'undefined') { toast('JSZip nicht geladen.'); return; }
-  if (!previewCss) { toast('CSS noch nicht geladen. Bitte kurz warten.'); return; }
+  if (!state.lessons.length) { toast('No lessons available.'); return; }
+  if (typeof JSZip === 'undefined') { toast('JSZip not loaded.'); return; }
+  if (!previewCss) { toast('CSS not yet loaded. Please wait a moment.'); return; }
 
   const title = state.meta.title || 'Course';
   const id    = state.meta.storageKey || 'course-new';
@@ -2474,7 +2474,7 @@ function closeBlockPicker() {
 
 // ── Export ───────────────────────────────────────────────────────
 function exportHtml() {
-  if (!state.lessons.length) { toast('Keine Lektionen vorhanden.'); return; }
+  if (!state.lessons.length) { toast('No lessons available.'); return; }
   const html = generateCourseHtml();
   const blob = new Blob([html], { type:'text/html' });
   const a    = document.createElement('a');
@@ -2504,9 +2504,9 @@ function loadJson(file) {
       saveState();
       renderAll();
       document.getElementById('courseTitleDisplay').textContent = state.meta.title || 'New Course';
-      toast('Kurs geladen.');
+      toast('Course loaded.');
     } catch(err) {
-      toast('Fehler beim Laden der JSON-Datei.');
+      toast('Error loading JSON file.');
     }
   };
   reader.readAsText(file);
@@ -2552,7 +2552,7 @@ document.addEventListener('click', e => {
   if (t.closest('[data-del-lesson]')) {
     e.stopPropagation();
     const li = parseInt(t.closest('[data-del-lesson]').dataset.delLesson || t.dataset.delLesson);
-    if (!confirm('Lektion löschen?')) return;
+    if (!confirm('Delete lesson?')) return;
     state.lessons.splice(li, 1);
     sel = { type:null, lessonIdx:null, blockIdx:null };
     saveState(); renderAll(); return;
@@ -2564,7 +2564,7 @@ document.addEventListener('click', e => {
     const key = (t.closest('[data-del-block]') || t).dataset.delBlock || t.dataset.delBlock;
     if (!key) return;
     const [li, bi] = key.split('-').map(Number);
-    if (!confirm('Block löschen?')) return;
+    if (!confirm('Delete block?')) return;
     state.lessons[li].blocks.splice(bi, 1);
     sel = { type:'lesson', lessonIdx:li, blockIdx:null };
     saveState(); renderAll(); return;
@@ -2766,7 +2766,7 @@ document.addEventListener('click', e => {
   if (t.id === 'btnLoad')   { document.getElementById('fileInput').click(); return; }
   if (t.id === 'btnImport') { openImportModal(); return; }
   if (t.id === 'btnNew') {
-    if (!confirm('Neuen Kurs starten? Ungespeicherte Änderungen gehen verloren.')) return;
+    if (!confirm('Start new course? Unsaved changes will be lost.')) return;
     state = { meta:{title:'New Course',storageKey:'course-new',backLink:'../hub.html',backLabel:'Coffee Hours',format:'stage'}, lessons:[] };
     sel   = { type:null, lessonIdx:null, blockIdx:null };
     localStorage.removeItem('au-state');
@@ -2938,7 +2938,7 @@ document.addEventListener('change', e => {
     if (found) {
       p.steps[si].courseKey = found.key;
       p.steps[si].courseUrl = found.url;
-      if (!p.steps[si].title || p.steps[si].title === 'Kurs ' + (si+1)) {
+      if (!p.steps[si].title || p.steps[si].title === 'Course ' + (si+1)) {
         p.steps[si].title = found.title;
       }
       savePathsList(); renderEditor();
@@ -3052,8 +3052,8 @@ async function init() {
     backBtn.href      = `../courses/${editKey}.html`;
     backBtn.className = 'au-btn au-btn-ghost';
     backBtn.style.cssText = 'margin-left:12px;font-size:0.78rem;';
-    backBtn.textContent   = '← Kurs';
-    backBtn.title         = 'Zurück zur Kursseite';
+    backBtn.textContent   = '← Course';
+    backBtn.title         = 'Back to course page';
     left.appendChild(backBtn);
   }
 
