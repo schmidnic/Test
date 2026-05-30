@@ -11,11 +11,6 @@
 </head>
 <body class="path-page">
 
-  <nav class="nav" id="nav" style="position:static;border-bottom:1px solid rgba(22,11,82,0.08)">
-    <a href="index.html" class="nav-logo">schmidpower</a>
-    <div class="nav-right" id="navPathTitle" style="font-family:'Space Grotesk',sans-serif;font-size:0.85rem;color:rgba(22,11,82,0.5)"></div>
-  </nav>
-
   <div class="path-layout">
 
     <aside class="path-sidebar" id="pathSidebar">
@@ -137,12 +132,8 @@
   function applyTheme() {
     if (!pathDef) return;
     const body = document.body;
-    const nav  = document.getElementById('nav');
     if (isHJ()) {
       body.classList.add('theme-hj');
-      nav.style.cssText = 'position:static;background:#0D0828;border-bottom:1px solid rgba(233,9,246,0.15)';
-      document.getElementById('navPathTitle').style.color = 'rgba(255,255,255,0.35)';
-      document.querySelector('.nav-logo').style.color = 'rgba(255,255,255,0.7)';
       document.getElementById('pathBackLink').innerHTML = '← Back';
       document.getElementById('ptsIcon').textContent = '⚡';
       document.getElementById('ptsLabel').textContent = 'XP';
@@ -156,7 +147,6 @@
     if (!pathDef) return;
 
     document.getElementById('sidebarTitle').textContent = pathDef.title;
-    document.getElementById('navPathTitle').textContent = isHJ() ? pathDef.title + " · Hero's Journey" : pathDef.title;
     document.title = pathDef.title + ' – prohelias';
     document.getElementById('ptsVal').textContent = (progress && progress.points) || 0;
 

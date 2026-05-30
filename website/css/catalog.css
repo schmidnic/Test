@@ -365,11 +365,6 @@
   display: flex;
   flex-direction: column;
 }
-.path-page .nav {
-  flex-shrink: 0;
-  position: static;
-  border-bottom: 1px solid rgba(22,11,82,0.08);
-}
 .path-layout {
   flex: 1;
   display: grid;
@@ -386,7 +381,7 @@
   overflow: hidden;
 }
 .path-sidebar-header {
-  padding: 20px 18px 16px;
+  padding: 28px 20px 16px;
   border-bottom: 1px solid rgba(22,11,82,0.06);
   flex-shrink: 0;
 }
