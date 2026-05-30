@@ -29,6 +29,22 @@ html.in-path .sidebar-wrap {
   height: calc(100vh - 70px);
   top: 70px;
 }
+html.in-path .course-sidebar {
+  position: sticky;
+  top: 70px;
+  height: calc(100vh - 70px);
+  align-self: start;
+}
+html.in-path .lesson-footer {
+  position: sticky;
+  bottom: 0;
+  background: #F8F7FF;
+  border-top: 1px solid rgba(22,11,82,0.08);
+  padding: 12px 48px;
+  margin-top: 0;
+  max-width: none;
+  z-index: 10;
+}
 html.in-path .quicknotes-fab {
   top: calc(70px + 48px);
 }
