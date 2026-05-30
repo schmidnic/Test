@@ -1,24 +1,24 @@
 /* ── Hide nav when embedded in learning path iframe ─────────── */
-body.in-path #nav,
-body.in-path #navMobile {
+html.in-path #nav,
+html.in-path #navMobile {
   display: none !important;
 }
-body.in-path .course-header {
+html.in-path .course-header {
   top: 0;
   margin-top: 0;
 }
-body.in-path .course-back-link,
-body.in-path .course-title,
-body.in-path .reset-btn {
+html.in-path .course-back-link,
+html.in-path .course-title,
+html.in-path .reset-btn {
   display: none;
 }
-body.in-path .course-layout,
-body.in-path .sidebar-wrap {
+html.in-path .course-layout,
+html.in-path .sidebar-wrap {
   min-height: calc(100vh - 70px);
   height: calc(100vh - 70px);
   top: 70px;
 }
-body.in-path .quicknotes-fab {
+html.in-path .quicknotes-fab {
   top: calc(70px + 48px);
 }
 

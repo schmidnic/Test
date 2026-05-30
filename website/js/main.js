@@ -1,6 +1,6 @@
 /* ── Hide nav when loaded inside a learning path iframe ──────── */
-if (new URLSearchParams(location.search).get('pathId')) {
-  document.body.classList.add('in-path');
+if (location.search.indexOf('pathId') > -1) {
+  document.documentElement.classList.add('in-path');
 }
 
 /* ── Nav logo fold animation ───────────────────────────────── */
