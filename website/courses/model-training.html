@@ -9,18 +9,19 @@
 <body class="course-page">
 
   <!-- NAV -->
-  <nav class="nav scrolled">
-    <a href="../index.html" class="nav-logo">SAE Portal</a>
+  <nav class="nav scrolled" id="nav">
+    <a href="../index.html" class="nav-logo">schmidpower</a>
     <div class="nav-right">
-      <a href="../index.html" class="nav-link">Home</a>
-      <a href="../catalog.html" class="nav-btn">Course catalog</a>
+      <a href="../catalog.html" class="nav-btn">The Lounge</a>
     </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <!-- MOBILE NAV -->
-  <div class="nav-mobile">
-    <a href="../index.html" onclick="closeMobileMenu()">Home</a>
-    <a href="../catalog.html" onclick="closeMobileMenu()">Course catalog</a>
+  <div class="nav-mobile" id="navMobile">
+    <a href="../catalog.html" onclick="closeMobileMenu()">The Lounge</a>
   </div>
 
   <!-- COURSE HEADER -->
