@@ -8,9 +8,14 @@ html.in-path .course-header {
   margin-top: 0;
 }
 html.in-path .course-back-link,
-html.in-path .course-title,
 html.in-path .post-nav {
   display: none;
+}
+html.in-path .course-title {
+  font-size: 1.05rem;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
 }
 html.in-path .course-header-inner {
   max-width: none;
