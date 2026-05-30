@@ -808,7 +808,6 @@ body.course-page {
   justify-content: space-between;
   margin-top: 56px;
   padding-top: 24px;
-  border-top: 1px solid var(--border);
   max-width: 640px;
 }
 
