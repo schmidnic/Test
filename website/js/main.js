@@ -1,3 +1,8 @@
+/* ── Hide nav when loaded inside a learning path iframe ──────── */
+if (new URLSearchParams(location.search).get('pathId')) {
+  document.body.classList.add('in-path');
+}
+
 /* ── Nav logo fold animation ───────────────────────────────── */
 const navLogo = document.querySelector('.nav-logo');
 if (navLogo) {
