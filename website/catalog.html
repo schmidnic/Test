@@ -67,7 +67,7 @@
   <!-- Microlearnings -->
   <section class="catalog-section" id="coursesSection">
     <p class="catalog-section-title">Microlearnings</p>
-    <div class="courses-grid" id="coursesGrid">
+    <div id="coursesGrid">
       <div style="font-size:0.85rem;color:rgba(22,11,82,0.4);padding:20px 0;">Loading courses…</div>
     </div>
   </section>
@@ -215,7 +215,23 @@
     try {
       const r = await fetch('courses/index.json');
       const courses = await r.json();
-      document.getElementById('coursesGrid').innerHTML = courses.map(courseCard).join('') || '<p style="color:rgba(22,11,82,0.4);font-size:0.85rem">No courses yet.</p>';
+      const courseMap = Object.fromEntries(courses.map(c => [c.key, c]));
+
+      const SECTIONS = [
+        { label: 'Aktuelle Entwicklungen', keys: ['transformer-attention'] },
+        { label: 'Beginner',               keys: ['what-is-ai', 'how-llms-work', 'model-landscape', 'ai-fundamentals'] },
+        { label: 'Intermediate',           keys: ['model-training', 'context-and-memory', 'ai-agents'] },
+        { label: 'Advanced',               keys: [] },
+      ];
+
+      document.getElementById('coursesGrid').innerHTML = SECTIONS.map(sec => {
+        const cards = sec.keys.map(k => courseMap[k]).filter(Boolean).map(courseCard).join('');
+        const content = cards || `<p class="catalog-coming-soon">More content coming soon.</p>`;
+        return `<div class="catalog-subsection">
+          <p class="catalog-subsection-label">${sec.label}</p>
+          <div class="courses-grid">${content}</div>
+        </div>`;
+      }).join('');
     } catch(e) {
       document.getElementById('coursesGrid').innerHTML = '<p style="color:rgba(22,11,82,0.4);font-size:0.85rem">Could not load courses.</p>';
     }
