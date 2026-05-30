@@ -1193,7 +1193,7 @@ function genFlipCards(b) {
                 </div>
               </div>
             </div>`).join('');
-  return `${intro}<div class="flip-cards-grid">${cards}\n          </div>`;
+  return `${intro}<div class="flip-grid">${cards}\n          </div>`;
 }
 
 function genAgamotto(b, li, bi) {
