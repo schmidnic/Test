@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Fundamentals – schmidpower</title>
+  <meta name="description" content="The vocabulary and mental models you need to follow AI conversations, ask better questions, and tell signal from noise.">
+  <link rel="stylesheet" href="../css/style.css?v=66">
+  <link rel="stylesheet" href="../css/course.css?v=66">
+</head>
+<body class="course-page">
+
+  <nav class="nav scrolled" id="nav">
+    <a href="../index.html" class="nav-logo">schmidpower</a>
+    <div class="nav-right">
+      <a href="../catalog.html" class="nav-link">The Lounge</a>
+      <a href="https://substack.com/prohelias" target="_blank" rel="noopener" class="nav-btn">Join me on Substack</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile">
+    <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="../catalog.html" onclick="closeMobileMenu()">The Lounge</a>
+  </div>
+
+  <header class="course-header">
+    <div class="course-header-inner">
+      <div class="course-meta">
+        <h1 class="course-title">AI Fundamentals</h1>
+        <button class="reset-btn" onclick="resetProgress()" title="Start over">
+          <svg viewBox="0 0 16 16" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.5 8a5.5 5.5 0 1 1-1.1-3.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M13.5 3v2.5H11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="course-progress">
+        <span class="progress-text" id="progressText">1 / 7</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="course-layout">
+
+    <aside class="course-sidebar">
+      <nav aria-label="Lessons">
+        <ul class="lesson-list" id="lessonList"></ul>
+      </nav>
+    </aside>
+
+    <main class="course-main" id="courseMain">
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 1 · SLIDES: What AI actually is
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-1">
+        <h2 class="lesson-title">What AI actually is</h2>
+        <p>Use the arrows to move through the four slides.</p>
+
+        <div class="slide-deck" id="slide-deck-1">
+
+          <div class="slide active">
+            <div class="slide-content">
+              <p class="slide-label">Slide 1 of 4</p>
+              <h3>Software that learns</h3>
+              <p>Traditional software follows rules a programmer wrote. If a user does X, the program does Y. AI works differently: instead of rules, you give it examples. The model adjusts itself until it gets better at predicting the right outcome. Nobody writes a rule for every case. The rules emerge from the data.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 2 of 4</p>
+              <h3>What "learning" means here</h3>
+              <p>When a model learns, it adjusts billions of internal numerical values called parameters. Each adjustment is a tiny response to being wrong. Done across millions of examples, the model gradually gets better. There is no insight, no understanding, no moment of recognition. Just arithmetic, at enormous scale.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 3 of 4</p>
+              <h3>Not the robots from the movies</h3>
+              <p>AI is not a thinking agent with goals and intentions. It is a function: something goes in, something comes out. A language model does not understand what you write. It predicts what should come next, based on patterns absorbed during training. That distinction matters the moment things go wrong.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 4 of 4</p>
+              <h3>Narrow, not general</h3>
+              <p>Every AI system that exists today is narrow: it does one kind of thing well. ChatGPT generates text. Midjourney generates images. AlphaFold predicts protein structures. What they share: each was trained on specific data for a specific task. Artificial general intelligence, the kind from science fiction, does not exist.</p>
+            </div>
+          </div>
+
+          <div class="slide-dots-row">
+            <button class="slide-arrow slide-prev" id="prev-slide-deck-1" onclick="prevSlide('slide-deck-1')" aria-label="Previous slide" disabled>&lt;</button>
+            <div class="slide-dots" id="dots-slide-deck-1"></div>
+            <button class="slide-arrow slide-next" id="next-slide-deck-1" onclick="nextSlide('slide-deck-1')" aria-label="Next slide">&gt;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 2 · SLIDES: How language models work
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-2">
+        <h2 class="lesson-title">How language models work</h2>
+        <p>Use the arrows to move through the four slides.</p>
+
+        <div class="slide-deck" id="slide-deck-2">
+
+          <div class="slide active">
+            <div class="slide-content">
+              <p class="slide-label">Slide 1 of 4</p>
+              <h3>Tokens, not words</h3>
+              <p>Language models do not process words. They process tokens: fragments of text, roughly the size of a syllable or short word. The word "understanding" becomes something like "under," "stand," "ing." The model sees a sequence of these fragments, not sentences the way you read them.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 2 of 4</p>
+              <h3>The next token game</h3>
+              <p>A language model does one thing: it predicts the next token. Given everything so far, it assigns probabilities to every possible next token and picks one. Then it does it again. And again. What feels like a conversation is a very fast, very large sequence of these predictions.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 3 of 4</p>
+              <h3>Where the knowledge lives</h3>
+              <p>The knowledge a language model has is encoded in its parameters: billions of numerical weights, adjusted during training. There is no database being searched. There is no fact-checker running in the background. When a model answers a question, it reconstructs an answer from learned distributions. That is why hallucination is not a bug to be fixed. It is a structural feature of how these systems work.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 4 of 4</p>
+              <h3>Fluency is not accuracy</h3>
+              <p>A language model optimizes for the next token being likely given everything that came before. That produces text that sounds natural and coherent. It does not guarantee that the content is true. The gap between fluency and accuracy is the most important thing to keep in mind when using these systems.</p>
+            </div>
+          </div>
+
+          <div class="slide-dots-row">
+            <button class="slide-arrow slide-prev" id="prev-slide-deck-2" onclick="prevSlide('slide-deck-2')" aria-label="Previous slide" disabled>&lt;</button>
+            <div class="slide-dots" id="dots-slide-deck-2"></div>
+            <button class="slide-arrow slide-next" id="next-slide-deck-2" onclick="nextSlide('slide-deck-2')" aria-label="Next slide">&gt;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 3 · ACCORDION: How models get built
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-3">
+        <h2 class="lesson-title">How models get built</h2>
+        <p>Three terms that appear constantly in AI coverage. Click each to understand the distinction.</p>
+
+        <div class="accordion">
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What happens during training?</button>
+            <div class="accordion-panel">
+              <p>A base model is trained on a massive dataset: a large fraction of the public internet, plus books, code, and other text. The model sees a token, predicts the next one, gets feedback on whether it was right, and adjusts. Done across billions of examples, the parameters gradually converge. Training a frontier model costs tens of millions of dollars and takes months. It happens once.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is fine-tuning?</button>
+            <div class="accordion-panel">
+              <p>Fine-tuning takes a trained base model and trains it further on a smaller, more specific dataset. This shapes its behavior: makes it more helpful, more focused on a domain, or aligned with particular guidelines. GPT, Claude, and Gemini are all fine-tuned versions of base models. Fine-tuning is much cheaper than training from scratch, but the base model must already exist.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is RLHF?</button>
+            <div class="accordion-panel">
+              <p>Reinforcement Learning from Human Feedback. After initial training, humans rate model outputs: this response is better than that one. The model is then trained to produce responses humans prefer. This is how raw language models become assistants. It is also where values and guardrails get embedded, which makes it one of the most consequential steps in the entire process.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is inference?</button>
+            <div class="accordion-panel">
+              <p>Inference is when the model runs: you send a prompt, it generates a response. No learning happens during inference. The model's parameters are fixed. This is what you interact with every time you use a language model. Inference costs much less than training, but at scale, billions of queries per day, it remains significant.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 4 · SLIDES: Context, memory, and limits
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-4">
+        <h2 class="lesson-title">Context, memory, and limits</h2>
+        <p>Use the arrows to move through the four slides.</p>
+
+        <div class="slide-deck" id="slide-deck-4">
+
+          <div class="slide active">
+            <div class="slide-content">
+              <p class="slide-label">Slide 1 of 4</p>
+              <h3>The context window</h3>
+              <p>Every language model has a context window: the maximum amount of text it can see at once. Anything outside the window does not exist for the model. It cannot recall it, reference it, or reason about it. The context window is not RAM. It is more like a whiteboard with a hard size limit.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 2 of 4</p>
+              <h3>Memory is the wrong word</h3>
+              <p>When a model seems to remember something from earlier in a conversation, it is because that earlier text is still in the context window. When the conversation grows too long, or when you start a new session, that text is gone. The model has no persistent memory by default. It does not know you from last time.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 3 of 4</p>
+              <h3>What this limits in practice</h3>
+              <p>A model cannot read an entire book in one pass. It cannot reason over a full year of emails. It cannot track a project across weeks without external storage. Every AI assistant that appears to have memory is using something else: a database, a summarization pipeline, or a retrieval system. The model itself forgets the moment the window closes.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 4 of 4</p>
+              <h3>Context lengths are growing fast</h3>
+              <p>Early GPT models had context windows of 4,000 tokens, roughly a few pages. Today, Claude and Gemini support 1 million tokens and above. Larger context windows do not eliminate the memory problem entirely, but they push the boundary significantly outward. What you can do with a 1 million token window is fundamentally different from what was possible two years ago.</p>
+            </div>
+          </div>
+
+          <div class="slide-dots-row">
+            <button class="slide-arrow slide-prev" id="prev-slide-deck-4" onclick="prevSlide('slide-deck-4')" aria-label="Previous slide" disabled>&lt;</button>
+            <div class="slide-dots" id="dots-slide-deck-4"></div>
+            <button class="slide-arrow slide-next" id="next-slide-deck-4" onclick="nextSlide('slide-deck-4')" aria-label="Next slide">&gt;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 5 · FLIP CARDS: Models and the people who build them
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-5">
+        <h2 class="lesson-title">Models and the people who build them</h2>
+        <p>What do you actually know about each of these? Flip to find out.</p>
+
+        <div class="flip-grid">
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">The players</p>
+                <p class="flip-card-title">Who builds the models you interact with?</p>
+                <div class="flip-card-hint"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              </div>
+              <div class="flip-card-back">
+                <strong>The main labs</strong>
+                <p>OpenAI (GPT), Anthropic (Claude), Google (Gemini), Meta (Llama, open source), Mistral (open source, European). Each takes a different approach to openness, safety, and deployment.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Access</p>
+                <p class="flip-card-title">What is the difference between open and closed source models?</p>
+                <div class="flip-card-hint"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Control and infrastructure</strong>
+                <p>Closed models (GPT, Claude, Gemini) run on the provider's servers, accessed via API. Open source models (Llama, Mistral) can be downloaded and run locally. Open source enables full control but requires infrastructure.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Foundation</p>
+                <p class="flip-card-title">What is a foundation model?</p>
+                <div class="flip-card-hint"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              </div>
+              <div class="flip-card-back">
+                <strong>A trained starting point</strong>
+                <p>A large base model trained on broad data, capable of many tasks. GPT, Claude, and Gemini are all foundation models. They serve as the base for more specialized applications through fine-tuning.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Size</p>
+                <p class="flip-card-title">What does "model size" actually measure?</p>
+                <div class="flip-card-hint"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Parameters</strong>
+                <p>Model size is measured in parameters: the numerical weights adjusted during training. GPT-3 had 175 billion. Larger models generally perform better but cost more to run. Training data quality and fine-tuning matter as much as size alone.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 6 · ACCORDION: What comes after the chat
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-6">
+        <h2 class="lesson-title">What comes after the chat</h2>
+        <p>The shift from chatbot to agent is the most consequential change currently underway in how AI gets deployed. Click each concept to understand it.</p>
+
+        <div class="accordion">
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is prompting?</button>
+            <div class="accordion-panel">
+              <p>A prompt is the input you give a model: a question, an instruction, or a context. Prompting is both the act of doing this and a growing discipline of doing it well. The same model can produce very different outputs depending on how the prompt is structured. This is why prompt engineering became a job title, and why it will likely stop being one once models get better at interpreting intent.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is tool use?</button>
+            <div class="accordion-panel">
+              <p>Language models can be connected to external tools: a web search, a calculator, a code interpreter, a database. When a model uses a tool, it generates an instruction, the tool executes it, and the result comes back into the context window. The model responds using the result. This extends what models can do significantly beyond generating text from memory.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is an agent?</button>
+            <div class="accordion-panel">
+              <p>An agent is a model that takes a goal, breaks it into steps, and executes those steps autonomously using available tools, sometimes calling other models. Agents do not wait for a human to approve each step. They plan, act, check results, and adjust. This is the dominant direction of AI development in 2025 and 2026.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">Why does the shift to agents matter?</button>
+            <div class="accordion-panel">
+              <p>When AI is autonomous, the failure modes change. A chatbot gives a bad answer. An agent takes a wrong action. The difference between answering incorrectly and acting incorrectly is significant. Understanding what agents can and cannot yet do reliably is the most practically relevant knowledge for anyone working with or near AI systems right now.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════
+           LESSON 7 · CELEBRATION
+      ══════════════════════════════════════════════════════ -->
+      <div class="lesson" id="lesson-7">
+        <div class="completion-screen">
+          <div class="completion-screen-icon" aria-hidden="true">
+            <div class="thumb-icon">
+              <svg viewBox="0 0 24 24" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <h2 class="celebration-title">You made it.</h2>
+          <p class="celebration-subtitle">Microlearning complete.</p>
+          <p class="celebration-msg">You now have the vocabulary and the mental model to follow AI conversations, ask better questions, and tell signal from noise. That is rarer than it sounds.</p>
+
+          <div class="feedback-section" style="border-top:none; padding-top:0; margin-top:36px;">
+            <p class="feedback-prompt">How was this Microlearning?</p>
+            <div class="feedback-emojis">
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
+                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <path d="M10 18.5 Q16 24.5 22 18.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                </svg>
+              </button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
+                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <line x1="10" y1="20.5" x2="22" y2="20.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/>
+                  <circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/>
+                  <path d="M10 22.5 Q16 16.5 22 22.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+                </svg>
+              </button>
+            </div>
+            <p class="feedback-thanks" id="feedbackThanks"></p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Bottom navigation -->
+      <div class="lesson-footer" id="lessonFooter">
+        <button class="lesson-nav-btn" id="prevBtn" onclick="navigate(-1)" disabled>← Back</button>
+        <span class="lesson-counter" id="lessonCounter">1 / 7</span>
+        <button class="lesson-nav-btn" id="nextBtn" onclick="navigate(1)">Next →</button>
+      </div>
+
+    </main>
+  </div>
+
+  <nav class="post-nav" aria-label="More content">
+    <div class="post-nav-inner">
+      <a href="transformer-attention.html" class="post-nav-item" style="grid-column:1; text-align:left; padding-right:clamp(20px,4vw,48px);">
+        <span class="post-nav-label">← Related Microlearning</span>
+        <span class="post-nav-title">How transformers think</span>
+      </a>
+      <a href="../catalog.html" class="post-nav-item" style="grid-column:2; text-align:right; padding-left:clamp(20px,4vw,48px);">
+        <span class="post-nav-label">Back to</span>
+        <span class="post-nav-title">The Lounge →</span>
+      </a>
+    </div>
+  </nav>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const LESSON_TITLES = [
+      "What AI actually is",
+      "How language models work",
+      "How models get built",
+      "Context, memory, limits",
+      "Models and who builds them",
+      "What comes after the chat",
+      "Complete"
+    ];
+    const TOTAL = LESSON_TITLES.length;
+    let current = 1;
+
+    const list = document.getElementById('lessonList');
+    LESSON_TITLES.forEach((title, i) => {
+      const li = document.createElement('li');
+      li.className = 'lesson-item' + (i === 0 ? ' active' : '');
+      li.dataset.lesson = i + 1;
+      li.innerHTML = `<span class="lesson-num">${i + 1}</span><span class="lesson-name">${title}</span>`;
+      li.addEventListener('click', () => goTo(i + 1));
+      list.appendChild(li);
+    });
+
+    function launchConfetti() {
+      const existing = document.getElementById('confetti-container');
+      if (existing) existing.remove();
+      const colors = ['#FF00FF','#e909f6','#160B52','#7C3AED','#a78bfa','#E9D5FF','#F0EFFE','#fff','#c4b5fd'];
+      const wrap = document.createElement('div');
+      wrap.id = 'confetti-container';
+      wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden;';
+      document.body.appendChild(wrap);
+      for (let i = 0; i < 140; i++) {
+        const el = document.createElement('div');
+        const color  = colors[Math.floor(Math.random() * colors.length)];
+        const left   = Math.random() * 100;
+        const delay  = Math.random() * 1.6;
+        const dur    = 2 + Math.random() * 2.5;
+        const w      = 5 + Math.random() * 13;
+        const drift  = (Math.random() - 0.5) * 200;
+        const wobble = (Math.random() - 0.5) * 80;
+        el.style.cssText = `position:absolute;top:-20px;left:${left}%;width:${w}px;height:${w}px;background:${color};border-radius:50%;opacity:0.95;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;--wobble:${wobble}px;`;
+        wrap.appendChild(el);
+      }
+      setTimeout(() => wrap.remove(), 7000);
+    }
+
+    function resetProgress() {
+      localStorage.removeItem('aif-lesson');
+      localStorage.removeItem('aif-feedback');
+      document.getElementById('feedbackThanks').textContent = '';
+      document.getElementById('feedbackThanks').classList.remove('visible');
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      goTo(1);
+    }
+
+    function submitFeedback(btn) {
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const thanks = document.getElementById('feedbackThanks');
+      thanks.textContent = 'Thanks for your feedback!';
+      thanks.classList.add('visible');
+      const item7 = document.querySelector('.lesson-item[data-lesson="7"]');
+      item7.classList.add('done');
+      item7.classList.remove('active');
+      localStorage.setItem('aif-feedback', '1');
+      const thumb = document.querySelector('.thumb-icon');
+      if (thumb) {
+        thumb.classList.remove('bounce');
+        void thumb.offsetWidth;
+        thumb.classList.add('bounce');
+        thumb.addEventListener('animationend', () => thumb.classList.remove('bounce'), { once: true });
+      }
+    }
+
+    function goTo(n, silent) {
+      document.getElementById('lesson-' + current).classList.remove('active');
+      document.querySelectorAll('.lesson-item').forEach(el => {
+        el.classList.remove('active');
+        if (parseInt(el.dataset.lesson) < n) el.classList.add('done');
+        else el.classList.remove('done');
+      });
+      current = n;
+      document.getElementById('lesson-' + current).classList.add('active');
+      document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
+      updateUI();
+      if (!silent) {
+        const courseTop = document.getElementById('courseMain').offsetTop - 130;
+        if (window.scrollY > courseTop) {
+          window.scrollTo({ top: courseTop, behavior: 'smooth' });
+        }
+      }
+      if (n === TOTAL && !silent) launchConfetti();
+      localStorage.setItem('aif-lesson', n);
+    }
+
+    function navigate(dir) {
+      const next = current + dir;
+      if (next >= 1 && next <= TOTAL) goTo(next);
+    }
+
+    function updateUI() {
+      const pct = ((current - 1) / (TOTAL - 1) * 100).toFixed(0);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressText').textContent = current + ' / ' + TOTAL;
+      document.getElementById('lessonCounter').textContent = current + ' / ' + TOTAL;
+      document.getElementById('prevBtn').disabled = current === 1;
+      const nextBtn = document.getElementById('nextBtn');
+      const footer  = document.getElementById('lessonFooter');
+      if (current === TOTAL) {
+        footer.style.display = 'none';
+      } else {
+        footer.style.display = '';
+        nextBtn.disabled = false;
+        nextBtn.onclick = () => navigate(1);
+        if (current === TOTAL - 1) {
+          nextBtn.textContent = 'Finish';
+        } else {
+          nextBtn.textContent = 'Next →';
+        }
+      }
+    }
+
+    const savedLesson = parseInt(localStorage.getItem('aif-lesson')) || 1;
+    goTo(savedLesson, true);
+    if (localStorage.getItem('aif-feedback')) {
+      const item7 = document.querySelector('.lesson-item[data-lesson="7"]');
+      if (item7) { item7.classList.add('done'); item7.classList.remove('active'); }
+      const thanks = document.getElementById('feedbackThanks');
+      if (thanks) { thanks.textContent = 'Thanks for your feedback!'; thanks.classList.add('visible'); }
+    }
+
+    function initDots(deckId) {
+      const deck = document.getElementById(deckId);
+      if (!deck) return;
+      const slides = deck.querySelectorAll('.slide');
+      const dots = document.getElementById('dots-' + deckId);
+      if (!dots) return;
+      dots.innerHTML = '';
+      slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Slide ' + (i + 1));
+        d.onclick = () => goToSlide(deckId, i);
+        dots.appendChild(d);
+      });
+    }
+
+    function goToSlide(deckId, idx) {
+      const deck = document.getElementById(deckId);
+      const slides = deck.querySelectorAll('.slide');
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      const dotsEl = document.getElementById('dots-' + deckId);
+      if (dotsEl) dotsEl.querySelectorAll('.slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+      const prevBtn = document.getElementById('prev-' + deckId);
+      const nextBtn = document.getElementById('next-' + deckId);
+      if (prevBtn) prevBtn.disabled = idx === 0;
+      if (nextBtn) nextBtn.disabled = idx === slides.length - 1;
+    }
+
+    function currentSlideIdx(deckId) {
+      return [...document.getElementById(deckId).querySelectorAll('.slide')]
+        .findIndex(s => s.classList.contains('active'));
+    }
+
+    function nextSlide(deckId) {
+      const slides = document.getElementById(deckId).querySelectorAll('.slide');
+      goToSlide(deckId, Math.min(currentSlideIdx(deckId) + 1, slides.length - 1));
+    }
+
+    function prevSlide(deckId) {
+      goToSlide(deckId, Math.max(currentSlideIdx(deckId) - 1, 0));
+    }
+
+    document.querySelectorAll('.slide-deck').forEach(deck => initDots(deck.id));
+  </script>
+
+</body>
+</html>

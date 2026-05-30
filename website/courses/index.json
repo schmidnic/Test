@@ -1,5 +1,14 @@
 [
   {
+    "key": "ai-fundamentals",
+    "title": "AI Fundamentals",
+    "description": "The vocabulary and mental models you need to follow AI conversations, ask better questions, and tell signal from noise.",
+    "url": "courses/ai-fundamentals.html",
+    "level": "Beginner",
+    "topics": ["ai"],
+    "estimatedMin": 30
+  },
+  {
     "key": "transformer-attention",
     "title": "Transformers and Attention",
     "description": "How modern AI models understand text: from attention mechanics to the latest SSA architectures.",
