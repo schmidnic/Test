@@ -5,37 +5,65 @@
   "description": "The core building blocks of modern AI, compact and without prior knowledge. By the end, you understand how language models work internally and can evaluate new AI systems with a critical eye.",
   "level": "Beginner",
   "topics": ["ai"],
-  "estimatedMin": 45,
+  "estimatedMin": 105,
   "goal": "Understand how modern language models work at a fundamental level, and evaluate AI systems in everyday life with a critical eye.",
   "behavioralAnchorTemplate": "When I encounter a new AI application, I apply the concepts from this learning path to evaluate it critically.",
   "steps": [
     {
       "id": "step-1",
       "type": "course",
+      "title": "What AI actually is",
+      "courseKey": "what-is-ai",
+      "courseUrl": "courses/what-is-ai.html",
+      "estimatedMin": 25,
+      "reflection": "What changed in your understanding of AI after this course?",
+      "adaptiveHint": "Look again at the distinction between rule-based systems and learning systems. That difference is the foundation everything else builds on."
+    },
+    {
+      "id": "step-2",
+      "type": "course",
+      "title": "How LLMs work",
+      "courseKey": "how-llms-work",
+      "courseUrl": "courses/how-llms-work.html",
+      "estimatedMin": 25,
+      "reflection": "In your own words: what does it mean that a language model predicts the next token?",
+      "adaptiveHint": "The concept of next-token prediction is central. Once you understand why LLMs always predict just one step at a time, a lot else falls into place."
+    },
+    {
+      "id": "step-3",
+      "type": "checkin",
+      "title": "Mid-path reflection",
+      "estimatedMin": 5,
+      "prompt": "You now know what AI is and how language models work at a basic level. Explain in your own words: how does a language model decide which word comes next?",
+      "hint": "Think about patterns in training data and the concept of probability distributions over tokens."
+    },
+    {
+      "id": "step-4",
+      "type": "course",
       "title": "Transformers and Attention",
       "courseKey": "transformer-attention",
       "courseUrl": "courses/transformer-attention.html",
       "estimatedMin": 20,
-      "reflection": "What was the most surprising insight for you in this course?",
-      "adaptiveHint": "Take another look at Lesson 3 on the Query/Key/Value logic. That is the core everything else builds on, and it is worth staying with."
+      "reflection": "What was the most surprising insight about how attention works?",
+      "adaptiveHint": "Take another look at the Query/Key/Value logic in Lesson 3. That is the core mechanism everything else builds on."
     },
     {
-      "id": "step-2",
-      "type": "checkin",
-      "title": "Mid-path reflection",
-      "estimatedMin": 5,
-      "prompt": "Explain in your own words: why do tokens need to \"talk to each other\" before a language model generates a response?",
-      "hint": "Think about the book library analogy and the concept of context from Lesson 2."
-    },
-    {
-      "id": "step-3",
+      "id": "step-5",
       "type": "course",
-      "title": "Making sense of AI in everyday life",
-      "courseKey": "coming-soon",
-      "courseUrl": null,
-      "estimatedMin": 20,
-      "comingSoon": true,
-      "reflection": ""
+      "title": "The AI Model Landscape",
+      "courseKey": "model-landscape",
+      "courseUrl": "courses/model-landscape.html",
+      "estimatedMin": 25,
+      "reflection": "Which model category fits a concrete use case in your own work or life, and why?",
+      "adaptiveHint": "Think about the trade-offs between model size, speed, and capability. There is rarely one right answer."
+    },
+    {
+      "id": "step-6",
+      "type": "checkin",
+      "title": "Final reflection",
+      "estimatedMin": 5,
+      "prompt": "You have completed the path. Which AI model would you choose for a specific task in your everyday life, and what would you look for when evaluating it?",
+      "hint": "Draw on the model landscape and the core concepts from the earlier courses."
     }
   ]
 }

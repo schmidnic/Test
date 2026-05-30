@@ -6,7 +6,7 @@
     "description": "The core building blocks of modern AI, compact and without prior knowledge. By the end, you understand how language models work internally and can evaluate new AI systems with a critical eye.",
     "level": "Beginner",
     "topics": ["ai"],
-    "stepsCount": 3,
-    "estimatedMin": 45
+    "stepsCount": 6,
+    "estimatedMin": 105
   }
 ]
