@@ -8,7 +8,8 @@ html.in-path .course-header {
   margin-top: 0;
 }
 html.in-path .course-back-link,
-html.in-path .course-title {
+html.in-path .course-title,
+html.in-path .post-nav {
   display: none;
 }
 html.in-path .course-header-inner {
@@ -619,7 +620,7 @@ body.course-page {
 .hotspot-marker {
   width: 32px;
   height: 32px;
-  background: var(--navy);
+  background: var(--magenta);
   color: #fff;
   border-radius: 50%;
   display: flex;
@@ -627,14 +628,14 @@ body.course-page {
   justify-content: center;
   font-size: 1.1rem;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(22,11,82,0.4);
+  box-shadow: 0 2px 8px rgba(233,9,246,0.4);
   transition: transform 0.2s, box-shadow 0.2s;
   animation: hotspotPulse 2s ease-in-out infinite;
 }
 
 @keyframes hotspotPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(22,11,82,0.4); }
-  50%       { box-shadow: 0 0 0 8px rgba(22,11,82,0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(233,9,246,0.5); }
+  50%       { box-shadow: 0 0 0 10px rgba(233,9,246,0); }
 }
 
 .hotspot.active .hotspot-marker,
@@ -653,6 +654,7 @@ body.course-page {
   z-index: 20;
   flex-direction: column;
   justify-content: center;
+  border-radius: 12px;
 }
 
 .hotspot-tooltip.open {
@@ -1128,7 +1130,7 @@ body.course-page {
 
 .flip-card {
   perspective: 1000px;
-  height: 170px;
+  height: 240px;
   cursor: pointer;
 }
 
@@ -1156,6 +1158,7 @@ body.course-page {
   flex-direction: column;
   justify-content: center;
   gap: 8px;
+  overflow-y: auto;
 }
 
 .flip-card-front {
