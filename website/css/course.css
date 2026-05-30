@@ -5,6 +5,21 @@ body.in-path #navMobile {
 }
 body.in-path .course-header {
   top: 0;
+  margin-top: 0;
+}
+body.in-path .course-back-link,
+body.in-path .course-title,
+body.in-path .reset-btn {
+  display: none;
+}
+body.in-path .course-layout,
+body.in-path .sidebar-wrap {
+  min-height: calc(100vh - 70px);
+  height: calc(100vh - 70px);
+  top: 70px;
+}
+body.in-path .quicknotes-fab {
+  top: calc(70px + 48px);
 }
 
 /* ── Course Layout ──────────────────────────────────────────── */
