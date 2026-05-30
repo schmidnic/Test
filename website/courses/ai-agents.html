@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What comes after the chat</title>
+  <link rel="stylesheet" href="../css/course.css?v=66" />
+</head>
+<body class="course-page">
+
+  <!-- NAV -->
+  <nav class="nav scrolled">
+    <a href="../index.html" class="nav-logo">SAE Portal</a>
+    <div class="nav-right">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="../catalog.html" class="nav-btn">Course catalog</a>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="nav-mobile">
+    <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="../catalog.html" onclick="closeMobileMenu()">Course catalog</a>
+  </div>
+
+  <!-- COURSE HEADER -->
+  <header class="course-header">
+    <div class="course-header-inner">
+      <div class="course-meta">
+        <h1 class="course-title">What comes after the chat</h1>
+        <button class="reset-btn" onclick="resetProgress()" aria-label="Reset progress">
+          <svg viewBox="0 0 16 16" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.5 8a5.5 5.5 0 1 1-1.1-3.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M13.5 3v2.5H11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="course-progress">
+        <span id="progressText">1 / 8</span>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- COURSE LAYOUT -->
+  <div class="course-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="course-sidebar">
+      <nav>
+        <ul id="lessonList" class="lesson-list"></ul>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main id="courseMain" class="course-main">
+
+      <!-- LESSON 1: Slides -->
+      <div class="lesson active" id="lesson-1">
+        <div class="slide-deck" id="slide-deck-1">
+
+          <div class="slide active">
+            <div class="slide-content">
+              <p class="slide-label">Slide 1 of 4</p>
+              <h3>The chatbot era is ending</h3>
+              <p>For most of AI's recent history, interaction meant a single exchange: you send a message, the model replies. The model does not act. It does not plan. It waits for the next input. This model is useful but limited. An increasing number of AI deployments in 2025 and 2026 involve agents: systems that take a goal and execute a series of steps to accomplish it, with minimal human intervention at each step.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 2 of 4</p>
+              <h3>What an agent actually is</h3>
+              <p>An agent is a language model equipped with tools and the ability to plan multi-step tasks. It can call a search API to get current information. It can run code, read files, send emails, query databases, or interact with websites. It decides which tool to use, when to use it, and what to do with the result. It iterates until it reaches the goal or runs out of steps. The model is the reasoning engine. The tools are its hands.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 3 of 4</p>
+              <h3>Why this changes everything</h3>
+              <p>When a chatbot gives a bad answer, you read it and discard it. When an agent takes a wrong action, it may have already sent the email, deleted the file, or placed the order. The shift from output to action changes the stakes fundamentally. It also changes the evaluation criteria: correctness of reasoning is necessary but not sufficient. Reliability, reversibility, and scope of action all become critical design decisions.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 4 of 4</p>
+              <h3>Where agents are being deployed now</h3>
+              <p>Agents are being deployed in software development (writing, testing, and deploying code), customer service (resolving tickets end to end), research (gathering and synthesizing information from multiple sources), and operations (scheduling, reporting, and workflow automation). The common pattern: tasks that previously required a human to execute a sequence of well-defined steps, where the steps can be made legible to a model.</p>
+            </div>
+          </div>
+
+          <div class="slide-dots-row">
+            <button class="slide-arrow slide-prev" id="prev-slide-deck-1" onclick="prevSlide('slide-deck-1')" disabled aria-label="Previous slide">&#8592;</button>
+            <div class="slide-dots" id="dots-slide-deck-1"></div>
+            <button class="slide-arrow slide-next" id="next-slide-deck-1" onclick="nextSlide('slide-deck-1')" aria-label="Next slide">&#8594;</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 2: Accordion -->
+      <div class="lesson" id="lesson-2">
+        <div class="accordion">
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is prompting, really?</button>
+            <div class="accordion-panel">
+              <p>A prompt is everything that goes into the model's context window before it generates a response: the system instruction, the conversation history, any retrieved documents, any tool results. Prompt engineering is the practice of structuring this input to elicit the desired output. It sounds simple and can become surprisingly complex. System prompts define agent behavior, persona, and constraints. Few-shot examples (examples of desired behavior included in the prompt) often outperform lengthy instructions.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is tool use?</button>
+            <div class="accordion-panel">
+              <p>Tool use means the model can invoke external functions and receive their results. The model generates a structured tool call (for example: search query, code to execute, or API call), the framework executes the call, and the result is appended to the context window. The model then continues generating based on the result. Tool use extends the model from a text predictor into a system that can gather information, take actions, and interact with external services. It is the mechanism that turns a chatbot into an agent.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is planning and chain-of-thought reasoning?</button>
+            <div class="accordion-panel">
+              <p>Chain-of-thought prompting asks the model to show its reasoning step by step before giving a final answer. This improves performance on complex tasks because the model can catch and correct errors in intermediate steps. Planning goes further: the model breaks a high-level goal into subtasks, decides the order of execution, and handles dependencies between steps. Models like OpenAI's o1 and o3 are specifically trained for extended chain-of-thought reasoning, producing significantly better results on difficult multi-step problems.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What are multi-agent systems?</button>
+            <div class="accordion-panel">
+              <p>A multi-agent system uses multiple language models working in concert. An orchestrator model receives the high-level goal and delegates subtasks to specialized worker models. A research agent gathers information. A writing agent drafts content. A review agent checks for errors. Each agent has a specific role, tool access, and context. Multi-agent architectures allow parallelism and specialization that a single model cannot achieve. They also introduce new failure modes: cascading errors, conflicting outputs, and coordination overhead.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 3: Video -->
+      <div class="lesson" id="lesson-3">
+        <div class="media-block">
+          <p class="media-label">AI agents: how they work and where they're headed</p>
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID_6" title="AI agents explained" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <p class="media-caption">Suggested search: "AI agents explained 2025" or "Andrej Karpathy software 2.0 agents" for current, practical explanations of how agents are being built and deployed.</p>
+        </div>
+      </div>
+
+      <!-- LESSON 4: Hotspot — The agent loop -->
+      <div class="lesson" id="lesson-4">
+        <div class="hotspot-container">
+          <div class="hotspot-image-placeholder">
+
+            <svg viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+              <!-- Background -->
+              <rect x="0" y="0" width="500" height="400" fill="#F0EFFE"/>
+
+              <!-- Curved arrow markers -->
+              <defs>
+                <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+                  <polygon points="0 0, 8 3, 0 6" fill="rgba(22,11,82,0.35)"/>
+                </marker>
+              </defs>
+
+              <!-- Curved arrows connecting nodes clockwise -->
+              <!-- Top to Right -->
+              <path d="M 325 40 Q 390 80 380 165" stroke="rgba(22,11,82,0.35)" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+              <!-- Right to Bottom -->
+              <path d="M 380 205 Q 395 290 325 330" stroke="rgba(22,11,82,0.35)" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+              <!-- Bottom to Left -->
+              <path d="M 175 350 Q 100 340 85 205" stroke="rgba(22,11,82,0.35)" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+              <!-- Left to Top -->
+              <path d="M 85 165 Q 100 80 175 40" stroke="rgba(22,11,82,0.35)" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+
+              <!-- Center: Language Model -->
+              <rect x="195" y="165" width="110" height="70" rx="8" fill="#160B52"/>
+              <text x="250" y="197" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Space Grotesk,sans-serif">Language</text>
+              <text x="250" y="215" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Space Grotesk,sans-serif">Model</text>
+              <text x="250" y="228" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="9" font-family="Space Grotesk,sans-serif">(reasoning engine)</text>
+
+              <!-- Top node: Observe -->
+              <rect x="175" y="20" width="150" height="40" rx="6" fill="rgba(22,11,82,0.2)" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
+              <text x="250" y="45" text-anchor="middle" fill="#160B52" font-size="12" font-weight="600" font-family="Space Grotesk,sans-serif">1. Observe</text>
+
+              <!-- Right node: Plan -->
+              <rect x="360" y="165" width="120" height="40" rx="6" fill="rgba(22,11,82,0.3)" stroke="rgba(22,11,82,0.5)" stroke-width="1.5"/>
+              <text x="420" y="190" text-anchor="middle" fill="#160B52" font-size="12" font-weight="600" font-family="Space Grotesk,sans-serif">2. Plan</text>
+
+              <!-- Bottom node: Act -->
+              <rect x="175" y="330" width="150" height="40" rx="6" fill="rgba(22,11,82,0.45)" stroke="rgba(22,11,82,0.6)" stroke-width="1.5"/>
+              <text x="250" y="355" text-anchor="middle" fill="#fff" font-size="12" font-weight="600" font-family="Space Grotesk,sans-serif">3. Act</text>
+
+              <!-- Left node: Evaluate -->
+              <rect x="20" y="165" width="130" height="40" rx="6" fill="rgba(22,11,82,0.35)" stroke="rgba(22,11,82,0.55)" stroke-width="1.5"/>
+              <text x="85" y="190" text-anchor="middle" fill="#fff" font-size="12" font-weight="600" font-family="Space Grotesk,sans-serif">4. Evaluate</text>
+
+              <!-- Tools box -->
+              <rect x="360" y="300" width="120" height="70" rx="6" fill="rgba(233,9,246,0.1)" stroke="#FF00FF" stroke-width="1.5"/>
+              <text x="420" y="328" text-anchor="middle" fill="#160B52" font-size="11" font-weight="600" font-family="Space Grotesk,sans-serif">Tools</text>
+              <text x="420" y="344" text-anchor="middle" fill="rgba(22,11,82,0.6)" font-size="9" font-family="Space Grotesk,sans-serif">search · code · APIs</text>
+              <text x="420" y="358" text-anchor="middle" fill="rgba(22,11,82,0.6)" font-size="9" font-family="Space Grotesk,sans-serif">files · databases</text>
+
+              <!-- Dashed line from Act to Tools -->
+              <line x1="325" y1="350" x2="360" y2="335" stroke="#FF00FF" stroke-width="1.5" stroke-dasharray="4 3"/>
+            </svg>
+
+            <!-- Hotspot 1: Observe -->
+            <div class="hotspot" style="left:50%;top:13%" data-tooltip="tt-observe">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 2: Plan -->
+            <div class="hotspot" style="left:82%;top:48%" data-tooltip="tt-plan">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 3: Act -->
+            <div class="hotspot" style="left:50%;top:88%" data-tooltip="tt-act">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 4: Evaluate -->
+            <div class="hotspot" style="left:17%;top:48%" data-tooltip="tt-eval">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+          </div>
+
+          <!-- Tooltips -->
+          <div class="hotspot-tooltip" id="tt-observe">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>1. Observe</strong>
+            <p>The agent receives input: the user's goal, conversation history, results from previous tool calls, retrieved documents, or the state of the system it is operating on. Everything the agent knows is in its context window. Observation is not passive: the agent may call tools to gather information as part of this step.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-plan">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>2. Plan</strong>
+            <p>The model reasons about the goal and decides the next action. With chain-of-thought prompting, this reasoning is explicit and visible. The plan may involve a single next step or a sequence of steps. More capable models produce more reliable plans. Planning is where model quality matters most: a weak model makes poor plans that cascade into wrong actions.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-act">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>3. Act</strong>
+            <p>The agent executes the planned action by calling a tool or generating output. The action might be a web search, a code execution, an API call, or a message. The framework intercepts the tool call, executes it in the environment, and returns the result. This is the step where agents differ most fundamentally from chatbots: they take actions with real-world consequences.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-eval">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>4. Evaluate</strong>
+            <p>The agent reviews the result of the action and decides whether the goal has been achieved, whether to continue, or whether to change approach. This is a critical step. A poorly designed agent may continue past the point where a task is complete, or stop too early. Human-in-the-loop checkpoints can be inserted here for high-stakes decisions.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 5: Flipcards -->
+      <div class="lesson" id="lesson-5">
+        <div class="flip-grid">
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Agent vs chatbot</p>
+                <p class="flip-card-title">What makes an agent fundamentally different from a chatbot?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Actions, not answers</strong>
+                <p>A chatbot produces text output. An agent takes actions: it calls tools, executes code, makes API requests, and interacts with external systems. A chatbot's output is a draft. An agent's output is often a side effect in the real world. This difference changes everything: error handling, verification, reversibility, and oversight all become critical design concerns.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Tool use</p>
+                <p class="flip-card-title">How does a language model use a tool?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Structured call, returned result</strong>
+                <p>The model generates a structured tool call describing what it wants to do (search for X, execute this code, call this API). The framework intercepts the call, runs it in the environment, and returns the result to the model as additional context. The model continues generating based on the result. Tool use is mediated by the framework, not executed by the model directly.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Chain of thought</p>
+                <p class="flip-card-title">What is chain-of-thought reasoning and why does it help?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Visible intermediate steps</strong>
+                <p>Chain-of-thought prompting asks the model to show its reasoning before giving a final answer. This helps because errors in intermediate steps can be caught before they affect the conclusion. It is also how o1 and o3 models work: they perform extended internal reasoning before outputting a response. Visible reasoning is also easier to audit, which matters for high-stakes applications.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">MCP</p>
+                <p class="flip-card-title">What is the Model Context Protocol?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>A standard for tool connections</strong>
+                <p>MCP (Model Context Protocol) is an open standard developed by Anthropic for connecting language models to external tools and data sources. It defines how tools describe their capabilities and how models request tool calls. MCP is analogous to what USB was for hardware: a standard connector that allows any model to use any compatible tool. Adoption is growing across the AI ecosystem.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 6: Quiz -->
+      <div class="lesson" id="lesson-6">
+
+        <div class="quiz" id="quiz-1">
+          <p class="quiz-question">What is the primary capability that distinguishes an agent from a standard language model?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="a" />
+              <span>Agents are larger models with more parameters</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="b" />
+              <span>Agents can take actions using tools, not just generate text</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="c" />
+              <span>Agents can access the internet</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-1','b','Correct. The defining characteristic of an agent is its ability to take actions: calling tools, executing code, interacting with external systems. Tool use is what transforms a text predictor into an agent. Internet access is one specific tool, not the defining property.','Not quite. Parameter count is irrelevant. Internet access is one tool among many. The defining property is the ability to take actions using tools, not just generate text.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-1"></div>
+        </div>
+
+        <div class="quiz" id="quiz-2">
+          <p class="quiz-question">Why does the shift from chatbot to agent change the stakes?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="a" />
+              <span>Agents are harder to use</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="b" />
+              <span>Agents are more expensive</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="c" />
+              <span>Agents take real-world actions that may be difficult or impossible to reverse</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-2','c','Correct. A chatbot\'s bad output can be ignored. An agent\'s bad action may have already happened: the email sent, the file deleted, the order placed. Irreversibility is the core reason agent reliability must be held to a higher standard than chatbot accuracy.','Not quite. Usability and cost are not the core issue. The fundamental change is that agents take real-world actions, some of which cannot be undone. A wrong answer is discardable. A wrong action may not be.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-2"></div>
+        </div>
+
+        <div class="quiz" id="quiz-3">
+          <p class="quiz-question">What does chain-of-thought reasoning improve in language models?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="a" />
+              <span>Token generation speed</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="b" />
+              <span>Memory capacity</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="c" />
+              <span>Performance on complex multi-step reasoning tasks by making intermediate steps explicit</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-3','c','Correct. Chain-of-thought prompting asks the model to reason step by step before giving a final answer. This allows errors in intermediate steps to be caught and corrected, significantly improving performance on complex reasoning tasks. It is also the basis for how o1 and o3 models achieve their strong reasoning benchmarks.','Not quite. Chain-of-thought does not affect speed or memory. It improves performance on complex tasks by making intermediate reasoning steps explicit, allowing errors to surface before they affect the final output.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-3"></div>
+        </div>
+
+      </div>
+
+      <!-- LESSON 7: Takeaways -->
+      <div class="lesson" id="lesson-7">
+        <p>The transition from chatbot to agent is the most consequential shift currently underway in how AI is deployed. It is not a gradual improvement in text quality. It is a change in what the system does: from producing output to taking action. That change has implications for reliability, oversight, and risk that do not apply to chat interfaces.</p>
+        <p>Tool use is the mechanism. Chain-of-thought reasoning is the method. Multi-agent systems are the architecture. Together, these three components describe how most serious AI deployments work today, and how almost all of them will work in the near future.</p>
+        <p>The question for anyone working near AI is not whether agents will be deployed in their domain. It is how to design the oversight, reversibility, and error-handling that makes agent deployment safe. That is the design problem of the next several years.</p>
+      </div>
+
+      <!-- LESSON 8: Completion -->
+      <div class="lesson" id="lesson-8">
+        <div class="completion-screen">
+          <div class="completion-screen-icon">
+            <div class="thumb-icon">
+              <svg viewBox="0 0 24 24" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+          <h2 class="celebration-title">You made it.</h2>
+          <p class="celebration-subtitle">Microlearning complete.</p>
+          <p class="celebration-msg">You now understand what comes after the chat: agents, tools, planning, and the shift from output to action. That is the frontier of AI deployment, and you now have the vocabulary to engage with it.</p>
+          <div class="feedback-section" style="border-top:none;padding-top:0;margin-top:36px;">
+            <p class="feedback-prompt">How was this lesson?</p>
+            <div class="feedback-emojis">
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><path d="M10 18.5 Q16 24.5 22 18.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><line x1="10" y1="20.5" x2="22" y2="20.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><path d="M10 22.5 Q16 16.5 22 22.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></button>
+            </div>
+            <p class="feedback-thanks" id="feedbackThanks"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- LESSON FOOTER -->
+      <div id="lessonFooter" class="lesson-footer">
+        <button id="prevBtn" class="lesson-nav-btn" onclick="navigate(-1)" disabled>← Previous</button>
+        <span id="lessonCounter" class="lesson-counter">1 / 8</span>
+        <button id="nextBtn" class="lesson-nav-btn" onclick="navigate(1)">Next →</button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- POST-NAV -->
+  <nav class="post-nav" aria-label="More content">
+    <div class="post-nav-inner">
+      <a href="model-landscape.html" class="post-nav-item">
+        <span class="post-nav-label">← Previous</span>
+        <span class="post-nav-title">Models and who builds them</span>
+      </a>
+      <a href="../catalog.html" class="post-nav-item">
+        <span class="post-nav-label">Back to</span>
+        <span class="post-nav-title">The Lounge →</span>
+      </a>
+    </div>
+  </nav>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const LESSON_TITLES = ["From tool to agent","Prompting and tool use","Watch and anchor","The agent loop","Test yourself","Check your understanding","What to take with you","Complete"];
+    const TOTAL = LESSON_TITLES.length;
+    let current = 1;
+    const list = document.getElementById('lessonList');
+    LESSON_TITLES.forEach((title, i) => {
+      const li = document.createElement('li');
+      li.className = 'lesson-item' + (i === 0 ? ' active' : '');
+      li.dataset.lesson = i + 1;
+      li.innerHTML = `<span class="lesson-num">${i + 1}</span><span class="lesson-name">${title}</span>`;
+      li.addEventListener('click', () => goTo(i + 1));
+      list.appendChild(li);
+    });
+    function launchConfetti() {
+      const existing = document.getElementById('confetti-container'); if (existing) existing.remove();
+      const colors = ['#FF00FF','#e909f6','#160B52','#7C3AED','#a78bfa','#E9D5FF','#F0EFFE','#fff','#c4b5fd'];
+      const wrap = document.createElement('div'); wrap.id = 'confetti-container';
+      wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden;';
+      document.body.appendChild(wrap);
+      for (let i = 0; i < 140; i++) {
+        const el = document.createElement('div');
+        const color = colors[Math.floor(Math.random()*colors.length)];
+        const left = Math.random()*100, delay = Math.random()*1.6, dur = 2+Math.random()*2.5;
+        const w = 5+Math.random()*13, drift = (Math.random()-0.5)*200, wobble = (Math.random()-0.5)*80;
+        el.style.cssText = `position:absolute;top:-20px;left:${left}%;width:${w}px;height:${w}px;background:${color};border-radius:50%;opacity:0.95;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;--wobble:${wobble}px;`;
+        wrap.appendChild(el);
+      }
+      setTimeout(() => wrap.remove(), 7000);
+    }
+    function resetProgress() {
+      localStorage.removeItem('agt-lesson'); localStorage.removeItem('agt-feedback');
+      document.getElementById('feedbackThanks').textContent = '';
+      document.getElementById('feedbackThanks').classList.remove('visible');
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      goTo(1);
+    }
+    function submitFeedback(btn) {
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const thanks = document.getElementById('feedbackThanks');
+      thanks.textContent = 'Thanks for your feedback!'; thanks.classList.add('visible');
+      const item8 = document.querySelector('.lesson-item[data-lesson="8"]');
+      item8.classList.add('done'); item8.classList.remove('active');
+      localStorage.setItem('agt-feedback', '1');
+      const thumb = document.querySelector('.thumb-icon');
+      if (thumb) { thumb.classList.remove('bounce'); void thumb.offsetWidth; thumb.classList.add('bounce'); thumb.addEventListener('animationend', () => thumb.classList.remove('bounce'), {once:true}); }
+    }
+    function goTo(n, silent) {
+      document.getElementById('lesson-'+current).classList.remove('active');
+      document.querySelectorAll('.lesson-item').forEach(el => { el.classList.remove('active'); if (parseInt(el.dataset.lesson)<n) el.classList.add('done'); else el.classList.remove('done'); });
+      current = n;
+      document.getElementById('lesson-'+current).classList.add('active');
+      document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
+      updateUI();
+      if (!silent) { const t = document.getElementById('courseMain').offsetTop-130; if (window.scrollY>t) window.scrollTo({top:t,behavior:'smooth'}); }
+      if (n===TOTAL && !silent) launchConfetti();
+      localStorage.setItem('agt-lesson', n);
+    }
+    function navigate(dir) { const next=current+dir; if (next>=1&&next<=TOTAL) goTo(next); }
+    function updateUI() {
+      const pct = ((current-1)/(TOTAL-1)*100).toFixed(0);
+      document.getElementById('progressFill').style.width = pct+'%';
+      document.getElementById('progressText').textContent = current+' / '+TOTAL;
+      document.getElementById('lessonCounter').textContent = current+' / '+TOTAL;
+      document.getElementById('prevBtn').disabled = current===1;
+      const nb = document.getElementById('nextBtn'), f = document.getElementById('lessonFooter');
+      if (current===TOTAL) { f.style.display='none'; }
+      else { f.style.display=''; nb.disabled=false; nb.onclick=()=>navigate(1); nb.textContent=current===TOTAL-1?'Finish':'Next →'; }
+    }
+    const savedLesson = parseInt(localStorage.getItem('agt-lesson'))||1;
+    goTo(savedLesson, true);
+    if (localStorage.getItem('agt-feedback')) {
+      const i8=document.querySelector('.lesson-item[data-lesson="8"]');
+      if (i8){i8.classList.add('done');i8.classList.remove('active');}
+      const t=document.getElementById('feedbackThanks');
+      if (t){t.textContent='Thanks for your feedback!';t.classList.add('visible');}
+    }
+    function initDots(deckId) {
+      const deck=document.getElementById(deckId); if(!deck) return;
+      const slides=deck.querySelectorAll('.slide'), dots=document.getElementById('dots-'+deckId); if(!dots) return;
+      dots.innerHTML='';
+      slides.forEach((_,i)=>{ const d=document.createElement('button'); d.className='slide-dot'+(i===0?' active':''); d.setAttribute('aria-label','Slide '+(i+1)); d.onclick=()=>goToSlide(deckId,i); dots.appendChild(d); });
+    }
+    function goToSlide(deckId,idx) {
+      const deck=document.getElementById(deckId);
+      deck.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===idx));
+      const de=document.getElementById('dots-'+deckId); if(de) de.querySelectorAll('.slide-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+      const pb=document.getElementById('prev-'+deckId),nb=document.getElementById('next-'+deckId);
+      if(pb) pb.disabled=idx===0; if(nb) nb.disabled=idx===deck.querySelectorAll('.slide').length-1;
+    }
+    function currentSlideIdx(deckId) { return [...document.getElementById(deckId).querySelectorAll('.slide')].findIndex(s=>s.classList.contains('active')); }
+    function nextSlide(deckId) { const s=document.getElementById(deckId).querySelectorAll('.slide'); goToSlide(deckId,Math.min(currentSlideIdx(deckId)+1,s.length-1)); }
+    function prevSlide(deckId) { goToSlide(deckId,Math.max(currentSlideIdx(deckId)-1,0)); }
+    document.querySelectorAll('.slide-deck').forEach(d=>initDots(d.id));
+    document.querySelectorAll('.hotspot').forEach(hs=>{
+      hs.addEventListener('click',e=>{
+        e.stopPropagation(); const id=hs.dataset.tooltip, tt=document.getElementById(id), open=tt.classList.contains('open');
+        document.querySelectorAll('.hotspot-tooltip').forEach(t=>t.classList.remove('open'));
+        document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));
+        if(!open){tt.classList.add('open');hs.classList.add('active');}
+      });
+    });
+    document.querySelectorAll('.tooltip-close').forEach(b=>{
+      b.addEventListener('click',e=>{e.stopPropagation();b.closest('.hotspot-tooltip').classList.remove('open');document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));});
+    });
+    document.addEventListener('click',()=>{
+      document.querySelectorAll('.hotspot-tooltip').forEach(t=>t.classList.remove('open'));
+      document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));
+    });
+    function checkQuiz(quizId,correct,okMsg,wrongMsg) {
+      const quiz=document.getElementById(quizId), sel=quiz.querySelector('input[type="radio"]:checked'), fb=document.getElementById('feedback-'+quizId);
+      if(!sel){fb.textContent='Please select an answer.';fb.className='quiz-feedback show neutral';return;}
+      fb.textContent=sel.value===correct?okMsg:wrongMsg; fb.className='quiz-feedback show '+(sel.value===correct?'correct':'wrong');
+    }
+    function checkMulti(quizId,correct,okMsg,wrongMsg) {
+      const quiz=document.getElementById(quizId), sel=[...quiz.querySelectorAll('input[type="checkbox"]:checked')].map(i=>i.value).sort(), fb=document.getElementById('feedback-'+quizId);
+      if(sel.length===0){fb.textContent='Please select at least one answer.';fb.className='quiz-feedback show neutral';return;}
+      const ok=JSON.stringify(sel)===JSON.stringify([...correct].sort());
+      fb.textContent=ok?okMsg:wrongMsg; fb.className='quiz-feedback show '+(ok?'correct':'wrong');
+    }
+  </script>
+
+</body>
+</html>

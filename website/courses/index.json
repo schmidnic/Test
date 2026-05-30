@@ -52,5 +52,23 @@
     "level": "Intermediate",
     "topics": ["ai"],
     "estimatedMin": 25
+  },
+  {
+    "key": "model-landscape",
+    "title": "Models and Who Builds Them",
+    "description": "The five organizations that matter most, open source vs. closed models, and what benchmarks actually tell you.",
+    "url": "courses/model-landscape.html",
+    "level": "Beginner",
+    "topics": ["ai"],
+    "estimatedMin": 25
+  },
+  {
+    "key": "ai-agents",
+    "title": "What Comes After the Chat",
+    "description": "From chatbot to agent: how tool use, chain-of-thought reasoning, and multi-agent systems change what AI can do.",
+    "url": "courses/ai-agents.html",
+    "level": "Intermediate",
+    "topics": ["ai"],
+    "estimatedMin": 25
   }
 ]

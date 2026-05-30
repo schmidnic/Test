@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Models and who builds them</title>
+  <link rel="stylesheet" href="../css/course.css?v=66" />
+</head>
+<body class="course-page">
+
+  <!-- NAV -->
+  <nav class="nav scrolled">
+    <a href="../index.html" class="nav-logo">SAE Portal</a>
+    <div class="nav-right">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="../catalog.html" class="nav-btn">Course catalog</a>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="nav-mobile">
+    <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="../catalog.html" onclick="closeMobileMenu()">Course catalog</a>
+  </div>
+
+  <!-- COURSE HEADER -->
+  <header class="course-header">
+    <div class="course-header-inner">
+      <div class="course-meta">
+        <h1 class="course-title">Models and who builds them</h1>
+        <button class="reset-btn" onclick="resetProgress()" aria-label="Reset progress">
+          <svg viewBox="0 0 16 16" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.5 8a5.5 5.5 0 1 1-1.1-3.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M13.5 3v2.5H11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="course-progress">
+        <span id="progressText">1 / 8</span>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- COURSE LAYOUT -->
+  <div class="course-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="course-sidebar">
+      <nav>
+        <ul id="lessonList" class="lesson-list"></ul>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main id="courseMain" class="course-main">
+
+      <!-- LESSON 1: Slides -->
+      <div class="lesson active" id="lesson-1">
+        <div class="slide-deck" id="slide-deck-1">
+
+          <div class="slide active">
+            <div class="slide-content">
+              <p class="slide-label">Slide 1 of 4</p>
+              <h3>Five organizations that matter most</h3>
+              <p>Most of the AI models you interact with today come from five organizations: OpenAI (GPT series), Anthropic (Claude), Google DeepMind (Gemini), Meta AI (Llama), and Mistral AI. Each approaches AI development differently: different training methods, different safety philosophies, different openness to external access. Knowing who builds what helps you evaluate the tools and understand why they behave differently.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 2 of 4</p>
+              <h3>Closed models: access via API</h3>
+              <p>Closed models (GPT, Claude, Gemini) run on the provider's infrastructure. You interact with them through an API or consumer product. You cannot download the weights or run them locally. The provider controls updates, pricing, and availability. This model maximizes ease of use but creates dependency. Changes made by the provider, including safety filtering changes, apply to everyone using the API.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 3 of 4</p>
+              <h3>Open source models: running locally</h3>
+              <p>Open source models (Llama, Mistral, Falcon, and others) release their weights publicly. Anyone can download and run them on their own hardware. This enables full control: you can fine-tune, inspect, deploy offline, and avoid per-token fees. The tradeoff is infrastructure cost and expertise. Running a competitive open source model requires significant hardware. Meta's release of Llama changed the economics of AI development significantly.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 4 of 4</p>
+              <h3>Benchmarks and what they actually measure</h3>
+              <p>AI benchmarks measure model performance on standardized tests: reasoning, coding, math, language understanding. They provide a shared vocabulary for comparing models. But benchmarks can be gamed: models are sometimes fine-tuned on benchmark data, inflating scores. Performance on benchmarks does not always correlate with performance on real tasks. Treat benchmarks as directional signals, not definitive rankings.</p>
+            </div>
+          </div>
+
+          <div class="slide-dots-row">
+            <button class="slide-arrow slide-prev" id="prev-slide-deck-1" onclick="prevSlide('slide-deck-1')" disabled aria-label="Previous slide">&#8592;</button>
+            <div class="slide-dots" id="dots-slide-deck-1"></div>
+            <button class="slide-arrow slide-next" id="next-slide-deck-1" onclick="nextSlide('slide-deck-1')" aria-label="Next slide">&#8594;</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 2: Accordion -->
+      <div class="lesson" id="lesson-2">
+        <div class="accordion">
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is a foundation model?</button>
+            <div class="accordion-panel">
+              <p>A foundation model is a large base model trained on broad data, capable of many tasks. GPT-4, Claude 3, and Gemini 1.5 are foundation models. They serve as starting points for more specialized applications through fine-tuning. The term emphasizes that these models are not finished products but foundations. Most specialized AI applications in enterprise settings are fine-tuned versions of foundation models, not models trained from scratch.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is a model family, and why does it matter?</button>
+            <div class="accordion-panel">
+              <p>A model family is a set of models from the same provider sharing the same architecture and training approach but differing in size and capability. OpenAI's GPT-4 family includes GPT-4o, GPT-4o mini, and o1. Anthropic's Claude 3 family includes Haiku, Sonnet, and Opus. Larger models in a family are more capable but slower and more expensive. Understanding model families lets you choose the right size for a task, balancing cost, latency, and capability.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What does 'safety-focused' mean in practice?</button>
+            <div class="accordion-panel">
+              <p>Different organizations approach AI safety differently. Anthropic was founded specifically around safety research and developed techniques like Constitutional AI and RLHF-based alignment. OpenAI has a safety team and publishes safety research. Meta prioritizes openness, arguing that wider access enables better collective safety research. Google DeepMind has a dedicated safety team alongside its capabilities research. These different approaches produce models with different default behaviors, refusal patterns, and willingness to discuss sensitive topics.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What are multimodal models?</button>
+            <div class="accordion-panel">
+              <p>Multimodal models can process more than one type of input: text plus images, audio, video, or code. GPT-4o, Claude 3, and Gemini are all multimodal. This changes what these systems can do significantly: reading and describing images, transcribing audio, analyzing diagrams, understanding screenshots. Multimodality is now expected in frontier models. The modalities available and their quality differ across providers.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 3: Video -->
+      <div class="lesson" id="lesson-3">
+        <div class="media-block">
+          <p class="media-label">The AI company landscape explained</p>
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID_5" title="AI companies and models explained" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <p class="media-caption">Suggested search: "AI labs comparison OpenAI Anthropic Google 2025" or "open source vs closed AI models explained" for current landscape overviews.</p>
+        </div>
+      </div>
+
+      <!-- LESSON 4: Hotspot — Who builds what -->
+      <div class="lesson" id="lesson-4">
+        <div class="hotspot-container">
+          <div class="hotspot-image-placeholder">
+
+            <svg viewBox="0 0 680 320" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+              <!-- Background -->
+              <rect x="0" y="0" width="680" height="320" fill="#F0EFFE"/>
+
+              <!-- Dividing line -->
+              <line x1="340" y1="20" x2="340" y2="300" stroke="rgba(22,11,82,0.15)" stroke-width="1.5" stroke-dasharray="6 4"/>
+
+              <!-- Column headers -->
+              <text x="170" y="45" text-anchor="middle" fill="rgba(22,11,82,0.5)" font-size="11" font-weight="600" font-family="Space Grotesk,sans-serif">CLOSED (API access)</text>
+              <text x="510" y="45" text-anchor="middle" fill="rgba(22,11,82,0.5)" font-size="11" font-weight="600" font-family="Space Grotesk,sans-serif">OPEN SOURCE (downloadable)</text>
+
+              <!-- Card 1: OpenAI -->
+              <rect x="60" y="60" width="240" height="60" rx="8" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.2)" stroke-width="1.5"/>
+              <text x="180" y="84" text-anchor="middle" fill="#160B52" font-size="13" font-weight="700" font-family="Space Grotesk,sans-serif">OpenAI</text>
+              <text x="180" y="104" text-anchor="middle" fill="rgba(22,11,82,0.6)" font-size="11" font-family="Space Grotesk,sans-serif">GPT-4o · o1 · o3</text>
+
+              <!-- Card 2: Anthropic -->
+              <rect x="60" y="135" width="240" height="60" rx="8" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.2)" stroke-width="1.5"/>
+              <text x="180" y="159" text-anchor="middle" fill="#160B52" font-size="13" font-weight="700" font-family="Space Grotesk,sans-serif">Anthropic</text>
+              <text x="180" y="179" text-anchor="middle" fill="rgba(22,11,82,0.6)" font-size="11" font-family="Space Grotesk,sans-serif">Claude 3 Haiku · Sonnet · Opus</text>
+
+              <!-- Card 3: Google DeepMind -->
+              <rect x="60" y="210" width="240" height="60" rx="8" fill="rgba(22,11,82,0.08)" stroke="rgba(22,11,82,0.2)" stroke-width="1.5"/>
+              <text x="180" y="234" text-anchor="middle" fill="#160B52" font-size="13" font-weight="700" font-family="Space Grotesk,sans-serif">Google DeepMind</text>
+              <text x="180" y="254" text-anchor="middle" fill="rgba(22,11,82,0.6)" font-size="11" font-family="Space Grotesk,sans-serif">Gemini 1.5 · 2.0</text>
+
+              <!-- Card 4: Meta AI -->
+              <rect x="370" y="60" width="240" height="60" rx="8" fill="rgba(233,9,246,0.06)" stroke="rgba(233,9,246,0.3)" stroke-width="1.5"/>
+              <text x="490" y="84" text-anchor="middle" fill="#160B52" font-size="13" font-weight="700" font-family="Space Grotesk,sans-serif">Meta AI</text>
+              <text x="490" y="104" text-anchor="middle" fill="rgba(22,11,82,0.6)" font-size="11" font-family="Space Grotesk,sans-serif">Llama 3 · Llama 3.1</text>
+
+              <!-- Card 5: Mistral AI -->
+              <rect x="370" y="135" width="240" height="60" rx="8" fill="rgba(233,9,246,0.06)" stroke="rgba(233,9,246,0.3)" stroke-width="1.5"/>
+              <text x="490" y="159" text-anchor="middle" fill="#160B52" font-size="13" font-weight="700" font-family="Space Grotesk,sans-serif">Mistral AI</text>
+              <text x="490" y="179" text-anchor="middle" fill="rgba(22,11,82,0.6)" font-size="11" font-family="Space Grotesk,sans-serif">Mistral 7B · Mixtral · Le Chat</text>
+
+              <!-- Note -->
+              <text x="490" y="230" text-anchor="middle" fill="rgba(22,11,82,0.4)" font-size="10" font-family="Space Grotesk,sans-serif">(European, Paris-based)</text>
+            </svg>
+
+            <!-- Hotspot 1: OpenAI -->
+            <div class="hotspot" style="left:26%;top:30%" data-tooltip="tt-openai">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 2: Anthropic -->
+            <div class="hotspot" style="left:26%;top:60%" data-tooltip="tt-anthropic">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 3: Meta -->
+            <div class="hotspot" style="left:75%;top:30%" data-tooltip="tt-meta">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 4: Mistral -->
+            <div class="hotspot" style="left:75%;top:60%" data-tooltip="tt-mistral">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+          </div>
+
+          <!-- Tooltips -->
+          <div class="hotspot-tooltip" id="tt-openai">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>OpenAI</strong>
+            <p>Founded in 2015, first as nonprofit, later capped-profit. Creator of the GPT series and the o1/o3 reasoning models. ChatGPT, launched in November 2022, was the product that brought large language models to mainstream attention. Largest model family in terms of enterprise adoption. Close partnership with Microsoft, which provides compute and integrates models into its products.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-anthropic">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Anthropic</strong>
+            <p>Founded in 2021 by former OpenAI researchers including Dario and Daniela Amodei. Safety-focused by founding mission. Developed Constitutional AI and the Claude model family. Backed by Google and Amazon. Known for longer context windows and strong instruction-following. Claude models are widely used in enterprise and developer contexts.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-meta">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Meta AI</strong>
+            <p>Meta releases its Llama models with open weights, a significant decision that changed the open source AI landscape. Llama 3 and 3.1 are competitive with closed models on many benchmarks. The open release means anyone can fine-tune, inspect, and deploy Llama locally. Meta's argument: open AI is safer AI because more eyes can find problems.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-mistral">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Mistral AI</strong>
+            <p>French AI startup founded in 2023 by former Google DeepMind and Meta researchers. Punches above its weight: smaller models (7B parameters) that perform comparably to much larger models. Fully open source. Significant in European AI policy discussions. Le Chat is their consumer product. Relevant for anyone building EU-based AI systems with data sovereignty requirements.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 5: Flipcards -->
+      <div class="lesson" id="lesson-5">
+        <div class="flip-grid">
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Open vs closed</p>
+                <p class="flip-card-title">What is the key practical difference between open source and closed models?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Weights vs. API</strong>
+                <p>Closed models: you access them through an API, run on the provider's servers, pay per token, cannot inspect or modify the weights. Open source models: you download the weights and run them yourself. Full control, no per-token cost at inference time, but requires infrastructure. Both approaches have legitimate use cases.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Foundation</p>
+                <p class="flip-card-title">Why are they called 'foundation models'?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>A base, not a finished product</strong>
+                <p>Foundation models are large base models trained on broad data. They are the starting point for more specialized applications through fine-tuning. The term emphasizes that these are not complete solutions but foundations. Most enterprise AI applications are fine-tuned foundation models, not models trained from scratch.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Model size</p>
+                <p class="flip-card-title">What does it mean when a model has '7 billion parameters'?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Numerical weights</strong>
+                <p>Parameters are the numerical weights that define the model's behavior, adjusted during training. 7 billion parameters means 7 billion numbers. Larger parameter counts generally enable more capability but require more compute to run. A 7B model can run on a high-end laptop. A 70B model requires a workstation. A 700B model requires a server cluster.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Multimodal</p>
+                <p class="flip-card-title">What does it mean for a model to be multimodal?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Multiple input types</strong>
+                <p>A multimodal model can process more than text: images, audio, video, documents, or code. GPT-4o can describe images and transcribe audio. Claude 3 can read and analyze images. Gemini was designed multimodal from the start. Multimodality is now standard in frontier models and significantly expands what these systems can be used for.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 6: Quiz -->
+      <div class="lesson" id="lesson-6">
+
+        <div class="quiz" id="quiz-1">
+          <p class="quiz-question">What distinguishes open source AI models from closed models?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="a" />
+              <span>Open source models are always more capable</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="b" />
+              <span>Open source models release their weights publicly, allowing local download and deployment</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="c" />
+              <span>Open source models are free to use via API</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-1','b','Correct. The defining difference is weight availability. Open source models release their weights publicly, enabling local deployment, fine-tuning, and inspection. Closed models keep weights proprietary and require API access.','Not quite. Open source refers to weight availability, not capability. Open source models are not necessarily more capable, and &quot;free to use via API&quot; conflates two different things. The defining feature is that the weights can be downloaded.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-1"></div>
+        </div>
+
+        <div class="quiz" id="quiz-2">
+          <p class="quiz-question">Why are foundation models called 'foundation' models?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="a" />
+              <span>Because they were the first models ever trained</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="b" />
+              <span>Because they are funded by the Foundations</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="c" />
+              <span>Because they are large base models that serve as a starting point for more specialized applications</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-2','c','Correct. Foundation models are trained on broad data to be generally capable, then specialized through fine-tuning. They are the foundation on which more targeted applications are built, not complete solutions in themselves.','Not quite. The &quot;foundation&quot; refers to their role as a base for specialized applications built through fine-tuning, not to their historical position or funding.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-2"></div>
+        </div>
+
+        <div class="quiz" id="quiz-3">
+          <p class="quiz-question">Which of the following are currently open source AI model families?</p>
+          <p class="quiz-hint">Multiple answers correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="checkbox" name="q3" value="a" />
+              <span>GPT-4</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q3" value="b" />
+              <span>Llama</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q3" value="c" />
+              <span>Mistral</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q3" value="d" />
+              <span>Claude</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkMulti('quiz-3',['b','c'],'Correct. Llama (Meta) and Mistral are open source with publicly released weights. GPT-4 (OpenAI) and Claude (Anthropic) are closed models accessible only via API.','Check again. GPT-4 and Claude are closed models. Llama and Mistral release their weights publicly.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-3"></div>
+        </div>
+
+      </div>
+
+      <!-- LESSON 7: Takeaways -->
+      <div class="lesson" id="lesson-7">
+        <p>The AI landscape is not one model and one company. It is a competitive ecosystem with meaningfully different approaches to openness, safety, capability, and deployment. Knowing the main players and their flagship models gives you a map, not just data points.</p>
+        <p>Open source and closed source are not better or worse in absolute terms. They represent different tradeoffs: control vs. ease of use, infrastructure cost vs. per-token cost, inspectability vs. convenience. The right choice depends on use case, data privacy requirements, and available engineering resources.</p>
+        <p>Benchmarks are useful but limited. They measure performance on standardized tasks, which may not reflect performance on your specific task. A model that ranks second on a benchmark may be first for your use case. Always evaluate on your own data when making consequential decisions.</p>
+      </div>
+
+      <!-- LESSON 8: Completion -->
+      <div class="lesson" id="lesson-8">
+        <div class="completion-screen">
+          <div class="completion-screen-icon">
+            <div class="thumb-icon">
+              <svg viewBox="0 0 24 24" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+          <h2 class="celebration-title">You made it.</h2>
+          <p class="celebration-subtitle">Microlearning complete.</p>
+          <p class="celebration-msg">You now have a working map of the AI landscape: who builds the major models, how they differ in openness and approach, and what those differences mean in practice.</p>
+          <div class="feedback-section" style="border-top:none;padding-top:0;margin-top:36px;">
+            <p class="feedback-prompt">How was this lesson?</p>
+            <div class="feedback-emojis">
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><path d="M10 18.5 Q16 24.5 22 18.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><line x1="10" y1="20.5" x2="22" y2="20.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><path d="M10 22.5 Q16 16.5 22 22.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></button>
+            </div>
+            <p class="feedback-thanks" id="feedbackThanks"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- LESSON FOOTER -->
+      <div id="lessonFooter" class="lesson-footer">
+        <button id="prevBtn" class="lesson-nav-btn" onclick="navigate(-1)" disabled>← Previous</button>
+        <span id="lessonCounter" class="lesson-counter">1 / 8</span>
+        <button id="nextBtn" class="lesson-nav-btn" onclick="navigate(1)">Next →</button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- POST-NAV -->
+  <nav class="post-nav" aria-label="More content">
+    <div class="post-nav-inner">
+      <a href="context-and-memory.html" class="post-nav-item">
+        <span class="post-nav-label">← Previous</span>
+        <span class="post-nav-title">Context, memory, and limits</span>
+      </a>
+      <a href="ai-agents.html" class="post-nav-item">
+        <span class="post-nav-label">Next in the series</span>
+        <span class="post-nav-title">What comes after the chat →</span>
+      </a>
+    </div>
+  </nav>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const LESSON_TITLES = ["The AI landscape","Model families","Watch and anchor","Who builds what","Test yourself","Check your understanding","What to take with you","Complete"];
+    const TOTAL = LESSON_TITLES.length;
+    let current = 1;
+    const list = document.getElementById('lessonList');
+    LESSON_TITLES.forEach((title, i) => {
+      const li = document.createElement('li');
+      li.className = 'lesson-item' + (i === 0 ? ' active' : '');
+      li.dataset.lesson = i + 1;
+      li.innerHTML = `<span class="lesson-num">${i + 1}</span><span class="lesson-name">${title}</span>`;
+      li.addEventListener('click', () => goTo(i + 1));
+      list.appendChild(li);
+    });
+    function launchConfetti() {
+      const existing = document.getElementById('confetti-container'); if (existing) existing.remove();
+      const colors = ['#FF00FF','#e909f6','#160B52','#7C3AED','#a78bfa','#E9D5FF','#F0EFFE','#fff','#c4b5fd'];
+      const wrap = document.createElement('div'); wrap.id = 'confetti-container';
+      wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden;';
+      document.body.appendChild(wrap);
+      for (let i = 0; i < 140; i++) {
+        const el = document.createElement('div');
+        const color = colors[Math.floor(Math.random()*colors.length)];
+        const left = Math.random()*100, delay = Math.random()*1.6, dur = 2+Math.random()*2.5;
+        const w = 5+Math.random()*13, drift = (Math.random()-0.5)*200, wobble = (Math.random()-0.5)*80;
+        el.style.cssText = `position:absolute;top:-20px;left:${left}%;width:${w}px;height:${w}px;background:${color};border-radius:50%;opacity:0.95;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;--wobble:${wobble}px;`;
+        wrap.appendChild(el);
+      }
+      setTimeout(() => wrap.remove(), 7000);
+    }
+    function resetProgress() {
+      localStorage.removeItem('mls-lesson'); localStorage.removeItem('mls-feedback');
+      document.getElementById('feedbackThanks').textContent = '';
+      document.getElementById('feedbackThanks').classList.remove('visible');
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      goTo(1);
+    }
+    function submitFeedback(btn) {
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const thanks = document.getElementById('feedbackThanks');
+      thanks.textContent = 'Thanks for your feedback!'; thanks.classList.add('visible');
+      const item8 = document.querySelector('.lesson-item[data-lesson="8"]');
+      item8.classList.add('done'); item8.classList.remove('active');
+      localStorage.setItem('mls-feedback', '1');
+      const thumb = document.querySelector('.thumb-icon');
+      if (thumb) { thumb.classList.remove('bounce'); void thumb.offsetWidth; thumb.classList.add('bounce'); thumb.addEventListener('animationend', () => thumb.classList.remove('bounce'), {once:true}); }
+    }
+    function goTo(n, silent) {
+      document.getElementById('lesson-'+current).classList.remove('active');
+      document.querySelectorAll('.lesson-item').forEach(el => { el.classList.remove('active'); if (parseInt(el.dataset.lesson)<n) el.classList.add('done'); else el.classList.remove('done'); });
+      current = n;
+      document.getElementById('lesson-'+current).classList.add('active');
+      document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
+      updateUI();
+      if (!silent) { const t = document.getElementById('courseMain').offsetTop-130; if (window.scrollY>t) window.scrollTo({top:t,behavior:'smooth'}); }
+      if (n===TOTAL && !silent) launchConfetti();
+      localStorage.setItem('mls-lesson', n);
+    }
+    function navigate(dir) { const next=current+dir; if (next>=1&&next<=TOTAL) goTo(next); }
+    function updateUI() {
+      const pct = ((current-1)/(TOTAL-1)*100).toFixed(0);
+      document.getElementById('progressFill').style.width = pct+'%';
+      document.getElementById('progressText').textContent = current+' / '+TOTAL;
+      document.getElementById('lessonCounter').textContent = current+' / '+TOTAL;
+      document.getElementById('prevBtn').disabled = current===1;
+      const nb = document.getElementById('nextBtn'), f = document.getElementById('lessonFooter');
+      if (current===TOTAL) { f.style.display='none'; }
+      else { f.style.display=''; nb.disabled=false; nb.onclick=()=>navigate(1); nb.textContent=current===TOTAL-1?'Finish':'Next →'; }
+    }
+    const savedLesson = parseInt(localStorage.getItem('mls-lesson'))||1;
+    goTo(savedLesson, true);
+    if (localStorage.getItem('mls-feedback')) {
+      const i8=document.querySelector('.lesson-item[data-lesson="8"]');
+      if (i8){i8.classList.add('done');i8.classList.remove('active');}
+      const t=document.getElementById('feedbackThanks');
+      if (t){t.textContent='Thanks for your feedback!';t.classList.add('visible');}
+    }
+    function initDots(deckId) {
+      const deck=document.getElementById(deckId); if(!deck) return;
+      const slides=deck.querySelectorAll('.slide'), dots=document.getElementById('dots-'+deckId); if(!dots) return;
+      dots.innerHTML='';
+      slides.forEach((_,i)=>{ const d=document.createElement('button'); d.className='slide-dot'+(i===0?' active':''); d.setAttribute('aria-label','Slide '+(i+1)); d.onclick=()=>goToSlide(deckId,i); dots.appendChild(d); });
+    }
+    function goToSlide(deckId,idx) {
+      const deck=document.getElementById(deckId);
+      deck.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===idx));
+      const de=document.getElementById('dots-'+deckId); if(de) de.querySelectorAll('.slide-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+      const pb=document.getElementById('prev-'+deckId),nb=document.getElementById('next-'+deckId);
+      if(pb) pb.disabled=idx===0; if(nb) nb.disabled=idx===deck.querySelectorAll('.slide').length-1;
+    }
+    function currentSlideIdx(deckId) { return [...document.getElementById(deckId).querySelectorAll('.slide')].findIndex(s=>s.classList.contains('active')); }
+    function nextSlide(deckId) { const s=document.getElementById(deckId).querySelectorAll('.slide'); goToSlide(deckId,Math.min(currentSlideIdx(deckId)+1,s.length-1)); }
+    function prevSlide(deckId) { goToSlide(deckId,Math.max(currentSlideIdx(deckId)-1,0)); }
+    document.querySelectorAll('.slide-deck').forEach(d=>initDots(d.id));
+    document.querySelectorAll('.hotspot').forEach(hs=>{
+      hs.addEventListener('click',e=>{
+        e.stopPropagation(); const id=hs.dataset.tooltip, tt=document.getElementById(id), open=tt.classList.contains('open');
+        document.querySelectorAll('.hotspot-tooltip').forEach(t=>t.classList.remove('open'));
+        document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));
+        if(!open){tt.classList.add('open');hs.classList.add('active');}
+      });
+    });
+    document.querySelectorAll('.tooltip-close').forEach(b=>{
+      b.addEventListener('click',e=>{e.stopPropagation();b.closest('.hotspot-tooltip').classList.remove('open');document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));});
+    });
+    document.addEventListener('click',()=>{
+      document.querySelectorAll('.hotspot-tooltip').forEach(t=>t.classList.remove('open'));
+      document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));
+    });
+    function checkQuiz(quizId,correct,okMsg,wrongMsg) {
+      const quiz=document.getElementById(quizId), sel=quiz.querySelector('input[type="radio"]:checked'), fb=document.getElementById('feedback-'+quizId);
+      if(!sel){fb.textContent='Please select an answer.';fb.className='quiz-feedback show neutral';return;}
+      fb.textContent=sel.value===correct?okMsg:wrongMsg; fb.className='quiz-feedback show '+(sel.value===correct?'correct':'wrong');
+    }
+    function checkMulti(quizId,correct,okMsg,wrongMsg) {
+      const quiz=document.getElementById(quizId), sel=[...quiz.querySelectorAll('input[type="checkbox"]:checked')].map(i=>i.value).sort(), fb=document.getElementById('feedback-'+quizId);
+      if(sel.length===0){fb.textContent='Please select at least one answer.';fb.className='quiz-feedback show neutral';return;}
+      const ok=JSON.stringify(sel)===JSON.stringify([...correct].sort());
+      fb.textContent=ok?okMsg:wrongMsg; fb.className='quiz-feedback show '+(ok?'correct':'wrong');
+    }
+  </script>
+
+</body>
+</html>
