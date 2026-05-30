@@ -51,7 +51,7 @@
 
 /* ── Catalog hero ─────────────────────────────────────────── */
 .catalog-hero {
-  padding: calc(var(--nav-h) + 38px + 80px) var(--pad-x) 72px;
+  padding: calc(var(--nav-h) + 80px) var(--pad-x) 72px;
   max-width: var(--max-w);
   margin: 0 auto;
 }
@@ -833,7 +833,7 @@
 
 /* Mobile */
 @media (max-width: 700px) {
-  .catalog-hero { padding-top: calc(var(--nav-h) + 38px + 48px); padding-bottom: 48px; }
+  .catalog-hero { padding-top: calc(var(--nav-h) + 48px); padding-bottom: 48px; }
   .paths-grid, .courses-grid { grid-template-columns: 1fr; }
   .path-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .path-sidebar { max-height: 220px; border-right: none; border-bottom: 1px solid rgba(22,11,82,0.07); }
