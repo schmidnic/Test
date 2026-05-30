@@ -372,7 +372,7 @@ body.course-page {
 /* ── Main content ──────────────────────────────────────────── */
 .course-main {
   border-left: 1px solid var(--border);
-  padding: 48px 0 48px 48px;
+  padding: 48px 48px 48px 48px;
   min-width: 0;
 }
 
@@ -401,6 +401,7 @@ body.course-page {
 
 .lesson > p {
   color: var(--muted);
+  line-height: 1.75;
   margin-bottom: 28px;
   max-width: 640px;
 }
@@ -717,6 +718,7 @@ body.course-page {
   border-radius: 12px;
   padding: 28px;
   max-width: 640px;
+  margin-bottom: 24px;
 }
 
 .quiz-hint {
@@ -806,6 +808,7 @@ body.course-page {
   justify-content: space-between;
   margin-top: 56px;
   padding-top: 24px;
+  border-top: 1px solid var(--border);
   max-width: 640px;
 }
 

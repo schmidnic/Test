@@ -20,7 +20,7 @@
 
     <aside class="path-sidebar" id="pathSidebar">
       <div class="path-sidebar-header">
-        <a href="catalog.html" class="path-back" id="pathBackLink">← The Lounge</a>
+        <a href="catalog.html" class="path-back" id="pathBackLink">← Knowledge Lounge</a>
         <div class="path-sidebar-name" id="sidebarTitle">Loading…</div>
         <div class="path-bar-wrap">
           <div class="path-bar-fill" id="pathBarFill" style="width:0%"></div>
@@ -504,7 +504,7 @@
               'This trial lies hidden in the mist. The path will reveal itself when the time has come.'
             )}
           </p>
-          <a href="catalog.html" class="path-btn path-btn-ghost" style="display:inline-block">${tx('← Back to The Lounge','← Return to the Ordinary World')}</a>
+          <a href="catalog.html" class="path-btn path-btn-ghost" style="display:inline-block">${tx('← Back to Knowledge Lounge','← Return to the Ordinary World')}</a>
         </div>
       </div>
     `);
@@ -566,7 +566,7 @@
           ` : ''}
 
           <div style="margin-top:${isHJ()?'16':'32'}px;display:flex;gap:12px;flex-wrap:wrap">
-            <a href="catalog.html" class="path-btn">${tx('← Back to The Lounge','← Return to the World')}</a>
+            <a href="catalog.html" class="path-btn">${tx('← Back to Knowledge Lounge','← Return to the World')}</a>
           </div>
         </div>
       </div>
@@ -582,7 +582,7 @@
     const params = new URLSearchParams(location.search);
     pathId = params.get('path');
     if (!pathId) {
-      setMain('<div class="path-content-scroll"><div class="path-screen-inner"><p class="path-pts-label">No learning path specified.</p><a href="catalog.html" class="path-btn" style="margin-top:16px;display:inline-block">← The Lounge</a></div></div>');
+      setMain('<div class="path-content-scroll"><div class="path-screen-inner"><p class="path-pts-label">No learning path specified.</p><a href="catalog.html" class="path-btn" style="margin-top:16px;display:inline-block">← Knowledge Lounge</a></div></div>');
       return;
     }
 
@@ -599,7 +599,7 @@
       if (!r.ok) throw new Error('Not found');
       pathDef = await r.json();
     } catch(e) {
-      setMain('<div class="path-content-scroll"><div class="path-screen-inner"><p class="path-pts-label">Learning path not found.</p><a href="catalog.html" class="path-btn" style="margin-top:16px;display:inline-block">← The Lounge</a></div></div>');
+      setMain('<div class="path-content-scroll"><div class="path-screen-inner"><p class="path-pts-label">Learning path not found.</p><a href="catalog.html" class="path-btn" style="margin-top:16px;display:inline-block">← Knowledge Lounge</a></div></div>');
       return;
     }
 
