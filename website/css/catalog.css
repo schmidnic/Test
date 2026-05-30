@@ -51,38 +51,74 @@
 
 /* ── Catalog hero ─────────────────────────────────────────── */
 .catalog-hero {
-  padding: calc(var(--nav-h) + 38px + 72px) var(--pad-x) 56px;
+  position: relative;
+  padding: calc(var(--nav-h) + 38px + 88px) var(--pad-x) 80px;
+  background: #F8F7FF;
+  overflow: hidden;
+}
+.catalog-hero-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 52% 48% at 88% 10%, rgba(11,3,88,0.10) 0%, transparent 62%),
+    radial-gradient(ellipse 58% 52% at 6%  8%,  rgba(11,3,88,0.08) 0%, transparent 62%),
+    radial-gradient(ellipse 32% 36% at 52% 52%, rgba(11,3,88,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.catalog-hero-bg-word {
+  position: absolute;
+  right: -0.04em;
+  bottom: -0.18em;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(12rem, 38vw, 60rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: #e909f6;
+  opacity: 0.07;
+  user-select: none;
+  pointer-events: none;
+}
+.catalog-hero-content {
+  position: relative;
+  z-index: 2;
   max-width: var(--max-w);
   margin: 0 auto;
+}
+.catalog-hero-rule {
+  width: 44px;
+  height: 2px;
+  background: var(--magenta);
+  margin-bottom: 28px;
 }
 .catalog-label {
   display: inline-block;
   font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--magenta);
-  margin-bottom: 16px;
+  margin-bottom: 22px;
 }
 .catalog-headline {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.4rem, 5vw, 4.5rem);
-  font-weight: 500;
+  font-size: clamp(2.6rem, 5.5vw, 5rem);
+  font-weight: 300;
   line-height: 0.96;
   letter-spacing: -0.05em;
   color: var(--navy);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .catalog-intro {
   font-size: clamp(0.95rem, 1.4vw, 1.1rem);
-  line-height: 1.7;
+  line-height: 1.75;
   color: rgba(22,11,82,0.5);
   max-width: 520px;
 }
 
 /* ── Catalog filter tabs ──────────────────────────────────── */
 .catalog-filters {
-  padding: 0 var(--pad-x) 48px;
+  padding: 0 var(--pad-x) 64px;
   max-width: var(--max-w);
   margin: 0 auto;
   display: flex;
@@ -111,7 +147,7 @@
 
 /* ── Section wrapper ──────────────────────────────────────── */
 .catalog-section {
-  padding: 0 var(--pad-x) 64px;
+  padding: 0 var(--pad-x) 88px;
   max-width: var(--max-w);
   margin: 0 auto;
 }
@@ -121,7 +157,7 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(22,11,82,0.35);
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 /* ── Course subsections (Aktuelle Entwicklungen / Beginner …) */
@@ -832,7 +868,8 @@
 
 /* Mobile */
 @media (max-width: 700px) {
-  .catalog-hero { padding-top: calc(var(--nav-h) + 38px + 48px); }
+  .catalog-hero { padding-top: calc(var(--nav-h) + 38px + 56px); padding-bottom: 56px; }
+  .catalog-hero-bg-word { font-size: clamp(8rem, 50vw, 18rem); }
   .paths-grid, .courses-grid { grid-template-columns: 1fr; }
   .path-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .path-sidebar { max-height: 220px; border-right: none; border-bottom: 1px solid rgba(22,11,82,0.07); }
