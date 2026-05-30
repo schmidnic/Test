@@ -5,7 +5,7 @@
   "description": "The core building blocks of modern AI, compact and without prior knowledge. By the end, you understand how language models work internally and can evaluate new AI systems with a critical eye.",
   "level": "Beginner",
   "topics": ["ai"],
-  "estimatedMin": 105,
+  "estimatedMin": 115,
   "goal": "Understand how modern language models work at a fundamental level, and evaluate AI systems in everyday life with a critical eye.",
   "behavioralAnchorTemplate": "When I encounter a new AI application, I apply the concepts from this learning path to evaluate it critically.",
   "steps": [
@@ -40,16 +40,6 @@
     {
       "id": "step-4",
       "type": "course",
-      "title": "Transformers and Attention",
-      "courseKey": "transformer-attention",
-      "courseUrl": "courses/transformer-attention.html",
-      "estimatedMin": 20,
-      "reflection": "What was the most surprising insight about how attention works?",
-      "adaptiveHint": "Take another look at the Query/Key/Value logic in Lesson 3. That is the core mechanism everything else builds on."
-    },
-    {
-      "id": "step-5",
-      "type": "course",
       "title": "The AI Model Landscape",
       "courseKey": "model-landscape",
       "courseUrl": "courses/model-landscape.html",
@@ -58,12 +48,22 @@
       "adaptiveHint": "Think about the trade-offs between model size, speed, and capability. There is rarely one right answer."
     },
     {
+      "id": "step-5",
+      "type": "course",
+      "title": "AI Fundamentals",
+      "courseKey": "ai-fundamentals",
+      "courseUrl": "courses/ai-fundamentals.html",
+      "estimatedMin": 30,
+      "reflection": "Which concept from this course was genuinely new to you, and how does it connect to what you learned in the earlier steps?",
+      "adaptiveHint": "Pay particular attention to the last two lessons on context and limits, and on what comes after the chat. That is where things get interesting."
+    },
+    {
       "id": "step-6",
       "type": "checkin",
       "title": "Final reflection",
       "estimatedMin": 5,
-      "prompt": "You have completed the path. Which AI model would you choose for a specific task in your everyday life, and what would you look for when evaluating it?",
-      "hint": "Draw on the model landscape and the core concepts from the earlier courses."
+      "prompt": "You have completed the path. If someone asked you to explain how a modern AI system works, what would you say, and which limitations would you point out?",
+      "hint": "Draw on all four courses: what AI is, how LLMs predict, the model landscape, and what context and agents add to the picture."
     }
   ]
 }
