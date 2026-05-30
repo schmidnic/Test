@@ -12,7 +12,7 @@ html.in-path .post-nav {
   display: none;
 }
 html.in-path .course-title {
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   white-space: normal;
   overflow: visible;
   text-overflow: unset;
@@ -22,9 +22,10 @@ html.in-path .course-header-inner {
   padding-left: 20px;
   padding-right: 20px;
 }
-html.in-path .course-layout,
-html.in-path .sidebar-wrap {
+html.in-path .course-layout {
   min-height: calc(100vh - 70px);
+}
+html.in-path .sidebar-wrap {
   height: calc(100vh - 70px);
   top: 70px;
 }
