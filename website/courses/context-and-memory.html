@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Context, memory, and limits</title>
+  <link rel="stylesheet" href="../css/course.css?v=66" />
+</head>
+<body class="course-page">
+
+  <!-- NAV -->
+  <nav class="nav scrolled">
+    <a href="../index.html" class="nav-logo">SAE Portal</a>
+    <div class="nav-right">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="../catalog.html" class="nav-btn">Course catalog</a>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="nav-mobile">
+    <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="../catalog.html" onclick="closeMobileMenu()">Course catalog</a>
+  </div>
+
+  <!-- COURSE HEADER -->
+  <header class="course-header">
+    <div class="course-header-inner">
+      <div class="course-meta">
+        <h1 class="course-title">Context, memory, and limits</h1>
+        <button class="reset-btn" onclick="resetProgress()" aria-label="Reset progress">
+          <svg viewBox="0 0 16 16" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.5 8a5.5 5.5 0 1 1-1.1-3.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M13.5 3v2.5H11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="course-progress">
+        <span id="progressText">1 / 8</span>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- COURSE LAYOUT -->
+  <div class="course-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="course-sidebar">
+      <nav>
+        <ul id="lessonList" class="lesson-list"></ul>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main id="courseMain" class="course-main">
+
+      <!-- LESSON 1: Slides -->
+      <div class="lesson active" id="lesson-1">
+        <div class="slide-deck" id="slide-deck-1">
+
+          <div class="slide active">
+            <div class="slide-content">
+              <p class="slide-label">Slide 1 of 4</p>
+              <h3>The context window</h3>
+              <p>Every language model operates within a context window: the maximum amount of text it can process in a single interaction. Everything inside the window is visible to the model. Everything outside is invisible. The model cannot recall it, reference it, or reason about it. The context window is not RAM. It is not a cache. It is the complete scope of the model's attention for that interaction.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 2 of 4</p>
+              <h3>Why context windows were small for so long</h3>
+              <p>Attention in a transformer scales as O(n²): compute grows with the square of the number of tokens. Double the context, quadruple the compute. This made long contexts expensive and slow. Early GPT models had 4,096 tokens, roughly three to four pages. Today, leading models support 1 million tokens or more. The architectural innovation that enabled this is an active area of research, including the sparse attention approaches discussed in the transformer microlearning.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 3 of 4</p>
+              <h3>Memory is not what you think it is</h3>
+              <p>When a model seems to remember something from earlier in a conversation, it is because that earlier text is still in the context window. When the window fills up, older content is dropped. When you start a new session, the context resets entirely. There is no persistent memory by default. The model does not know you from last time. Every session is a new entity with no history.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 4 of 4</p>
+              <h3>What this limits in practice</h3>
+              <p>A model cannot read an entire novel in one pass. It cannot reason over a year of project notes. It cannot maintain continuity across a series of sessions without external help. Every AI assistant that appears to have memory is using something beyond the base model: a database, a summarization system, or a retrieval pipeline. Understanding this gap is essential for building and evaluating AI systems honestly.</p>
+            </div>
+          </div>
+
+          <div class="slide-dots-row">
+            <button class="slide-arrow slide-prev" id="prev-slide-deck-1" onclick="prevSlide('slide-deck-1')" disabled aria-label="Previous slide">&#8592;</button>
+            <div class="slide-dots" id="dots-slide-deck-1"></div>
+            <button class="slide-arrow slide-next" id="next-slide-deck-1" onclick="nextSlide('slide-deck-1')" aria-label="Next slide">&#8594;</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 2: Accordion -->
+      <div class="lesson" id="lesson-2">
+        <div class="accordion">
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is RAG?</button>
+            <div class="accordion-panel">
+              <p>Retrieval Augmented Generation. When a user sends a query, relevant content is retrieved from an external knowledge base and inserted into the context window alongside the query. The model then generates a response using both the query and the retrieved content. RAG allows models to reason about documents they were not trained on, to access current information, and to reduce hallucination by grounding answers in retrieved evidence. It is the dominant technique for giving models access to external knowledge.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What are embeddings and vector search?</button>
+            <div class="accordion-panel">
+              <p>An embedding is a dense numerical vector representing the meaning of a piece of text. Similar texts have similar vectors. A vector database stores millions of these embeddings. When a query arrives, it is converted to an embedding, and the database finds the stored embeddings most similar to it. These are the most semantically relevant chunks of text. They are retrieved and inserted into the model's context window. This is how RAG finds the right content to retrieve.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is a vector database?</button>
+            <div class="accordion-panel">
+              <p>A vector database is a storage system optimized for similarity search on high-dimensional vectors. Unlike a traditional database that looks up rows by exact value, a vector database finds the nearest neighbors of a query vector in a high-dimensional space. Popular vector databases include Pinecone, Weaviate, and Qdrant. They are a core component of RAG systems. The quality of retrieval, which depends on embedding quality and indexing, determines how useful the retrieved content is.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What approaches exist for persistent memory?</button>
+            <div class="accordion-panel">
+              <p>Several approaches extend beyond the context window. Summarization compresses long histories into shorter representations. Retrieval stores conversation history externally and retrieves relevant parts when needed. External tools give models access to structured storage like databases or files. Long-context models push the limit of what fits. Each approach has tradeoffs in accuracy, cost, and latency. No single approach fully solves the memory problem, and most production systems combine several.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 3: Video -->
+      <div class="lesson" id="lesson-3">
+        <div class="media-block">
+          <p class="media-label">How context windows and RAG work</p>
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID_4" title="Context windows and RAG explained" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <p class="media-caption">Suggested search: "RAG retrieval augmented generation explained" or "context window limits language models" — several clear visual explanations exist on YouTube.</p>
+        </div>
+      </div>
+
+      <!-- LESSON 4: Hotspot -->
+      <div class="lesson" id="lesson-4">
+        <div class="hotspot-container">
+          <div class="hotspot-image-placeholder">
+
+            <svg viewBox="0 0 680 320" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+              <!-- Background -->
+              <rect x="0" y="0" width="680" height="320" fill="#F0EFFE"/>
+
+              <!-- User query (top center) -->
+              <rect x="270" y="20" width="140" height="36" rx="5" fill="#160B52"/>
+              <text x="340" y="43" text-anchor="middle" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="12" font-weight="600">User query</text>
+
+              <!-- Arrow left branch -->
+              <line x1="300" y1="56" x2="160" y2="110" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
+              <path d="M163 104 L157 112 L167 112" fill="none" stroke="rgba(22,11,82,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Arrow right branch -->
+              <line x1="380" y1="56" x2="520" y2="110" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
+              <path d="M517 104 L523 112 L513 112" fill="none" stroke="rgba(22,11,82,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Left: Query embedding -->
+              <rect x="80" y="110" width="160" height="36" rx="5" fill="rgba(22,11,82,0.4)"/>
+              <text x="160" y="133" text-anchor="middle" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="11">Query &rarr; Embedding</text>
+
+              <!-- Arrow down to vector search -->
+              <line x1="160" y1="146" x2="160" y2="173" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
+              <path d="M154 170 L160 176 L166 170" fill="none" stroke="rgba(22,11,82,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Left: Vector search -->
+              <rect x="80" y="175" width="160" height="36" rx="5" fill="rgba(22,11,82,0.55)"/>
+              <text x="160" y="198" text-anchor="middle" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="11">Vector search</text>
+
+              <!-- Arrow down to retrieved chunks -->
+              <line x1="160" y1="211" x2="160" y2="238" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
+              <path d="M154 235 L160 241 L166 235" fill="none" stroke="rgba(22,11,82,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Left: Retrieved chunks -->
+              <rect x="80" y="240" width="160" height="36" rx="5" fill="rgba(22,11,82,0.35)" stroke="rgba(22,11,82,0.5)" stroke-width="1.5"/>
+              <text x="160" y="263" text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600">Retrieved chunks</text>
+
+              <!-- Right: Original query placeholder -->
+              <rect x="440" y="110" width="160" height="36" rx="5" fill="rgba(22,11,82,0.15)"/>
+              <text x="520" y="133" text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="11">Original query</text>
+
+              <!-- Arrow from retrieved chunks to LLM -->
+              <line x1="200" y1="258" x2="248" y2="258" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
+              <path d="M245 252 L251 258 L245 264" fill="none" stroke="rgba(22,11,82,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Arrow from original query down to LLM -->
+              <line x1="520" y1="146" x2="520" y2="258" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
+              <line x1="520" y1="258" x2="432" y2="258" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
+              <path d="M435 252 L429 258 L435 264" fill="none" stroke="rgba(22,11,82,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- LLM box -->
+              <rect x="250" y="240" width="180" height="40" rx="5" fill="#160B52"/>
+              <text x="340" y="265" text-anchor="middle" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="13" font-weight="700">Language Model</text>
+
+              <!-- Arrow from LLM to response -->
+              <line x1="430" y1="260" x2="458" y2="260" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
+              <path d="M455 254 L461 260 L455 266" fill="none" stroke="rgba(22,11,82,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Response box -->
+              <rect x="460" y="245" width="120" height="36" rx="5" fill="#FF00FF"/>
+              <text x="520" y="268" text-anchor="middle" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="12" font-weight="700">Response</text>
+            </svg>
+
+            <!-- Hotspot 1: Embedding -->
+            <div class="hotspot" style="left:20%;top:56%" data-tooltip="tt-embed">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 2: Vector search -->
+            <div class="hotspot" style="left:20%;top:78%" data-tooltip="tt-vecdb">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 3: LLM -->
+            <div class="hotspot" style="left:50%;top:85%" data-tooltip="tt-llm">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 4: Response -->
+            <div class="hotspot" style="left:77%;top:85%" data-tooltip="tt-response">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+          </div>
+
+          <!-- Tooltips -->
+          <div class="hotspot-tooltip" id="tt-embed">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Embedding the query</strong>
+            <p>The user's query is converted into an embedding: a dense vector representing its meaning. This vector is used to search the vector database for semantically similar content. The quality of the embedding model determines how well the retrieval step finds relevant material.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-vecdb">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Vector search</strong>
+            <p>The vector database contains embeddings for all the documents in the knowledge base. The nearest neighbors of the query embedding are retrieved: the chunks of text most semantically similar to the query. Typically the top 3 to 10 chunks are retrieved and inserted into the context window.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-llm">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Language model</strong>
+            <p>The retrieved chunks and the original query are both placed in the context window. The model generates a response using both. Because the relevant information is now in the context window, the model can answer based on the retrieved evidence rather than relying on what it learned during training. This significantly reduces hallucination for factual questions.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-response">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Grounded response</strong>
+            <p>The model's response is grounded in retrieved evidence. It can cite specific passages. It has access to information outside its training data. And because the evidence is provided explicitly in context, the model is less likely to confabulate. RAG does not eliminate hallucination entirely, but it substantially reduces it for factual retrieval tasks.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 5: Flipcards -->
+      <div class="lesson" id="lesson-5">
+        <div class="flip-grid">
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Context</p>
+                <p class="flip-card-title">What happens when a conversation exceeds the context window?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Earlier content is lost</strong>
+                <p>When the context window fills, the model cannot process all the text at once. Typically, older content is dropped from the beginning of the conversation. The model has no access to what was dropped. This is why long conversations can lose coherence, and why AI assistants that need to track extended history use external storage rather than relying on context alone.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">RAG</p>
+                <p class="flip-card-title">What problem does RAG solve that a larger context window does not?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Cost, freshness, and scale</strong>
+                <p>A large context window still has limits and costs. RAG retrieves only the relevant portion of a large knowledge base, inserting just what is needed. It can access documents not in the training data. It can be updated in real time without retraining. And it scales to knowledge bases far larger than any context window. The two approaches are complementary, not alternatives.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Embeddings</p>
+                <p class="flip-card-title">Why are embeddings useful for retrieval?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Semantic similarity</strong>
+                <p>Embeddings represent meaning as vectors. Semantically similar texts have similar vectors, even if they share no keywords. A query about "fixing a leaking faucet" can retrieve a document about "plumbing repair" because their embeddings are close in vector space. This goes beyond keyword matching and enables retrieval based on meaning.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Memory</p>
+                <p class="flip-card-title">How do AI assistants that remember past conversations actually work?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>External storage, not model memory</strong>
+                <p>The base model has no persistent memory. Assistants that remember you are using an external system: a database that stores conversation history, a summarization pipeline that compresses it, and a retrieval system that injects relevant past content into the current context window. The model reads its own history the same way it reads any other retrieved document.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 6: Quiz -->
+      <div class="lesson" id="lesson-6">
+
+        <div class="quiz" id="quiz-1">
+          <p class="quiz-question">Why did context windows stay small for so long?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="a" />
+              <span>Hardware was not capable of running large models</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="b" />
+              <span>Attention computation scales as O(n²), making longer contexts exponentially more expensive</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="c" />
+              <span>Models were not trained on long documents</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-1','b','Correct. The O(n²) attention cost is the primary reason. Doubling context length quadruples the attention computation. This made long contexts expensive and slow, keeping practical limits around 4,000 to 8,000 tokens for most models until recently.','Not quite. The core constraint is computational: attention scales as O(n²). Hardware capability is a factor, but the quadratic scaling of attention is the structural reason context windows stayed small.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-1"></div>
+        </div>
+
+        <div class="quiz" id="quiz-2">
+          <p class="quiz-question">What does RAG provide that a larger context window alone cannot?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="a" />
+              <span>It gives the model access to knowledge bases larger than any context window, with real-time updates</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="b" />
+              <span>It makes the model faster</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="c" />
+              <span>It increases the model's parameter count</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-2','a','Correct. RAG decouples the knowledge base from the context window. You can retrieve from millions of documents, update the knowledge base in real time, and only inject what is relevant. A context window, however large, is still finite and cannot hold the entire internet.','Not quite. RAG is about access to external knowledge, not speed or model size. It retrieves relevant information from large knowledge bases and injects it into the context window.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-2"></div>
+        </div>
+
+        <div class="quiz" id="quiz-3">
+          <p class="quiz-question">When an AI assistant seems to "remember" a previous conversation, what is actually happening?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="a" />
+              <span>The model retained the information in its parameters during the conversation</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="b" />
+              <span>The assistant stores conversation history externally and retrieves it into the context window</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="c" />
+              <span>The model has a long-term memory system built into its architecture</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-3','b','Correct. The base model has no persistent memory. Assistants that remember use external storage: a database of conversation history, often compressed or summarized, retrieved and injected into the context window at the start of each new session.','Not quite. Language models do not update their parameters during inference. Any apparent memory is provided by an external storage system that retrieves past conversation content into the current context.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-3"></div>
+        </div>
+
+      </div>
+
+      <!-- LESSON 7: Takeaways -->
+      <div class="lesson" id="lesson-7">
+        <h2 class="lesson-title">What to take with you</h2>
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">The context window is not just a technical limit. It defines the scope of the model's attention. Everything inside it is visible. Everything outside is gone. Understanding this prevents the most common category of errors in AI system design: expecting models to track information they cannot see.</p>
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">RAG is the dominant solution for knowledge retrieval, but it is not a complete solution. Retrieval quality depends on embedding quality. Relevant chunks can be missed. The model can still hallucinate when retrieved context is ambiguous or insufficient. RAG reduces the problem significantly without eliminating it.</p>
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">Context length is growing fast. What was architecturally impossible two years ago is now routine. The combination of longer contexts and better retrieval is making AI systems capable of tasks that seemed permanently out of reach. The limit is moving, and knowing where it currently sits is part of staying current.</p>
+      </div>
+
+      <!-- LESSON 8: Completion -->
+      <div class="lesson" id="lesson-8">
+        <div class="completion-screen">
+          <div class="completion-screen-icon">
+            <div class="thumb-icon">
+              <svg viewBox="0 0 24 24" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <h2 class="celebration-title">You made it.</h2>
+          <p class="celebration-subtitle">Microlearning complete.</p>
+          <p class="celebration-msg">You now understand the context window, why it matters, how RAG works around its limits, and what persistent memory actually means in practice. Most people who use AI daily do not have this picture.</p>
+          <div class="feedback-section" style="border-top:none; padding-top:0; margin-top:36px;">
+            <p class="feedback-prompt">How was this course?</p>
+            <div class="feedback-emojis">
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><path d="M10 18.5 Q16 24.5 22 18.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><line x1="10" y1="20.5" x2="22" y2="20.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><path d="M10 22.5 Q16 16.5 22 22.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></button>
+            </div>
+            <p class="feedback-thanks" id="feedbackThanks"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- LESSON FOOTER -->
+      <div id="lessonFooter" class="lesson-footer">
+        <button id="prevBtn" class="lesson-nav-btn" onclick="navigate(-1)" disabled>&#8592; Back</button>
+        <span id="lessonCounter" class="lesson-counter">1 / 8</span>
+        <button id="nextBtn" class="lesson-nav-btn" onclick="navigate(1)">Next &#8594;</button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- POST-NAV -->
+  <nav class="post-nav" aria-label="More content">
+    <div class="post-nav-inner">
+      <a class="post-nav-item" href="model-training.html" style="grid-column:1/2; text-align:left; padding-right:clamp(20px,4vw,48px);">
+        <span class="post-nav-label">&#8592; Previous</span>
+        <span class="post-nav-title">How models get built</span>
+      </a>
+      <a class="post-nav-item" href="model-landscape.html" style="grid-column:2/3; text-align:right; padding-left:clamp(20px,4vw,48px);">
+        <span class="post-nav-label">Next in the series</span>
+        <span class="post-nav-title">Models and who builds them &#8594;</span>
+      </a>
+    </div>
+  </nav>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const LESSON_TITLES = [
+      "The context window",
+      "Beyond the window",
+      "Watch and anchor",
+      "RAG architecture",
+      "Test yourself",
+      "Check your understanding",
+      "What to take with you",
+      "Complete"
+    ];
+    const TOTAL = LESSON_TITLES.length;
+    let current = 1;
+
+    const list = document.getElementById('lessonList');
+    LESSON_TITLES.forEach((title, i) => {
+      const li = document.createElement('li');
+      li.className = 'lesson-item' + (i === 0 ? ' active' : '');
+      li.dataset.lesson = i + 1;
+      li.innerHTML = `<span class="lesson-num">${i + 1}</span><span class="lesson-name">${title}</span>`;
+      li.addEventListener('click', () => goTo(i + 1));
+      list.appendChild(li);
+    });
+
+    function launchConfetti() {
+      const existing = document.getElementById('confetti-container'); if (existing) existing.remove();
+      const colors = ['#FF00FF','#e909f6','#160B52','#7C3AED','#a78bfa','#E9D5FF','#F0EFFE','#fff','#c4b5fd'];
+      const wrap = document.createElement('div'); wrap.id = 'confetti-container';
+      wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden;';
+      document.body.appendChild(wrap);
+      for (let i = 0; i < 140; i++) {
+        const el = document.createElement('div');
+        const color = colors[Math.floor(Math.random()*colors.length)];
+        const left = Math.random()*100, delay = Math.random()*1.6, dur = 2+Math.random()*2.5;
+        const w = 5+Math.random()*13, drift = (Math.random()-0.5)*200, wobble = (Math.random()-0.5)*80;
+        el.style.cssText = `position:absolute;top:-20px;left:${left}%;width:${w}px;height:${w}px;background:${color};border-radius:50%;opacity:0.95;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;--wobble:${wobble}px;`;
+        wrap.appendChild(el);
+      }
+      setTimeout(() => wrap.remove(), 7000);
+    }
+
+    function resetProgress() {
+      localStorage.removeItem('cam-lesson'); localStorage.removeItem('cam-feedback');
+      document.getElementById('feedbackThanks').textContent = '';
+      document.getElementById('feedbackThanks').classList.remove('visible');
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      goTo(1);
+    }
+
+    function submitFeedback(btn) {
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const thanks = document.getElementById('feedbackThanks');
+      thanks.textContent = 'Thanks for your feedback!'; thanks.classList.add('visible');
+      const item8 = document.querySelector('.lesson-item[data-lesson="8"]');
+      item8.classList.add('done'); item8.classList.remove('active');
+      localStorage.setItem('cam-feedback', '1');
+      const thumb = document.querySelector('.thumb-icon');
+      if (thumb) { thumb.classList.remove('bounce'); void thumb.offsetWidth; thumb.classList.add('bounce'); thumb.addEventListener('animationend', () => thumb.classList.remove('bounce'), {once:true}); }
+    }
+
+    function goTo(n, silent) {
+      document.getElementById('lesson-'+current).classList.remove('active');
+      document.querySelectorAll('.lesson-item').forEach(el => { el.classList.remove('active'); if (parseInt(el.dataset.lesson)<n) el.classList.add('done'); else el.classList.remove('done'); });
+      current = n;
+      document.getElementById('lesson-'+current).classList.add('active');
+      document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
+      updateUI();
+      if (!silent) { const t = document.getElementById('courseMain').offsetTop-130; if (window.scrollY>t) window.scrollTo({top:t,behavior:'smooth'}); }
+      if (n===TOTAL && !silent) launchConfetti();
+      localStorage.setItem('cam-lesson', n);
+    }
+
+    function navigate(dir) { const next=current+dir; if (next>=1&&next<=TOTAL) goTo(next); }
+
+    function updateUI() {
+      const pct = ((current-1)/(TOTAL-1)*100).toFixed(0);
+      document.getElementById('progressFill').style.width = pct+'%';
+      document.getElementById('progressText').textContent = current+' / '+TOTAL;
+      document.getElementById('lessonCounter').textContent = current+' / '+TOTAL;
+      document.getElementById('prevBtn').disabled = current===1;
+      const nb = document.getElementById('nextBtn'), f = document.getElementById('lessonFooter');
+      if (current===TOTAL) { f.style.display='none'; }
+      else { f.style.display=''; nb.disabled=false; nb.onclick=()=>navigate(1); nb.textContent=current===TOTAL-1?'Finish':'Next →'; }
+    }
+
+    const savedLesson = parseInt(localStorage.getItem('cam-lesson'))||1;
+    goTo(savedLesson, true);
+    if (localStorage.getItem('cam-feedback')) {
+      const i8=document.querySelector('.lesson-item[data-lesson="8"]');
+      if (i8){i8.classList.add('done');i8.classList.remove('active');}
+      const t=document.getElementById('feedbackThanks');
+      if (t){t.textContent='Thanks for your feedback!';t.classList.add('visible');}
+    }
+
+    function initDots(deckId) {
+      const deck=document.getElementById(deckId); if(!deck) return;
+      const slides=deck.querySelectorAll('.slide'), dots=document.getElementById('dots-'+deckId); if(!dots) return;
+      dots.innerHTML='';
+      slides.forEach((_,i)=>{ const d=document.createElement('button'); d.className='slide-dot'+(i===0?' active':''); d.setAttribute('aria-label','Slide '+(i+1)); d.onclick=()=>goToSlide(deckId,i); dots.appendChild(d); });
+    }
+    function goToSlide(deckId,idx) {
+      const deck=document.getElementById(deckId);
+      deck.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===idx));
+      const de=document.getElementById('dots-'+deckId); if(de) de.querySelectorAll('.slide-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+      const pb=document.getElementById('prev-'+deckId),nb=document.getElementById('next-'+deckId);
+      if(pb) pb.disabled=idx===0; if(nb) nb.disabled=idx===deck.querySelectorAll('.slide').length-1;
+    }
+    function currentSlideIdx(deckId) { return [...document.getElementById(deckId).querySelectorAll('.slide')].findIndex(s=>s.classList.contains('active')); }
+    function nextSlide(deckId) { const s=document.getElementById(deckId).querySelectorAll('.slide'); goToSlide(deckId,Math.min(currentSlideIdx(deckId)+1,s.length-1)); }
+    function prevSlide(deckId) { goToSlide(deckId,Math.max(currentSlideIdx(deckId)-1,0)); }
+    document.querySelectorAll('.slide-deck').forEach(d=>initDots(d.id));
+
+    document.querySelectorAll('.hotspot').forEach(hs=>{
+      hs.addEventListener('click',e=>{
+        e.stopPropagation(); const id=hs.dataset.tooltip, tt=document.getElementById(id), open=tt.classList.contains('open');
+        document.querySelectorAll('.hotspot-tooltip').forEach(t=>t.classList.remove('open'));
+        document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));
+        if(!open){tt.classList.add('open');hs.classList.add('active');}
+      });
+    });
+    document.querySelectorAll('.tooltip-close').forEach(b=>{
+      b.addEventListener('click',e=>{e.stopPropagation();b.closest('.hotspot-tooltip').classList.remove('open');document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));});
+    });
+    document.addEventListener('click',()=>{
+      document.querySelectorAll('.hotspot-tooltip').forEach(t=>t.classList.remove('open'));
+      document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));
+    });
+
+    function checkQuiz(quizId,correct,okMsg,wrongMsg) {
+      const quiz=document.getElementById(quizId), sel=quiz.querySelector('input[type="radio"]:checked'), fb=document.getElementById('feedback-'+quizId);
+      if(!sel){fb.textContent='Please select an answer.';fb.className='quiz-feedback show neutral';return;}
+      fb.textContent=sel.value===correct?okMsg:wrongMsg; fb.className='quiz-feedback show '+(sel.value===correct?'correct':'wrong');
+    }
+    function checkMulti(quizId,correct,okMsg,wrongMsg) {
+      const quiz=document.getElementById(quizId), sel=[...quiz.querySelectorAll('input[type="checkbox"]:checked')].map(i=>i.value).sort(), fb=document.getElementById('feedback-'+quizId);
+      if(sel.length===0){fb.textContent='Please select at least one answer.';fb.className='quiz-feedback show neutral';return;}
+      const ok=JSON.stringify(sel)===JSON.stringify([...correct].sort());
+      fb.textContent=ok?okMsg:wrongMsg; fb.className='quiz-feedback show '+(ok?'correct':'wrong');
+    }
+  </script>
+
+</body>
+</html>

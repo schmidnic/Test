@@ -16,5 +16,41 @@
     "level": "Intermediate",
     "topics": ["ai"],
     "estimatedMin": 20
+  },
+  {
+    "key": "what-is-ai",
+    "title": "What is AI?",
+    "description": "From rule-based systems to neural networks: what AI actually is, what it is not, and how the main branches relate to each other.",
+    "url": "courses/what-is-ai.html",
+    "level": "Beginner",
+    "topics": ["ai"],
+    "estimatedMin": 25
+  },
+  {
+    "key": "how-llms-work",
+    "title": "How LLMs Work",
+    "description": "Tokens, embeddings, attention, and why models hallucinate. A practical look at what happens inside a language model.",
+    "url": "courses/how-llms-work.html",
+    "level": "Beginner",
+    "topics": ["ai"],
+    "estimatedMin": 25
+  },
+  {
+    "key": "model-training",
+    "title": "How Models Are Trained",
+    "description": "Pre-training, fine-tuning, RLHF, and alignment: where a model's behavior comes from and why it can be changed.",
+    "url": "courses/model-training.html",
+    "level": "Intermediate",
+    "topics": ["ai"],
+    "estimatedMin": 25
+  },
+  {
+    "key": "context-and-memory",
+    "title": "Context, Memory and Limits",
+    "description": "What a context window is, why it matters, and how RAG and vector search extend what a model can work with.",
+    "url": "courses/context-and-memory.html",
+    "level": "Intermediate",
+    "topics": ["ai"],
+    "estimatedMin": 25
   }
 ]

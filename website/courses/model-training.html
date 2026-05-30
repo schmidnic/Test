@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How models get built</title>
+  <link rel="stylesheet" href="../css/course.css?v=66" />
+</head>
+<body class="course-page">
+
+  <!-- NAV -->
+  <nav class="nav scrolled">
+    <a href="../index.html" class="nav-logo">SAE Portal</a>
+    <div class="nav-right">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="../catalog.html" class="nav-btn">Course catalog</a>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="nav-mobile">
+    <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="../catalog.html" onclick="closeMobileMenu()">Course catalog</a>
+  </div>
+
+  <!-- COURSE HEADER -->
+  <header class="course-header">
+    <div class="course-header-inner">
+      <div class="course-meta">
+        <h1 class="course-title">How models get built</h1>
+        <button class="reset-btn" onclick="resetProgress()" aria-label="Reset progress">
+          <svg viewBox="0 0 16 16" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.5 8a5.5 5.5 0 1 1-1.1-3.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M13.5 3v2.5H11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="course-progress">
+        <span id="progressText">1 / 8</span>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- COURSE LAYOUT -->
+  <div class="course-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="course-sidebar">
+      <nav>
+        <ul id="lessonList" class="lesson-list"></ul>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main id="courseMain" class="course-main">
+
+      <!-- LESSON 1: Slides -->
+      <div class="lesson active" id="lesson-1">
+        <div class="slide-deck" id="slide-deck-1">
+
+          <div class="slide active">
+            <div class="slide-content">
+              <p class="slide-label">Slide 1 of 4</p>
+              <h3>Pre-training: learning from everything</h3>
+              <p>A base language model is trained on a massive corpus: a large fraction of the public internet, digitized books, code repositories, scientific papers, and other text. The model sees token after token and learns to predict what comes next. This is pre-training. It has no specific goal beyond prediction, yet from this process emerges the ability to write, reason, translate, summarize, and answer questions.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 2 of 4</p>
+              <h3>The numbers that matter</h3>
+              <p>Training a frontier model requires hundreds of billions to trillions of tokens of training data. GPT-3 was trained on roughly 300 billion tokens. Llama 3 was trained on 15 trillion. A single training run for a state-of-the-art model can cost 50 to 100 million dollars in compute. It typically runs for weeks or months on thousands of specialized chips. This is why only a handful of organizations can train frontier models from scratch.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 3 of 4</p>
+              <h3>What pre-training produces</h3>
+              <p>Pre-training produces a base model: one that has learned the statistical structure of language and the knowledge encoded in its training data, but has no instruction-following behavior. A raw pre-trained model will complete text in whatever direction seems most probable, including unhelpful, harmful, or incoherent directions. It is not yet a useful assistant. Fine-tuning and alignment are the steps that turn it into one.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 4 of 4</p>
+              <h3>Parameters: what the model retains</h3>
+              <p>Everything the model learns during training is encoded in its parameters: the billions of numerical weights that define how the model transforms input into output. These weights are not a database of facts. They are a compressed representation of patterns across the entire training corpus. When you ask a model a question, it reconstructs an answer from these weights, which is why answers can be wrong, incomplete, or outdated.</p>
+            </div>
+          </div>
+
+          <div class="slide-dots-row">
+            <button class="slide-arrow slide-prev" id="prev-slide-deck-1" onclick="prevSlide('slide-deck-1')" disabled aria-label="Previous slide">&#8592;</button>
+            <div class="slide-dots" id="dots-slide-deck-1"></div>
+            <button class="slide-arrow slide-next" id="next-slide-deck-1" onclick="nextSlide('slide-deck-1')" aria-label="Next slide">&#8594;</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 2: Accordion -->
+      <div class="lesson" id="lesson-2">
+        <div class="accordion">
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is fine-tuning?</button>
+            <div class="accordion-panel">
+              <p>Fine-tuning takes a pre-trained base model and continues training it on a smaller, curated dataset. The goal is to shape behavior: make the model more helpful, more focused on a domain, or aligned with specific guidelines. The pre-training weights are the starting point. Fine-tuning adjusts them toward the desired behavior. This is much cheaper than pre-training from scratch, which is why specialized models can be built on top of existing base models.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is RLHF?</button>
+            <div class="accordion-panel">
+              <p>Reinforcement Learning from Human Feedback. After initial fine-tuning, human raters compare pairs of model outputs and indicate which is better. A reward model is trained on these preferences. The language model is then trained using reinforcement learning to maximize the reward model's score. This is how raw language ability becomes helpful, safe behavior. It is also where the model learns to be polite, to refuse harmful requests, and to follow instructions.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is RLAIF and Constitutional AI?</button>
+            <div class="accordion-panel">
+              <p>RLAIF stands for Reinforcement Learning from AI Feedback. Instead of human raters, another AI model provides feedback. Constitutional AI, developed by Anthropic, goes further: the model is given a set of principles (a constitution) and trained to critique and revise its own outputs according to those principles. These techniques reduce reliance on expensive human annotation and allow more systematic control over model values and behavior.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is alignment?</button>
+            <div class="accordion-panel">
+              <p>Alignment is the problem of ensuring AI systems pursue the goals their developers intend, rather than proxy goals or unintended objectives. A language model trained purely to maximize human approval ratings might learn to flatter users rather than be truthful. Alignment techniques aim to make models that are helpful, honest, and harmless, and to ensure these properties scale as models get more capable. It is one of the central research problems in AI safety.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 3: Video -->
+      <div class="lesson" id="lesson-3">
+        <div class="media-block">
+          <p class="media-label">Training language models: what actually happens</p>
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID_3" title="Training language models explained" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <p class="media-caption">Suggested search: "Andrej Karpathy training GPT from scratch" or "how language models are trained explained" — Karpathy's video walkthroughs are among the best technical explanations available.</p>
+        </div>
+      </div>
+
+      <!-- LESSON 4: Hotspot -->
+      <div class="lesson" id="lesson-4">
+        <div class="hotspot-container">
+          <div class="hotspot-image-placeholder">
+
+            <svg viewBox="0 0 680 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+              <!-- Background -->
+              <rect x="0" y="0" width="680" height="200" fill="#F0EFFE"/>
+
+              <!-- Stage 1: Raw Data -->
+              <rect x="20" y="80" width="110" height="40" rx="5" fill="rgba(22,11,82,0.15)" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
+              <text x="75" y="105" text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="12" font-weight="600">Raw Data</text>
+              <text x="75" y="120" text-anchor="middle" fill="rgba(22,11,82,0.5)" font-family="Space Grotesk,sans-serif" font-size="9">(internet, books)</text>
+              <text x="75" y="148" text-anchor="middle" fill="rgba(22,11,82,0.45)" font-family="Space Grotesk,sans-serif" font-size="9">$10M+</text>
+
+              <!-- Arrow 1 to 2 -->
+              <line x1="130" y1="100" x2="155" y2="100" stroke="rgba(22,11,82,0.5)" stroke-width="1.5"/>
+              <path d="M148 94 L157 100 L148 106" fill="none" stroke="rgba(22,11,82,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Stage 2: Pre-training -->
+              <rect x="160" y="80" width="110" height="40" rx="5" fill="rgba(22,11,82,0.3)" stroke="rgba(22,11,82,0.45)" stroke-width="1.5"/>
+              <text x="215" y="105" text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="12" font-weight="600">Pre-training</text>
+              <text x="215" y="120" text-anchor="middle" fill="rgba(22,11,82,0.6)" font-family="Space Grotesk,sans-serif" font-size="9">(base model)</text>
+              <text x="215" y="148" text-anchor="middle" fill="rgba(22,11,82,0.45)" font-family="Space Grotesk,sans-serif" font-size="9">weeks, GPU cluster</text>
+
+              <!-- Arrow 2 to 3 -->
+              <line x1="270" y1="100" x2="295" y2="100" stroke="rgba(22,11,82,0.5)" stroke-width="1.5"/>
+              <path d="M288 94 L297 100 L288 106" fill="none" stroke="rgba(22,11,82,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Stage 3: Fine-tuning -->
+              <rect x="300" y="80" width="110" height="40" rx="5" fill="rgba(22,11,82,0.5)" stroke="rgba(22,11,82,0.65)" stroke-width="1.5"/>
+              <text x="355" y="105" text-anchor="middle" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="12" font-weight="600">Fine-tuning</text>
+              <text x="355" y="120" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Space Grotesk,sans-serif" font-size="9">(instruction data)</text>
+              <text x="355" y="148" text-anchor="middle" fill="rgba(22,11,82,0.45)" font-family="Space Grotesk,sans-serif" font-size="9">days to weeks</text>
+
+              <!-- Arrow 3 to 4 -->
+              <line x1="410" y1="100" x2="435" y2="100" stroke="rgba(22,11,82,0.5)" stroke-width="1.5"/>
+              <path d="M428 94 L437 100 L428 106" fill="none" stroke="rgba(22,11,82,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Stage 4: RLHF -->
+              <rect x="440" y="80" width="110" height="40" rx="5" fill="rgba(22,11,82,0.7)" stroke="rgba(22,11,82,0.85)" stroke-width="1.5"/>
+              <text x="495" y="105" text-anchor="middle" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="12" font-weight="600">RLHF</text>
+              <text x="495" y="120" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Space Grotesk,sans-serif" font-size="9">(human feedback)</text>
+              <text x="495" y="148" text-anchor="middle" fill="rgba(22,11,82,0.45)" font-family="Space Grotesk,sans-serif" font-size="9">days, human raters</text>
+
+              <!-- Arrow 4 to 5 -->
+              <line x1="550" y1="100" x2="575" y2="100" stroke="rgba(22,11,82,0.5)" stroke-width="1.5"/>
+              <path d="M568 94 L577 100 L568 106" fill="none" stroke="rgba(22,11,82,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Stage 5: Production -->
+              <rect x="580" y="80" width="100" height="40" rx="5" fill="#FF00FF"/>
+              <text x="630" y="105" text-anchor="middle" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="12" font-weight="700">Production</text>
+              <text x="630" y="120" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Space Grotesk,sans-serif" font-size="9">model</text>
+              <text x="630" y="148" text-anchor="middle" fill="rgba(22,11,82,0.45)" font-family="Space Grotesk,sans-serif" font-size="9">deployed</text>
+            </svg>
+
+            <!-- Hotspot 1: Pre-training -->
+            <div class="hotspot" style="left:16%;top:45%" data-tooltip="tt-pretrain">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 2: Fine-tuning -->
+            <div class="hotspot" style="left:47%;top:45%" data-tooltip="tt-finetune">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 3: RLHF -->
+            <div class="hotspot" style="left:66%;top:45%" data-tooltip="tt-rlhf">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 4: Production -->
+            <div class="hotspot" style="left:89%;top:45%" data-tooltip="tt-prod">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+          </div>
+
+          <!-- Tooltips -->
+          <div class="hotspot-tooltip" id="tt-pretrain">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Pre-training</strong>
+            <p>The most expensive step. The model processes hundreds of billions of tokens and adjusts billions of parameters to predict the next token well. After pre-training, the model has broad language ability but no instruction-following behavior. It will continue text in whatever direction seems probable.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-finetune">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Fine-tuning</strong>
+            <p>The pre-trained model is trained further on a curated dataset of (instruction, response) pairs. This teaches the model to follow instructions, answer questions, and behave helpfully. Fine-tuning is much cheaper than pre-training, typically taking days rather than months, because the starting point is an already-capable model.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-rlhf">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>RLHF</strong>
+            <p>Human raters compare pairs of model responses and indicate which is better. A reward model learns these preferences. The language model is then trained to maximize reward model scores using reinforcement learning. This step embeds helpfulness, safety, and value alignment into the model's behavior.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-prod">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Production model</strong>
+            <p>The final model is deployed behind an API. Users send prompts; the model generates responses via inference. No further learning happens at inference time. The parameters are fixed. Any updates require a new training run.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 5: Flipcards -->
+      <div class="lesson" id="lesson-5">
+        <div class="flip-grid">
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Base vs. fine-tuned</p>
+                <p class="flip-card-title">What is the difference between a base model and a fine-tuned model?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Raw vs. shaped</strong>
+                <p>A base model is the output of pre-training: broad language ability, no instruction-following behavior. A fine-tuned model has been further trained on curated data to follow instructions and behave helpfully. When you use ChatGPT, Claude, or Gemini, you are using a fine-tuned model. The base models they are built on are rarely released directly.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">RLHF</p>
+                <p class="flip-card-title">Why is human feedback needed after fine-tuning?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Values, not just behavior</strong>
+                <p>Fine-tuning teaches the model to follow instructions. RLHF teaches it to follow instructions in ways humans prefer: to be helpful rather than sycophantic, honest rather than confident in wrong answers, and safe rather than compliant with harmful requests. Human preferences are difficult to specify as rules. RLHF learns them from examples.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Alignment</p>
+                <p class="flip-card-title">What is the alignment problem?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Intent vs. proxy</strong>
+                <p>The alignment problem is ensuring AI systems pursue the goals their developers intend. A model optimized purely for human approval might learn to flatter rather than inform. A model optimized to maximize engagement might learn to provoke. Alignment research tries to specify and enforce the right goals, and to ensure those goals remain stable as models become more capable.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Parameters</p>
+                <p class="flip-card-title">What do model parameters represent after training?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Compressed patterns</strong>
+                <p>Model parameters are the numerical weights adjusted during training. After training, they encode a compressed representation of patterns across the training corpus: language structure, world knowledge, reasoning patterns, and much else. They are not a database. They cannot be queried directly. They are only accessible through the prediction mechanism.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 6: Quiz -->
+      <div class="lesson" id="lesson-6">
+
+        <div class="quiz" id="quiz-1">
+          <p class="quiz-question">What does pre-training produce, and what does it not produce?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="a" />
+              <span>A model that can answer questions accurately</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="b" />
+              <span>A model with broad language ability but no instruction-following behavior</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="c" />
+              <span>A model ready for deployment</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-1','b','Correct. Pre-training produces a base model that predicts text well but has no instruction-following behavior and no safety guarantees. Fine-tuning and RLHF are required to turn it into a useful assistant.','Not quite. Pre-training alone does not produce an instruction-following model. The base model will complete text in whatever direction seems probable, which is not the same as answering questions helpfully or safely.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-1"></div>
+        </div>
+
+        <div class="quiz" id="quiz-2">
+          <p class="quiz-question">What does RLHF contribute that fine-tuning alone cannot?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="a" />
+              <span>Faster inference speed</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="b" />
+              <span>A larger training dataset</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="c" />
+              <span>Value alignment: making the model behave in ways humans prefer, not just ways that technically follow instructions</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-2','c','Correct. Fine-tuning teaches instruction-following. RLHF shapes that behavior according to human preferences: honesty, helpfulness, avoiding harm. These properties are hard to specify as explicit rules but can be learned from preference data.','Not quite. RLHF is not about speed or data scale. It shapes behavior according to human preferences, embedding values like honesty and safety that are difficult to specify as explicit rules.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-2"></div>
+        </div>
+
+        <div class="quiz" id="quiz-3">
+          <p class="quiz-question">Which of the following are true about model parameters?</p>
+          <p class="quiz-hint">Multiple answers correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="checkbox" name="q3" value="a" />
+              <span>They encode patterns learned during training</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q3" value="b" />
+              <span>They are a searchable database of facts</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q3" value="c" />
+              <span>They are fixed at inference time, no learning happens</span>
+            </label>
+            <label class="quiz-option">
+              <input type="checkbox" name="q3" value="d" />
+              <span>Their number roughly measures model capacity</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkMulti('quiz-3',['a','c','d'],'Exactly right. Parameters encode learned patterns (a), are fixed during inference (c), and their count is a rough measure of model capacity (d). They are not a searchable database, which is why facts can be recalled incorrectly.','One or more selections is off. Parameters are not a searchable database of facts, which is why models can be wrong about things that were in their training data.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-3"></div>
+        </div>
+
+      </div>
+
+      <!-- LESSON 7: Takeaways -->
+      <div class="lesson" id="lesson-7">
+        <h2 class="lesson-title">What to take with you</h2>
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">Pre-training, fine-tuning, and RLHF are not interchangeable steps. They do different things at different costs. Pre-training gives the model its capability. Fine-tuning gives it behavior. RLHF gives it values. Knowing which step is responsible for which property helps you understand why models fail in particular ways and what can be improved without retraining from scratch.</p>
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">The cost of pre-training is why only a few organizations build frontier models. The relative cheapness of fine-tuning is why hundreds of specialized models can be built on top of those frontier models. This structure has significant implications for who controls AI capability and who can customize it.</p>
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">Alignment is not a solved problem. Current techniques produce models that are considerably more helpful and safer than raw pre-trained models, but RLHF and constitutional AI are partial, imperfect solutions. The gap between "behaving well in tested situations" and "reliably behaving well in all situations" remains significant.</p>
+      </div>
+
+      <!-- LESSON 8: Completion -->
+      <div class="lesson" id="lesson-8">
+        <div class="completion-screen">
+          <div class="completion-screen-icon">
+            <div class="thumb-icon">
+              <svg viewBox="0 0 24 24" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <h2 class="celebration-title">You made it.</h2>
+          <p class="celebration-subtitle">Microlearning complete.</p>
+          <p class="celebration-msg">You now understand how models go from raw data to production: the scale of pre-training, the purpose of fine-tuning, and the role of RLHF in shaping values. That is the complete picture behind every language model you interact with.</p>
+          <div class="feedback-section" style="border-top:none; padding-top:0; margin-top:36px;">
+            <p class="feedback-prompt">How was this course?</p>
+            <div class="feedback-emojis">
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><path d="M10 18.5 Q16 24.5 22 18.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><line x1="10" y1="20.5" x2="22" y2="20.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great"><svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><path d="M10 22.5 Q16 16.5 22 22.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></button>
+            </div>
+            <p class="feedback-thanks" id="feedbackThanks"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- LESSON FOOTER -->
+      <div id="lessonFooter" class="lesson-footer">
+        <button id="prevBtn" class="lesson-nav-btn" onclick="navigate(-1)" disabled>&#8592; Back</button>
+        <span id="lessonCounter" class="lesson-counter">1 / 8</span>
+        <button id="nextBtn" class="lesson-nav-btn" onclick="navigate(1)">Next &#8594;</button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- POST-NAV -->
+  <nav class="post-nav" aria-label="More content">
+    <div class="post-nav-inner">
+      <a class="post-nav-item" href="how-llms-work.html" style="grid-column:1/2; text-align:left; padding-right:clamp(20px,4vw,48px);">
+        <span class="post-nav-label">&#8592; Previous</span>
+        <span class="post-nav-title">How language models work</span>
+      </a>
+      <a class="post-nav-item" href="context-and-memory.html" style="grid-column:2/3; text-align:right; padding-left:clamp(20px,4vw,48px);">
+        <span class="post-nav-label">Next in the series</span>
+        <span class="post-nav-title">Context, memory, and limits &#8594;</span>
+      </a>
+    </div>
+  </nav>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const LESSON_TITLES = [
+      "Pre-training at scale",
+      "Fine-tuning and alignment",
+      "Watch and anchor",
+      "The training pipeline",
+      "Test yourself",
+      "Check your understanding",
+      "What to take with you",
+      "Complete"
+    ];
+    const TOTAL = LESSON_TITLES.length;
+    let current = 1;
+
+    const list = document.getElementById('lessonList');
+    LESSON_TITLES.forEach((title, i) => {
+      const li = document.createElement('li');
+      li.className = 'lesson-item' + (i === 0 ? ' active' : '');
+      li.dataset.lesson = i + 1;
+      li.innerHTML = `<span class="lesson-num">${i + 1}</span><span class="lesson-name">${title}</span>`;
+      li.addEventListener('click', () => goTo(i + 1));
+      list.appendChild(li);
+    });
+
+    function launchConfetti() {
+      const existing = document.getElementById('confetti-container'); if (existing) existing.remove();
+      const colors = ['#FF00FF','#e909f6','#160B52','#7C3AED','#a78bfa','#E9D5FF','#F0EFFE','#fff','#c4b5fd'];
+      const wrap = document.createElement('div'); wrap.id = 'confetti-container';
+      wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden;';
+      document.body.appendChild(wrap);
+      for (let i = 0; i < 140; i++) {
+        const el = document.createElement('div');
+        const color = colors[Math.floor(Math.random()*colors.length)];
+        const left = Math.random()*100, delay = Math.random()*1.6, dur = 2+Math.random()*2.5;
+        const w = 5+Math.random()*13, drift = (Math.random()-0.5)*200, wobble = (Math.random()-0.5)*80;
+        el.style.cssText = `position:absolute;top:-20px;left:${left}%;width:${w}px;height:${w}px;background:${color};border-radius:50%;opacity:0.95;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;--wobble:${wobble}px;`;
+        wrap.appendChild(el);
+      }
+      setTimeout(() => wrap.remove(), 7000);
+    }
+
+    function resetProgress() {
+      localStorage.removeItem('mtr-lesson'); localStorage.removeItem('mtr-feedback');
+      document.getElementById('feedbackThanks').textContent = '';
+      document.getElementById('feedbackThanks').classList.remove('visible');
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      goTo(1);
+    }
+
+    function submitFeedback(btn) {
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const thanks = document.getElementById('feedbackThanks');
+      thanks.textContent = 'Thanks for your feedback!'; thanks.classList.add('visible');
+      const item8 = document.querySelector('.lesson-item[data-lesson="8"]');
+      item8.classList.add('done'); item8.classList.remove('active');
+      localStorage.setItem('mtr-feedback', '1');
+      const thumb = document.querySelector('.thumb-icon');
+      if (thumb) { thumb.classList.remove('bounce'); void thumb.offsetWidth; thumb.classList.add('bounce'); thumb.addEventListener('animationend', () => thumb.classList.remove('bounce'), {once:true}); }
+    }
+
+    function goTo(n, silent) {
+      document.getElementById('lesson-'+current).classList.remove('active');
+      document.querySelectorAll('.lesson-item').forEach(el => { el.classList.remove('active'); if (parseInt(el.dataset.lesson)<n) el.classList.add('done'); else el.classList.remove('done'); });
+      current = n;
+      document.getElementById('lesson-'+current).classList.add('active');
+      document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
+      updateUI();
+      if (!silent) { const t = document.getElementById('courseMain').offsetTop-130; if (window.scrollY>t) window.scrollTo({top:t,behavior:'smooth'}); }
+      if (n===TOTAL && !silent) launchConfetti();
+      localStorage.setItem('mtr-lesson', n);
+    }
+
+    function navigate(dir) { const next=current+dir; if (next>=1&&next<=TOTAL) goTo(next); }
+
+    function updateUI() {
+      const pct = ((current-1)/(TOTAL-1)*100).toFixed(0);
+      document.getElementById('progressFill').style.width = pct+'%';
+      document.getElementById('progressText').textContent = current+' / '+TOTAL;
+      document.getElementById('lessonCounter').textContent = current+' / '+TOTAL;
+      document.getElementById('prevBtn').disabled = current===1;
+      const nb = document.getElementById('nextBtn'), f = document.getElementById('lessonFooter');
+      if (current===TOTAL) { f.style.display='none'; }
+      else { f.style.display=''; nb.disabled=false; nb.onclick=()=>navigate(1); nb.textContent=current===TOTAL-1?'Finish':'Next →'; }
+    }
+
+    const savedLesson = parseInt(localStorage.getItem('mtr-lesson'))||1;
+    goTo(savedLesson, true);
+    if (localStorage.getItem('mtr-feedback')) {
+      const i8=document.querySelector('.lesson-item[data-lesson="8"]');
+      if (i8){i8.classList.add('done');i8.classList.remove('active');}
+      const t=document.getElementById('feedbackThanks');
+      if (t){t.textContent='Thanks for your feedback!';t.classList.add('visible');}
+    }
+
+    function initDots(deckId) {
+      const deck=document.getElementById(deckId); if(!deck) return;
+      const slides=deck.querySelectorAll('.slide'), dots=document.getElementById('dots-'+deckId); if(!dots) return;
+      dots.innerHTML='';
+      slides.forEach((_,i)=>{ const d=document.createElement('button'); d.className='slide-dot'+(i===0?' active':''); d.setAttribute('aria-label','Slide '+(i+1)); d.onclick=()=>goToSlide(deckId,i); dots.appendChild(d); });
+    }
+    function goToSlide(deckId,idx) {
+      const deck=document.getElementById(deckId);
+      deck.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===idx));
+      const de=document.getElementById('dots-'+deckId); if(de) de.querySelectorAll('.slide-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+      const pb=document.getElementById('prev-'+deckId),nb=document.getElementById('next-'+deckId);
+      if(pb) pb.disabled=idx===0; if(nb) nb.disabled=idx===deck.querySelectorAll('.slide').length-1;
+    }
+    function currentSlideIdx(deckId) { return [...document.getElementById(deckId).querySelectorAll('.slide')].findIndex(s=>s.classList.contains('active')); }
+    function nextSlide(deckId) { const s=document.getElementById(deckId).querySelectorAll('.slide'); goToSlide(deckId,Math.min(currentSlideIdx(deckId)+1,s.length-1)); }
+    function prevSlide(deckId) { goToSlide(deckId,Math.max(currentSlideIdx(deckId)-1,0)); }
+    document.querySelectorAll('.slide-deck').forEach(d=>initDots(d.id));
+
+    document.querySelectorAll('.hotspot').forEach(hs=>{
+      hs.addEventListener('click',e=>{
+        e.stopPropagation(); const id=hs.dataset.tooltip, tt=document.getElementById(id), open=tt.classList.contains('open');
+        document.querySelectorAll('.hotspot-tooltip').forEach(t=>t.classList.remove('open'));
+        document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));
+        if(!open){tt.classList.add('open');hs.classList.add('active');}
+      });
+    });
+    document.querySelectorAll('.tooltip-close').forEach(b=>{
+      b.addEventListener('click',e=>{e.stopPropagation();b.closest('.hotspot-tooltip').classList.remove('open');document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));});
+    });
+    document.addEventListener('click',()=>{
+      document.querySelectorAll('.hotspot-tooltip').forEach(t=>t.classList.remove('open'));
+      document.querySelectorAll('.hotspot').forEach(h=>h.classList.remove('active'));
+    });
+
+    function checkQuiz(quizId,correct,okMsg,wrongMsg) {
+      const quiz=document.getElementById(quizId), sel=quiz.querySelector('input[type="radio"]:checked'), fb=document.getElementById('feedback-'+quizId);
+      if(!sel){fb.textContent='Please select an answer.';fb.className='quiz-feedback show neutral';return;}
+      fb.textContent=sel.value===correct?okMsg:wrongMsg; fb.className='quiz-feedback show '+(sel.value===correct?'correct':'wrong');
+    }
+    function checkMulti(quizId,correct,okMsg,wrongMsg) {
+      const quiz=document.getElementById(quizId), sel=[...quiz.querySelectorAll('input[type="checkbox"]:checked')].map(i=>i.value).sort(), fb=document.getElementById('feedback-'+quizId);
+      if(sel.length===0){fb.textContent='Please select at least one answer.';fb.className='quiz-feedback show neutral';return;}
+      const ok=JSON.stringify(sel)===JSON.stringify([...correct].sort());
+      fb.textContent=ok?okMsg:wrongMsg; fb.className='quiz-feedback show '+(ok?'correct':'wrong');
+    }
+  </script>
+
+</body>
+</html>

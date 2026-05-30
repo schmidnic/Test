@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How language models work</title>
+  <link rel="stylesheet" href="../css/course.css?v=66" />
+</head>
+<body class="course-page">
+
+  <!-- NAV -->
+  <nav class="nav scrolled">
+    <a href="../index.html" class="nav-logo">SAE Portal</a>
+    <div class="nav-right">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="../catalog.html" class="nav-btn">Course catalog</a>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="nav-mobile">
+    <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+    <a href="../catalog.html" onclick="closeMobileMenu()">Course catalog</a>
+  </div>
+
+  <!-- COURSE HEADER -->
+  <header class="course-header">
+    <div class="course-header-inner">
+      <div class="course-meta">
+        <h1 class="course-title">How language models work</h1>
+        <button class="reset-btn" onclick="resetProgress()" aria-label="Reset progress">
+          <svg viewBox="0 0 16 16" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.5 8a5.5 5.5 0 1 1-1.1-3.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M13.5 3v2.5H11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="course-progress">
+        <span id="progressText">1 / 8</span>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- COURSE LAYOUT -->
+  <div class="course-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="course-sidebar">
+      <nav>
+        <ul id="lessonList" class="lesson-list"></ul>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main id="courseMain" class="course-main">
+
+      <!-- LESSON 1: Slides -->
+      <div class="lesson active" id="lesson-1">
+        <div class="slide-deck" id="slide-deck-1">
+
+          <div class="slide active">
+            <div class="slide-content">
+              <p class="slide-label">Slide 1 of 4</p>
+              <h3>Tokens, not words</h3>
+              <p>Language models do not process words. They process tokens: fragments of text, roughly the size of a syllable or short word. The word 'understanding' becomes something like 'under,' 'stand,' 'ing.' A sentence of 10 words might be 12 to 15 tokens. The model never sees letters directly. It sees a sequence of integer IDs, each representing a token, drawn from a fixed vocabulary of roughly 50,000 to 100,000 entries.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 2 of 4</p>
+              <h3>One thing, done very fast</h3>
+              <p>A language model does one thing: it predicts the next token. Given everything so far, it assigns a probability to every token in its vocabulary and picks one. Then it does it again with the new token appended. And again. A response that feels like thinking is a cascade of next-token predictions, each conditioned on all previous tokens. The model generates one token at a time, left to right, with no ability to revise what it has already written.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 3 of 4</p>
+              <h3>Where the 'knowledge' comes from</h3>
+              <p>The model's parameters encode statistical patterns over tokens. During training, the model saw enormous amounts of text and adjusted its weights to predict the next token well. The result is that the weights implicitly encode information about language, facts, reasoning patterns, and much else. But this knowledge is not stored as retrievable facts. It is distributed across billions of weights and can only be accessed through the prediction mechanism.</p>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-content">
+              <p class="slide-label">Slide 4 of 4</p>
+              <h3>Why hallucination is structural</h3>
+              <p>A language model optimizes for predicting likely next tokens, not for truthfulness. It produces text that is statistically plausible given its training data. When a question falls outside the reliable patterns in that data, the model still predicts a plausible-sounding answer, because that is what it does. Hallucination is not a bug to be patched. It is the direct consequence of the prediction mechanism applied in domains where training data was sparse or wrong.</p>
+            </div>
+          </div>
+
+          <div class="slide-dots-row">
+            <button class="slide-arrow slide-prev" id="prev-slide-deck-1" onclick="prevSlide('slide-deck-1')" disabled aria-label="Previous slide">&#8592;</button>
+            <div class="slide-dots" id="dots-slide-deck-1"></div>
+            <button class="slide-arrow slide-next" id="next-slide-deck-1" onclick="nextSlide('slide-deck-1')" aria-label="Next slide">&#8594;</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 2: Accordion -->
+      <div class="lesson" id="lesson-2">
+        <div class="accordion">
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is attention?</button>
+            <div class="accordion-panel">
+              <p>Attention is the mechanism that allows a language model to weigh how relevant each previous token is when predicting the next one. For each token being predicted, the model computes a query (what am I looking for?), keys (what does each previous token offer?), and values (what does each token contribute?). Attention scores are dot products of queries and keys. Higher scores mean more influence on the prediction. This is where the O(n&sup2;) cost comes from: every token attends to every other token.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is an embedding?</button>
+            <div class="accordion-panel">
+              <p>An embedding is a dense numerical representation of a token (or a word, sentence, or concept). In a high-dimensional space, semantically similar items are placed near each other. 'Dog' and 'puppy' have similar embeddings. 'Dog' and 'accountant' do not. Models learn embeddings during training. They are the bridge between discrete tokens (IDs) and the continuous mathematical space the transformer operates in. Embeddings are also used independently for search and retrieval.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What is temperature, and why does it matter?</button>
+            <div class="accordion-panel">
+              <p>Temperature controls how the model samples from its probability distribution when generating the next token. At temperature 0, the model always picks the most probable token (deterministic, repetitive). At higher temperatures, it samples from a broader distribution, producing more varied and creative outputs, but also more likely to go off-track. Most production systems use a temperature between 0.5 and 1.0. Temperature is one reason the same prompt can produce different outputs on different runs.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">What causes hallucination?</button>
+            <div class="accordion-panel">
+              <p>Hallucination occurs when a model generates text that sounds plausible but is factually wrong. The causes are structural: the model predicts likely tokens, not true facts. When the correct answer is underrepresented in training data, or when the model is asked about events after its training cutoff, it fills the gap with statistically plausible text. Retrieval-augmented generation (RAG) and grounding techniques reduce hallucination by giving the model accurate context, but cannot eliminate it.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 3: Video -->
+      <div class="lesson" id="lesson-3">
+        <div class="media-block">
+          <p class="media-label">Visualizing how language models work</p>
+          <div class="video-wrapper">
+            <!-- Replace VIDEO_ID with a YouTube video ID. Recommended search: "3Blue1Brown how large language models work" or "Andrej Karpathy intro to LLMs" -->
+            <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID_2" title="How language models work" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <p class="media-caption">Suggested search: "Andrej Karpathy intro to LLMs" — a clear, technical but accessible overview from one of the field's key figures.</p>
+        </div>
+      </div>
+
+      <!-- LESSON 4: Hotspot -->
+      <div class="lesson" id="lesson-4">
+        <div class="hotspot-container">
+          <div class="hotspot-image-placeholder">
+
+            <svg viewBox="0 0 680 220" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+              <!-- Background -->
+              <rect x="0" y="0" width="680" height="220" fill="#F0EFFE"/>
+
+              <!-- Stage 1: Input text -->
+              <rect x="20" y="88" width="90" height="40" rx="5" fill="rgba(22,11,82,0.15)" stroke="rgba(22,11,82,0.3)" stroke-width="1.5"/>
+              <text x="65" y="113" text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600">Input text</text>
+              <text x="65" y="145" text-anchor="middle" fill="rgba(22,11,82,0.5)" font-family="Space Grotesk,sans-serif" font-size="9">Step 1</text>
+
+              <!-- Arrow 1 to 2 -->
+              <line x1="110" y1="108" x2="128" y2="108" stroke="#160B52" stroke-width="1.5"/>
+              <path d="M126 104 L130 108 L126 112" fill="none" stroke="#160B52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Stage 2: Tokenizer -->
+              <rect x="130" y="88" width="90" height="40" rx="5" fill="rgba(22,11,82,0.25)" stroke="rgba(22,11,82,0.4)" stroke-width="1.5"/>
+              <text x="175" y="113" text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600">Tokenizer</text>
+              <text x="175" y="145" text-anchor="middle" fill="rgba(22,11,82,0.5)" font-family="Space Grotesk,sans-serif" font-size="9">Step 2</text>
+
+              <!-- Arrow 2 to 3 -->
+              <line x1="220" y1="108" x2="238" y2="108" stroke="#160B52" stroke-width="1.5"/>
+              <path d="M236 104 L240 108 L236 112" fill="none" stroke="#160B52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Stage 3: Token IDs -->
+              <rect x="240" y="88" width="90" height="40" rx="5" fill="rgba(22,11,82,0.35)" stroke="rgba(22,11,82,0.5)" stroke-width="1.5"/>
+              <text x="285" y="113" text-anchor="middle" fill="#160B52" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600">Token IDs</text>
+              <text x="285" y="145" text-anchor="middle" fill="rgba(22,11,82,0.5)" font-family="Space Grotesk,sans-serif" font-size="9">Step 3</text>
+
+              <!-- Arrow 3 to 4 -->
+              <line x1="330" y1="108" x2="348" y2="108" stroke="#160B52" stroke-width="1.5"/>
+              <path d="M346 104 L350 108 L346 112" fill="none" stroke="#160B52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Stage 4: Embeddings -->
+              <rect x="350" y="88" width="90" height="40" rx="5" fill="rgba(22,11,82,0.5)" stroke="rgba(22,11,82,0.7)" stroke-width="1.5"/>
+              <text x="395" y="113" text-anchor="middle" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="600">Embeddings</text>
+              <text x="395" y="145" text-anchor="middle" fill="rgba(22,11,82,0.5)" font-family="Space Grotesk,sans-serif" font-size="9">Step 4</text>
+
+              <!-- Arrow 4 to 5 -->
+              <line x1="440" y1="108" x2="458" y2="108" stroke="#160B52" stroke-width="1.5"/>
+              <path d="M456 104 L460 108 L456 112" fill="none" stroke="#160B52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Stage 5: Transformer -->
+              <rect x="460" y="68" width="100" height="80" rx="5" fill="#160B52"/>
+              <text x="510" y="105" text-anchor="middle" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="700">Transformer</text>
+              <text x="510" y="122" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="Space Grotesk,sans-serif" font-size="9">(attention layers)</text>
+              <text x="510" y="165" text-anchor="middle" fill="rgba(22,11,82,0.5)" font-family="Space Grotesk,sans-serif" font-size="9">Step 5</text>
+
+              <!-- Arrow 5 to 6 -->
+              <line x1="560" y1="108" x2="578" y2="108" stroke="#160B52" stroke-width="1.5"/>
+              <path d="M576 104 L580 108 L576 112" fill="none" stroke="#160B52" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Stage 6: Next token -->
+              <rect x="580" y="88" width="90" height="40" rx="5" fill="#FF00FF"/>
+              <text x="625" y="113" text-anchor="middle" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="11" font-weight="700">Next token</text>
+              <text x="625" y="145" text-anchor="middle" fill="rgba(22,11,82,0.5)" font-family="Space Grotesk,sans-serif" font-size="9">Step 6</text>
+            </svg>
+
+            <!-- Hotspot 1: Tokenizer -->
+            <div class="hotspot" style="left:24%;top:45%" data-tooltip="tt-tokenizer">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 2: Embeddings -->
+            <div class="hotspot" style="left:60%;top:45%" data-tooltip="tt-embeddings">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 3: Transformer -->
+            <div class="hotspot" style="left:77%;top:25%" data-tooltip="tt-transformer">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+            <!-- Hotspot 4: Output -->
+            <div class="hotspot" style="left:95%;top:45%" data-tooltip="tt-output">
+              <div class="hotspot-marker">+</div>
+            </div>
+
+          </div>
+
+          <!-- Tooltips -->
+          <div class="hotspot-tooltip" id="tt-tokenizer">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Tokenization</strong>
+            <p>The raw text is split into tokens: subword units from a fixed vocabulary. Common words are single tokens. Rare words are split into multiple tokens. This step determines how the model 'sees' your input. The total number of tokens affects both cost and context window usage.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-embeddings">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Embeddings</strong>
+            <p>Each token ID is mapped to a dense vector of numbers (typically 768 to 12,288 dimensions depending on model size). These vectors encode the token's meaning in a high-dimensional space. Semantically related tokens have similar vectors. The embedding layer is learned during training.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-transformer">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Transformer layers</strong>
+            <p>The core of the model. Multiple layers of attention and feed-forward networks process the token embeddings. Each layer refines the representation. Attention allows each token to gather context from all other tokens in the sequence. This is the computationally expensive step.</p>
+          </div>
+
+          <div class="hotspot-tooltip" id="tt-output">
+            <button class="tooltip-close" aria-label="Close">&times;</button>
+            <strong>Output: next token</strong>
+            <p>The final layer produces a probability distribution over the entire vocabulary. The model picks the next token by sampling from this distribution. The chosen token is appended to the sequence, and the whole process repeats for the next prediction.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 5: Flipcards -->
+      <div class="lesson" id="lesson-5">
+        <div class="flip-grid">
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Tokens</p>
+                <p class="flip-card-title">Why does tokenization matter for how models process text?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Fragments, not words</strong>
+                <p>Tokenization determines how the model sees input. Rare words get split into multiple tokens, costing more context and sometimes losing semantic coherence. The same sentence tokenized differently can produce different model behavior. Understanding tokens helps predict model performance on unusual words or non-English text.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Embeddings</p>
+                <p class="flip-card-title">What is the difference between a token ID and a token embedding?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Integer vs. vector</strong>
+                <p>A token ID is a simple integer from the vocabulary index, e.g., 4,521. A token embedding is a dense vector of hundreds or thousands of numbers representing the token's meaning. The embedding layer translates IDs into vectors the transformer can compute with. Embeddings encode semantic relationships: similar tokens are close in embedding space.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Attention</p>
+                <p class="flip-card-title">What problem does the attention mechanism solve?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Contextual relevance</strong>
+                <p>Without attention, a model would treat each token in isolation. Attention allows every token to gather context from all other tokens, weighting them by relevance. The word 'bank' in 'river bank' attends heavily to 'river.' The same word in 'bank transfer' attends to 'transfer.' Attention is how language models handle context and ambiguity.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <p class="flip-card-label">Hallucination</p>
+                <p class="flip-card-title">Why can a language model state confidently that something false is true?</p>
+                <div class="flip-card-hint">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <strong>Plausibility over truth</strong>
+                <p>The model predicts the statistically most likely next token, not the true next token. Confidence in the output reflects confidence in the prediction, not in factual accuracy. A model trained on text that often paired authoritative tone with declarative statements will reproduce that pattern even when the content is wrong.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LESSON 6: Quiz -->
+      <div class="lesson" id="lesson-6">
+
+        <div class="quiz" id="quiz-1">
+          <p class="quiz-question">What is the primary operation a language model performs?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="a" />
+              <span>Searching a database of stored facts</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="b" />
+              <span>Retrieving the closest match from training examples</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q1" value="c" />
+              <span>Predicting the next token based on all previous tokens</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-1','c','Correct. Every output a language model produces is the result of repeated next-token prediction. There is no database lookup, no fact retrieval, no explicit memory. Just prediction, one token at a time.','Not quite. Language models do not search databases or retrieve stored examples directly. They predict the next token based on patterns encoded in weights during training.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-1"></div>
+        </div>
+
+        <div class="quiz" id="quiz-2">
+          <p class="quiz-question">Why do language models hallucinate?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="a" />
+              <span>Because they run out of memory</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="b" />
+              <span>Because predicting likely tokens does not guarantee factual accuracy</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q2" value="c" />
+              <span>Because their training data is always outdated</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-2','b','Correct. Hallucination is a structural consequence of how these models work. They optimize for plausible next tokens, not for true next tokens. When training data is thin or absent for a domain, the model still predicts, and can be confidently wrong.','Not quite. Hallucination is not about memory or data age. It is structural: the model predicts likely text, and likely text is not always true text.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-2"></div>
+        </div>
+
+        <div class="quiz" id="quiz-3">
+          <p class="quiz-question">What does temperature control in a language model?</p>
+          <p class="quiz-hint">One answer correct</p>
+          <div class="quiz-options">
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="a" />
+              <span>How fast the model generates tokens</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="b" />
+              <span>How the model samples from its output probability distribution</span>
+            </label>
+            <label class="quiz-option">
+              <input type="radio" name="q3" value="c" />
+              <span>The size of the context window</span>
+            </label>
+          </div>
+          <button class="quiz-submit" onclick="checkQuiz('quiz-3','b','Correct. Temperature controls sampling behavior. Low temperature: model picks the most probable token (predictable, repetitive). Higher temperature: model samples more broadly (varied, creative, but less reliable).','Not quite. Temperature does not affect speed or context window size. It controls how the model samples from the probability distribution over possible next tokens.')">Check answer</button>
+          <div class="quiz-feedback" id="feedback-quiz-3"></div>
+        </div>
+
+      </div>
+
+      <!-- LESSON 7: Takeaways -->
+      <div class="lesson" id="lesson-7">
+        <h2 class="lesson-title">What to take with you</h2>
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">A language model is a next-token predictor. Every response, however sophisticated it appears, is the result of this single operation repeated thousands of times. That framing is not reductive. It is precise. And precision is what allows you to predict when models will perform well and when they will fail.</p>
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">Hallucination is not a reliability problem to be patched. It is a structural consequence of the prediction mechanism. The model is not lying. It is producing statistically plausible text. When the plausible text happens to be false, that is hallucination. Grounding the model in retrieved facts reduces the problem but cannot eliminate it.</p>
+        <p style="color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:580px;">Tokens, embeddings, and attention are not jargon. They are the three mechanisms that convert your text into a model output. Understanding them tells you why models struggle with rare words, why context length costs money, and why the same prompt can produce different outputs on different runs.</p>
+      </div>
+
+      <!-- LESSON 8: Completion -->
+      <div class="lesson" id="lesson-8">
+        <div class="completion-screen">
+          <div class="completion-screen-icon">
+            <div class="thumb-icon">
+              <svg viewBox="0 0 24 24" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <h2 class="celebration-title">You made it.</h2>
+          <p class="celebration-subtitle">Microlearning complete.</p>
+          <p class="celebration-msg">You now understand how language models actually work, at the level that matters: tokens, prediction, attention, and the structural reasons they fail. That is a better foundation than most people who use these tools every day.</p>
+          <div class="feedback-section" style="border-top:none; padding-top:0; margin-top:36px;">
+            <p class="feedback-prompt">How was this course?</p>
+            <div class="feedback-emojis">
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Great">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><path d="M10 18.5 Q16 24.5 22 18.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+              </button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="OK">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><line x1="10" y1="20.5" x2="22" y2="20.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </button>
+              <button class="feedback-btn" onclick="submitFeedback(this)" aria-label="Not great">
+                <svg viewBox="0 0 32 32" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="14" fill="var(--navy)" fill-opacity="0.06" stroke="var(--navy)" stroke-width="1.5"/><circle cx="11.5" cy="13" r="1.8" fill="var(--navy)"/><circle cx="20.5" cy="13" r="1.8" fill="var(--navy)"/><path d="M10 22.5 Q16 16.5 22 22.5" stroke="var(--navy)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+              </button>
+            </div>
+            <p class="feedback-thanks" id="feedbackThanks"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- LESSON FOOTER -->
+      <div id="lessonFooter" class="lesson-footer">
+        <button id="prevBtn" class="lesson-nav-btn" onclick="navigate(-1)" disabled>&#8592; Back</button>
+        <span id="lessonCounter" class="lesson-counter">1 / 8</span>
+        <button id="nextBtn" class="lesson-nav-btn" onclick="navigate(1)">Next &#8594;</button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- POST-NAV -->
+  <nav class="post-nav" aria-label="More content">
+    <div class="post-nav-inner">
+      <a class="post-nav-item" href="what-is-ai.html" style="grid-column:1/2; text-align:left; padding-right:clamp(20px,4vw,48px);">
+        <span class="post-nav-label">&#8592; Previous</span>
+        <span class="post-nav-title">What AI actually is</span>
+      </a>
+      <a class="post-nav-item" href="model-training.html" style="grid-column:2/3; text-align:right; padding-left:clamp(20px,4vw,48px);">
+        <span class="post-nav-label">Next in the series</span>
+        <span class="post-nav-title">How models get built &#8594;</span>
+      </a>
+    </div>
+  </nav>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const LESSON_TITLES = [
+      "Tokens and prediction",
+      "Inside the model",
+      "Watch and anchor",
+      "Processing flow",
+      "Test yourself",
+      "Check your understanding",
+      "What to take with you",
+      "Complete"
+    ];
+    const TOTAL = LESSON_TITLES.length;
+    let current = 1;
+
+    const list = document.getElementById('lessonList');
+    LESSON_TITLES.forEach((title, i) => {
+      const li = document.createElement('li');
+      li.className = 'lesson-item' + (i === 0 ? ' active' : '');
+      li.dataset.lesson = i + 1;
+      li.innerHTML = `<span class="lesson-num">${i + 1}</span><span class="lesson-name">${title}</span>`;
+      li.addEventListener('click', () => goTo(i + 1));
+      list.appendChild(li);
+    });
+
+    function launchConfetti() {
+      const existing = document.getElementById('confetti-container');
+      if (existing) existing.remove();
+      const colors = ['#FF00FF','#e909f6','#160B52','#7C3AED','#a78bfa','#E9D5FF','#F0EFFE','#fff','#c4b5fd'];
+      const wrap = document.createElement('div');
+      wrap.id = 'confetti-container';
+      wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden;';
+      document.body.appendChild(wrap);
+      for (let i = 0; i < 140; i++) {
+        const el = document.createElement('div');
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const left = Math.random() * 100, delay = Math.random() * 1.6, dur = 2 + Math.random() * 2.5;
+        const w = 5 + Math.random() * 13, drift = (Math.random() - 0.5) * 200, wobble = (Math.random() - 0.5) * 80;
+        el.style.cssText = `position:absolute;top:-20px;left:${left}%;width:${w}px;height:${w}px;background:${color};border-radius:50%;opacity:0.95;animation:confettiFall ${dur}s ${delay}s ease-in forwards;--drift:${drift}px;--wobble:${wobble}px;`;
+        wrap.appendChild(el);
+      }
+      setTimeout(() => wrap.remove(), 7000);
+    }
+
+    function resetProgress() {
+      localStorage.removeItem('llm-lesson');
+      localStorage.removeItem('llm-feedback');
+      document.getElementById('feedbackThanks').textContent = '';
+      document.getElementById('feedbackThanks').classList.remove('visible');
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      goTo(1);
+    }
+
+    function submitFeedback(btn) {
+      document.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const thanks = document.getElementById('feedbackThanks');
+      thanks.textContent = 'Thanks for your feedback!';
+      thanks.classList.add('visible');
+      const item8 = document.querySelector('.lesson-item[data-lesson="8"]');
+      item8.classList.add('done'); item8.classList.remove('active');
+      localStorage.setItem('llm-feedback', '1');
+      const thumb = document.querySelector('.thumb-icon');
+      if (thumb) {
+        thumb.classList.remove('bounce'); void thumb.offsetWidth; thumb.classList.add('bounce');
+        thumb.addEventListener('animationend', () => thumb.classList.remove('bounce'), { once: true });
+      }
+    }
+
+    function goTo(n, silent) {
+      document.getElementById('lesson-' + current).classList.remove('active');
+      document.querySelectorAll('.lesson-item').forEach(el => {
+        el.classList.remove('active');
+        if (parseInt(el.dataset.lesson) < n) el.classList.add('done');
+        else el.classList.remove('done');
+      });
+      current = n;
+      document.getElementById('lesson-' + current).classList.add('active');
+      document.querySelector(`.lesson-item[data-lesson="${n}"]`).classList.add('active');
+      updateUI();
+      if (!silent) {
+        const courseTop = document.getElementById('courseMain').offsetTop - 130;
+        if (window.scrollY > courseTop) window.scrollTo({ top: courseTop, behavior: 'smooth' });
+      }
+      if (n === TOTAL && !silent) launchConfetti();
+      localStorage.setItem('llm-lesson', n);
+    }
+
+    function navigate(dir) {
+      const next = current + dir;
+      if (next >= 1 && next <= TOTAL) goTo(next);
+    }
+
+    function updateUI() {
+      const pct = ((current - 1) / (TOTAL - 1) * 100).toFixed(0);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressText').textContent = current + ' / ' + TOTAL;
+      document.getElementById('lessonCounter').textContent = current + ' / ' + TOTAL;
+      document.getElementById('prevBtn').disabled = current === 1;
+      const nextBtn = document.getElementById('nextBtn');
+      const footer = document.getElementById('lessonFooter');
+      if (current === TOTAL) { footer.style.display = 'none'; }
+      else {
+        footer.style.display = '';
+        nextBtn.disabled = false;
+        nextBtn.onclick = () => navigate(1);
+        nextBtn.textContent = current === TOTAL - 1 ? 'Finish' : 'Next →';
+      }
+    }
+
+    const savedLesson = parseInt(localStorage.getItem('llm-lesson')) || 1;
+    goTo(savedLesson, true);
+    if (localStorage.getItem('llm-feedback')) {
+      const item8 = document.querySelector('.lesson-item[data-lesson="8"]');
+      if (item8) { item8.classList.add('done'); item8.classList.remove('active'); }
+      const thanks = document.getElementById('feedbackThanks');
+      if (thanks) { thanks.textContent = 'Thanks for your feedback!'; thanks.classList.add('visible'); }
+    }
+
+    function initDots(deckId) {
+      const deck = document.getElementById(deckId); if (!deck) return;
+      const slides = deck.querySelectorAll('.slide');
+      const dots = document.getElementById('dots-' + deckId); if (!dots) return;
+      dots.innerHTML = '';
+      slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Slide ' + (i + 1));
+        d.onclick = () => goToSlide(deckId, i);
+        dots.appendChild(d);
+      });
+    }
+    function goToSlide(deckId, idx) {
+      const deck = document.getElementById(deckId);
+      deck.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === idx));
+      const dotsEl = document.getElementById('dots-' + deckId);
+      if (dotsEl) dotsEl.querySelectorAll('.slide-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+      const pb = document.getElementById('prev-' + deckId), nb = document.getElementById('next-' + deckId);
+      if (pb) pb.disabled = idx === 0;
+      if (nb) nb.disabled = idx === deck.querySelectorAll('.slide').length - 1;
+    }
+    function currentSlideIdx(deckId) {
+      return [...document.getElementById(deckId).querySelectorAll('.slide')].findIndex(s => s.classList.contains('active'));
+    }
+    function nextSlide(deckId) {
+      const slides = document.getElementById(deckId).querySelectorAll('.slide');
+      goToSlide(deckId, Math.min(currentSlideIdx(deckId) + 1, slides.length - 1));
+    }
+    function prevSlide(deckId) {
+      goToSlide(deckId, Math.max(currentSlideIdx(deckId) - 1, 0));
+    }
+    document.querySelectorAll('.slide-deck').forEach(deck => initDots(deck.id));
+
+    document.querySelectorAll('.hotspot').forEach(hs => {
+      hs.addEventListener('click', e => {
+        e.stopPropagation();
+        const id = hs.dataset.tooltip;
+        const tooltip = document.getElementById(id);
+        const isOpen = tooltip.classList.contains('open');
+        document.querySelectorAll('.hotspot-tooltip').forEach(t => t.classList.remove('open'));
+        document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+        if (!isOpen) { tooltip.classList.add('open'); hs.classList.add('active'); }
+      });
+    });
+    document.querySelectorAll('.tooltip-close').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        btn.closest('.hotspot-tooltip').classList.remove('open');
+        document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+      });
+    });
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.hotspot-tooltip').forEach(t => t.classList.remove('open'));
+      document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+    });
+
+    function checkQuiz(quizId, correct, okMsg, wrongMsg) {
+      const quiz = document.getElementById(quizId);
+      const selected = quiz.querySelector('input[type="radio"]:checked');
+      const fb = document.getElementById('feedback-' + quizId);
+      if (!selected) { fb.textContent = 'Please select an answer.'; fb.className = 'quiz-feedback show neutral'; return; }
+      fb.textContent = selected.value === correct ? okMsg : wrongMsg;
+      fb.className = 'quiz-feedback show ' + (selected.value === correct ? 'correct' : 'wrong');
+    }
+    function checkMulti(quizId, correct, okMsg, wrongMsg) {
+      const quiz = document.getElementById(quizId);
+      const selected = [...quiz.querySelectorAll('input[type="checkbox"]:checked')].map(i => i.value).sort();
+      const fb = document.getElementById('feedback-' + quizId);
+      if (selected.length === 0) { fb.textContent = 'Please select at least one answer.'; fb.className = 'quiz-feedback show neutral'; return; }
+      const ok = JSON.stringify(selected) === JSON.stringify([...correct].sort());
+      fb.textContent = ok ? okMsg : wrongMsg;
+      fb.className = 'quiz-feedback show ' + (ok ? 'correct' : 'wrong');
+    }
+  </script>
+
+</body>
+</html>
