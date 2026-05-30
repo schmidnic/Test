@@ -8,9 +8,13 @@ html.in-path .course-header {
   margin-top: 0;
 }
 html.in-path .course-back-link,
-html.in-path .course-title,
-html.in-path .reset-btn {
+html.in-path .course-title {
   display: none;
+}
+html.in-path .course-header-inner {
+  max-width: none;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 html.in-path .course-layout,
 html.in-path .sidebar-wrap {
